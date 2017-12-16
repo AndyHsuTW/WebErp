@@ -1,0 +1,51 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "WebErp", "..\..\..\case\GA_System\VS_Project\WebErp\", "{2B7DC195-24C2-43C7-8047-45BEE3368847}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.5"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_53423"
+		Debug.AspNetCompiler.PhysicalPath = "..\..\..\case\GA_System\VS_Project\WebErp\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_53423\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_53423"
+		Release.AspNetCompiler.PhysicalPath = "..\..\..\case\GA_System\VS_Project\WebErp\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_53423\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "58900"
+		DefaultWebSiteLanguage = "Visual C#"
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ErpBaseLibrary", "ErpBaseLibrary\ErpBaseLibrary.csproj", "{247DE293-E3C1-4BB9-B693-7D5289FB146D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DCNP005", "DCNP005\DCNP005.csproj", "{AEF3318B-87BA-46BF-B529-736E8C37528B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2B7DC195-24C2-43C7-8047-45BEE3368847}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B7DC195-24C2-43C7-8047-45BEE3368847}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B7DC195-24C2-43C7-8047-45BEE3368847}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B7DC195-24C2-43C7-8047-45BEE3368847}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{247DE293-E3C1-4BB9-B693-7D5289FB146D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{247DE293-E3C1-4BB9-B693-7D5289FB146D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{247DE293-E3C1-4BB9-B693-7D5289FB146D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{247DE293-E3C1-4BB9-B693-7D5289FB146D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEF3318B-87BA-46BF-B529-736E8C37528B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEF3318B-87BA-46BF-B529-736E8C37528B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEF3318B-87BA-46BF-B529-736E8C37528B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEF3318B-87BA-46BF-B529-736E8C37528B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
