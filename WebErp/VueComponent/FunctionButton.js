@@ -12,7 +12,7 @@
 
         Vue.component('function-button', {
             template: `
-                <button type="button" class="btn btn-outline-primary">
+                <button type="button" class="btn btn-default" role='button'>
                     <slot>
                         Button
                     </slot>

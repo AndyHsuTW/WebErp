@@ -1,0 +1,9 @@
+C:\Users\hamow\OneDrive\Documents\case\GA_System\VS_Project\DCNP005\bin\Debug\DCNP005.dll
+C:\Users\hamow\OneDrive\Documents\case\GA_System\VS_Project\DCNP005\bin\Debug\DCNP005.pdb
+C:\Users\hamow\OneDrive\Documents\case\GA_System\VS_Project\DCNP005\bin\Debug\ErpBaseLibrary.dll
+C:\Users\hamow\OneDrive\Documents\case\GA_System\VS_Project\DCNP005\bin\Debug\ErpBaseLibrary.pdb
+C:\Users\hamow\OneDrive\Documents\case\GA_System\VS_Project\DCNP005\obj\Debug\DCNP005.csprojResolveAssemblyReference.cache
+C:\Users\hamow\OneDrive\Documents\case\GA_System\VS_Project\DCNP005\obj\Debug\DCNP005.dll
+C:\Users\hamow\OneDrive\Documents\case\GA_System\VS_Project\DCNP005\obj\Debug\DCNP005.pdb
+C:\Users\hamow\OneDrive\Documents\case\GA_System\VS_Project\DCNP005\bin\Debug\EPPlus.dll
+C:\Users\hamow\OneDrive\Documents\case\GA_System\VS_Project\DCNP005\bin\Debug\EPPlus.xml

@@ -9,6 +9,6 @@ namespace ErpBaseLibrary.DB
     }
     public class MyConnStringList
     {
-        public static string AzureGoodeasy = ConfigurationManager.ConnectionStrings["ConnMASMainDB"].ConnectionString;
+        public static string AzureGoodeasy = ConfigurationManager.ConnectionStrings["ConnAzureGoodeasy"].ConnectionString;
     }
 }
