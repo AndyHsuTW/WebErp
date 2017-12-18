@@ -97,6 +97,9 @@
                         dataType: 'text',
                         success: function (result) {
                             this.customData.vueObj.Cnf05List = JSON.parse(result);
+                            if(this.customData.vueObj.Cnf05List.length==0){
+                                alert("查無資料");
+                            }
                         },
                         error: function (jqXhr, textStatus, errorThrown) {
                             if (jqXhr.status == 0) {
