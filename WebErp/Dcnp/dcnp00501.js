@@ -7,18 +7,22 @@
             "uibPagination": "public/scripts/VueComponent/vuejs-uib-pagination",
             "vueDatetimepicker": isIE ? "public/scripts/VueComponent/vue-jQuerydatetimepicker.babel" : "public/scripts/VueComponent/vue-jQuerydatetimepicker",
             "jqueryDatetimepicker": "public/scripts/jquery.datetimepicker/jquery.datetimepicker.full",
+            "jqueryDatetimepicker-css":"public/scripts/jquery.datetimepicker/jquery.datetimepicker",
             "jquery-mousewheel": "public/scripts/jquery.mousewheel.min",
         },
         shim: {
+            "jqueryDatetimepicker":{
+                "deps":["css!jqueryDatetimepicker-css"]
+            },
             "vueDatetimepicker": {
                 "deps": ['jqueryDatetimepicker']
             },
         }
     });
 
-    var requiredFiles = ["bootstrap", "functionButton", "uibPagination", "vueDatetimepicker", "css!public/scripts/jquery.datetimepicker/jquery.datetimepicker"];
+    var requiredFiles = ["bootstrap", "functionButton", "uibPagination", "vueDatetimepicker", "LoadingHelper"];
 
-    function onLoaded(bootstrap, functionButton, uibPagination, vueDatetimepicker, datetimepickerCss) {
+    function onLoaded(bootstrap, functionButton, uibPagination, vueDatetimepicker, loadingHelper) {
         window.dcnp00501 = new Vue({
             el: "#Dcnp00501",
             data: {
@@ -83,6 +87,7 @@
                         adddate_start: this.Filter.AddDateStart,
                         adddate_end: this.Filter.AddDateEnd
                     }
+                    LoadingHelper.showLoading();
                     return $.ajax({
                         type: 'POST',
                         url: rootUrl + "Dcnp/Ajax/Cnf05Handler.ashx",
@@ -96,6 +101,7 @@
                         },
                         dataType: 'text',
                         success: function (result) {
+                            LoadingHelper.hideLoading();
                             this.customData.vueObj.Cnf05List = JSON.parse(result);
                             if(this.customData.vueObj.Cnf05List.length==0){
                                 alert("查無資料");
@@ -105,6 +111,7 @@
                             if (jqXhr.status == 0) {
                                 return;
                             }
+                            LoadingHelper.hideLoading();
                             console.error(textStatus);
                             alert("查詢失敗");
                         }

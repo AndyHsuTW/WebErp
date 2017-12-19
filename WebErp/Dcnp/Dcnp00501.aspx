@@ -32,9 +32,10 @@
 
         .scroll-table
         {
-            max-height: 450px;
+            height: 450px;
             overflow-y: auto;
             overflow-y: overlay;
+            border: solid 1px #CCC;
         }
 
         .table-borderless > tbody > tr > td,
@@ -79,6 +80,10 @@
                 <function-button id="ExportBtn" data-toggle="modal" href='#ImportExcelDialog'
                     hot-key="f8">
                             匯入Excel
+                        </function-button>
+                <function-button id="HelpBtn" data-toggle="modal" href='#HelpDialog'
+                    hot-key="f11">
+                            求助
                         </function-button>
             </div>
             <div class="filter-div">
@@ -379,6 +384,29 @@
                 </div>
             </div>
         </div>
+
+        <div class="modal fade" id="HelpDialog" ref="HelpDialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">求助</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div style="padding: 100px;">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <function-button data-dismiss="modal"
+                            hot-key="f12">
+                    離開
+                </function-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
     </div>
 
     <script>

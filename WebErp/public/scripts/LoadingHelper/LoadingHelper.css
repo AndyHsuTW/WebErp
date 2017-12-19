@@ -1,0 +1,53 @@
+﻿
+
+.loading-ui-vertical-center {
+    min-height: 100%; /* Fallback for browsers do NOT support vh unit */
+    min-height: 100vh; /* These two lines are counted as one :-)       */
+    display: -webkit-flex; /* Safari */
+    display: -ms-flex; /* IE 10 */
+    display: -ms-flexbox;/* IE 10 */
+    display: flex;
+    -webkit-align-items: center; /* Safari 7.0+ */
+    -ms-flex-align: center;/* IE 10 */
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    min-width: 100vw;
+    width: 100%;
+    width: 100vw;
+    height: 100%;
+    height: 100vh;
+    pointer-events:none;
+    z-index: 99999;
+}
+
+.loading-ui-vertical-center.modal{
+    pointer-events:all;
+}
+
+.loading-ui-loader-bg {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.loading-ui-loader-bg.dark {
+    background-color: rgba(0,0,0,.8);
+    padding: 2%;
+    padding: 2vw;
+    border-radius: 10%;
+}
+
+.loading-ui-loader {
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    border: 5px solid #f3f3f3;
+    -webkit-animation: spin 1s linear infinite;
+    animation: spin 1s linear infinite;
+    border-top: 5px solid #555;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+}
