@@ -1,5 +1,4 @@
 C:\Users\hamow\OneDrive\Documents\case\GA_System\VS_Project\ErpBaseLibrary\bin\Debug\ErpBaseLibrary.dll
 C:\Users\hamow\OneDrive\Documents\case\GA_System\VS_Project\ErpBaseLibrary\bin\Debug\ErpBaseLibrary.pdb
-C:\Users\hamow\OneDrive\Documents\case\GA_System\VS_Project\ErpBaseLibrary\obj\Debug\ErpBaseLibrary.csprojResolveAssemblyReference.cache
 C:\Users\hamow\OneDrive\Documents\case\GA_System\VS_Project\ErpBaseLibrary\obj\Debug\ErpBaseLibrary.dll
 C:\Users\hamow\OneDrive\Documents\case\GA_System\VS_Project\ErpBaseLibrary\obj\Debug\ErpBaseLibrary.pdb

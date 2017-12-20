@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "WebErp", "WebErp\", "{2B7DC195-24C2-43C7-8047-45BEE3368847}"
 	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.5"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.5.2"
 		ProjectReferences = "{247de293-e3c1-4bb9-b693-7d5289fb146d}|ErpBaseLibrary.dll;{aef3318b-87ba-46bf-b529-736e8c37528b}|DCNP005.dll;"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_53423"
 		Debug.AspNetCompiler.PhysicalPath = "WebErp\"

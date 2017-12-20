@@ -9,8 +9,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title></title>
     
-    <link rel="stylesheet" type="text/css" media="screen" href="<%=""+HostingEnvironment.ApplicationVirtualPath %>/public/css/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" media="screen" href="<%=""+HostingEnvironment.ApplicationVirtualPath %>/public/css/font-awesome-4.4.0/css/font-awesome.min.css">
+    <% string rootUrl = HostingEnvironment.ApplicationVirtualPath.Length > 1 ? HostingEnvironment.ApplicationVirtualPath + "/" : HostingEnvironment.ApplicationVirtualPath; %>
+
+    <link rel="stylesheet" type="text/css" media="screen" href="<%=""+rootUrl %>public/css/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="<%=""+rootUrl %>public/css/font-awesome-4.4.0/css/font-awesome.min.css">
     
     <style >
         .fa-rotate-315 {
@@ -28,9 +30,9 @@
             display: none;
         }
     </style>
-    <script src="<%=HostingEnvironment.ApplicationVirtualPath %>/public/scripts/vue/vue.js" type="text/javascript"></script>
-    <script src="<%=HostingEnvironment.ApplicationVirtualPath %>/public/scripts/requirejs/require.min.js" type="text/javascript"></script>
-    <script src="<%=HostingEnvironment.ApplicationVirtualPath %>/public/scripts/jQuery/jquery-1.12.4.min.js" type="text/javascript"></script>
+    <script src="<%=rootUrl %>public/scripts/vue/vue.js" type="text/javascript"></script>
+    <script src="<%=rootUrl %>public/scripts/requirejs/require.min.js" type="text/javascript"></script>
+    <script src="<%=rootUrl %>public/scripts/jQuery/jquery-1.12.4.min.js" type="text/javascript"></script>
     
     <script>
         if (!String.prototype.startsWith) {
@@ -42,7 +44,7 @@
         var inBrowser = typeof window !== 'undefined';
         var isIE = inBrowser && window.navigator.userAgent.toLowerCase() && /msie|trident/.test(inBrowser && window.navigator.userAgent.toLowerCase());
         var loginUserName = '<%=Page.User.Identity.Name%>';
-        var rootUrl = '<%=HostingEnvironment.ApplicationVirtualPath.Length > 1? HostingEnvironment.ApplicationVirtualPath + "/": HostingEnvironment.ApplicationVirtualPath %>';
+        var rootUrl = '<%=rootUrl %>';
         requirejs.config({
             baseUrl: '<%=HostingEnvironment.ApplicationVirtualPath%>',
             paths: {
@@ -60,7 +62,7 @@
             },
             map: {
                 '*': {
-                    css: '<%=HostingEnvironment.ApplicationVirtualPath%>/public/scripts/requirejs/css.min.js'
+                    css: '<%=rootUrl%>public/scripts/requirejs/css.min.js'
                 }
             },
             urlArgs: "appVersion=201712202300" //reload all dependencies
