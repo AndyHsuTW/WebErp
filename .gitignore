@@ -1,5 +1,3 @@
 
 *.suo
 WebErp/Web.config
-WebErp/Web.Debug.config
-WebErp/Web.config
