@@ -16,6 +16,7 @@
                     <slot>
                         Button
                     </slot>
+                    ({{hotKey.toUpperCase()}})
                 </button>
             `,
             props: {

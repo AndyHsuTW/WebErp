@@ -56,6 +56,7 @@ Vue.component("vue-datetimepicker", {
             onChangeDateTime:function(dp,$input) {
                 vm.value = $input.val();
                 vm.$emit('input', vm.value);
+                vm.$emit('change', vm.value);
                 if (typeof(vm.changecallback) == 'function') {
                     vm.changecallback();
                 }

@@ -56,6 +56,8 @@ namespace DCNP005
             public string cnf0501_file_end { get; set; }
             public string cnf0506_program_start { get; set; }
             public string cnf0506_program_end { get; set; }
+            public string cnf0502_field_start { get; set; }
+            public string cnf0502_field_end { get; set; }
             public DateTime? adddate_start { get; set; }
             public DateTime? adddate_end { get; set; }
         }
@@ -81,6 +83,7 @@ namespace DCNP005
            ,[remark]
            ,[adduser]
            ,[adddate])
+    OUTPUT INSERTED.ID
      VALUES
            (@cnf0501_file
            ,@cnf0502_field
@@ -102,11 +105,8 @@ namespace DCNP005
                 sqlCmd.Parameters.AddWithValue("@adduser", cnf05.adduser);
                 sqlCmd.Parameters.AddWithValueSafe("@adddate", cnf05.adddate);
 
-                var count = sqlCmd.ExecuteNonQuery();
-                if (count < 1)
-                {
-                    return null;
-                }
+                int id = (int)sqlCmd.ExecuteScalar();
+                cnf05.id = id;
             }
 
             return cnf05;
@@ -251,6 +251,18 @@ AND [cnf0506_program] <= @cnf0506ProgramEnd
                                                        String.IsNullOrEmpty(filterOption.cnf0506_program_end)
                                                            ? filterOption.cnf0506_program_start
                                                            : filterOption.cnf0506_program_end);
+                    }
+                    if (!String.IsNullOrEmpty(filterOption.cnf0502_field_start))
+                    {
+                        cnf0506ProgramFilter = String.Format(@" AND (
+[cnf0502_field] >= @Cnf0502FieldStart 
+AND [cnf0502_field] <= @Cnf0502FieldEnd 
+)");
+                        sqlCmd.Parameters.AddWithValue("@Cnf0502FieldStart", filterOption.cnf0502_field_start);
+                        sqlCmd.Parameters.AddWithValue("@Cnf0502FieldEnd",
+                                                       String.IsNullOrEmpty(filterOption.cnf0502_field_end)
+                                                           ? filterOption.cnf0502_field_start
+                                                           : filterOption.cnf0502_field_end);
                     }
                     if (filterOption.adddate_start!=null)
                     {

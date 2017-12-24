@@ -35,6 +35,8 @@
                     Cnf0501FileEnd: null,
                     Cnf0506ProgramStart: null,
                     Cnf0506ProgramEnd: null,
+                    Cnf0502FieldStart:null,
+                    Cnf0502FieldEnd:null,
                 },
                 EditDialog: {
                     display: true,
@@ -78,16 +80,20 @@
                 },
                 OnSearch: function () {
                     console.log("OnSearch");
+                    $(this.$refs.EditDialog).modal('hide');
                     var filterOption = {
                         keyword: this.Filter.Keyword,
                         cnf0501_file_start: this.Filter.Cnf0501FileStart,
                         cnf0501_file_end: this.Filter.Cnf0501FileEnd,
                         cnf0506_program_start: this.Filter.Cnf0506ProgramStart,
                         cnf0506_program_end: this.Filter.Cnf0506ProgramEnd,
+                        cnf0502_field_start: this.Filter.Cnf0502FieldStart,
+                        cnf0502_field_end: this.Filter.Cnf0502FieldEnd,
                         adddate_start: this.Filter.AddDateStart,
                         adddate_end: this.Filter.AddDateEnd
                     }
                     LoadingHelper.showLoading();
+                    var vueObj = this;
                     return $.ajax({
                         type: 'POST',
                         url: rootUrl + "Dcnp/Ajax/Cnf05Handler.ashx",
@@ -96,14 +102,11 @@
                             act: "get",
                             data: JSON.stringify(filterOption)
                         },
-                        customData: {
-                            vueObj: this
-                        },
                         dataType: 'text',
                         success: function (result) {
                             LoadingHelper.hideLoading();
-                            this.customData.vueObj.Cnf05List = JSON.parse(result);
-                            if(this.customData.vueObj.Cnf05List.length==0){
+                            vueObj.Cnf05List = JSON.parse(result);
+                            if(vueObj.Cnf05List.length==0){
                                 alert("查無資料");
                             }
                         },
@@ -112,7 +115,7 @@
                                 return;
                             }
                             LoadingHelper.hideLoading();
-                            console.error(textStatus);
+                            console.error(errorThrown);
                             alert("查詢失敗");
                         }
                     });
@@ -198,6 +201,7 @@
                         success: function (result) {
                             if (result == "ok") {
                                 this.customData.vueObj.OnSearch();
+                                alert("刪除成功");
                             } else {
                                 alert("刪除失敗");
                             }
@@ -206,7 +210,7 @@
                             if (jqXhr.status == 0) {
                                 return;
                             }
-                            console.error(textStatus);
+                            console.error(errorThrown);
                             alert("刪除失敗");
                         }
                     });
@@ -270,7 +274,7 @@
                             if (jqXhr.status == 0) {
                                 return;
                             }
-                            console.error(textStatus);
+                            console.error(errorThrown);
                             alert("匯出失敗");
                         }
                     });
@@ -299,6 +303,7 @@
                                 $(this.customData.vueObj.$refs.ImportExcelDialog).modal('hide');
                                 this.customData.vueObj.$refs.ImportExcelInput.value = "";
                                 this.customData.vueObj.OnSearch();
+                                alert("匯入成功");
                             } else {
                                 alert("匯入失敗");
                             }
@@ -307,7 +312,7 @@
                             if (jqXhr.status == 0) {
                                 return;
                             }
-                            console.error(textStatus);
+                            console.error(errorThrown);
                             alert("匯入失敗");
                         }
                     });
@@ -326,6 +331,7 @@
                         alert("中文說明不可以是空白.");
                         return;
                     }
+                    // construct upload data
                     var cnf05Data = {
                         id: this.EditDialog.editingItem.id,
                         cnf0501_file: this.EditDialog.cnf0501_file,
@@ -340,34 +346,67 @@
                         moduser: this.EditDialog.moduser,
                         moddate: this.EditDialog.moddate
                     };
+                    var vueObj = this;
+                    var act = this.EditDialog.editingItem.id ? "update" : "add";
                     return $.ajax({
                         type: 'POST',
                         url: rootUrl + "Dcnp/Ajax/Cnf05Handler.ashx",
                         cache: false,
                         data: {
-                            act: this.EditDialog.editingItem.id ? "update" : "add",
+                            act: act,
                             data: JSON.stringify(cnf05Data)
-                        },
-                        customData: {
-                            vueObj: this
                         },
                         dataType: 'text',
                         success: function (result) {
-                            if (result == "ok") {
-                                $(this.customData.vueObj.$refs.EditDialog).modal('hide');
-                                this.customData.vueObj.OnSearch();
-                            } else {
-                                alert("存檔失敗");
+                            if(result.indexOf("insert duplicate key">=0)){
+                                alert("欄位重複了,請檢查並重新輸入");
+                                return;
+                            }
+                            if(act=="update"){
+                                if (result=="ok") {
+                                    alert("存檔成功");
+                                } else {
+                                    alert("存檔失敗");
+                                }
+                            } else if(act=="add"){
+                                var cnf05Item = JSON.parse(result);
+                                if (cnf05Item) {
+                                    alert("存檔成功");
+                                    vueObj.EditDialog.editingItem.id=cnf05Item.id;
+                                } else {
+                                    alert("存檔失敗");
+                                }
                             }
                         },
                         error: function (jqXhr, textStatus, errorThrown) {
                             if (jqXhr.status == 0) {
                                 return;
                             }
-                            console.error(textStatus);
+                            console.error(errorThrown);
                             alert("存檔失敗");
                         }
                     });
+                },
+                OnFileStartChange:function(){
+                    if(!this.Filter.Cnf0501FileEnd){
+                        this.Filter.Cnf0501FileEnd = this.Filter.Cnf0501FileStart;
+                    }
+                },
+                OnProgramStartChange:function(){
+                    if(!this.Filter.Cnf0506ProgramEnd){
+                        this.Filter.Cnf0506ProgramEnd = this.Filter.Cnf0506ProgramStart;
+                    }
+                },
+                OnFieldStartChange:function(){
+                    if(!this.Filter.Cnf0502FieldEnd){
+                        this.Filter.Cnf0502FieldEnd = this.Filter.Cnf0502FieldStart;
+                    }
+                },
+                OnAddDateStartChange:function(){
+                    if(!this.Filter.AddDateEnd){
+                        this.Filter.AddDateEnd = this.Filter.AddDateStart;
+                        this.$refs.FilterAddDateEnd.setValue(this.Filter.AddDateEnd);
+                    }
                 },
                 ResetEditDialog: function () {
                     this.EditDialog = {

@@ -101,7 +101,8 @@
                                         <span>起~</span>
                             </td>
                             <td>
-                                <input type="text" v-model="Filter.Cnf0501FileStart">
+                                <input type="text" v-model="Filter.Cnf0501FileStart"
+                                    v-on:change="OnFileStartChange()">
                                 迄~
                                         <input type="text" v-model="Filter.Cnf0501FileEnd">
                             </td>
@@ -111,9 +112,21 @@
                                         <span>起~</span>
                             </td>
                             <td>
-                                <input type="text" v-model="Filter.Cnf0506ProgramStart">
+                                <input type="text" v-model="Filter.Cnf0506ProgramStart"
+                                    v-on:change="OnProgramStartChange()">
                                 迄~
                                         <input type="text" v-model="Filter.Cnf0506ProgramEnd">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>欄位名稱
+                                <span>起~</span>
+                            </td>
+                            <td>
+                                <input type="text" v-model="Filter.Cnf0502FieldStart"
+                                    v-on:change="OnFieldStartChange()">
+                                迄~
+                                <input type="text" v-model="Filter.Cnf0502FieldEnd">
                             </td>
                         </tr>
                         <tr>
@@ -121,9 +134,10 @@
                                         <span>起~</span>
                             </td>
                             <td>
-                                <vue-datetimepicker v-model="Filter.AddDateStart" placeholder=""></vue-datetimepicker>
+                                <vue-datetimepicker v-model="Filter.AddDateStart" placeholder=""
+                                v-on:change="OnAddDateStartChange()"></vue-datetimepicker>
                                 迄~
-                                        <vue-datetimepicker v-model="Filter.AddDateEnd" placeholder=""></vue-datetimepicker>
+                                <vue-datetimepicker id="FilterAddDateEnd" ref="FilterAddDateEnd" v-model="Filter.AddDateEnd" placeholder=""></vue-datetimepicker>
                             </td>
                         </tr>
                     </tbody>
@@ -136,32 +150,38 @@
                     <table class="table table-bordered ">
                         <thead>
                             <tr class="bg-primary text-light">
-                                <th class="col-xs-1">
+                                <th>
                                     <input type="checkbox" value="" v-on:click="OnCheckAll" v-model="IsCheckAll">
                                 </th>
-                                <th class="col-xs-1">檔案代號</th>
-                                <th class="col-xs-1">欄位名稱</th>
-                                <th class="col-xs-2">中文說明-繁體</th>
-                                <th class="col-xs-1">程式代號</th>
-                                <th class="col-xs-1">新增日期</th>
-                                <th class="col-xs-2">中文說明-簡體</th>
-                                <th class="col-xs-1">英文說明</th>
-                                <th class="col-xs-2">操作</th>
+                                <th>檔案代號</th>
+                                <th>欄位名稱</th>
+                                <th>中文說明-繁體</th>
+                                <th>程式代號</th>
+                                <th>新增日期</th>
+                                <th>新增者</th>
+                                <th>修改日期</th>
+                                <th>修改者</th>
+                                <th>中文說明-簡體</th>
+                                <th>英文說明</th>
+                                <th>操作</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="cnf05Item in Cnf05List">
-                                <td class="col-xs-1">
+                                <td>
                                     <input type="checkbox" v-model="cnf05Item.checked">
                                 </td>
-                                <td class="col-xs-1">{{cnf05Item.cnf0501_file}}</td>
-                                <td class="col-xs-1">{{cnf05Item.cnf0502_field}}</td>
-                                <td class="col-xs-2">{{cnf05Item.cnf0503_fieldname_tw}}</td>
-                                <td class="col-xs-1">{{cnf05Item.cnf0506_program}}</td>
-                                <td class="col-xs-1">{{new Date(cnf05Item.adddate).dateFormat('Y/m/d')}}</td>
-                                <td class="col-xs-2">{{cnf05Item.cnf0504_fieldname_cn}}</td>
-                                <td class="col-xs-1">{{cnf05Item.cnf0505_fieldname_en}}</td>
-                                <td class="col-xs-2">
+                                <td>{{cnf05Item.cnf0501_file}}</td>
+                                <td>{{cnf05Item.cnf0502_field}}</td>
+                                <td>{{cnf05Item.cnf0503_fieldname_tw}}</td>
+                                <td>{{cnf05Item.cnf0506_program}}</td>
+                                <td>{{new Date(cnf05Item.adddate).dateFormat('Y/m/d')}}</td>
+                                <td>{{cnf05Item.adduser}}</td>
+                                <td>{{new Date(cnf05Item.adddate).dateFormat('Y/m/d')}}</td>
+                                <td>{{cnf05Item.moduser}}</td>
+                                <td>{{cnf05Item.cnf0504_fieldname_cn}}</td>
+                                <td>{{cnf05Item.cnf0505_fieldname_en}}</td>
+                                <td>
                                     <button type="button" class="btn btn-default"
                                         v-on:click="OnDelete(cnf05Item)">
                                         刪除</button>
@@ -279,16 +299,25 @@
                         </table>
                     </div>
                     <div class="modal-footer">
-                        <function-button data-dismiss="modal"
-                            hot-key="f12">
-                            離開
-                        </function-button>
+                        <function-button id="SearchBtn"
+                            hot-key="f1"
+                            v-on:click.native="OnSearch()">
+                                    查詢
+                                </function-button>
+                        <function-button id="AddBtn" 
+                            hot-key="f2"
+                            v-on:click.native="OnAdd()">
+                                    新增
+                                </function-button>
                         <function-button class="btn btn-primary"
                             hot-key="f5"
                             v-on:click.native="OnEditDialogSubmit">
                             存檔
                         </function-button>
-
+                        <function-button data-dismiss="modal"
+                            hot-key="f12">
+                            離開
+                        </function-button>
                     </div>
                 </div>
             </div>

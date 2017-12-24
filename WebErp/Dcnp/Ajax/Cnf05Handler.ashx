@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.IO;
 using System.Web;
 using System.Web.SessionState;
@@ -46,12 +47,30 @@ public class Cnf05Handler : IHttpHandler, IRequiresSessionState
             case "add":
                 {
                     Cnf05 cnf05 = JsonConvert.DeserializeObject<Cnf05>(this.Data);
-                    var newItem  = Cnf05.AddItem(cnf05);
-                    if (newItem == null)
+                    try
                     {
-                        Cnf05.FilterOption a;
-                        throw new Exception("Add Cnf05 fail.");
+                        var newItem = Cnf05.AddItem(cnf05);
+                        if (newItem == null)
+                        {
+                            throw new Exception("Add Cnf05 fail.");
+                        }
+                        context.Response.ContentType = "text/plain";
+                        context.Response.Write(JsonConvert.SerializeObject(newItem));
                     }
+                    catch (SqlException ex)
+                    {
+                        if (ex.Message.Contains("insert duplicate key"))
+                        {
+                            context.Response.ContentType = "text/plain";
+                            context.Response.Write("insert duplicate key");
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                    
+                    return;
                 }
                 break;
             case "get":
