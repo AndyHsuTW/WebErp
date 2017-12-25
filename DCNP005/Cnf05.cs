@@ -410,6 +410,18 @@ WHERE 1=1
                 {
                     sheet.Cells[title, i + 1].Value = "新增日期";
                 }
+                else if (String.Equals("adduser", fieldName[i]))
+                {
+                    sheet.Cells[title, i + 1].Value = "新增者";
+                }
+                else if (String.Equals("moddate", fieldName[i]))
+                {
+                    sheet.Cells[title, i + 1].Value = "修改日期";
+                }
+                else if (String.Equals("moduser", fieldName[i]))
+                {
+                    sheet.Cells[title, i + 1].Value = "修改者";
+                }
                 else if (String.Equals("cnf0504_fieldname_cn", fieldName[i]))
                 {
                     sheet.Cells[title, i + 1].Value = "中文說明-簡體";

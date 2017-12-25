@@ -62,6 +62,9 @@
                     cnf0503_fieldname_tw: true,
                     cnf0506_program: true,
                     adddate: true,
+                    adduser:true,
+                    moddate: true,
+                    moduser:true,
                     cnf0504_fieldname_cn: true,
                     cnf0505_fieldname_en: true
                 },
@@ -227,16 +230,7 @@
 
                 },
                 OnExport: function () {
-                    // reset dialog
-                    this.Export = {
-                        cnf0501_file: true,
-                        cnf0502_field: true,
-                        cnf0503_fieldname_tw: true,
-                        cnf0506_program: true,
-                        adddate: true,
-                        cnf0504_fieldname_cn: true,
-                        cnf0505_fieldname_en: true
-                    };
+                    
                 },
                 OnExportSubmit: function () {
                     var fields = [];
