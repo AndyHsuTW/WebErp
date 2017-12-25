@@ -83,6 +83,8 @@
                 OnSearch: function () {
                     console.log("OnSearch");
                     $(this.$refs.EditDialog).modal('hide');
+                    this.SortColumn=null;
+                    this.SortOrder=null;
                     var filterOption = {
                         keyword: this.Filter.Keyword,
                         cnf0501_file_start: this.Filter.Cnf0501FileStart,
