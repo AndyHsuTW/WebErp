@@ -12,7 +12,7 @@
     function onLoaded(jqueryHotkeys) {
 
         Vue.component('function-button', {
-            template: "\n                <button type=\"button\" class=\"btn btn-default\" role='button'>\n                    <slot>\n                        Button\n                    </slot>\n                </button>\n            ",
+            template: "\n                <button type=\"button\" class=\"btn btn-default\" role='button'>\n                    <slot>\n                        Button\n                    </slot>\n                    ({{hotKey.toUpperCase()}})\n                </button>\n            ",
             props: {
                 "hot-key": {
                     type: String,
