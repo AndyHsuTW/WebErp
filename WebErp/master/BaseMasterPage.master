@@ -273,12 +273,13 @@
         }
         var inBrowser = typeof window !== 'undefined';
         var isIE = inBrowser && window.navigator.userAgent.toLowerCase() && /msie|trident/.test(inBrowser && window.navigator.userAgent.toLowerCase());
-        var loginUserName = '<%=Page.User.Identity.Name%>';
+        var loginUserName = localStorage["USER_ID"];
         var rootUrl = '<%=rootUrl %>';
         requirejs.config({
             baseUrl: '<%=HostingEnvironment.ApplicationVirtualPath%>',
             paths: {
                 "bootstrap": "public/css/bootstrap/js/bootstrap.min",
+                "vue-tables-2":"public/scripts/VueComponent/vue-tables-2.min",
                 "LoadingHelper": "public/scripts/LoadingHelper/LoadingHelper",
                 "LoadingHelper-css": "public/scripts/LoadingHelper/LoadingHelper"
             },
@@ -295,7 +296,7 @@
                     css: '<%=rootUrl%>public/scripts/requirejs/css.min.js'
                 }
             },
-            urlArgs: "appVersion=201712202300" //reload all dependencies
+            urlArgs: "appVersion=201712252300" //reload all dependencies
         });
     </script>
     <asp:ContentPlaceHolder ID="head" runat="server">

@@ -286,13 +286,15 @@ SELECT [id]
       ,[remark]
       ,[adduser]
       ,[adddate]
+      ,[moduser]
+      ,[moddate]
   FROM [dbo].[cnf05]
 WHERE 1=1
 {0}
 {1}
 {2}
 {3}
- ",addDateFilter, cnf0501FileFilter, cnf0506ProgramFilter, keywordFilter);
+ ", addDateFilter, cnf0501FileFilter, cnf0506ProgramFilter, keywordFilter);
 
                 using (var sqlReader = sqlCmd.ExecuteReader())
                 {
@@ -312,6 +314,11 @@ WHERE 1=1
                             cnf05.remark = Convert.ToString(sqlReader["remark"]);
                             cnf05.adduser = Convert.ToString(sqlReader["adduser"]);
                             cnf05.adddate = Convert.ToDateTime(sqlReader["adddate"]);
+                            cnf05.moduser = Convert.ToString(sqlReader["moduser"]);
+                            cnf05.moddate = DBNull.Value == sqlReader["moddate"]
+                                                ? (DateTime?) null
+                                                : Convert.ToDateTime(sqlReader["moddate"]);
+
                             cnf05List.Add(cnf05);
                         }
                     }

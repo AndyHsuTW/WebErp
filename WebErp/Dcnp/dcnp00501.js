@@ -26,6 +26,7 @@
         window.dcnp00501 = new Vue({
             el: "#Dcnp00501",
             data: {
+                Cnf05HandlerUrl:rootUrl + 'Dcnp/Ajax/Cnf05Handler.ashx',
                 Pagination: {},
                 Filter: {
                     AddDateStart: null,
@@ -63,11 +64,12 @@
                     adddate: true,
                     cnf0504_fieldname_cn: true,
                     cnf0505_fieldname_en: true
-                }
+                },
+                SortColumn:null,
+                SortOrder:null
             },
             components: {},
             computed: {
-
             },
             methods: {
                 OnCheckAll: function () {
@@ -106,6 +108,12 @@
                         success: function (result) {
                             LoadingHelper.hideLoading();
                             vueObj.Cnf05List = JSON.parse(result);
+                            for(var i in vueObj.Cnf05List){
+                                vueObj.Cnf05List[i].adddate = new Date(vueObj.Cnf05List[i].adddate).dateFormat('Y/m/d');
+                                if(vueObj.Cnf05List[i].moddate){
+                                    vueObj.Cnf05List[i].moddate = new Date(vueObj.Cnf05List[i].moddate).dateFormat('Y/m/d');
+                                }
+                            }
                             if(vueObj.Cnf05List.length==0){
                                 alert("查無資料");
                             }
@@ -358,7 +366,7 @@
                         },
                         dataType: 'text',
                         success: function (result) {
-                            if(result.indexOf("insert duplicate key">=0)){
+                            if(result.indexOf("insert duplicate key")>=0){
                                 alert("欄位重複了,請檢查並重新輸入");
                                 return;
                             }
@@ -407,6 +415,30 @@
                         this.Filter.AddDateEnd = this.Filter.AddDateStart;
                         this.$refs.FilterAddDateEnd.setValue(this.Filter.AddDateEnd);
                     }
+                },
+                OnTableSorting:function(column){
+                    if(this.SortColumn== column){
+                        if(this.SortOrder=="asc"){
+                            this.SortOrder="desc";
+                        }else {
+                            this.SortOrder="asc";
+                        }
+                    } else {
+                        this.SortOrder="asc";
+                    }
+                    this.SortColumn = column;
+
+                   this.Cnf05List.sort(this.SortCnf05List);
+                },
+                SortCnf05List:function(a,b){
+                    if (a[this.SortColumn] < b[this.SortColumn]){
+                        return this.SortOrder=='asc'?-1:1;
+
+                    }
+                    if (a[this.SortColumn] > b[this.SortColumn]){
+                        return this.SortOrder=='asc'?1:-1;
+                    }
+                    return 0;
                 },
                 ResetEditDialog: function () {
                     this.EditDialog = {
