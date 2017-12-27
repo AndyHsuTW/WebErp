@@ -28,14 +28,16 @@
                 sendAjax:null,
                 Filter: {
                    
-                    StartDate: null,
-                    EndDate: null,
+                    StartDate: '',
+                    EndDate: '',
                    
                 },
                 CompanyList: [],
-                IsCheckAll: false
+                IsCheckAll: false,
+
             },
             methods: {
+               
                 OnSearch: function () {
                     console.log("OnSearch");
                     var filterOption = {
@@ -71,7 +73,28 @@
                     })
 
                 },OnExport: function () {
-                    alert("B")
+                    var dataList = [];
+                    for (var i in this.CompanyList) {
+                        var Company = this.CompanyList[i];
+                        if (Company.checked) {
+                            dataList.push(Company);
+                        }
+                    }
+                    if (dataList.length == 0 || this.Filter.StartDate == "" || this.Filter.EndDate == "") {
+                        return
+                    }
+
+                    var count = dataList.length;
+                    var FilterOption = this.Filter;
+                    for (var i in dataList) {
+                        var data = dataList[i];
+
+                        var excelform = $('<form/>').attr('method', 'post').attr('action', rootUrl + 'Dsap/Ajax/ExportHandler.ashx').appendTo($('body'));
+                        $('<input/>').attr('type', 'hidden').attr('name', 'Company').val(encodeURIComponent(JSON.stringify(data))).appendTo(excelform);
+                        $('<input/>').attr('type', 'hidden').attr('name', 'FilterOption').val(encodeURIComponent(JSON.stringify(FilterOption))).appendTo(excelform);
+                        excelform.submit();
+                    }
+
                 }, OnCheckAll: function () {
                     Vue.nextTick(function () {
                         console.log(dsap92001.IsCheckAll ? "true" : "false");

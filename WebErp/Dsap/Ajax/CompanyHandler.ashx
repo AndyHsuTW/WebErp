@@ -24,7 +24,10 @@ public class CompanyHandler : IHttpHandler
                 cnf1002_fileorder AS code, 
                 cnf1003_char01 AS name
             FROM [dbo].[cnf10]
-            WHERE cnf1001_filetype ='D002' and  cnf1005_char03 ='1'
+            WHERE 
+                cnf1001_filetype ='D002' 
+                and  cnf1005_char03 ='1'
+            order by cnf1003_char01
             ";
             using (var rd = cmd.ExecuteReader())
             {
