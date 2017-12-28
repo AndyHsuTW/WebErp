@@ -32,35 +32,7 @@ public class ExportHandler : IHttpHandler
         var excel = new ExcelPackage();
         var sheet = excel.Workbook.Worksheets.Add(Company.Name);
         var title = 1;
-        if (Company.Code == "2008")
-        {
-            sheet.Cells[title, 1].Value = "序號";
-            sheet.Cells[title, 2].Value = "姓名";
-            sheet.Cells[title, 3].Value = "地址";
-            sheet.Cells[title, 4].Value = "手機";
-            sheet.Cells[title, 5].Value = "電話";
-            sheet.Cells[title, 6].Value = "數量";
-            sheet.Cells[title, 7].Value = "品名";
-            sheet.Cells[title, 8].Value = "代收款";
-            
-            for (int i = 0; i < Listdata.Count; i++)
-            {
-                var data = Listdata[i];
-                sheet.Cells[title + i + 1, 1].Value = data.RowId;
-                sheet.Cells[title + i + 1, 2].Value = data.Name;
-                sheet.Cells[title + i + 1, 3].Value = data.Address;
-                sheet.Cells[title + i + 1, 4].Value = data.Cell;
-                sheet.Cells[title + i + 1, 5].Value = data.Tel01;
-                sheet.Cells[title + i + 1, 6].Value = data.Ordqty;
-                sheet.Cells[title + i + 1, 7].Value = data.PsName;
-                sheet.Cells[title + i + 1, 8].Value = data.Money;
-            }
-           
-            
-
-
-        }
-        else if (Company.Code == "2004")
+        if (Company.Code == "2004")
         {
             sheet.Cells[title, 1].Value = "序號";
             sheet.Cells[title, 2].Value = "客戶";
@@ -101,7 +73,28 @@ public class ExportHandler : IHttpHandler
 
         }else {
 
-            sheet.Cells[title, 1].Value = "未提供格式";
+            sheet.Cells[title, 1].Value = "序號";
+            sheet.Cells[title, 2].Value = "姓名";
+            sheet.Cells[title, 3].Value = "地址";
+            sheet.Cells[title, 4].Value = "手機";
+            sheet.Cells[title, 5].Value = "電話";
+            sheet.Cells[title, 6].Value = "數量";
+            sheet.Cells[title, 7].Value = "品名";
+            sheet.Cells[title, 8].Value = "代收款";
+
+            for (int i = 0; i < Listdata.Count; i++)
+            {
+                var data = Listdata[i];
+                sheet.Cells[title + i + 1, 1].Value = data.RowId;
+                sheet.Cells[title + i + 1, 2].Value = data.Name;
+                sheet.Cells[title + i + 1, 3].Value = data.Address;
+                sheet.Cells[title + i + 1, 4].Value = data.Cell;
+                sheet.Cells[title + i + 1, 5].Value = data.Tel01;
+                sheet.Cells[title + i + 1, 6].Value = data.Ordqty;
+                sheet.Cells[title + i + 1, 7].Value = data.PsName;
+                sheet.Cells[title + i + 1, 8].Value = data.Money;
+            }
+           
         
         }
         FitExcelColumnWidth(sheet);
