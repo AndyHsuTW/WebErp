@@ -46,6 +46,7 @@
     <script>
         (function () {
             requirejs.config({
+                urlArgs: "NoCach=" + (new Date()).getTime(),
                 paths: {
                     "Dsap92001": "Dsap/Dsap92001",
                 },
