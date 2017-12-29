@@ -28,8 +28,6 @@
             transform: rotate(45deg);
         }
 
-
-
         [v-cloak] {
             display: none;
         }
