@@ -41,6 +41,7 @@
                 },
                 EditDialog: {
                     display: true,
+                    isBatchMode: false,
                     editingItem: {},
                     cnf0501_file: "",
                     cnf0502_field: "",
@@ -62,9 +63,9 @@
                     cnf0503_fieldname_tw: true,
                     cnf0506_program: true,
                     adddate: true,
-                    adduser:true,
+                    adduser: true,
                     moddate: true,
-                    moduser:true,
+                    moduser: true,
                     cnf0504_fieldname_cn: true,
                     cnf0505_fieldname_en: true
                 },
@@ -86,8 +87,8 @@
                 OnSearch: function () {
                     console.log("OnSearch");
                     $(this.$refs.EditDialog).modal('hide');
-                    this.SortColumn=null;
-                    this.SortOrder=null;
+                    this.SortColumn = null;
+                    this.SortOrder = null;
                     var filterOption = {
                         keyword: this.Filter.Keyword,
                         cnf0501_file_start: this.Filter.Cnf0501FileStart,
@@ -138,6 +139,7 @@
                     console.log("OnAdd");
                     this.ResetEditDialog();
                     this.EditDialog.display = true;
+                    this.EditDialog.isBatchMode = false;
                     var dateNow = new Date().dateFormat('Y/m/d');
                     this.EditDialog.adddate = dateNow;
                     this.$refs.AddDate.setValue(dateNow);
@@ -147,6 +149,7 @@
                 OnModify: function (cnf05Item) {
                     this.ResetEditDialog();
                     this.EditDialog.display = true;
+                    this.EditDialog.isBatchMode = false;
                     this.EditDialog.editingItem = cnf05Item;
                     this.EditDialog.cnf0501_file = cnf05Item.cnf0501_file;
                     this.EditDialog.cnf0502_field = cnf05Item.cnf0502_field;
@@ -164,9 +167,34 @@
                     this.EditDialog.adduser = cnf05Item.adduser;
                     this.EditDialog.moduser = loginUserName;
                 },
+                OnBatchModify: function () {
+                    console.log("OnBatchModify");
+                    
+                    $(this.$refs.EditDialog).modal('hide');
+
+                    var cnf05List = [];
+                    for (var i in this.Cnf05List) {
+                        if (this.Cnf05List[i].checked) {
+                            cnf05List.push(this.Cnf05List[i].id);
+                        }
+                    }
+                    if (cnf05List.length == 0)
+                        return;
+
+                    $(this.$refs.EditDialog).modal('show');
+                    this.ResetEditDialog();
+                    this.EditDialog.display = true;
+                    this.EditDialog.isBatchMode = true;
+                    
+                    var dateNow = new Date().dateFormat('Y/m/d');
+                    this.EditDialog.moddate = dateNow;
+                    this.$refs.ModDate.setValue(dateNow);
+                    this.EditDialog.moduser = loginUserName;
+                },
                 OnCopy: function (cnf05Item) {
                     this.ResetEditDialog();
                     this.EditDialog.display = true;
+                    this.EditDialog.isBatchMode = false;
                     this.EditDialog.cnf0501_file = cnf05Item.cnf0501_file;
                     this.EditDialog.cnf0502_field = cnf05Item.cnf0502_field;
                     this.EditDialog.cnf0503_fieldname_tw = cnf05Item.cnf0503_fieldname_tw;
@@ -230,7 +258,16 @@
 
                 },
                 OnExport: function () {
-                    
+                    // reset dialog
+                    this.Export = {
+                        cnf0501_file: true,
+                        cnf0502_field: true,
+                        cnf0503_fieldname_tw: true,
+                        cnf0506_program: true,
+                        adddate: true,
+                        cnf0504_fieldname_cn: true,
+                        cnf0505_fieldname_en: true
+                    };
                 },
                 OnExportSubmit: function () {
                     var fields = [];
@@ -322,7 +359,59 @@
                     });
 
                 },
-                OnEditDialogSubmit: function () {
+                OnEditDialogSubmit: function() {
+                    if (!this.EditDialog.isBatchMode) {
+                        this.EditDialogSubmit();
+                    } else {
+                        this.BatchEditDialogSubmit();
+                    }
+                },
+                BatchEditDialogSubmit: function() {
+                    var cnf05List = [];
+                    var type = "list";
+                    for (var i in this.Cnf05List) {
+                        if (this.Cnf05List[i].checked) {
+                            cnf05List.push({
+                                id: this.Cnf05List[i].id,
+                                cnf0506_program: this.EditDialog.cnf0506_program,
+                                moduser: this.EditDialog.moduser,
+                                moddate: this.EditDialog.moddate
+                            });
+                        }
+                    }
+                    if (!confirm("確定批次修改資料?")) {
+                        return;
+                    }
+                    return $.ajax({
+                        type: 'POST',
+                        url: rootUrl + "Dcnp/Ajax/Cnf05Handler.ashx",
+                        cache: false,
+                        data: {
+                            act: "batchupdate",
+                            type: type,
+                            data: JSON.stringify(cnf05List)
+                        },
+                        customData: {
+                            vueObj: this
+                        },
+                        dataType: 'text',
+                        success: function (result) {
+                            if (result == "ok") {
+                                alert("存檔成功");
+                            } else {
+                                alert("存檔失敗");
+                            }
+                        },
+                        error: function (jqXhr, textStatus, errorThrown) {
+                            if (jqXhr.status == 0) {
+                                return;
+                            }
+                            console.error(errorThrown);
+                            alert("存檔失敗");
+                        }
+                    });
+                },
+                EditDialogSubmit: function () {
                     if (this.EditDialog.cnf0501_file == "") {
                         alert("檔案代號不可以是空白.");
                         return;

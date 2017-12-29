@@ -160,6 +160,46 @@ UPDATE [dbo].[cnf05]
             return cnf05;
         }
 
+        public static List<Cnf05> BatchUpdateItem(List<Cnf05> cnf05List)
+        {
+            if (cnf05List == null || cnf05List.Count == 0)
+            {
+                throw new ArgumentNullException("cnf05List");
+            }
+            using (var conn = new SqlConnection { ConnectionString = MyConnStringList.AzureGoodeasy })
+            using (var sqlCmd = conn.CreateCommand())
+            {
+                conn.Open();
+
+                var count = 0;
+
+                foreach (var cnf05 in cnf05List)
+                {
+                    sqlCmd.CommandText = @"
+UPDATE [dbo].[cnf05]
+   SET [cnf0506_program] = @cnf0506_program
+      ,[moduser] = @moduser
+      ,[moddate] = @moddate
+ WHERE id=@id
+";
+                    sqlCmd.Parameters.Clear();
+                    sqlCmd.Parameters.AddWithValue("@id", cnf05.id);
+                    sqlCmd.Parameters.AddWithValue("@cnf0506_program", cnf05.cnf0506_program);
+                    sqlCmd.Parameters.AddWithValue("@moduser", cnf05.moduser);
+                    sqlCmd.Parameters.AddWithValueSafe("@moddate", cnf05.moddate);
+
+                    count += sqlCmd.ExecuteNonQuery();
+                }
+                
+                if (count < cnf05List.Count)
+                {
+                    return null;
+                }
+            }
+
+            return cnf05List;
+        }
+
         /// <summary>
         /// Return true if success.
         /// </summary>

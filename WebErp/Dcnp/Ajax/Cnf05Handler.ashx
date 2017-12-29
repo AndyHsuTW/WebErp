@@ -93,6 +93,17 @@ public class Cnf05Handler : IHttpHandler, IRequiresSessionState
                     }
                 }
                 break;
+            case "batchupdate":
+                {
+                    List<Cnf05> cnf05List = JsonConvert.DeserializeObject<List<Cnf05>>(this.Data);
+                    var newItem = Cnf05.BatchUpdateItem(cnf05List);
+                    if (newItem == null)
+                    {
+                        Cnf05.FilterOption a;
+                        throw new Exception("BatchUpdate Cnf05List fail.");
+                    }
+                }
+                break;
             case "del":
                 {
                     var success = false;

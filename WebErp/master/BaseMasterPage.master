@@ -37,10 +37,6 @@
     <script src="<%=rootUrl %>public/scripts/requirejs/require.min.js" type="text/javascript"></script>
     <script src="<%=rootUrl %>public/scripts/jQuery/jquery-1.12.4.min.js" type="text/javascript"></script>
     <script>
-
-
-    </script>
-    <script>
         if (!String.prototype.startsWith) {
             String.prototype.startsWith = function (searchString, position) {
                 position = position || 0;

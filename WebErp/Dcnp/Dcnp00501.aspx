@@ -38,7 +38,7 @@
             border: solid 1px #CCC;
         }
 
-        .vuetable > thead > tr > th,
+        .vuetable >thead>tr>th,
         .table-borderless > tbody > tr > td,
         .table-borderless > tbody > tr > th,
         .table-borderless > tfoot > tr > td,
@@ -48,15 +48,11 @@
         {
             border: none;
         }
-
-        .table.sortable > thead > tr > th
-        {
+        .table.sortable>thead>tr>th{
             cursor: pointer;
             white-space: nowrap;
         }
-
-        .table.sortable .no-sortable
-        {
+        .table.sortable .no-sortable{
             cursor: default;
         }
     </style>
@@ -97,6 +93,11 @@
                     hot-key="f11">
                             求助
                         </function-button>
+                <button type="button" class="btn btn-default" role='button'
+                    id="BatchProgramBtn" href='#EditDialog'
+                    v-on:click="OnBatchModify()">
+                    批次輸入程式代號
+                </button>
             </div>
             <div class="filter-div">
                 <table class="">
@@ -147,7 +148,7 @@
                             </td>
                             <td>
                                 <vue-datetimepicker v-model="Filter.AddDateStart" placeholder=""
-                                    v-on:change="OnAddDateStartChange()"></vue-datetimepicker>
+                                v-on:change="OnAddDateStartChange()"></vue-datetimepicker>
                                 迄~
                                 <vue-datetimepicker id="FilterAddDateEnd" ref="FilterAddDateEnd" v-model="Filter.AddDateEnd" placeholder=""></vue-datetimepicker>
                             </td>
@@ -155,7 +156,7 @@
                     </tbody>
                 </table>
             </div>
-
+           
             <div class="result-div">
                 <table v-if="false" class="table table-bordered no-margin">
                 </table>
@@ -166,62 +167,72 @@
                                 <th class="no-sortable">
                                     <input type="checkbox" value="" v-on:click="OnCheckAll" v-model="IsCheckAll">
                                 </th>
-                                <th v-on:click="OnTableSorting('cnf0501_file')">檔案代號<br>
-                                    <span class="pull-right glyphicon  "
+                                <th v-on:click="OnTableSorting('cnf0501_file')" >
+                                    檔案代號<br>
+                                    <span class="pull-right glyphicon  " 
                                         v-bind:class="{'glyphicon-sort':SortColumn!='cnf0501_file', 
                                         'glyphicon-chevron-up': SortColumn=='cnf0501_file' && SortOrder=='asc',
                                         'glyphicon-chevron-down': SortColumn=='cnf0501_file' && SortOrder=='desc'}"></span>
                                 </th>
-                                <th v-on:click="OnTableSorting('cnf0502_field')">欄位名稱<br>
-                                    <span class="pull-right glyphicon  "
+                                <th v-on:click="OnTableSorting('cnf0502_field')">
+                                    欄位名稱<br>
+                                    <span class="pull-right glyphicon  " 
                                         v-bind:class="{'glyphicon-sort':SortColumn!='cnf0502_field', 
                                         'glyphicon-chevron-up': SortColumn=='cnf0502_field' && SortOrder=='asc',
                                         'glyphicon-chevron-down': SortColumn=='cnf0502_field' && SortOrder=='desc'}"></span>
                                 </th>
-                                <th v-on:click="OnTableSorting('cnf0503_fieldname_tw')">中文說明-繁體<br>
-                                    <span class="pull-right glyphicon  "
+                                <th v-on:click="OnTableSorting('cnf0503_fieldname_tw')">
+                                    中文說明-繁體<br>
+                                    <span class="pull-right glyphicon  " 
                                         v-bind:class="{'glyphicon-sort':SortColumn!='cnf0503_fieldname_tw', 
                                         'glyphicon-chevron-up': SortColumn=='cnf0503_fieldname_tw' && SortOrder=='asc',
                                         'glyphicon-chevron-down': SortColumn=='cnf0503_fieldname_tw' && SortOrder=='desc'}"></span>
                                 </th>
-                                <th v-on:click="OnTableSorting('cnf0506_program')">程式代號<br>
-                                    <span class="pull-right glyphicon  "
+                                <th v-on:click="OnTableSorting('cnf0506_program')">
+                                    程式代號<br>
+                                    <span class="pull-right glyphicon  " 
                                         v-bind:class="{'glyphicon-sort':SortColumn!='cnf0506_program', 
                                         'glyphicon-chevron-up': SortColumn=='cnf0506_program' && SortOrder=='asc',
                                         'glyphicon-chevron-down': SortColumn=='cnf0506_program' && SortOrder=='desc'}"></span>
                                 </th>
-                                <th v-on:click="OnTableSorting('adddate')">新增日期<br>
-                                    <span class="pull-right glyphicon  "
+                                <th v-on:click="OnTableSorting('adddate')">
+                                    新增日期<br>
+                                    <span class="pull-right glyphicon  " 
                                         v-bind:class="{'glyphicon-sort':SortColumn!='adddate', 
                                         'glyphicon-chevron-up': SortColumn=='adddate' && SortOrder=='asc',
                                         'glyphicon-chevron-down': SortColumn=='adddate' && SortOrder=='desc'}"></span>
                                 </th>
-                                <th v-on:click="OnTableSorting('adduser')">新增者<br>
-                                    <span class="pull-right glyphicon  "
+                                <th v-on:click="OnTableSorting('adduser')">
+                                    新增者<br>
+                                    <span class="pull-right glyphicon  " 
                                         v-bind:class="{'glyphicon-sort':SortColumn!='adduser', 
                                         'glyphicon-chevron-up': SortColumn=='adduser' && SortOrder=='asc',
                                         'glyphicon-chevron-down': SortColumn=='adduser' && SortOrder=='desc'}"></span>
                                 </th>
-                                <th v-on:click="OnTableSorting('moddate')">修改日期<br>
-                                    <span class="pull-right glyphicon  "
+                                <th v-on:click="OnTableSorting('moddate')">
+                                    修改日期<br>
+                                    <span class="pull-right glyphicon  " 
                                         v-bind:class="{'glyphicon-sort':SortColumn!='moddate', 
                                         'glyphicon-chevron-up': SortColumn=='moddate' && SortOrder=='asc',
                                         'glyphicon-chevron-down': SortColumn=='moddate' && SortOrder=='desc'}"></span>
                                 </th>
-                                <th v-on:click="OnTableSorting('moduser')">修改者<br>
-                                    <span class="pull-right glyphicon  "
+                                <th v-on:click="OnTableSorting('moduser')">
+                                    修改者<br>
+                                    <span class="pull-right glyphicon  " 
                                         v-bind:class="{'glyphicon-sort':SortColumn!='moduser', 
                                         'glyphicon-chevron-up': SortColumn=='moduser' && SortOrder=='asc',
                                         'glyphicon-chevron-down': SortColumn=='moduser' && SortOrder=='desc'}"></span>
                                 </th>
-                                <th v-on:click="OnTableSorting('cnf0504_fieldname_cn')">中文說明-簡體<br>
-                                    <span class="pull-right glyphicon  "
+                                <th v-on:click="OnTableSorting('cnf0504_fieldname_cn')">
+                                    中文說明-簡體<br>
+                                    <span class="pull-right glyphicon  " 
                                         v-bind:class="{'glyphicon-sort':SortColumn!='cnf0504_fieldname_cn', 
                                         'glyphicon-chevron-up': SortColumn=='cnf0504_fieldname_cn' && SortOrder=='asc',
                                         'glyphicon-chevron-down': SortColumn=='cnf0504_fieldname_cn' && SortOrder=='desc'}"></span>
                                 </th>
-                                <th v-on:click="OnTableSorting('cnf0505_fieldname_en')">英文說明<br>
-                                    <span class="pull-right glyphicon  "
+                                <th v-on:click="OnTableSorting('cnf0505_fieldname_en')">
+                                    英文說明<br>
+                                    <span class="pull-right glyphicon  " 
                                         v-bind:class="{'glyphicon-sort':SortColumn!='cnf0505_fieldname_en', 
                                         'glyphicon-chevron-up': SortColumn=='cnf0505_fieldname_en' && SortOrder=='asc',
                                         'glyphicon-chevron-down': SortColumn=='cnf0505_fieldname_en' && SortOrder=='desc'}"></span>
@@ -240,7 +251,8 @@
                                 <td>{{cnf05Item.cnf0506_program}}</td>
                                 <td>{{new Date(cnf05Item.adddate).dateFormat('Y/m/d')}}</td>
                                 <td>{{cnf05Item.adduser}}</td>
-                                <td>{{cnf05Item.moddate==null?"":new Date(cnf05Item.moddate).dateFormat('Y/m/d')}}
+                                <td>
+                                    {{cnf05Item.moddate==null?"":new Date(cnf05Item.moddate).dateFormat('Y/m/d')}}
                                 </td>
                                 <td>{{cnf05Item.moduser}}</td>
                                 <td>{{cnf05Item.cnf0504_fieldname_cn}}</td>
@@ -278,35 +290,35 @@
 
                         <table class="table table-borderless">
                             <tbody>
-                                <tr>
+                                <tr v-show="EditDialog.isBatchMode == false">
                                     <td>檔案代號</td>
                                     <td>
                                         <input type="text"
                                             v-model="EditDialog.cnf0501_file">
                                     </td>
                                 </tr>
-                                <tr>
+                                <tr v-show="EditDialog.isBatchMode == false">
                                     <td>欄位名稱</td>
                                     <td>
                                         <input type="text"
                                             v-model="EditDialog.cnf0502_field">
                                     </td>
                                 </tr>
-                                <tr>
+                                <tr v-show="EditDialog.isBatchMode == false">
                                     <td>中文說明-繁體</td>
                                     <td>
                                         <input type="text"
                                             v-model="EditDialog.cnf0503_fieldname_tw">
                                     </td>
                                 </tr>
-                                <tr>
+                                <tr v-show="EditDialog.isBatchMode == false">
                                     <td>中文說明-簡體</td>
                                     <td>
                                         <input type="text"
                                             v-model="EditDialog.cnf0504_fieldname_cn">
                                     </td>
                                 </tr>
-                                <tr>
+                                <tr v-show="EditDialog.isBatchMode == false">
                                     <td>英文說明</td>
                                     <td>
                                         <input type="text"
@@ -320,7 +332,7 @@
                                             v-model="EditDialog.cnf0506_program">
                                     </td>
                                 </tr>
-                                <tr>
+                                <tr v-show="EditDialog.isBatchMode == false">
                                     <td>備註</td>
                                     <td>
                                         <input type="text"
@@ -329,14 +341,14 @@
                                 </tr>
                                 <tr>
                                     <td colspan="2">
-                                        <div class="col-xs-3 no-padding">
+                                        <div class="col-xs-3 no-padding" v-show="EditDialog.isBatchMode == false">
                                             <div class="col-xs-5 no-padding">
                                                 新增者
                                             </div>
                                             <input class="col-xs-7" type="text" disabled="disabled"
                                                 v-model="EditDialog.adduser">
                                         </div>
-                                        <div class="col-xs-3 ">
+                                        <div class="col-xs-3 " v-show="EditDialog.isBatchMode == false">
                                             <div class="col-xs-5 no-padding">
                                                 新增日期
                                             </div>
@@ -368,7 +380,7 @@
                             v-on:click.native="OnSearch()">
                                     查詢
                                 </function-button>
-                        <function-button id="AddBtn"
+                        <function-button id="AddBtn" v-show="EditDialog.isBatchMode == false"
                             hot-key="f2"
                             v-on:click.native="OnAdd()">
                                     新增
