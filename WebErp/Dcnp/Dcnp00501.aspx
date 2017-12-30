@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/master/BaseMasterPage.master" AutoEventWireup="true" CodeFile="Dcnp00501.aspx.cs" Inherits="Dcnp_Dcnp00501" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/master/BaseMasterPage.master" AutoEventWireup="true" CodeFile="Dcnp00501.aspx.cs" Inherits="Dcnp_Dcnp00501" %>
 
 <%@ Import Namespace="System.Web.Hosting" %>
 
@@ -60,7 +60,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <div id="Dcnp00501" v-cloak>
         <ul class="app-title">
-            <li>各檔案欄位說明維護
+            <li><%=Title %>
             </li>
         </ul>
         <div class="app-body">
