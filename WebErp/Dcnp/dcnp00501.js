@@ -265,6 +265,9 @@
                         cnf0503_fieldname_tw: true,
                         cnf0506_program: true,
                         adddate: true,
+                        adduser: true,
+                        moddate: true,
+                        moduser: true,
                         cnf0504_fieldname_cn: true,
                         cnf0505_fieldname_en: true
                     };
