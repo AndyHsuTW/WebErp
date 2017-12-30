@@ -1,4 +1,4 @@
-﻿
+﻿/* require fontawson for animation */
 
 .loading-ui-vertical-center {
     min-height: 100%; /* Fallback for browsers do NOT support vh unit */
@@ -44,8 +44,8 @@
     margin-left: auto;
     margin-right: auto;
     border: 5px solid #f3f3f3;
-    -webkit-animation: spin 1s linear infinite;
-    animation: spin 1s linear infinite;
+    -webkit-animation: fa-spin 1s infinite linear;
+    animation: fa-spin 1s linear infinite;
     border-top: 5px solid #555;
     border-radius: 50%;
     width: 50px;
