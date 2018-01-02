@@ -125,7 +125,7 @@ public class ExportHandler : IHttpHandler
         byte[] byteArray = outputMemStream.ToArray();
 
         context.Response.Clear();
-        var fileName = String.Format("cnf1002_fileorder_{0}.csv", DateTime.Now.ToString("yyyyMMdd"));
+        var fileName = String.Format("cnf1002_fileorder_{0}.zip", DateTime.Now.ToString("yyyyMMdd"));
         var strContentDisposition = String.Format("{0}; filename=\"{1}\"", "attachment", HttpUtility.UrlEncode(fileName, System.Text.Encoding.UTF8));
         context.Response.AppendHeader("Content-Disposition", strContentDisposition); // 檔案名稱
         context.Response.AppendHeader("Content-Length", byteArray.Length.ToString());
