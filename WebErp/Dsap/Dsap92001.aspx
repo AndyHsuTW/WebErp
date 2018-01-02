@@ -75,7 +75,7 @@
             <div class="common-button-div">
                 <function-button id="SearchBtn" hot-key="f1" v-on:click.native="OnSearch()">查詢</function-button>
                 <function-button id="ExportBtn" hot-key="f7" v-on:click.native="OnExport()">匯出</function-button>
-
+             
 
             </div>
             <div class="filter-div">
@@ -97,7 +97,7 @@
                     <table class="table table-bordered ">
                          <thead>
                             <tr class="bg-primary text-light">
-                                <th class="col-xs-1">
+                                <th class="col-xs-1" style="text-align:center">
                                     <input type="checkbox" value="" v-on:click="OnCheckAll" v-model="IsCheckAll">
                                 </th>
                                 <th class="col-xs-5">公司名稱</th>
@@ -107,7 +107,7 @@
                         </thead>
                         <tbody>
                             <tr class="rowclass" v-for="CompanyItem in CompanyList" >
-                                <td class="col-xs-1">
+                                <td class="col-xs-1" style="text-align:center">
                                     <input type="checkbox" v-model="CompanyItem.checked">
                                 </td>
                                 <td class="col-xs-5">{{CompanyItem.Name}}</td>

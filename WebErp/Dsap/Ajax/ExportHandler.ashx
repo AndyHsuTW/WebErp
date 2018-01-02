@@ -8,8 +8,10 @@ using OfficeOpenXml.Style;
 using ErpBaseLibrary.DB;
 using System.Data.SqlClient;
 using Newtonsoft.Json;
-using DCNP005;
 using System.Linq;
+using System.IO;
+using ICSharpCode.SharpZipLib.Zip;
+using ICSharpCode.SharpZipLib.Core;
 public class ExportHandler : IHttpHandler
 {
 
@@ -24,95 +26,116 @@ public class ExportHandler : IHttpHandler
             throw new Exception("Export file failed.");
         }
 
-        var Company = JsonConvert.DeserializeObject<Company>(HttpUtility.UrlDecode(Companystr));
+        var CompanyList = JsonConvert.DeserializeObject<List<Company>>(HttpUtility.UrlDecode(Companystr));
         var FilterOption = JsonConvert.DeserializeObject<FilterOption>(HttpUtility.UrlDecode(FilterOptionstr));
+        
+        //壓縮檔案用
+        MemoryStream outputMemStream = new MemoryStream();
+        ZipOutputStream zipStream = new ZipOutputStream(outputMemStream);
+        zipStream.SetLevel(3); //0-9, 9 being the highest level of compression
 
-        var Listdata = GetCompanysaf20Data(FilterOption, Company.Code);
-
-        var excel = new ExcelPackage();
-        var sheet = excel.Workbook.Worksheets.Add(Company.Name);
-        var title = 1;
-        if (Company.Code == "2004")
-        {
-            sheet.Cells[title, 1].Value = "序號";
-            sheet.Cells[title, 2].Value = "客戶";
-            sheet.Cells[title, 3].Value = "地址";
-            sheet.Cells[title, 4].Value = "";
-            sheet.Cells[title, 5].Value = "手機";
-            sheet.Cells[title, 6].Value = "姓名";
-            sheet.Cells[title, 7].Value = "";
-            sheet.Cells[title, 8].Value = "地址";
-            sheet.Cells[title, 9].Value = "";
-            sheet.Cells[title, 10].Value = "";
-            sheet.Cells[title, 11].Value = "";
-            sheet.Cells[title, 12].Value = "";
-            sheet.Cells[title, 13].Value = "";
-            sheet.Cells[title, 14].Value = "品名";
-            sheet.Cells[title, 15].Value = "";
-            sheet.Cells[title, 16].Value = "";
-            for (int i = 0; i < Listdata.Count; i++)
+        foreach (var Company in CompanyList) {
+            var Listdata = GetCompanysaf20Data(FilterOption, Company.Code);
+            var excel = new ExcelPackage();
+            var sheet = excel.Workbook.Worksheets.Add(Company.Name);
+            var title = 1;
+            if (Company.Code == "2004")
             {
-                var data = Listdata[i];
-                sheet.Cells[title, 1].Value = data.RowId;
-                sheet.Cells[title, 2].Value = data.Cuscod;
-                sheet.Cells[title, 3].Value = data.Address;
+                sheet.Cells[title, 1].Value = "序號";
+                sheet.Cells[title, 2].Value = "客戶";
+                sheet.Cells[title, 3].Value = "地址";
                 sheet.Cells[title, 4].Value = "";
-                sheet.Cells[title, 5].Value = data.Cell;
-                sheet.Cells[title, 6].Value = data.Name;
+                sheet.Cells[title, 5].Value = "手機";
+                sheet.Cells[title, 6].Value = "姓名";
                 sheet.Cells[title, 7].Value = "";
-                sheet.Cells[title, 8].Value = data.Address;
+                sheet.Cells[title, 8].Value = "地址";
                 sheet.Cells[title, 9].Value = "";
                 sheet.Cells[title, 10].Value = "";
                 sheet.Cells[title, 11].Value = "";
                 sheet.Cells[title, 12].Value = "";
                 sheet.Cells[title, 13].Value = "";
-                sheet.Cells[title, 14].Value = data.PsName;
+                sheet.Cells[title, 14].Value = "品名";
                 sheet.Cells[title, 15].Value = "";
                 sheet.Cells[title, 16].Value = "";
+                for (int i = 0; i < Listdata.Count; i++)
+                {
+                    var data = Listdata[i];
+                    sheet.Cells[title, 1].Value = data.RowId;
+                    sheet.Cells[title, 2].Value = data.Cuscod;
+                    sheet.Cells[title, 3].Value = data.Address;
+                    sheet.Cells[title, 4].Value = "";
+                    sheet.Cells[title, 5].Value = data.Cell;
+                    sheet.Cells[title, 6].Value = data.Name;
+                    sheet.Cells[title, 7].Value = "";
+                    sheet.Cells[title, 8].Value = data.Address;
+                    sheet.Cells[title, 9].Value = "";
+                    sheet.Cells[title, 10].Value = "";
+                    sheet.Cells[title, 11].Value = "";
+                    sheet.Cells[title, 12].Value = "";
+                    sheet.Cells[title, 13].Value = "";
+                    sheet.Cells[title, 14].Value = data.PsName;
+                    sheet.Cells[title, 15].Value = "";
+                    sheet.Cells[title, 16].Value = "";
+                }
+
             }
-
-        }else {
-
-            sheet.Cells[title, 1].Value = "序號";
-            sheet.Cells[title, 2].Value = "姓名";
-            sheet.Cells[title, 3].Value = "地址";
-            sheet.Cells[title, 4].Value = "手機";
-            sheet.Cells[title, 5].Value = "電話";
-            sheet.Cells[title, 6].Value = "數量";
-            sheet.Cells[title, 7].Value = "品名";
-            sheet.Cells[title, 8].Value = "代收款";
-
-            for (int i = 0; i < Listdata.Count; i++)
+            else
             {
-                var data = Listdata[i];
-                sheet.Cells[title + i + 1, 1].Value = data.RowId;
-                sheet.Cells[title + i + 1, 2].Value = data.Name;
-                sheet.Cells[title + i + 1, 3].Value = data.Address;
-                sheet.Cells[title + i + 1, 4].Value = data.Cell;
-                sheet.Cells[title + i + 1, 5].Value = data.Tel01;
-                sheet.Cells[title + i + 1, 6].Value = data.Ordqty;
-                sheet.Cells[title + i + 1, 7].Value = data.PsName;
-                sheet.Cells[title + i + 1, 8].Value = data.Money;
+
+                sheet.Cells[title, 1].Value = "序號";
+                sheet.Cells[title, 2].Value = "姓名";
+                sheet.Cells[title, 3].Value = "地址";
+                sheet.Cells[title, 4].Value = "手機";
+                sheet.Cells[title, 5].Value = "電話";
+                sheet.Cells[title, 6].Value = "數量";
+                sheet.Cells[title, 7].Value = "品名";
+                sheet.Cells[title, 8].Value = "代收款";
+
+                for (int i = 0; i < Listdata.Count; i++)
+                {
+                    var data = Listdata[i];
+                    sheet.Cells[title + i + 1, 1].Value = data.RowId;
+                    sheet.Cells[title + i + 1, 2].Value = data.Name;
+                    sheet.Cells[title + i + 1, 3].Value = data.Address;
+                    sheet.Cells[title + i + 1, 4].Value = data.Cell;
+                    sheet.Cells[title + i + 1, 5].Value = data.Tel01;
+                    sheet.Cells[title + i + 1, 6].Value = data.Ordqty;
+                    sheet.Cells[title + i + 1, 7].Value = data.PsName;
+                    sheet.Cells[title + i + 1, 8].Value = data.Money;
+                }
+
+
             }
-           
-        
+            FitExcelColumnWidth(sheet);
+            //拿到csv檔 壓縮進同一個zip
+            byte[] byteData = excel.GetAsByteArray();
+            var msFormXml = new MemoryStream(byteData);
+            ZipEntry xmlEntry = new ZipEntry(String.Format("cnf1002_fileorder_{0}{1}.csv", Company.Code, DateTime.Now.ToString("yyyyMMdd")));
+            xmlEntry.DateTime = DateTime.Now;
+            zipStream.PutNextEntry(xmlEntry);
+            StreamUtils.Copy(msFormXml, zipStream, new byte[4096]);
+            zipStream.CloseEntry();
         }
-        FitExcelColumnWidth(sheet);
+        
+        zipStream.IsStreamOwner = false;
+        zipStream.Close();
 
-        var byteData = excel.GetAsByteArray();
-        var fileNameFull = String.Format("cnf1002_fileorder_{0}{1}.csv", Company.Code, DateTime.Now.ToString("yyyyMMdd"));
+        outputMemStream.Position = 0;
 
-        var strContentDisposition = String.Format("{0}; filename=\"{1}\"", "attachment",
-                                 HttpUtility.UrlEncode(fileNameFull, System.Text.Encoding.UTF8));
+        byte[] byteArray = outputMemStream.ToArray();
 
+        context.Response.Clear();
+        var fileName = String.Format("cnf1002_fileorder_{0}.csv", DateTime.Now.ToString("yyyyMMdd"));
+        var strContentDisposition = String.Format("{0}; filename=\"{1}\"", "attachment", HttpUtility.UrlEncode(fileName, System.Text.Encoding.UTF8));
         context.Response.AppendHeader("Content-Disposition", strContentDisposition); // 檔案名稱
-        context.Response.AppendHeader("Content-Length", byteData.Length.ToString());
-        context.Response.BinaryWrite(byteData);
-
-
+        context.Response.AppendHeader("Content-Length", byteArray.Length.ToString());
+        context.Response.ContentType = "application/octet-stream";
+        context.Response.BinaryWrite(byteArray);
 
     }
+    
 
+    
     public List<saf20Data> GetCompanysaf20Data(FilterOption FilterOption, string Code)
     {
         var List = new List<saf20Data>();
