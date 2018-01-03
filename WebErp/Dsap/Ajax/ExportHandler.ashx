@@ -33,7 +33,7 @@ public class ExportHandler : IHttpHandler
         MemoryStream outputMemStream = new MemoryStream();
         ZipOutputStream zipStream = new ZipOutputStream(outputMemStream);
         zipStream.SetLevel(3); //0-9, 9 being the highest level of compression
-
+        var time = DateTime.Parse(FilterOption.StartDate).ToString("yyyyMMdd");
         foreach (var Company in CompanyList) {
             var Listdata = GetCompanysaf20Data(FilterOption, Company.Code);
             var excel = new ExcelPackage();
@@ -109,9 +109,11 @@ public class ExportHandler : IHttpHandler
             }
             FitExcelColumnWidth(sheet);
             //拿到csv檔 壓縮進同一個zip
+            
+            
             byte[] byteData = excel.GetAsByteArray();
             var msFormXml = new MemoryStream(byteData);
-            ZipEntry xmlEntry = new ZipEntry(String.Format("cnf1002_fileorder_{0}{1}.csv", Company.Code, DateTime.Now.ToString("yyyyMMdd")));
+            ZipEntry xmlEntry = new ZipEntry(String.Format("cnf1002_fileorder_{0}{1}.csv", Company.Code, time));
             xmlEntry.DateTime = DateTime.Now;
             zipStream.PutNextEntry(xmlEntry);
             StreamUtils.Copy(msFormXml, zipStream, new byte[4096]);
@@ -126,7 +128,7 @@ public class ExportHandler : IHttpHandler
         byte[] byteArray = outputMemStream.ToArray();
 
         context.Response.Clear();
-        var fileName = String.Format("cnf1002_fileorder_{0}.zip", DateTime.Now.ToString("yyyyMMdd"));
+        var fileName = String.Format("cnf1002_fileorder_{0}.zip", time);
         var strContentDisposition = String.Format("{0}; filename=\"{1}\"", "attachment", HttpUtility.UrlEncode(fileName, System.Text.Encoding.UTF8));
         context.Response.AppendHeader("Content-Disposition", strContentDisposition); // 檔案名稱
         context.Response.AppendHeader("Content-Length", byteArray.Length.ToString());
