@@ -1,7 +1,5 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/master/BaseMasterPage.master" AutoEventWireup="true" CodeFile="Dcnp00501.aspx.cs" Inherits="Dcnp_Dcnp00501" %>
 
-<%@ Import Namespace="System.Web.Hosting" %>
-
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <style>
         .app-title
@@ -158,8 +156,6 @@
             </div>
            
             <div class="result-div">
-                <table v-if="false" class="table table-bordered no-margin">
-                </table>
                 <div class="scroll-table">
                     <table class="table table-bordered sortable">
                         <thead>
@@ -271,10 +267,6 @@
                             </tr>
                         </tbody>
                     </table>
-                </div>
-
-                <div v-if="false" class="card card-block bg-faded">
-                    <uib-pagination v-model="Pagination" v-bind:total-items="22"></uib-pagination>
                 </div>
             </div>
         </div>
@@ -527,7 +519,6 @@
                 </div>
             </div>
         </div>
-
 
     </div>
 

@@ -8,7 +8,7 @@ using ErpBaseLibrary.DB;
 
 public partial class Dcnp_Dcnp00501 : System.Web.UI.Page
 {
-    public string AppVersion = "v17.12.30";
+    public string AppVersion = "v18.01.03";
 
     protected void Page_Load(object sender, EventArgs e)
     {

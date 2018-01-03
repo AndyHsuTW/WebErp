@@ -178,8 +178,10 @@
                             cnf05List.push(this.Cnf05List[i].id);
                         }
                     }
-                    if (cnf05List.length == 0)
+                    if (cnf05List.length == 0) {
+                        alert("請勾選資料");
                         return;
+                    }
 
                     $(this.$refs.EditDialog).modal('show');
                     this.ResetEditDialog();
@@ -220,8 +222,10 @@
                                 cnf05List.push(this.Cnf05List[i].id);
                             }
                         }
-                        if (cnf05List.length == 0)
+                        if (cnf05List.length == 0) {
+                            alert("請勾選資料");
                             return;
+                        }
                     }
                     if (!confirm("確定刪除資料?")) {
                         return;
