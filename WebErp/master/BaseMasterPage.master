@@ -68,7 +68,7 @@
                     css: '<%=rootUrl%>public/scripts/requirejs/css.min.js'
                 }
             },
-            urlArgs: "appVersion=201712301100" //reload all dependencies
+            urlArgs: "appVersion=20180103" //reload all dependencies
         });
     </script>
     <asp:ContentPlaceHolder ID="head" runat="server">
