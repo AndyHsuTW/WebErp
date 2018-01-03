@@ -25,19 +25,20 @@
         window.dsap92001 = new Vue({
             el: "#Dsap92001",
             data: {
-                sendAjax:null,
+                sendAjax: null,
                 Filter: {
-                   
+
                     StartDate: '',
                     EndDate: '',
-                   
+
                 },
                 CompanyList: [],
                 IsCheckAll: false,
 
+
             },
             methods: {
-               
+
                 OnSearch: function () {
                     console.log("OnSearch");
                     var filterOption = {
@@ -72,7 +73,8 @@
                         }
                     })
 
-                },OnExport: function () {
+                }, OnExport: function () {
+
                     var dataList = [];
                     for (var i in this.CompanyList) {
                         var Company = this.CompanyList[i];
@@ -80,20 +82,30 @@
                             dataList.push(Company);
                         }
                     }
-                    if (dataList.length == 0 || this.Filter.StartDate == "" || this.Filter.EndDate == "") {
+                    var alertmsg = "";
+                    if (dataList.length == 0) {
+                        alertmsg += "請至少勾選一家物流公司\n"
+
+                    }
+                    if (this.Filter.StartDate == "") {
+                        alertmsg += "請選擇開始日期\n"
+                    }
+                    if (this.Filter.EndDate == "") {
+                        alertmsg += "請選擇結束日期"
+                    }
+                    if (alertmsg != "") {
+                        alert(alertmsg);
                         return
                     }
 
-                    var count = dataList.length;
-                    var FilterOption = this.Filter;
-                    for (var i in dataList) {
-                        var data = dataList[i];
 
-                        var excelform = $('<form/>').attr('method', 'post').attr('action', rootUrl + 'Dsap/Ajax/ExportHandler.ashx').appendTo($('body'));
-                        $('<input/>').attr('type', 'hidden').attr('name', 'Company').val(encodeURIComponent(JSON.stringify(data))).appendTo(excelform);
-                        $('<input/>').attr('type', 'hidden').attr('name', 'FilterOption').val(encodeURIComponent(JSON.stringify(FilterOption))).appendTo(excelform);
-                        excelform.submit();
-                    }
+                    var FilterOption = this.Filter;
+
+                    var excelform = $('<form/>').attr('method', 'post').attr('action', rootUrl + 'Dsap/Ajax/ExportHandler.ashx?v=' + i).appendTo($('body'));
+                    $('<input/>').attr('type', 'hidden').attr('name', 'Company').val(encodeURIComponent(JSON.stringify(dataList))).appendTo(excelform);
+                    $('<input/>').attr('type', 'hidden').attr('name', 'FilterOption').val(encodeURIComponent(JSON.stringify(FilterOption))).appendTo(excelform);
+                    excelform.submit();
+
 
                 }, OnCheckAll: function () {
                     Vue.nextTick(function () {
