@@ -1,236 +1,81 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/master/BaseMasterPage.master" AutoEventWireup="true" CodeFile="D_pcode.aspx.cs" Inherits="D_pcode_D_pcode" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
-       <style>
-        #toolbox {
-            top: 25px;
-            right: 5px;
-            z-index: 2147483000;
-            position: fixed;
+      <style>
+        .app-title {
+            background-color: #3097D1;
+            color: #FFF;
         }
 
-
-            #toolbox .tooltiptext {
-                visibility: hidden;
-                position: absolute;
-                width: 120px;
-                background-color: #555;
-                color: #fff;
-                text-align: center;
-                padding: 5px 0;
-                border-radius: 6px;
-                z-index: 1;
-                opacity: 0;
-                transition: opacity .6s;
-            }
-
-            #toolbox:hover .tooltiptext {
-                visibility: visible;
-                opacity: 1;
-            }
-
-
-
-        .tooltip-right {
-            top: -5px;
-            left: 125%;
+        .app-body {
+            padding-left: 5px;
         }
 
-
-
-            .tooltip-right::after {
-                content: "";
-                position: absolute;
-                top: 50%;
-                right: 100%;
-                margin-top: -5px;
-                border-width: 5px;
-                border-style: solid;
-                border-color: transparent #555 transparent transparent;
-            }
-
-        .tooltip-bottom {
-            top: 135%;
-            left: 50%;
-            margin-left: -60px;
+        .filter-div {
+            margin-top: 5px;
         }
 
-
-
-            .tooltip-bottom::after {
-                content: "";
-                position: absolute;
-                bottom: 100%;
-                left: 50%;
-                margin-left: -5px;
-                border-width: 5px;
-                border-style: solid;
-                border-color: transparent transparent #555 transparent;
-            }
-
-        .tooltip-top {
-            bottom: 125%;
-            left: 50%;
-            margin-left: -60px;
+        .no-margin {
+            margin: 0 !important;
         }
 
-
-
-            .tooltip-top::after {
-                content: "";
-                position: absolute;
-                top: 100%;
-                left: 50%;
-                margin-left: -5px;
-                border-width: 5px;
-                border-style: solid;
-                border-color: #555 transparent transparent transparent;
-            }
-
-        .tooltip-left {
-            top: -5px;
-            bottom: auto;
-            right: 128%;
+        .no-padding {
+            padding: 0 !important;
         }
 
-
-
-            .tooltip-left::after {
-                content: "";
-                position: absolute;
-                top: 50%;
-                left: 100%;
-                margin-top: -5px;
-                border-width: 5px;
-                border-style: solid;
-                border-color: transparent transparent transparent #555;
-            }
-
-        .tooltip .tooltiptext-bottomarrow {
-            visibility: hidden;
-            width: 120px;
-            background-color: #111;
-            color: #fff;
-            text-align: center;
-            border-radius: 6px;
-            padding: 5px 0;
-            position: absolute;
-            z-index: 1;
-            bottom: 130%;
-            left: 50%;
-            margin-left: -60px;
+        .scroll-table {
+            height: 450px;
+            overflow-y: auto;
+            overflow-y: overlay;
+            border: solid 1px #CCC;
         }
 
-            .tooltip .tooltiptext-bottomarrow::after {
-                content: "";
-                position: absolute;
-                top: 100%;
-                left: 50%;
-                margin-left: -5px;
-                border-width: 5px;
-                border-style: solid;
-                border-color: black transparent transparent transparent;
-            }
-
-        .tooltip:hover .tooltiptext-bottomarrow {
-            visibility: visible;
+        .table-borderless > tbody > tr > td,
+        .table-borderless > tbody > tr > th,
+        .table-borderless > tfoot > tr > td,
+        .table-borderless > tfoot > tr > th,
+        .table-borderless > thead > tr > td,
+        .table-borderless > thead > tr > th {
+            border: none;
         }
-
-        .tooltip .tooltiptext-toparrow {
-            visibility: hidden;
-            width: 120px;
-            background-color: #111;
-            color: #fff;
-            text-align: center;
-            border-radius: 6px;
-            padding: 5px 0;
-            position: absolute;
-            z-index: 1;
-            top: 150%;
-            left: 50%;
-            margin-left: -60px;
-        }
-
-            .tooltip .tooltiptext-toparrow::after {
-                content: "";
-                position: absolute;
-                bottom: 100%;
-                left: 50%;
-                margin-left: -5px;
-                border-width: 5px;
-                border-style: solid;
-                border-color: transparent transparent black transparent;
-            }
-
-        .tooltip:hover .tooltiptext-toparrow {
-            visibility: visible;
-        }
-
-        .tooltip .tooltiptext-leftarrow {
-            visibility: hidden;
-            width: 120px;
-            background-color: #111;
-            color: #fff;
-            text-align: center;
-            border-radius: 6px;
-            padding: 5px 0;
-            position: absolute;
-            z-index: 1;
-            top: -5px;
-            left: 110%;
-        }
-
-            .tooltip .tooltiptext-leftarrow::after {
-                content: "";
-                position: absolute;
-                top: 50%;
-                right: 100%;
-                margin-top: -5px;
-                border-width: 5px;
-                border-style: solid;
-                border-color: transparent black transparent transparent;
-            }
-
-        .tooltip:hover .tooltiptext-leftarrow {
-            visibility: visible;
-        }
-
-        .tooltip .tooltiptext-rightarrow {
-            visibility: hidden;
-            width: 120px;
-            background-color: #111;
-            color: #fff;
-            text-align: center;
-            border-radius: 6px;
-            padding: 5px 0;
-            position: absolute;
-            z-index: 1;
-            top: -5px;
-            right: 110%;
-        }
-
-            .tooltip .tooltiptext-rightarrow::after {
-                content: "";
-                position: absolute;
-                top: 50%;
-                left: 100%;
-                margin-top: -5px;
-                border-width: 5px;
-                border-style: solid;
-                border-color: transparent transparent transparent black;
-            }
-
-        .tooltip:hover .tooltiptext-rightarrow {
-            visibility: visible;
+        .rowclass:hover {
+          background-color:#bde7ff;
+        
         }
     </style>
+    <script>
+        (function () {
+            requirejs.config({
+                urlArgs: "NoCach=" + (new Date()).getTime(),
+                paths: {
+                    "d_pcode": "D_pcode/D_pcode",
+                },
+                shim: {}
+            });
+
+            var requiredFiles = ["d_pcode"];
+
+            function onLoaded(d_pcode) {
+            }
+
+            function onError(error) {
+                console.error(error);
+            }
+
+            require(requiredFiles, onLoaded, onError);
+        })();
+
+    </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-      <div id="toolbox">
+     
 
-            <img src="../public/images/if_folder_search_48770.png" style="width: 35px;" />
-            <span class="tooltiptext tooltip-left" style="top: 3px; font-size: 16px">商品資料查詢</span>
-        </div>
+
+    <div id="example"  v-cloak>
+      <d_pcode_component></d_pcode_component>
+</div>
+
+
 
 
 </asp:Content>

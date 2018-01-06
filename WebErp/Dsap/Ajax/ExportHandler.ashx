@@ -33,7 +33,7 @@ public class ExportHandler : IHttpHandler
         MemoryStream outputMemStream = new MemoryStream();
         ZipOutputStream zipStream = new ZipOutputStream(outputMemStream);
         zipStream.SetLevel(3); //0-9, 9 being the highest level of compression
-
+        var time = DateTime.Parse(FilterOption.StartDate).ToString("yyyyMMdd");
         foreach (var Company in CompanyList) {
             var Listdata = GetCompanysaf20Data(FilterOption, Company.Code);
             var excel = new ExcelPackage();
@@ -41,41 +41,42 @@ public class ExportHandler : IHttpHandler
             var title = 1;
             if (Company.Code == "2004")
             {
-                sheet.Cells[title, 1].Value = "序號";
-                sheet.Cells[title, 2].Value = "客戶";
-                sheet.Cells[title, 3].Value = "地址";
-                sheet.Cells[title, 4].Value = "";
-                sheet.Cells[title, 5].Value = "手機";
-                sheet.Cells[title, 6].Value = "姓名";
-                sheet.Cells[title, 7].Value = "";
-                sheet.Cells[title, 8].Value = "地址";
-                sheet.Cells[title, 9].Value = "";
-                sheet.Cells[title, 10].Value = "";
-                sheet.Cells[title, 11].Value = "";
-                sheet.Cells[title, 12].Value = "";
-                sheet.Cells[title, 13].Value = "";
-                sheet.Cells[title, 14].Value = "品名";
-                sheet.Cells[title, 15].Value = "";
-                sheet.Cells[title, 16].Value = "";
+                //sheet.Cells[title, 1].Value = "序號";
+                //sheet.Cells[title, 2].Value = "客戶";
+                //sheet.Cells[title, 3].Value = "";
+                //sheet.Cells[title, 4].Value = "";
+                //sheet.Cells[title, 5].Value = "手機";
+                //sheet.Cells[title, 6].Value = "姓名";
+                //sheet.Cells[title, 7].Value = "";
+                //sheet.Cells[title, 8].Value = "地址";
+                //sheet.Cells[title, 9].Value = "";
+                //sheet.Cells[title, 10].Value = "";
+                //sheet.Cells[title, 11].Value = "";
+                //sheet.Cells[title, 12].Value = "";
+                //sheet.Cells[title, 13].Value = "";
+                //sheet.Cells[title, 14].Value = "品名";
+                //sheet.Cells[title, 15].Value = "";
+                //sheet.Cells[title, 16].Value = "";
+                title = 0;
                 for (int i = 0; i < Listdata.Count; i++)
                 {
                     var data = Listdata[i];
-                    sheet.Cells[title, 1].Value = data.RowId;
-                    sheet.Cells[title, 2].Value = data.Cuscod;
-                    sheet.Cells[title, 3].Value = data.Address;
-                    sheet.Cells[title, 4].Value = "";
-                    sheet.Cells[title, 5].Value = data.Cell;
-                    sheet.Cells[title, 6].Value = data.Name;
-                    sheet.Cells[title, 7].Value = "";
-                    sheet.Cells[title, 8].Value = data.Address;
-                    sheet.Cells[title, 9].Value = "";
-                    sheet.Cells[title, 10].Value = "";
-                    sheet.Cells[title, 11].Value = "";
-                    sheet.Cells[title, 12].Value = "";
-                    sheet.Cells[title, 13].Value = "";
-                    sheet.Cells[title, 14].Value = data.PsName;
-                    sheet.Cells[title, 15].Value = "";
-                    sheet.Cells[title, 16].Value = "";
+                    sheet.Cells[title + i + 1, 1].Value = data.RowId;
+                    sheet.Cells[title + i + 1, 2].Value = data.Cuscod;
+                    sheet.Cells[title + i + 1, 3].Value = "";
+                    sheet.Cells[title + i + 1, 4].Value = "";
+                    sheet.Cells[title + i + 1, 5].Value = data.Cell;
+                    sheet.Cells[title + i + 1, 6].Value = data.Name;
+                    sheet.Cells[title + i + 1, 7].Value = "";
+                    sheet.Cells[title + i + 1, 8].Value = data.Address;
+                    sheet.Cells[title + i + 1, 9].Value = "";
+                    sheet.Cells[title + i + 1, 10].Value = "";
+                    sheet.Cells[title + i + 1, 11].Value = "";
+                    sheet.Cells[title + i + 1, 12].Value = "";
+                    sheet.Cells[title + i + 1, 13].Value = "";
+                    sheet.Cells[title + i + 1, 14].Value = data.PsName;
+                    sheet.Cells[title + i + 1, 15].Value = "";
+                    sheet.Cells[title + i + 1, 16].Value = "";
                 }
 
             }
@@ -108,9 +109,11 @@ public class ExportHandler : IHttpHandler
             }
             FitExcelColumnWidth(sheet);
             //拿到csv檔 壓縮進同一個zip
+            
+            
             byte[] byteData = excel.GetAsByteArray();
             var msFormXml = new MemoryStream(byteData);
-            ZipEntry xmlEntry = new ZipEntry(String.Format("cnf1002_fileorder_{0}{1}.csv", Company.Code, DateTime.Now.ToString("yyyyMMdd")));
+            ZipEntry xmlEntry = new ZipEntry(String.Format("cnf1002_fileorder_{0}{1}.csv", Company.Code, time));
             xmlEntry.DateTime = DateTime.Now;
             zipStream.PutNextEntry(xmlEntry);
             StreamUtils.Copy(msFormXml, zipStream, new byte[4096]);
@@ -125,7 +128,7 @@ public class ExportHandler : IHttpHandler
         byte[] byteArray = outputMemStream.ToArray();
 
         context.Response.Clear();
-        var fileName = String.Format("cnf1002_fileorder_{0}.zip", DateTime.Now.ToString("yyyyMMdd"));
+        var fileName = String.Format("cnf1002_fileorder_{0}.zip", time);
         var strContentDisposition = String.Format("{0}; filename=\"{1}\"", "attachment", HttpUtility.UrlEncode(fileName, System.Text.Encoding.UTF8));
         context.Response.AppendHeader("Content-Disposition", strContentDisposition); // 檔案名稱
         context.Response.AppendHeader("Content-Length", byteArray.Length.ToString());
@@ -188,7 +191,7 @@ public class ExportHandler : IHttpHandler
         }
 
 
-        return new List<saf20Data>();
+        return List;
     }
     private static void FitExcelColumnWidth(ExcelWorksheet sheet)
     {

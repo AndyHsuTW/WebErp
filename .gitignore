@@ -1,3 +1,8 @@
 
 *.suo
 WebErp/Web.config
+*.cache
+DCNP005/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+*.cache
+*.cache
+*.cache

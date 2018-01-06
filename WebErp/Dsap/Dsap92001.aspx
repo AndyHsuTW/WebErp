@@ -75,15 +75,12 @@
             <div class="common-button-div">
                 <function-button id="SearchBtn" hot-key="f1" v-on:click.native="OnSearch()">查詢</function-button>
                 <function-button id="ExportBtn" hot-key="f7" v-on:click.native="OnExport()">匯出</function-button>
-             
-
             </div>
             <div class="filter-div">
                 <table class="">
                     <tr>
                         <td>日期 
                         <span>起~</span>
-
                         </td>
                         <td>
                             <vue-datetimepicker placeholder="" v-model="Filter.StartDate"></vue-datetimepicker>
@@ -102,7 +99,6 @@
                                 </th>
                                 <th class="col-xs-5">公司名稱</th>
                                 <th class="col-xs-5">公司代碼</th>
-
                             </tr>
                         </thead>
                         <tbody>
@@ -112,12 +108,8 @@
                                 </td>
                                 <td class="col-xs-5">{{CompanyItem.Name}}</td>
                                 <td class="col-xs-5">{{CompanyItem.Code}}</td>
-                             
-                               
                             </tr>
                         </tbody>
-
-
                     </table>
                 </div>
             </div>
