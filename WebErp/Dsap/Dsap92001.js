@@ -19,9 +19,10 @@
         }
     });
 
-    var requiredFiles = ["bootstrap", "functionButton", "uibPagination", "vueDatetimepicker", "LoadingHelper"];
+    var requiredFiles = ["bootstrap", "functionButton", "uibPagination", "vueDatetimepicker", "LoadingHelper", "UserLog"];
 
     function onLoaded(bootstrap, functionButton, uibPagination, vueDatetimepicker, loadingHelper) {
+        SaveEnterPageLog(rootUrl, localStorage.getItem("USER_ID"), "Dsap92001");
         window.dsap92001 = new Vue({
             el: "#Dsap92001",
             data: {

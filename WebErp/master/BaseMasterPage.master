@@ -53,7 +53,8 @@
                 "bootstrap": "public/css/bootstrap/js/bootstrap.min",
                 "vue-tables-2":"public/scripts/VueComponent/vue-tables-2.min",
                 "LoadingHelper": "public/scripts/LoadingHelper/LoadingHelper",
-                "LoadingHelper-css": "public/scripts/LoadingHelper/LoadingHelper"
+                "LoadingHelper-css": "public/scripts/LoadingHelper/LoadingHelper",
+                "UserLog": "public/scripts/UserLog/UserLog"
             },
             shim: {
                 "bootstrap": {
