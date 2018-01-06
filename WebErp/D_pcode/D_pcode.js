@@ -20,10 +20,10 @@
     });
 
     var requiredFiles = ["bootstrap", "functionButton", "uibPagination", "vueDatetimepicker", "LoadingHelper"];
-  
+
     function onLoaded(bootstrap, functionButton, uibPagination, vueDatetimepicker, loadingHelper) {
 
-        var HTML='<div>'
+        var HTML = '<div>'
 
         HTML += '<ul class="app-title">\<li>商品資料查詢</li></ul>';
         HTML += '<div class="app-body">';
@@ -47,9 +47,9 @@
                     <tr>\
                         <td>廠商代號&nbsp\
                         </td>\
-                        <td><input type="text" v-model="Filter.Mcode">\
+                        <td><input type="text" v-model="Filter.Mcode">&nbsp(Like 用 * 查詢)\
                         </td>\
-                        <td>&nbsp廠商貨號&nbsp起&nbsp\
+                        <td>&nbsp&nbsp&nbsp廠商貨號&nbsp起&nbsp\
                         </td>\
                         <td><input type="text" v-model="Filter.RelativeNo_start">&nbsp訖&nbsp<input type="text" v-model="Filter.RelativeNo_end">\
                         </td>\
@@ -57,11 +57,11 @@
                     <tr>\
                         <td>商品條碼&nbsp\
                         </td>\
-                        <td><input type="text" v-model="Filter.Pcode">\
+                        <td><input type="text" v-model="Filter.Pcode">&nbsp(Like 用 * 查詢)\
                         </td>\
-                        <td>&nbsp中文名稱&nbsp\
+                        <td>&nbsp;&nbsp;&nbsp;商品名稱&nbsp\
                         </td>\
-                        <td><input type="text" v-model="Filter.Psname">\
+                        <td><input type="text" v-model="Filter.Psname">&nbsp(Like 用 * 查詢)\
                         </td>\
                     </tr>\
                     <tr>\
@@ -69,36 +69,80 @@
                         </td>\
                         <td><input type="text" v-model="Filter.Keyword">\
                         </td>\
-                        <td>&nbsp售價&nbsp起&nbsp\
+                        <td>&nbsp;&nbsp;&nbsp;售價&nbsp起&nbsp\
                         </td>\
                         <td><input type="text" v-model="Filter.Retail_start">&nbsp訖&nbsp<input type="text" v-model="Filter.Retail_end">\
                         </td>\
                     </tr>\
                 </table>\
             </div>\
+            <div class="result-div" >\
+                <div class="scroll-table">\
+                    <table class="table table-bordered ">\
+                        <thead>\
+                            <tr class="bg-primary text-light">\
+                                <th class="col-xs-1">商品條碼</th>\
+                                <th class="col-xs-1">商品名稱</th>\
+                                <th class="col-xs-1">品名規格</th>\
+                                <th class="col-xs-1">顏色</th>\
+                                <th class="col-xs-1">單位</th>\
+                                <th class="col-xs-1">商品部門</th>\
+                                <th class="col-xs-1">商品分類</th>\
+                                <th class="col-xs-1">售價(含稅)</th>\
+                                <th class="col-xs-1">現有庫存數</th>\
+                                <th class="col-xs-1">廠商</th>\
+                            </tr>\
+                        </thead>\
+                    </table>\
+                </div>\
+            </div>\
     </div>\
 </div>\
 '
 
-                    , data:function() {
-                        return{
+                    , data: function () {
+                        return {
                             Filter: {
                                 Mcode: "",
                                 RelativeNo_start: "",
                                 RelativeNo_end: "",
-                                Pcode:"",
+                                Pcode: "",
                                 Psname: "",
                                 Keyword: "",
                                 Retail_start: "",
-                                Retail_end:""
+                                Retail_end: ""
 
                             }
                         }
-                       
+
                     },
                     methods: {
                         OnSearch: function () {
-                            alert("ABC")
+                            var filterOption = this.Filter;
+                            LoadingHelper.showLoading();
+                            var vueObj = this;
+                            return $.ajax({
+                                type: 'POST',
+                                url: rootUrl + "D_pcode/Ajax/D_pcodeHandler.ashx",
+                                cache: false,
+                                data: {
+                                    filterOption: JSON.stringify(filterOption)
+                                },
+                                success: function (result) {
+                                    LoadingHelper.hideLoading();
+
+                                  
+                                },
+                                error: function (jqXhr, textStatus, errorThrown) {
+                                    if (jqXhr.status == 0) {
+                                        return;
+                                    }
+                                    LoadingHelper.hideLoading();
+                                    console.error(errorThrown);
+                                    alert("查詢失敗");
+                                }
+                            });
+
 
                         }
                     }
