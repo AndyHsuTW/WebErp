@@ -28,13 +28,19 @@ public class Cnf05Handler : IHttpHandler, IRequiresSessionState
     /// Request.Form["fields"]
     /// </summary>
     public string FieldNames { get; set; }
-    
+
+    /// <summary>
+    /// Request.Params["user"]
+    /// </summary>
+    public string User { get; set; }
+
     public void ProcessRequest (HttpContext context)
     {
         this.Action = context.Request.Form["act"];
         this.Data = context.Request.Form["data"];
         this.Type = context.Request.Form["type"];
         this.FieldNames = context.Request.Form["fields"];
+        this.User = context.Request.Params["user"];
         
         if (context.Request.Files.Count > 0)
         {
@@ -139,13 +145,14 @@ public class Cnf05Handler : IHttpHandler, IRequiresSessionState
                     List<Cnf05> cnf05List = null;
                     using (MemoryStream stream = new MemoryStream(b))
                     {
-                        b = null;
-                        cnf05List = Cnf05.ParseFromExcel(stream, context.User.Identity.Name);
+                        cnf05List = Cnf05.ParseFromExcel(stream, this.User);
                     }
                     if (cnf05List != null && cnf05List.Count > 0)
                     {
                         foreach (var cnf05 in cnf05List)
                         {
+                            //re-add item on processing import data
+                            Cnf05.DeleteItemByUniqueColumns(cnf05.cnf0501_file,cnf05.cnf0502_field);
                             Cnf05.AddItem(cnf05);
                         }
                     }

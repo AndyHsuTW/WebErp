@@ -3,24 +3,24 @@
 
     requirejs.config({
         paths: {
-            "functionButton": isIE ? "VueComponent/FunctionButton.babel" : "VueComponent/FunctionButton",
-            "uibPagination": "public/scripts/VueComponent/vuejs-uib-pagination",
-            "vueDatetimepicker": isIE ? "public/scripts/VueComponent/vue-jQuerydatetimepicker.babel" : "public/scripts/VueComponent/vue-jQuerydatetimepicker",
-            "jqueryDatetimepicker": "public/scripts/jquery.datetimepicker/jquery.datetimepicker.full",
+            "FunctionButton": isIE ? "VueComponent/FunctionButton.babel" : "VueComponent/FunctionButton",
+            "vuejs-uib-pagination": "public/scripts/VueComponent/vuejs-uib-pagination",
+            "vue-jQuerydatetimepicker": isIE ? "public/scripts/VueComponent/vue-jQuerydatetimepicker.babel" : "public/scripts/VueComponent/vue-jQuerydatetimepicker",
+            "jquery.datetimepicker": "public/scripts/jquery.datetimepicker/jquery.datetimepicker.full",
             "jqueryDatetimepicker-css":"public/scripts/jquery.datetimepicker/jquery.datetimepicker",
             "jquery-mousewheel": "public/scripts/jquery.mousewheel.min",
         },
         shim: {
-            "jqueryDatetimepicker":{
+            "jquery.datetimepicker":{
                 "deps":["css!jqueryDatetimepicker-css"]
             },
-            "vueDatetimepicker": {
-                "deps": ['jqueryDatetimepicker']
+            "vue-jQuerydatetimepicker": {
+                "deps": ['jquery.datetimepicker']
             },
         }
     });
 
-    var requiredFiles = ["bootstrap", "functionButton", "uibPagination", "vueDatetimepicker", "LoadingHelper"];
+    var requiredFiles = ["bootstrap", "FunctionButton", "vuejs-uib-pagination", "vue-jQuerydatetimepicker", "LoadingHelper"];
 
     function onLoaded(bootstrap, functionButton, uibPagination, vueDatetimepicker, loadingHelper) {
         window.dcnp00501 = new Vue({
@@ -74,6 +74,9 @@
             },
             components: {},
             computed: {
+                IsEditDialogAddMode:function() {
+                    return this.EditDialog.editingItem.id == null;
+                }
             },
             methods: {
                 OnCheckAll: function () {
@@ -87,8 +90,6 @@
                 OnSearch: function () {
                     console.log("OnSearch");
                     $(this.$refs.EditDialog).modal('hide');
-                    this.SortColumn = null;
-                    this.SortOrder = null;
                     var filterOption = {
                         keyword: this.Filter.Keyword,
                         cnf0501_file_start: this.Filter.Cnf0501FileStart,
@@ -114,6 +115,9 @@
                         success: function (result) {
                             LoadingHelper.hideLoading();
                             vueObj.Cnf05List = JSON.parse(result);
+                            if(vueObj.SortColumn!=null){
+                                vueObj.Cnf05List.sort(vueObj.SortCnf05List);
+                            }
                             for(var i in vueObj.Cnf05List){
                                 vueObj.Cnf05List[i].adddate = new Date(vueObj.Cnf05List[i].adddate).dateFormat('Y/m/d');
                                 if(vueObj.Cnf05List[i].moddate){
@@ -297,6 +301,7 @@
                         $(this.customData.vueObj.$refs.EditDialog).modal('hide');
                         return $.when(null);
                     }
+                    LoadingHelper.showLoading();
                     return $.ajax({
                         type: 'POST',
                         url: rootUrl + "Dcnp/Ajax/Cnf05Handler.ashx",
@@ -311,6 +316,7 @@
                         },
                         dataType: 'text',
                         success: function (result) {
+                            LoadingHelper.hideLoading();
                             if (result == "ok") {
                                 $(this.customData.vueObj.$refs.ExportDialog).modal('hide');
                                 location.href = rootUrl + "Dcnp/Ajax/Cnf05Export.ashx";
@@ -319,6 +325,7 @@
                             }
                         },
                         error: function (jqXhr, textStatus, errorThrown) {
+                            LoadingHelper.hideLoading();
                             if (jqXhr.status == 0) {
                                 return;
                             }
@@ -331,12 +338,16 @@
                     var formData = new FormData();
                     // 取得UploadFile元件的檔案
                     var files = this.$refs.ImportExcelInput.files;
+                    if(files.length==0){
+                        alert("請先選擇檔案");
+                        return;
+                    }
                     // 將指定的檔案放在formData內
                     formData.append("file", files[0]);
-
+                    LoadingHelper.showLoading();
                     //發送http請求
                     return $.ajax({
-                        url: rootUrl + "Dcnp/Ajax/Cnf05Handler.ashx",
+                        url: rootUrl + "Dcnp/Ajax/Cnf05Handler.ashx?user="+ encodeURIComponent(loginUserName),
                         type: 'POST',
                         data: formData,
                         customData: {
@@ -347,6 +358,7 @@
                         processData: false,
                         contentType: false,
                         success: function (result) {
+                            LoadingHelper.hideLoading();
                             if (result == "ok") {
                                 $(this.customData.vueObj.$refs.ImportExcelDialog).modal('hide');
                                 this.customData.vueObj.$refs.ImportExcelInput.value = "";
@@ -357,6 +369,7 @@
                             }
                         },
                         error: function (jqXhr, textStatus, errorThrown) {
+                            LoadingHelper.hideLoading();
                             if (jqXhr.status == 0) {
                                 return;
                             }
@@ -448,6 +461,7 @@
                     };
                     var vueObj = this;
                     var act = this.EditDialog.editingItem.id ? "update" : "add";
+                    LoadingHelper.showLoading();
                     return $.ajax({
                         type: 'POST',
                         url: rootUrl + "Dcnp/Ajax/Cnf05Handler.ashx",
@@ -458,6 +472,7 @@
                         },
                         dataType: 'text',
                         success: function (result) {
+                            LoadingHelper.hideLoading();
                             if(result.indexOf("insert duplicate key")>=0){
                                 alert("欄位重複了,請檢查並重新輸入");
                                 return;
@@ -472,13 +487,13 @@
                                 var cnf05Item = JSON.parse(result);
                                 if (cnf05Item) {
                                     alert("存檔成功");
-                                    vueObj.EditDialog.editingItem.id=cnf05Item.id;
                                 } else {
                                     alert("存檔失敗");
                                 }
                             }
                         },
                         error: function (jqXhr, textStatus, errorThrown) {
+                            LoadingHelper.hideLoading();
                             if (jqXhr.status == 0) {
                                 return;
                             }

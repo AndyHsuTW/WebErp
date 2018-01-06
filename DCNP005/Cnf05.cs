@@ -235,6 +235,36 @@ UPDATE [dbo].[cnf05]
             return true;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="file">[cnf0501_file]</param>
+        /// <param name="field">[cnf0502_field]</param>
+        /// <returns></returns>
+        public static bool DeleteItemByUniqueColumns(string file, string field)
+        {
+            if (String.IsNullOrEmpty(file) || String.IsNullOrEmpty(field))
+            {
+                return false;
+            }
+            using (var conn = new SqlConnection { ConnectionString = MyConnStringList.AzureGoodeasy })
+            using (var sqlCmd = conn.CreateCommand())
+            {
+
+                conn.Open();
+                sqlCmd.CommandText = String.Format(@"
+    Delete from [dbo].[cnf05]
+    WHERE cnf0501_file = @cnf0501_file
+    AND cnf0502_field = @cnf0502_field");
+                sqlCmd.Parameters.AddWithValue("@cnf0501_file", file);
+                sqlCmd.Parameters.AddWithValue("@cnf0502_field", field);
+
+                var count = sqlCmd.ExecuteNonQuery();
+                if (count == 0) return false;
+            }
+            return true;
+        }
+
         public static List<Cnf05> Search(FilterOption filterOption)
         {
             List<Cnf05> cnf05List = new List<Cnf05>();
