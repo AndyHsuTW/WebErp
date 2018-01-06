@@ -69,7 +69,9 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <div id="Dsap92001" v-cloak>
         <ul class="app-title">
-            <li>出貨資料匯出各物流公司</li>
+            <li>出貨資料匯出各物流公司<%=AppVersion%>
+
+            </li>
         </ul>
         <div class="app-body">
             <div class="common-button-div">
