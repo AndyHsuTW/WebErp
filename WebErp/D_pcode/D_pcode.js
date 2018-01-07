@@ -80,7 +80,7 @@
                 <div class="scroll-table">\
                     <table class="table table-bordered ">\
                         <thead>\
-                            <tr class="bg-primary text-light">\
+                            <tr class="bg-primary text-light header">\
                                 <th class="col-xs-1">商品條碼</th>\
                                 <th class="col-xs-1">商品名稱</th>\
                                 <th class="col-xs-1">品名規格</th>\
@@ -93,6 +93,20 @@
                                 <th class="col-xs-1">廠商</th>\
                             </tr>\
                         </thead>\
+                        <tbody>\
+                            <tr class="rowclass" v-for="D_pcodeData in D_pcodeList" >\
+                                <td class="col-xs-1">{{D_pcodeData.pcode}}</td>\
+                                <td class="col-xs-1">{{D_pcodeData.psname}}</td>\
+                                <td class="col-xs-1">{{D_pcodeData.pname}}</td>\
+                                <td class="col-xs-1">{{D_pcodeData.color}}</td>\
+                                <td class="col-xs-1">{{D_pcodeData.runit}}</td>\
+                                <td class="col-xs-1">{{D_pcodeData.pdept}}</td>\
+                                <td class="col-xs-1">{{D_pcodeData.pcat}}</td>\
+                                <td class="col-xs-1">{{D_pcodeData.retail}}</td>\
+                                <td class="col-xs-1">{{D_pcodeData.inv_qty}}</td>\
+                                <td class="col-xs-1">{{D_pcodeData.bname}}</td>\
+                            </tr>\
+                        </tbody>\
                     </table>\
                 </div>\
             </div>\
@@ -110,9 +124,8 @@
                                 Psname: "",
                                 Keyword: "",
                                 Retail_start: "",
-                                Retail_end: ""
-
-                            }
+                                Retail_end: ""},
+                            D_pcodeList: []
                         }
 
                     },
@@ -130,8 +143,10 @@
                                 },
                                 success: function (result) {
                                     LoadingHelper.hideLoading();
-
-                                  
+                                    vueObj.D_pcodeList = JSON.parse(result)
+                                    if (vueObj.D_pcodeList.length == 0) {
+                                        alert("查無資料");
+                                    }
                                 },
                                 error: function (jqXhr, textStatus, errorThrown) {
                                     if (jqXhr.status == 0) {
