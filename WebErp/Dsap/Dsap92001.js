@@ -18,28 +18,32 @@
             },
         }
     });
-
     var requiredFiles = ["bootstrap", "functionButton", "uibPagination", "vueDatetimepicker", "LoadingHelper", "UserLog"];
-
     function onLoaded(bootstrap, functionButton, uibPagination, vueDatetimepicker, loadingHelper) {
         SaveEnterPageLog(rootUrl, localStorage.getItem("USER_ID"), "Dsap92001");
+      
+
         window.dsap92001 = new Vue({
             el: "#Dsap92001",
             data: {
+               
                 sendAjax: null,
                 Filter: {
-
-                    StartDate: '',
-                    EndDate: '',
-
+                    StartDate: "",
+                    EndDate: "",
                 },
                 CompanyList: [],
                 IsCheckAll: false,
-
-
             },
             methods: {
+                Init: function () {
+                   
+                    var today =new Date().getFullYear() + '/' + ('0' + (new Date().getMonth() + 1)).slice(-2) + '/' + ('0' + new Date().getDate()).slice(-2);
+                    this.Filter.StartDate = today;
+                    this.Filter.EndDate = today;
 
+                    
+                },
                 OnSearch: function () {
                     console.log("OnSearch");
                     var filterOption = {
@@ -118,6 +122,8 @@
                 },
             }
         })
+
+        window.dsap92001.Init();
     }
 
     function onError(error) {

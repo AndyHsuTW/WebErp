@@ -33,7 +33,7 @@ public class ExportHandler : IHttpHandler
         MemoryStream outputMemStream = new MemoryStream();
         ZipOutputStream zipStream = new ZipOutputStream(outputMemStream);
         zipStream.SetLevel(3); //0-9, 9 being the highest level of compression
-        var time = DateTime.Parse(FilterOption.StartDate).ToString("yyyyMMdd");
+        var time = DateTime.Now.ToString("yyyyMMddHHmm");
         foreach (var Company in CompanyList) {
             var Listdata = GetCompanysaf20Data(FilterOption, Company.Code);
             var excel = new ExcelPackage();
@@ -57,6 +57,22 @@ public class ExportHandler : IHttpHandler
                 //sheet.Cells[title, 14].Value = "品名";
                 //sheet.Cells[title, 15].Value = "";
                 //sheet.Cells[title, 16].Value = "";
+                sheet.Cells[title, 1].Value = "";
+                sheet.Cells[title, 2].Value = "";
+                sheet.Cells[title, 3].Value = "";
+                sheet.Cells[title, 4].Value = "";
+                sheet.Cells[title, 5].Value = "";
+                sheet.Cells[title, 6].Value = "";
+                sheet.Cells[title, 7].Value = "";
+                sheet.Cells[title, 8].Value = "";
+                sheet.Cells[title, 9].Value = "";
+                sheet.Cells[title, 10].Value = "";
+                sheet.Cells[title, 11].Value = "";
+                sheet.Cells[title, 12].Value = "";
+                sheet.Cells[title, 13].Value = "";
+                sheet.Cells[title, 14].Value = "";
+                sheet.Cells[title, 15].Value = "";
+                sheet.Cells[title, 16].Value = "";
                 title = 0;
                 for (int i = 0; i < Listdata.Count; i++)
                 {
@@ -113,7 +129,7 @@ public class ExportHandler : IHttpHandler
             
             byte[] byteData = excel.GetAsByteArray();
             var msFormXml = new MemoryStream(byteData);
-            ZipEntry xmlEntry = new ZipEntry(String.Format("cnf1002_fileorder_{0}{1}.csv", Company.Code, time));
+            ZipEntry xmlEntry = new ZipEntry(String.Format("{0}{1}.csv", Company.Code, DateTime.Parse(FilterOption.StartDate).ToString("yyyyMMdd")));
             xmlEntry.DateTime = DateTime.Now;
             zipStream.PutNextEntry(xmlEntry);
             StreamUtils.Copy(msFormXml, zipStream, new byte[4096]);
@@ -128,7 +144,7 @@ public class ExportHandler : IHttpHandler
         byte[] byteArray = outputMemStream.ToArray();
 
         context.Response.Clear();
-        var fileName = String.Format("cnf1002_fileorder_{0}.zip", time);
+        var fileName = String.Format("出貨資料匯出_{0}.zip", time);
         var strContentDisposition = String.Format("{0}; filename=\"{1}\"", "attachment", HttpUtility.UrlEncode(fileName, System.Text.Encoding.UTF8));
         context.Response.AppendHeader("Content-Disposition", strContentDisposition); // 檔案名稱
         context.Response.AppendHeader("Content-Length", byteArray.Length.ToString());

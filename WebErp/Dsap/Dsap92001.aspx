@@ -85,8 +85,8 @@
                         <span>起~</span>
                         </td>
                         <td>
-                            <vue-datetimepicker placeholder="" v-model="Filter.StartDate"></vue-datetimepicker>
-                            迄~<vue-datetimepicker placeholder="" v-model="Filter.EndDate"></vue-datetimepicker>
+                            <vue-datetimepicker placeholder="" :value="Filter.StartDate" v-model="Filter.StartDate"></vue-datetimepicker>
+                            迄~<vue-datetimepicker placeholder="" :value="Filter.EndDate" v-model="Filter.EndDate"></vue-datetimepicker>
                         </td>
                     </tr>
                 </table>
