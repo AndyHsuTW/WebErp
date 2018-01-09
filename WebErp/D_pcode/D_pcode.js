@@ -139,7 +139,7 @@
                                 url: rootUrl + "D_pcode/Ajax/D_pcodeHandler.ashx",
                                 cache: false,
                                 data: {
-                                    filterOption: JSON.stringify(filterOption)
+                                    filterOption: encodeURIComponent(JSON.stringify(filterOption))
                                 },
                                 success: function (result) {
                                     LoadingHelper.hideLoading();
