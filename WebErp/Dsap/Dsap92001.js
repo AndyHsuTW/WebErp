@@ -34,6 +34,8 @@
                 },
                 CompanyList: [],
                 IsCheckAll: false,
+                Count: 0,
+               
             },
             methods: {
                 Init: function () {

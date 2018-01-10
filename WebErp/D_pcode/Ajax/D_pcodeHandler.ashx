@@ -16,24 +16,34 @@ public class D_pcodeHandler : IHttpHandler
         var List = new List<D_pcodeData>();
         var FilterOptionstr = context.Request.Params["filterOption"];
         var FilterOption = JsonConvert.DeserializeObject<filterOption>(HttpUtility.UrlDecode(FilterOptionstr));
-
+        var StartRow = context.Request.Params["StartRow"] ?? "0";
+        
         using (var conn = new SqlConnection(MyConnStringList.AzureGoodeasy))
         {
+           
+            
             conn.Open();
+            
             var cmd = conn.CreateCommand();
+            var runitcode =
             cmd.CommandText = @"
-                SELECT 
-                 inf01.status
+
+                DECLARE @pdeptcode nvarchar(60) = (select top 1 cnf1003_char01 from dbo.cnf10 where cnf1001_filetype='012')
+                DECLARE @pcatcode nvarchar(60) = (select top 1 cnf1003_char01 from dbo.cnf10 where cnf1001_filetype='014')
+
+                select top 50 * from(
+                SELECT ROW_NUMBER() OVER(ORDER BY inf01.ID) AS RowId
+                ,inf01.status
                 ,inf0102_pcode
                 ,inf0113_psname
                 ,inf0110_pname
                 ,inf0111_color
                 ,inf0115_runit
-                ,inf0123_pdept
-                ,inf0124_pcat
+                ,ISNULL(inf0123_pdept,'')+'-'+ISNULL(@pdeptcode,'') as  inf0123_pdept
+                ,ISNULL(inf0124_pcat,'')+'-'+ISNULL(@pcatcode,'') as inf0124_pcat
                 ,inf01a07_retail
                 ,inf01b24_inv_qty
-                ,inf0104_mcode+'-'+inf0302_bname as bname
+                ,ISNULL(inf0104_mcode,'')+'-'+ISNULL(inf0302_bname,'') as bname
                 ,inf0175_graphy
                   FROM [dbo].[inf01] inf01
                  left join  [dbo].[inf01a]  inf01a on inf01.inf0102_pcode=inf01a.inf01a02_pcode
@@ -47,8 +57,6 @@ public class D_pcodeHandler : IHttpHandler
 
                 cmd.Parameters.AddWithValue("@Retail_start", FilterOption.Retail_start);
                 cmd.CommandText += " and @Retail_start <= inf01a07_retail";
-
-
             }
             if (!String.IsNullOrEmpty(FilterOption.Retail_end))
             {
@@ -81,14 +89,50 @@ public class D_pcodeHandler : IHttpHandler
             }
             if (!String.IsNullOrEmpty(FilterOption.Psname))
             {
-
                 GetFilterStr("inf0113_psname", FilterOption.Psname, cmd);
-
             }
             if (!String.IsNullOrEmpty(FilterOption.Keyword))
             {
-                cmd.Parameters.AddWithValue("@Keyword", "%" + FilterOption.Keyword + "%");
-                cmd.CommandText += @"
+                GetKeyWordStr(FilterOption.Keyword, cmd);
+
+            }
+            cmd.CommandText += " ) Main Where Main.RowId>@StartRow";
+            cmd.Parameters.AddWithValue("@StartRow", StartRow);
+            using (var rd = cmd.ExecuteReader())
+            {
+               
+                while (rd.Read())
+                {
+                    List.Add(new D_pcodeData()
+                    {
+                        pcode = rd["inf0102_pcode"].ToString(),
+                        psname = rd["inf0113_psname"].ToString(),
+                        color = rd["inf0111_color"].ToString(),
+                        runit = rd["inf0115_runit"].ToString(),
+
+                        pdept = rd["inf0123_pdept"].ToString(),
+                        pcat = rd["inf0124_pcat"].ToString(),
+                        retail = rd["inf01a07_retail"].ToString(),
+                        inv_qty = rd["inf01b24_inv_qty"].ToString(),
+                        bname = rd["bname"].ToString(),
+                        graphy = rd["inf0175_graphy"].ToString(),
+                    });
+
+                }
+            }
+
+
+        }
+
+
+        context.Response.Write(JsonConvert.SerializeObject(List));
+
+    }
+
+    public void GetKeyWordStr(string Keyword, SqlCommand cmd)
+    {
+        cmd.Parameters.AddWithValue("@Keyword", "%" + Keyword + "%");
+        cmd.CommandText += @"
                   and (inf01.[ID] like @Keyword
                   OR inf01.[status] like @Keyword
                   OR [inf0102_pcode] like @Keyword
@@ -231,41 +275,8 @@ public class D_pcodeHandler : IHttpHandler
                   OR [inf01134_japanno] like  @Keyword
                   OR [inf01135_usemono] like  @Keyword
 	              )";
-
-
-            }
-           
-
-            using (var rd = cmd.ExecuteReader())
-            {
-
-                while (rd.Read())
-                {
-                    List.Add(new D_pcodeData()
-                    {
-                        pcode = rd["inf0102_pcode"].ToString(),
-                        psname = rd["inf0113_psname"].ToString(),
-                        color = rd["inf0111_color"].ToString(),
-                        runit = rd["inf0115_runit"].ToString(),
-
-                        pdept = rd["inf0123_pdept"].ToString(),
-                        pcat = rd["inf0124_pcat"].ToString(),
-                        retail = rd["inf01a07_retail"].ToString(),
-                        inv_qty = rd["inf01b24_inv_qty"].ToString(),
-                        bname = rd["bname"].ToString(),
-                        graphy = rd["inf0175_graphy"].ToString(),
-                    });
-
-                }
-            }
-
-
-        }
-
-
-        context.Response.Write(JsonConvert.SerializeObject(List));
-
     }
+    
     public void GetFilterStr(string name, string filter, SqlCommand cmd)
     {
         var haslike = false;
