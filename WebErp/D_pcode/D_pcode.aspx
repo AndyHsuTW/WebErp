@@ -20,6 +20,24 @@
             var requiredFiles = ["d_pcode"];
 
             function onLoaded(d_pcode) {
+
+
+                new Vue({
+                    el: '#d_pcode',
+                    data: {
+                        Dpcode_pcode: ""
+
+                    }, methods: {
+                        getDpcode: function (data) {
+                            this.Dpcode_pcode = data.pcode;
+
+
+                        }
+
+                    }
+
+                })
+
             }
 
             function onError(error) {
@@ -27,16 +45,22 @@
             }
 
             require(requiredFiles, onLoaded, onError);
-        })();
 
+           
+
+        })();
+        
     </script>
+    
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
 
-
+    
 
     <div id="d_pcode" v-cloak>
-        <d_pcode_component></d_pcode_component>
+
+        <%--<input type="text" v-model="Dpcode_pcode"/>--%>
+         <d_pcode_component ></d_pcode_component>
     </div>
 
 
