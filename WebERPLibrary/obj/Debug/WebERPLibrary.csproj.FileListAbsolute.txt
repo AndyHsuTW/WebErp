@@ -1,0 +1,9 @@
+C:\Project\Case\WebErp\WebERPLibrary\bin\Debug\WebERPLibrary.dll
+C:\Project\Case\WebErp\WebERPLibrary\bin\Debug\WebERPLibrary.pdb
+C:\Project\Case\WebErp\WebERPLibrary\bin\Debug\EPPlus.dll
+C:\Project\Case\WebErp\WebERPLibrary\bin\Debug\ErpBaseLibrary.dll
+C:\Project\Case\WebErp\WebERPLibrary\bin\Debug\ErpBaseLibrary.pdb
+C:\Project\Case\WebErp\WebERPLibrary\bin\Debug\EPPlus.xml
+C:\Project\Case\WebErp\WebERPLibrary\obj\Debug\WebERPLibrary.csprojResolveAssemblyReference.cache
+C:\Project\Case\WebErp\WebERPLibrary\obj\Debug\WebERPLibrary.dll
+C:\Project\Case\WebErp\WebERPLibrary\obj\Debug\WebERPLibrary.pdb
