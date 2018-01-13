@@ -60,7 +60,8 @@
     <div id="d_pcode" v-cloak>
 
         <%--<input type="text" v-model="Dpcode_pcode"/>--%>
-         <d_pcode_component ></d_pcode_component>
+       <%--<d_pcode_component :callback=""></d_pcode_component>--%>
+        <d_pcode_component ></d_pcode_component>
     </div>
 
 
