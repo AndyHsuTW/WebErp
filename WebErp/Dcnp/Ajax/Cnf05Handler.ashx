@@ -136,16 +136,22 @@ public class Cnf05Handler : IHttpHandler, IRequiresSessionState
                     List<Cnf05> cnf05List = JsonConvert.DeserializeObject<List<Cnf05>>(this.Data);
                     context.Session["exportFields"] = fieldNameList;
                     context.Session["exportItems"] = cnf05List;
+                    context.Session["exportExcelVersion"] = 2003;
                 }
                 break;
             case "import":
                 {
                     byte[] b = new byte[context.Request.Files[0].InputStream.Length];
+                    if (b.Length == 0)
+                    {
+                        throw new Exception("File can not be empty");
+                    }
                     context.Request.Files[0].InputStream.Read(b, 0, b.Length);
                     List<Cnf05> cnf05List = null;
                     using (MemoryStream stream = new MemoryStream(b))
                     {
-                        cnf05List = Cnf05.ParseFromExcel(stream, this.User);
+//                        cnf05List = Cnf05.ParseFromExcel(stream, this.User);
+                        cnf05List = Cnf05.ParseFromExcelNpoi(stream, 2003, this.User);
                     }
                     if (cnf05List != null && cnf05List.Count > 0)
                     {

@@ -7,6 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ErpBaseLibrary.DB;
+using NPOI.HSSF.UserModel;
+using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
 
@@ -101,7 +104,7 @@ namespace DCNP005
                 sqlCmd.Parameters.AddWithValue("@cnf0504_fieldname_cn", cnf05.cnf0504_fieldname_cn);
                 sqlCmd.Parameters.AddWithValue("@cnf0505_fieldname_en", cnf05.cnf0505_fieldname_en);
                 sqlCmd.Parameters.AddWithValue("@cnf0506_program", cnf05.cnf0506_program);
-                sqlCmd.Parameters.AddWithValueSafe("@remark", cnf05.remark);
+                sqlCmd.Parameters.AddWithValueSafe("@remark", cnf05.remark??"");
                 sqlCmd.Parameters.AddWithValue("@adduser", cnf05.adduser);
                 sqlCmd.Parameters.AddWithValueSafe("@adddate", cnf05.adddate);
 
@@ -509,7 +512,7 @@ WHERE 1=1
                     sheet.Cells[i + 1 + title, j + 1].Value = Cnf05.GetPropValue(cnf05Item, fieldName[j]);
                     if (sheet.Cells[i + 1 + title, j + 1].Value is DateTime)
                     {
-                        sheet.Cells[i + 1 + title, j + 1].Style.Numberformat.Format = "yyyy/mm/dd";
+                        sheet.Cells[i + 1 + title, j + 1].Style.Numberformat.Format = "yyyy/MM/dd";
                     }
                 }
             }
@@ -562,5 +565,142 @@ WHERE 1=1
             }
 
         }
+
+        public static List<Cnf05> ParseFromExcelNpoi(Stream stream, int excelVersion, string user)
+        {
+            List<Cnf05> cnf05List = new List<Cnf05>();
+            IWorkbook workbook = (excelVersion == 2003 ? (IWorkbook) new HSSFWorkbook(stream) : new XSSFWorkbook(stream));
+            ISheet sheet = workbook.GetSheetAt(0);
+
+            int startRowNumber = 1; // skip title
+            int endRowNumber = sheet.LastRowNum;
+
+            for (int i = startRowNumber; i <= endRowNumber; i++)
+            {
+                IRow excelRow = sheet.GetRow(i);
+                int startColumn = 0;
+                int endColumn = excelRow.LastCellNum;
+                Cnf05 cnf05 = new Cnf05();
+                for (int j = startColumn; j <= endColumn; j++)
+                {
+                    ICell excelCell = excelRow.GetCell(j);
+                    var data = excelCell == null ? null : excelCell.ToString();
+                    if (j == 0)
+                    {
+                        cnf05.cnf0501_file = data;
+                    }
+                    else if (j == 1)
+                    {
+                        cnf05.cnf0502_field = data;
+                    }
+                    else if (j == 2)
+                    {
+                        cnf05.cnf0503_fieldname_tw = data;
+                    }
+                    else if (j == 3)
+                    {
+                        cnf05.cnf0504_fieldname_cn = data;
+                    }
+                    else if (j == 4)
+                    {
+                        cnf05.cnf0505_fieldname_en = data;
+                    }
+                    else if (j == 5)
+                    {
+                        cnf05.cnf0506_program = data;
+                    }
+                    else if (j == 6)
+                    {
+                        cnf05.remark = data;
+                    }
+                }
+                cnf05.adddate = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
+                cnf05.adduser = user;
+                cnf05List.Add(cnf05);
+            }
+            return cnf05List;
+        }
+
+
+        public static IWorkbook ExportNpoi(string[] fieldName, List<Cnf05> cnf05List, int excelVersion)
+        {
+            IWorkbook workbook = null;
+            if (excelVersion == 2003)
+            {
+                workbook = new HSSFWorkbook();
+            }
+            else
+            {
+                workbook = new XSSFWorkbook();
+            }
+            ISheet sheet = workbook.CreateSheet("Sheet1");
+
+            IRow headRow = sheet.CreateRow(0);
+            for (var i = 0; i < fieldName.Length; i++)
+            {
+                if (String.Equals("cnf0501_file", fieldName[i]))
+                {
+                    headRow.CreateCell(i).SetCellValue("檔案代號");
+                }
+                else if (String.Equals("cnf0502_field", fieldName[i]))
+                {
+                    headRow.CreateCell(i).SetCellValue("欄位名稱");
+                }
+                else if (String.Equals("cnf0503_fieldname_tw", fieldName[i]))
+                {
+                    headRow.CreateCell(i).SetCellValue("中文說明-繁體");
+                }
+                else if (String.Equals("cnf0506_program", fieldName[i]))
+                {
+                    headRow.CreateCell(i).SetCellValue("程式代號");
+                }
+                else if (String.Equals("adddate", fieldName[i]))
+                {
+                    headRow.CreateCell(i).SetCellValue("新增日期");
+                }
+                else if (String.Equals("adduser", fieldName[i]))
+                {
+                    headRow.CreateCell(i).SetCellValue("新增者");
+                }
+                else if (String.Equals("moddate", fieldName[i]))
+                {
+                    headRow.CreateCell(i).SetCellValue("修改日期");
+                }
+                else if (String.Equals("moduser", fieldName[i]))
+                {
+                    headRow.CreateCell(i).SetCellValue("修改者");
+                }
+                else if (String.Equals("cnf0504_fieldname_cn", fieldName[i]))
+                {
+                    headRow.CreateCell(i).SetCellValue("中文說明-簡體");
+                }
+                else if (String.Equals("cnf0505_fieldname_en", fieldName[i]))
+                {
+                    headRow.CreateCell(i).SetCellValue("英文說明");
+                }
+            }
+            for (int i = 0; i < cnf05List.Count; i++)
+            {
+                IRow excelRow = sheet.CreateRow(i + 1);
+                Cnf05 cnf05Item = cnf05List[i];
+                for (var j = 0; j < fieldName.Length; j++)
+                {
+                    var val = Cnf05.GetPropValue(cnf05Item, fieldName[j]);
+                    var excelCell = excelRow.CreateCell(j);
+                    excelCell.SetCellValue(val != null ? val.ToString() : "");
+                    if (val is DateTime)
+                    {
+                        excelCell.SetCellValue(((DateTime)val).ToString("yyyy/MM/dd"));
+                    }
+                }
+            }
+
+            for (var i = 0; i < fieldName.Length; i++)
+            {
+                sheet.AutoSizeColumn(i);
+            }
+            return workbook;
+        }
+    
     }
 }

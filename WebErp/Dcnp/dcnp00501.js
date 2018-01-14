@@ -8,7 +8,7 @@
             "vue-jQuerydatetimepicker": isIE ? "public/scripts/VueComponent/vue-jQuerydatetimepicker.babel" : "public/scripts/VueComponent/vue-jQuerydatetimepicker",
             "jquery.datetimepicker": "public/scripts/jquery.datetimepicker/jquery.datetimepicker.full",
             "jqueryDatetimepicker-css":"public/scripts/jquery.datetimepicker/jquery.datetimepicker",
-            "jquery-mousewheel": "public/scripts/jquery.mousewheel.min",
+            "jquery.mousewheel": "public/scripts/jquery.mousewheel.min",
         },
         shim: {
             "jquery.datetimepicker":{
@@ -17,17 +17,21 @@
             "vue-jQuerydatetimepicker": {
                 "deps": ['jquery.datetimepicker']
             },
+        }, 
+        map: {
+            '*': {
+                'jquery-mousewheel': 'jquery.mousewheel'
+            }
         }
     });
 
-    var requiredFiles = ["bootstrap", "FunctionButton", "vuejs-uib-pagination", "vue-jQuerydatetimepicker", "LoadingHelper"];
+    var requiredFiles = ["bootstrap", "FunctionButton", "vuejs-uib-pagination", "vue-jQuerydatetimepicker", "LoadingHelper", "jquery.mousewheel"];
 
     function onLoaded(bootstrap, functionButton, uibPagination, vueDatetimepicker, loadingHelper) {
         window.dcnp00501 = new Vue({
             el: "#Dcnp00501",
             data: {
                 Cnf05HandlerUrl:rootUrl + 'Dcnp/Ajax/Cnf05Handler.ashx',
-                Pagination: {},
                 Filter: {
                     AddDateStart: null,
                     AddDateEnd: null,

@@ -16,3 +16,9 @@ D:\Github\WebErp\DCNP005\bin\Debug\EPPlus.xml
 D:\Github\WebErp\DCNP005\obj\Debug\DCNP005.csprojResolveAssemblyReference.cache
 D:\Github\WebErp\DCNP005\obj\Debug\DCNP005.dll
 D:\Github\WebErp\DCNP005\obj\Debug\DCNP005.pdb
+C:\Users\hamow\OneDrive\Documents\case\GA_System\VS_Project\DCNP005\bin\Debug\ICSharpCode.SharpZipLib.dll
+C:\Users\hamow\OneDrive\Documents\case\GA_System\VS_Project\DCNP005\bin\Debug\NPOI.dll
+C:\Users\hamow\OneDrive\Documents\case\GA_System\VS_Project\DCNP005\bin\Debug\NPOI.OOXML.dll
+C:\Users\hamow\OneDrive\Documents\case\GA_System\VS_Project\DCNP005\bin\Debug\NPOI.OpenXml4Net.dll
+C:\Users\hamow\OneDrive\Documents\case\GA_System\VS_Project\DCNP005\bin\Debug\NPOI.OpenXmlFormats.dll
+C:\Users\hamow\OneDrive\Documents\case\GA_System\VS_Project\DCNP005\bin\Debug\NPOI.xml
