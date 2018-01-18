@@ -362,14 +362,15 @@
                         processData: false,
                         contentType: false,
                         success: function (result) {
+                            // IE might have issue to upload same file 
+                            this.customData.vueObj.$refs.ImportExcelInput.value = "";
                             LoadingHelper.hideLoading();
                             if (result == "ok") {
                                 $(this.customData.vueObj.$refs.ImportExcelDialog).modal('hide');
-                                this.customData.vueObj.$refs.ImportExcelInput.value = "";
                                 this.customData.vueObj.OnSearch();
                                 alert("匯入成功");
                             } else {
-                                alert("匯入失敗");
+                                alert("匯入失敗\n" + result);
                             }
                         },
                         error: function (jqXhr, textStatus, errorThrown) {

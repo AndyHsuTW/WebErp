@@ -1,5 +1,7 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/master/BaseMasterPage.master" AutoEventWireup="true" CodeFile="Dcnp00501.aspx.cs" Inherits="Dcnp_Dcnp00501" %>
 
+<%@ Register Assembly="CrystalDecisions.Web, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" Namespace="CrystalDecisions.Web" TagPrefix="CR" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <style>
         .app-title
@@ -83,7 +85,7 @@
                     v-on:click.native="OnExport()">
                             匯出
                         </function-button>
-                <function-button id="ExportBtn" data-toggle="modal" href='#ImportExcelDialog'
+                <function-button id="ImportBtn" data-toggle="modal" href='#ImportExcelDialog'
                     hot-key="f8">
                             匯入Excel
                         </function-button>
@@ -523,7 +525,7 @@
         </div>
 
     </div>
-
+    <CR:CrystalReportViewer ID="CrystalReportViewer1" runat="server" AutoDataBind="true" />
     <script>
         (function () {
             requirejs.config({

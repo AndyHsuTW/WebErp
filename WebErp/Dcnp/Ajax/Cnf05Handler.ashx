@@ -150,16 +150,25 @@ public class Cnf05Handler : IHttpHandler, IRequiresSessionState
                     List<Cnf05> cnf05List = null;
                     using (MemoryStream stream = new MemoryStream(b))
                     {
-//                        cnf05List = Cnf05.ParseFromExcel(stream, this.User);
-                        cnf05List = Cnf05.ParseFromExcelNpoi(stream, 2003, this.User);
+                        cnf05List = Cnf05.ParseFromExcel(stream, this.User);
                     }
                     if (cnf05List != null && cnf05List.Count > 0)
                     {
-                        foreach (var cnf05 in cnf05List)
+                        for (var i = 0; i < cnf05List.Count;i++ )
                         {
+                            var cnf05 = cnf05List[i];
                             //re-add item on processing import data
-                            Cnf05.DeleteItemByUniqueColumns(cnf05.cnf0501_file,cnf05.cnf0502_field);
-                            Cnf05.AddItem(cnf05);
+                            try
+                            {
+                                Cnf05.DeleteItemByUniqueColumns(cnf05.cnf0501_file, cnf05.cnf0502_field);
+                                Cnf05.AddItem(cnf05);
+                            }
+                            catch (Exception ex)
+                            {
+                                context.Response.ContentType = "text/plain";
+                                context.Response.Write(String.Format("{0}, 請檢查第{1}列", ex.Message, i + 1));
+                                return;
+                            }
                         }
                     }
                 }

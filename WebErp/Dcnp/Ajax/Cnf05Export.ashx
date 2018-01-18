@@ -24,15 +24,8 @@ public class Cnf05Export : IHttpHandler, IRequiresSessionState
         {
             throw new Exception("Export file failed.");
         }
-//        var excel = Cnf05.Export(fieldNameList, cnf05List);
-//        var byteData = excel.GetAsByteArray();
-        var excel = Cnf05.ExportNpoi(fieldNameList, cnf05List, excelVersion);
-        byte[] byteData = null;
-        using (MemoryStream ms = new MemoryStream())
-        {
-            excel.Write(ms);
-            byteData = ms.ToArray();
-        }
+        var excel = Cnf05.Export(fieldNameList, cnf05List);
+        var byteData = excel.GetAsByteArray();
 
         var fileNameFull = String.Format("Export_{0}.{1}", DateTime.Now.ToString("yyyyMMdd"),
                                          excelVersion == 2003 ? "xls" : "xlsx");

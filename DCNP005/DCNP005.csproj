@@ -66,6 +66,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cnf05.cs" />
+    <Compile Include="DCNP00501.cs">
+      <DependentUpon>DCNP00501.xsd</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="DCNP00501.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DCNP00501.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -75,6 +84,17 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="DCNP00501.xsc">
+      <DependentUpon>DCNP00501.xsd</DependentUpon>
+    </None>
+    <None Include="DCNP00501.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DCNP00501.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="DCNP00501.xss">
+      <DependentUpon>DCNP00501.xsd</DependentUpon>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
