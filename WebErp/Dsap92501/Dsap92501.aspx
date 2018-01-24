@@ -92,26 +92,26 @@
 
 
                     <tr>
-                        <td style="padding: 3px">Step1
+                        <td style="padding: 3px">步驟1：選擇訂單日期
                         </td>
                         <td style="padding: 3px">
-                            <vue-datetimepicker placeholder="選擇日期" v-bind:value="DateTime" v-model="DateTime"></vue-datetimepicker>
+                            <vue-datetimepicker placeholder="選擇訂單日期" v-bind:value="DateTime" v-model="DateTime" style="width:90px"></vue-datetimepicker>
                         </td>
-                        <td style="padding: 3px">Step2
+                        <td style="padding: 3px">步驟2：
                         </td>
                         <td style="padding: 3px">
-                            <function-button hot-key="f1" v-on:click.native="Upload()">選擇檔案</function-button>
+                            <function-button hot-key="f1" v-on:click.native="Upload()">選擇訂單檔案</function-button>
                         </td>
-                        <td style="padding: 3px">Step3
+                        <td style="padding: 3px">步驟3：
                         </td>
                         <td style="padding: 3px">
                             <input type="file" id="ImportExcelInput" ref="ImportExcelInput" accept=".csv,.xls,.xlsx" multiple style="display: none" v-on:change="onMultipleFileChange">
-                            <function-button hot-key="f4" v-on:click.native="Submit()">送出比對</function-button>
+                            <function-button hot-key="f4" v-on:click.native="Submit()">檔案送出比對</function-button>
                         </td>
-                        <td style="padding: 3px">Step4
+                        <td style="padding: 3px">步驟4：
                         </td>
                         <td style="padding: 3px">
-                            <function-button hot-key="f9" v-on:click.native="ImportAll()">匯入資料庫</function-button>
+                            <function-button hot-key="f9" v-on:click.native="ImportAll()">檔案匯入資料庫</function-button>
                         </td>
                     </tr>
                 </table>
