@@ -42,7 +42,29 @@
                         return;
                     }
 
-                    this.Step = 2;
+                    var formData = new FormData();
+                    for (var i = 0; i < this.MultipleFile.length; i++) {
+                        formData.append("file", this.MultipleFile[i])
+                    }
+
+                    $.ajax({
+                        url: "/WebErp/Dsap92501/Ajax/ImportExcels.ashx?DateTime=" + this.DateTime,
+                        type: 'POST',
+                        data: formData,
+                        cache: false,
+                        dataType: 'text',
+                        processData: false,
+                        contentType: false,
+                        success: function (result) {
+
+                        },
+                        error: function (jqXhr, textStatus, errorThrown) {
+
+                            console.error(errorThrown);
+                            alert("匯入失敗");
+                        }
+                    });
+                    
                     this.StepOpen = true;
                     LoadingHelper.hideLoading();
 
