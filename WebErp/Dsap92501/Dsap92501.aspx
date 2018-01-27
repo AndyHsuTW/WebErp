@@ -138,9 +138,11 @@
                         </tbody>
                     </table>
                 </div>
-                <div v-if="StepOpen">
+                <div>
 
                     <div class="result-div">
+
+
                         <div class="scroll-table">
                             <table class="table table-bordered">
                                 <thead>
@@ -155,14 +157,8 @@
                                                         <td style="padding: 3px">
                                                             <button type="button" role="button" class="btn btn-default">重新上傳</button></td>
                                                     </tr>
-
-
                                                 </table>
-
                                             </div>
-
-
-
                                         </th>
                                     </tr>
                                     <tr class="bg-primary text-light">
@@ -315,180 +311,7 @@
 
                             </table>
                         </div>
-                        <div class="scroll-table">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr class="">
-                                        <th colspan="14" style="border: 1px solid white">
-                                            <div>
-                                                <table>
-                                                    <tr>
-                                                        <td style="padding: 3px">
-                                                            <input type="checkbox" checked="checked" /></td>
-                                                        <td style="padding: 3px">102.csv MOMO</td>
-                                                        <td style="padding: 3px">
-                                                            <button type="button" role="button" class="btn btn-default">重新上傳</button></td>
-                                                    </tr>
-
-
-                                                </table>
-
-                                            </div>
-
-
-
-                                        </th>
-                                    </tr>
-                                    <tr class="bg-primary text-light">
-                                        <th>序號</th>
-                                        <th>客戶簡稱</th>
-                                        <th>訂單編號</th>
-                                        <th>訂單日期</th>
-                                        <th>收件人姓名</th>
-                                        <th>收件人手機</th>
-                                        <th>收件人地址</th>
-                                        <th>約定配送日</th>
-                                        <th>商品名稱</th>
-                                        <th>數量</th>
-                                        <th>售價</th>
-                                        <th>金額</th>
-                                        <th>訂購人姓名</th>
-                                        <th>手機</th>
-                                    </tr>
-                                </thead>
-                                <tbody style="width: calc(100% - 18px)">
-                                    <tr>
-                                        <td>01</td>
-                                        <td>MOMO</td>
-                                        <td>001</td>
-                                        <td>2018/01/24</td>
-                                        <td>康XX</td>
-                                        <td>09XXXXXXXX</td>
-                                        <td>XXXXXXXXXXXXXX</td>
-                                        <td>2018/01/30</td>
-                                        <td>XXXXXXXXX</td>
-                                        <td>2</td>
-                                        <td>120</td>
-                                        <td>240</td>
-                                        <td>康XX</td>
-                                        <td>09XXXXXXXX</td>
-                                    </tr>
-                                    <tr>
-                                        <td>01</td>
-                                        <td>MOMO</td>
-                                        <td>001</td>
-                                        <td>2018/01/24</td>
-                                        <td>康XX</td>
-                                        <td>09XXXXXXXX</td>
-                                        <td>XXXXXXXXXXXXXX</td>
-                                        <td>2018/01/30</td>
-                                        <td>XXXXXXXXX</td>
-                                        <td>2</td>
-                                        <td>120</td>
-                                        <td>240</td>
-                                        <td>康XX</td>
-                                        <td>09XXXXXXXX</td>
-                                    </tr>
-                                    <tr>
-                                        <td>01</td>
-                                        <td>MOMO</td>
-                                        <td>001</td>
-                                        <td>2018/01/24</td>
-                                        <td>康XX</td>
-                                        <td>09XXXXXXXX</td>
-                                        <td>XXXXXXXXXXXXXX</td>
-                                        <td>2018/01/30</td>
-                                        <td>XXXXXXXXX</td>
-                                        <td>2</td>
-                                        <td>120</td>
-                                        <td>240</td>
-                                        <td>康XX</td>
-                                        <td>09XXXXXXXX</td>
-                                    </tr>
-                                    <tr>
-                                        <td>01</td>
-                                        <td>MOMO</td>
-                                        <td>001</td>
-                                        <td>2018/01/24</td>
-                                        <td>康XX</td>
-                                        <td>09XXXXXXXX</td>
-                                        <td>XXXXXXXXXXXXXX</td>
-                                        <td>2018/01/30</td>
-                                        <td>XXXXXXXXX</td>
-                                        <td>2</td>
-                                        <td>120</td>
-                                        <td>240</td>
-                                        <td>康XX</td>
-                                        <td>09XXXXXXXX</td>
-                                    </tr>
-                                    <tr>
-                                        <td>01</td>
-                                        <td>MOMO</td>
-                                        <td>001</td>
-                                        <td>2018/01/24</td>
-                                        <td>康XX</td>
-                                        <td>09XXXXXXXX</td>
-                                        <td>XXXXXXXXXXXXXX</td>
-                                        <td>2018/01/30</td>
-                                        <td>XXXXXXXXX</td>
-                                        <td>2</td>
-                                        <td>120</td>
-                                        <td>240</td>
-                                        <td>康XX</td>
-                                        <td>09XXXXXXXX</td>
-                                    </tr>
-                                    <tr>
-                                        <td>01</td>
-                                        <td>MOMO</td>
-                                        <td>001</td>
-                                        <td>2018/01/24</td>
-                                        <td>康XX</td>
-                                        <td>09XXXXXXXX</td>
-                                        <td>XXXXXXXXXXXXXX</td>
-                                        <td>2018/01/30</td>
-                                        <td>XXXXXXXXX</td>
-                                        <td>2</td>
-                                        <td>120</td>
-                                        <td>240</td>
-                                        <td>康XX</td>
-                                        <td>09XXXXXXXX</td>
-                                    </tr>
-                                    <tr>
-                                        <td>01</td>
-                                        <td>MOMO</td>
-                                        <td>001</td>
-                                        <td>2018/01/24</td>
-                                        <td>康XX</td>
-                                        <td>09XXXXXXXX</td>
-                                        <td>XXXXXXXXXXXXXX</td>
-                                        <td>2018/01/30</td>
-                                        <td>XXXXXXXXX</td>
-                                        <td>2</td>
-                                        <td>120</td>
-                                        <td>240</td>
-                                        <td>康XX</td>
-                                        <td>09XXXXXXXX</td>
-                                    </tr>
-                                    <tr>
-                                        <td>01</td>
-                                        <td>MOMO</td>
-                                        <td>001</td>
-                                        <td>2018/01/24</td>
-                                        <td>康XX</td>
-                                        <td>09XXXXXXXX</td>
-                                        <td>XXXXXXXXXXXXXX</td>
-                                        <td>2018/01/30</td>
-                                        <td>XXXXXXXXX</td>
-                                        <td>2</td>
-                                        <td>120</td>
-                                        <td>240</td>
-                                        <td>康XX</td>
-                                        <td>09XXXXXXXX</td>
-                                    </tr>
-                                </tbody>
-
-                            </table>
-                        </div>
+                       
 
                     </div>
                 </div>

@@ -28,8 +28,16 @@
             data: {
                 MultipleFile: [],
                 DateTime: "",
-                
-                StepOpen:false
+                Momo: {
+                    type:"MOMO",
+                    open:false,
+                    saf25FileInfo:{}
+                },
+                PChome: {
+                    type: "PChome",
+                    open: false,
+                    saf25FileInfo: {}
+                }  
             },
             methods: {
                
@@ -42,10 +50,30 @@
                         return;
                     }
 
-                    var formData = new FormData();
+
+                    
+
+
+                    var vueobj = this;
                     for (var i = 0; i < this.MultipleFile.length; i++) {
+                        var formData = new FormData();
                         formData.append("file", this.MultipleFile[i])
+                        if (this.MultipleFile[i].name.indexOf("MOMO.CSV")) {
+
+                            ImportExcelsAjax(formData, function (result) {
+                                vueobj.Momo.open = true;
+                                vueobj.saf25FileInfo = JSON.parse(result);
+                            })
+                        }
                     }
+
+                  
+                    
+                   
+                    LoadingHelper.hideLoading();
+
+
+                }, ImportExcelsAjax: function (formData,callback) {
 
                     $.ajax({
                         url: "/WebErp/Dsap92501/Ajax/ImportExcels.ashx?DateTime=" + this.DateTime,
@@ -56,20 +84,19 @@
                         processData: false,
                         contentType: false,
                         success: function (result) {
-
+                            if (typeof (callback) === "function") {
+                                callback(result);
+                            }
                         },
                         error: function (jqXhr, textStatus, errorThrown) {
 
                             console.error(errorThrown);
-                            alert("匯入失敗");
+                            //alert("匯入失敗");
                         }
                     });
-                    
-                    this.StepOpen = true;
-                    LoadingHelper.hideLoading();
+                },
 
-
-                }, Upload: function () {
+                Upload: function () {
 
                     $("#ImportExcelInput").trigger("click");
                 }, onMultipleFileChange: function (e) {

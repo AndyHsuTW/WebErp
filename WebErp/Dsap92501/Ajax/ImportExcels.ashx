@@ -6,6 +6,10 @@ using System.IO;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using System.Collections.Generic;
+using System.Text;
+using System.Linq;
+using System.Globalization;
+using Newtonsoft.Json;
 public class ImportExcels : IHttpHandler
 {
 
@@ -13,12 +17,480 @@ public class ImportExcels : IHttpHandler
     {
         context.Response.ContentType = "text/plain";
         // context.Response.Write("Hello World");
-
-     
         Uploadfile(context);
+        
+        var OrderTime = context.Request.QueryString["DateTime"];
+        var uploadsRoot = context.Server.MapPath("~/Dsap92501/uploads/");
+        var uploadsDirectory = uploadsRoot + OrderTime.Replace("/", string.Empty);
+        var saf25FileInfo = new saf25FileInfo();
+
+        HttpPostedFile file = context.Request.Files[0];
+        var uploadsPath = uploadsDirectory + "\\" + file.FileName;
+
+        if (file.FileName.ToUpper().Contains("MOMO.CSV"))
+        {
+            //處理CSV欄位的特殊符號
+            CSVTool(uploadsPath);
+            var rowList = CSVtoObject(uploadsPath);
+            saf25FileInfo.FileName = file.FileName;
+            saf25FileInfo.CompanyName = "MOMO";
+            MOMO_csvtosaf25(rowList, saf25FileInfo, OrderTime);
+  
+
+        }
+        else if (file.FileName.ToUpper().Contains("PCHOME.CSV"))
+        {
+            CSVTool(uploadsPath);
+            var rowList = CSVtoObject(uploadsPath);
+           
+            saf25FileInfo.FileName = file.FileName;
+            saf25FileInfo.CompanyName = "PChome";
+            Pchome_csvtosaf25(rowList, saf25FileInfo, OrderTime);
+          
+
+        }
+
+
+      
+        context.Response.Write(JsonConvert.SerializeObject(saf25FileInfo));
 
     }
 
+    public void Pchome_csvtosaf25(List<List<string>> rowList, saf25FileInfo saf25FileInfo, string OrderTime)
+    {
+        for (var j = 0; j < rowList.Count; j++)
+        {
+            var saf25 = new saf25();
+            if (j == 0) continue;//跳過標題
+            var row = rowList[j];
+            for (var k = 0; k < row.Count; k++)
+            {
+                var column = row[k];
+                //A
+                if (k == 0)
+                {
+                    saf25.saf2503_ord_no = column;
+                }
+                //B
+                else if (k == 1)
+                {
+                    saf25.saf2502_seq = column;
+                }
+                //C
+                else if (k == 2)
+                {
+                    saf25.saf2527_ship_no = column;
+                }
+                //D
+                else if (k == 3)
+                {
+                    saf25.saf2506_ord_status = column;
+                }
+                //E
+                else if (k == 4)
+                {
+                    saf25.saf2523_ship_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
+                }
+                //F
+                else if (k == 5)
+                {
+                    saf25.saf2504_ord_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
+                }
+                //G
+                else if (k == 6)
+                {
+                    saf25.saf2520_dis_date = column;
+                }
+                //H
+                else if (k == 7)
+                {
+                    saf25.saf2514_rec_name = column;
+                }
+                //I
+                else if (k == 8)
+                {
+                    saf25.saf2522_dis_demand = column;
+                }
+                //J
+                else if (k == 9)
+                {
+
+                    saf25.saf2519_rec_address = column;
+                }
+                //K
+                else if (k == 10)
+                {
+                    saf25.saf2515_rec_cell = column;
+                }
+                //L  
+                else if (k == 11)
+                {
+                    saf25.saf2531_psname = column;
+                }
+                //M
+                else if (k == 12)
+                {
+                    saf25.saf2541_ord_qty = IntTryParse(column, saf25FileInfo, j, k, false);
+                }
+                //N
+                else if (k == 13)
+                {
+                    saf25.saf2543_cancel_qty = IntTryParse(column, saf25FileInfo, j, k, false); ;
+                }
+                //O
+                else if (k == 14)
+                {
+                    saf25.saf2540_ship_qty = IntTryParse(column, saf25FileInfo, j, k, false); 
+                }
+                //P
+                else if (k == 15)
+                {
+                    saf25.saf2544_cost = DoubleTryParse(column, saf25FileInfo, j, k, false);
+                }
+                //Q
+                else if (k == 16)
+                {
+                    saf25.saf2545_cost_sub = DoubleTryParse(column, saf25FileInfo, j, k, false);
+                }
+                //R
+                else if (k == 17)
+                {
+                    saf25.saf2532_pname = column;
+                }
+                //S
+                else if (k == 18)
+                {
+                    saf25.saf2536_pcode_v = column;
+                }
+                //T
+                else if (k == 19)
+                {
+                    saf25.saf2505_ord_remark = column;
+                }
+                //U
+                else if (k == 20)
+                {
+                    saf25.saf2556_leave_msg = column;
+                }
+                
+
+            }
+            saf25FileInfo.saf25List.Add(saf25);
+        }
+
+    }
+
+    public void MOMO_csvtosaf25(List<List<string>> rowList, saf25FileInfo saf25FileInfo, string OrderTime)
+    {
+        for (var j = 0; j < rowList.Count; j++)
+        {
+            var saf25 = new saf25();
+            if (j == 0) continue;//跳過標題
+            var row = rowList[j];
+            for (var k = 0; k < row.Count; k++)
+            {
+                var column = row[k];
+                //A
+                if (k == 0)
+                {
+                    saf25.saf2502_seq = column;
+                }
+                //B
+                else if (k == 1)
+                {
+                    saf25.saf2503_ord_no = column;
+                }
+                //C
+                else if (k == 2)
+                {
+                    saf25.saf2506_ord_status = column;
+                }
+                //D
+                else if (k == 3)
+                {
+                    saf25.saf2505_ord_remark = column;
+                }
+                //E
+                else if (k == 4)
+                {
+                    saf25.saf2520_dis_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
+                }
+                //F
+                else if (k == 5)
+                {
+                    saf25.saf2529_logis_no = column;
+                }
+                //G
+                else if (k == 6)
+                {
+                    saf25.saf2528_fre_no = column;
+                }
+                //H
+                else if (k == 7)
+                {
+                    saf25.saf2507_ord_class = column;
+                }
+                //I
+                else if (k == 8)
+                {
+                    saf25.saf2522_dis_demand = column;
+                }
+                //J
+                else if (k == 9)
+                {
+                    //訂單日確認
+                    saf25.saf2504_ord_date = DateTimeTryParse(column, saf25FileInfo, j, k, true); ;
+                }
+                //K
+                else if (k == 10)
+                {
+                    saf25.saf2523_ship_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
+                }
+                //L  
+                else if (k == 11)
+                {
+                    saf25.saf2514_rec_name = column;
+                }
+                //M
+                else if (k == 12)
+                {
+                    saf25.saf2516_rec_tel01 = column;
+                }
+                //N
+                else if (k == 13)
+                {
+                    saf25.saf2515_rec_cell = column;
+                }
+                //O
+                else if (k == 14)
+                {
+                    saf25.saf2519_rec_address = column;
+                }
+                //P
+                else if (k == 15)
+                {
+                    saf25.saf2536_pcode_v = column;
+                }
+                //Q
+                else if (k == 16)
+                {
+                    saf25.saf2533_pspec = column;
+                }
+                //R
+                else if (k == 17)
+                {
+                    saf25.saf2531_psname = column;
+                }
+                //S
+                else if (k == 18)
+                {
+                    saf25.saf2537_pcode = column;
+                }
+                //T
+                else if (k == 19)
+                {
+                    saf25.saf2532_pname = column;
+                }
+                //U
+                else if (k == 20)
+                {
+                    saf25.saf2541_ord_qty = IntTryParse(column, saf25FileInfo, j, k, false);
+                }
+                //V
+                else if (k == 21)
+                {
+                    saf25.saf2544_cost = DoubleTryParse(column, saf25FileInfo, j, k, false);
+                }
+                //W
+                else if (k == 22)
+                {
+                    saf25.saf2553_gifts = column;
+                }
+                //X
+                else if (k == 23)
+                {
+                    saf25.saf2510_ord_name = column;
+                }//Y
+                else if (k == 24)
+                {
+                    saf25.saf2538_inv_no = column;
+                }//Z
+                else if (k == 25)
+                {
+                    saf25.saf2539_inv_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
+                }//AA
+                else if (k == 26)
+                {
+                    saf25.saf2554_identifier = IntTryParse(column, saf25FileInfo, j, k, false);
+                }
+                //AB
+                else if (k == 27)
+                {
+                    saf25.saf2555_chg_price = column;
+                }
+
+            }
+            saf25FileInfo.saf25List.Add(saf25);
+        }
+    }
+    public string DateTimeTryParse(string Time, saf25FileInfo saf25FileInfo, int row, int column, bool allowEmpty)
+    {
+        DateTime Value;
+        if (DateTime.TryParse(Time, out Value))
+        {
+            return Time;
+        }
+        else
+        {
+            if (!allowEmpty)
+            {
+                saf25FileInfo.ErrorMsg.Add(CreatErrorMsg(row, column, "非日期格式:" + Time));
+            }
+
+
+            return null;
+        }
+    }
+
+    public string IntTryParse(string Num, saf25FileInfo saf25FileInfo, int row, int column, bool allowEmpty)
+    {
+        int Value;
+        if (Int32.TryParse(Num, out Value))
+        {
+            return Num;
+        }
+        else
+        {
+            if (!allowEmpty)
+            {
+                saf25FileInfo.ErrorMsg.Add(CreatErrorMsg(row, column, "非整數格式:" + Num));
+            }
+            return null;
+        }
+
+    }
+
+    public string DoubleTryParse(string Num, saf25FileInfo saf25FileInfo, int row, int column, bool allowEmpty)
+    {
+        Double Value;
+        if (Double.TryParse(Num, out Value))
+        {
+            return Num;
+        }
+        else
+        {
+            if (!allowEmpty)
+            {
+                saf25FileInfo.ErrorMsg.Add(CreatErrorMsg(row, column, "非實數格式" + Num));
+            }
+            return "";
+        }
+    }
+
+    public List<List<string>> CSVtoObject(string Path)
+    {
+        var Lines = File.ReadAllLines(Path, Encoding.UTF8);
+        var rowList = new List<List<string>>();
+        foreach (var Line in Lines)
+        {
+
+            var row = new List<string>();
+            foreach (var column in Line.Split(','))
+            {
+                row.Add(column.Replace("\x08", ","));
+            }
+
+            rowList.Add(row);
+        }
+        return rowList;
+    }
+    public ErrorInfo CreatErrorMsg(int Row, int column, string Msg)
+    {
+        var strReturn = "";
+        var iQuotient = (column + 1) / 26;//商數
+        var iRemainder = (column + 1) % 26;//餘數
+        if (iRemainder == 0)
+            iQuotient--;  // 剛好整除的時候，商數要減一
+        if (iQuotient > 0)
+            strReturn = Convert.ToChar(64 + iQuotient).ToString();//A 65 利用ASCII做轉換
+
+        if (iRemainder == 0)
+            strReturn += "Z";
+        else
+            strReturn += Convert.ToChar(64 + iRemainder).ToString();    //A 65 利用ASCII做轉換
+        return new ErrorInfo()
+        {
+            column = (Row + 1).ToString() + strReturn,
+            messenge = Msg
+        };
+
+    }
+    public void CSVTool(string Path)
+    {
+        StringBuilder sb = new StringBuilder();
+        var Lines = File.ReadAllText(Path, Encoding.Default);
+        using (StreamReader sr = new StreamReader(Path, Encoding.Default, true))
+        {
+            bool quotMarkMode = false;
+            string newLineReplacement = "\x07";
+            string commaReplacement = "\x08";
+            while (sr.Peek() >= 0)
+            {
+                var ch = (char)sr.Read();
+                if (quotMarkMode)
+                {
+                    //雙引號包含區段內遇到雙引號有兩種情境
+                    if (ch == '"')
+                    {
+                        //連續兩個雙引號，為欄位內雙引號字元
+                        if (sr.Peek() == '"')
+                        {
+                            sb.Append(ch);
+                            //sb.Append((char)sr.Read());
+                            sr.Read();
+                        }
+                        //遇到結尾雙引號，雙引號包夾模式結束
+                        else
+                        {
+                            quotMarkMode = false;
+                        }
+                    }
+                    //雙引號內遇到換行符號\r\n
+                    else if (ch == '\r' && sr.Peek() == '\n')
+                    {
+                        sr.Read();
+                        sb.Append(" ");
+                    }
+                    //雙引號內遇到換行符號\n
+                    else if (ch == '\n')
+                    {
+                        sb.Append(" ");
+                    }
+                    //雙引號內遇到逗號，先置換成特殊字元，稍後換回
+                    else if (ch == ',')
+                        sb.Append(commaReplacement);
+                    //否則，正常插入字元
+                    else
+                        sb.Append(ch);
+                }
+                else
+                {
+                    if (ch == '"')
+                    {
+                        quotMarkMode = true;
+                        sb.Append("");
+                    }
+                    else
+                    {
+                        sb.Append(ch);
+                    }
+
+                }
+            }
+
+        }
+        File.WriteAllText(Path, sb.ToString(), Encoding.UTF8);
+    }
 
     public void Uploadfile(HttpContext context)
     {
@@ -27,96 +499,24 @@ public class ImportExcels : IHttpHandler
         //建立uploads資料夾
         var uploadsRoot = context.Server.MapPath("~/Dsap92501/uploads/");
         var uploadsDirectory = uploadsRoot + DateTime.Replace("/", string.Empty);
-        if (Directory.Exists(uploadsDirectory))
+        while (!Directory.Exists(uploadsDirectory))
         {
-            string[] oldfiles = Directory.GetFiles(uploadsDirectory);
-            foreach (string file in oldfiles)
-            {
-                File.Delete(file);
-            }
-            Directory.Delete(uploadsDirectory);
+            Directory.CreateDirectory(uploadsDirectory);
         }
-
-        Directory.CreateDirectory(uploadsDirectory);
-
-        //建立convert資料夾
-        var convertRoot = context.Server.MapPath("~/Dsap92501/convert/");
-        var convertDirectory = convertRoot + DateTime.Replace("/", string.Empty);
-        if (Directory.Exists(convertDirectory))
-        {
-            string[] oldfiles = Directory.GetFiles(convertDirectory);
-            foreach (string file in oldfiles)
-            {
-                File.Delete(file);
-            }
-            Directory.Delete(convertDirectory);
-        }
-        Directory.CreateDirectory(convertDirectory);
-
-
-
         for (int i = 0; i < files.Count; i++)
         {
             HttpPostedFile file = files[i];
-
-
             var uploadsPath = uploadsDirectory + "\\" + file.FileName;
-
-
-
             file.SaveAs(uploadsPath);
-            var excelTextFormat = new ExcelTextFormat();
-            bool firstRowIsHeader = false;
-            excelTextFormat.Delimiter = ',';
-            excelTextFormat.EOL = "\r";
-
-            if (file.FileName.ToLower().IndexOf(".xlsx") > -1)
-            {
-                file.SaveAs(convertDirectory + "\\" + file.FileName);
-
-            }
-            else if (file.FileName.ToLower().IndexOf(".csv") > -1)
-            {
-                //避免編碼問題
-                var str = File.ReadAllText(uploadsPath, System.Text.Encoding.Default);
-                File.WriteAllText(uploadsPath, str, System.Text.Encoding.BigEndianUnicode);
-                
-                
-                var csvFileInfo = new FileInfo(uploadsPath);
-                var excelFileInfo = new FileInfo(convertDirectory + "\\" + file.FileName.Replace(".csv", ".xlsx"));
-                using (ExcelPackage package = new ExcelPackage(excelFileInfo))
-                {
-                    ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("sheet");
-                    worksheet.Cells["A1"].LoadFromText(csvFileInfo, excelTextFormat, OfficeOpenXml.Table.TableStyles.None, firstRowIsHeader);
-                    package.Save();
-                }
-            }
-            else if (file.FileName.ToLower().IndexOf(".xls") > -1)
-            {
-                var xlsFileInfo = new FileInfo(uploadsPath);
-                var excelFileInfo = new FileInfo(convertDirectory + "\\" + file.FileName.Replace(".xls", ".xlsx"));
-                using (ExcelPackage package = new ExcelPackage(excelFileInfo))
-                {
-                    ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("sheet");
-                    worksheet.Cells["A1"].LoadFromText(xlsFileInfo, excelTextFormat, OfficeOpenXml.Table.TableStyles.None, firstRowIsHeader);
-                    package.Save();
-                }
-            }
-
         }
-
-
-
-
     }
-    
+
     public class saf25FileInfo
     {
         public string FileName { get; set; }
         public string CompanyName { get; set; }
-        public List<saf25> saf25 = new List<saf25>();
-
-
+        public List<saf25> saf25List = new List<saf25>();
+        public List<ErrorInfo> ErrorMsg = new List<ErrorInfo>();
     }
 
     public class ErrorInfo
