@@ -95,18 +95,19 @@
                         <td style="padding: 3px">步驟1：選擇訂單日期
                         </td>
                         <td style="padding: 3px">
-                            <vue-datetimepicker placeholder="選擇訂單日期" v-bind:value="DateTime" v-model="DateTime" style="width:90px"></vue-datetimepicker>
+                            <vue-datetimepicker placeholder="選擇訂單日期" v-bind:value="DateTime" v-model="DateTime" style="width: 90px"></vue-datetimepicker>
                         </td>
                         <td style="padding: 3px">步驟2：
                         </td>
                         <td style="padding: 3px">
                             <function-button hot-key="f1" v-on:click.native="Upload()">選擇訂單檔案</function-button>
+                            <input type="file" id="ImportExcelInput" accept=".csv,.xls,.xlsx" multiple style="display: none" v-on:change="onMultipleFileChange">
                         </td>
                         <td style="padding: 3px">步驟3：
                         </td>
                         <td style="padding: 3px">
-                            <input type="file" id="ImportExcelInput" ref="ImportExcelInput" accept=".csv,.xls,.xlsx" multiple style="display: none" v-on:change="onMultipleFileChange">
-                            <function-button hot-key="f4" v-on:click.native="Submit()">檔案送出比對</function-button>
+                            
+                            <function-button hot-key="f4" v-on:click.native="MultipleSubmit()">檔案送出比對</function-button>
                         </td>
                         <td style="padding: 3px">步驟4：
                         </td>
@@ -119,7 +120,7 @@
             </div>
 
 
-            <div class="result-div" style=" height: 800px;overflow-y: auto; overflow-y: overlay;">
+            <div class="result-div" style="height: 800px; overflow-y: auto; overflow-y: overlay;">
                 <div>
                     <table class="table table-bordered" style="width: 250px;">
                         <thead>
@@ -138,12 +139,11 @@
                         </tbody>
                     </table>
                 </div>
+
+
                 <div>
-
                     <div class="result-div">
-
-
-                        <div class="scroll-table">
+                        <div class="scroll-table" v-if="MOMO.open">
                             <table class="table table-bordered">
                                 <thead>
                                     <tr class="">
@@ -152,166 +152,162 @@
                                                 <table>
                                                     <tr>
                                                         <td style="padding: 3px">
-                                                            <input type="checkbox" checked="checked" /></td>
-                                                        <td style="padding: 3px">100.csv 17P團購</td>
+                                                            <input type="checkbox" v-model="MOMO.checked" /></td>
+                                                        <td style="padding: 3px">{{MOMO.saf25FileInfo.FileName}}</td>
                                                         <td style="padding: 3px">
-                                                            <button type="button" role="button" class="btn btn-default">重新上傳</button></td>
+
+                                                            <label class="btn btn-default" >
+                                                                <input style="display: none;" type="file" accept=".csv,.xls,.xlsx"  v-on:change="onFileChange('MOMO', $event)">
+                                                                 重新上傳檔案和送出比對
+                                                            </label>
+
+                                                            
                                                     </tr>
                                                 </table>
                                             </div>
                                         </th>
                                     </tr>
                                     <tr class="bg-primary text-light">
-                                        <th>序號</th>
-                                        <th>客戶簡稱</th>
+                                        <th>項次+燈號</th>
                                         <th>訂單編號</th>
-                                        <th>訂單日期</th>
-                                        <th>收件人姓名</th>
-                                        <th>收件人手機</th>
-                                        <th>收件人地址</th>
+                                        <th>配送狀態</th>
+                                        <th>配送訊息</th>
                                         <th>約定配送日</th>
-                                        <th>商品名稱</th>
+                                        <th>物流公司</th>
+                                        <th>配送單號</th>
+                                        <th>訂單類別</th>
+                                        <th>客戶配送需求</th>
+                                        <th>轉單日</th>
+                                        <th>預計出貨日</th>
+                                        <th>收件人姓名</th>
+                                        <th>收件人行動電話</th>
+                                        <th>收件人地址</th>
+                                        <th>商品原廠編號</th>
+                                        <th>品號</th>
+                                        <th>品名</th>
+                                        <th>單名編號</th>
+                                        <th>單名編號</th>
+                                        <th>單品詳細</th>
                                         <th>數量</th>
-                                        <th>售價</th>
-                                        <th>金額</th>
+                                        <th>進價(含稅)</th>
+                                        <th>贈品</th>
                                         <th>訂購人姓名</th>
-                                        <th>手機</th>
+                                        <th>發票號碼</th>
+                                        <th>發票日期</th>
+                                        <th>個人識別碼</th>
+                                        <th>群組變價商品</th>
                                     </tr>
                                 </thead>
-                                <tbody style="width: calc(100% - 18px)">
-                                    <tr>
-                                        <td>01</td>
-                                        <td>MOMO</td>
-                                        <td>001</td>
-                                        <td>2018/01/24</td>
-                                        <td>康XX</td>
-                                        <td>09XXXXXXXX</td>
-                                        <td>XXXXXXXXXXXXXX</td>
-                                        <td>2018/01/30</td>
-                                        <td>XXXXXXXXX</td>
-                                        <td>2</td>
-                                        <td>120</td>
-                                        <td>240</td>
-                                        <td>康XX</td>
-                                        <td>09XXXXXXXX</td>
-                                    </tr>
-                                    <tr>
-                                        <td>01</td>
-                                        <td>MOMO</td>
-                                        <td>001</td>
-                                        <td>2018/01/24</td>
-                                        <td>康XX</td>
-                                        <td>09XXXXXXXX</td>
-                                        <td>XXXXXXXXXXXXXX</td>
-                                        <td>2018/01/30</td>
-                                        <td>XXXXXXXXX</td>
-                                        <td>2</td>
-                                        <td>120</td>
-                                        <td>240</td>
-                                        <td>康XX</td>
-                                        <td>09XXXXXXXX</td>
-                                    </tr>
-                                    <tr>
-                                        <td>01</td>
-                                        <td>MOMO</td>
-                                        <td>001</td>
-                                        <td>2018/01/24</td>
-                                        <td>康XX</td>
-                                        <td>09XXXXXXXX</td>
-                                        <td>XXXXXXXXXXXXXX</td>
-                                        <td>2018/01/30</td>
-                                        <td>XXXXXXXXX</td>
-                                        <td>2</td>
-                                        <td>120</td>
-                                        <td>240</td>
-                                        <td>康XX</td>
-                                        <td>09XXXXXXXX</td>
-                                    </tr>
-                                    <tr>
-                                        <td>01</td>
-                                        <td>MOMO</td>
-                                        <td>001</td>
-                                        <td>2018/01/24</td>
-                                        <td>康XX</td>
-                                        <td>09XXXXXXXX</td>
-                                        <td>XXXXXXXXXXXXXX</td>
-                                        <td>2018/01/30</td>
-                                        <td>XXXXXXXXX</td>
-                                        <td>2</td>
-                                        <td>120</td>
-                                        <td>240</td>
-                                        <td>康XX</td>
-                                        <td>09XXXXXXXX</td>
-                                    </tr>
-                                    <tr>
-                                        <td>01</td>
-                                        <td>MOMO</td>
-                                        <td>001</td>
-                                        <td>2018/01/24</td>
-                                        <td>康XX</td>
-                                        <td>09XXXXXXXX</td>
-                                        <td>XXXXXXXXXXXXXX</td>
-                                        <td>2018/01/30</td>
-                                        <td>XXXXXXXXX</td>
-                                        <td>2</td>
-                                        <td>120</td>
-                                        <td>240</td>
-                                        <td>康XX</td>
-                                        <td>09XXXXXXXX</td>
-                                    </tr>
-                                    <tr>
-                                        <td>01</td>
-                                        <td>MOMO</td>
-                                        <td>001</td>
-                                        <td>2018/01/24</td>
-                                        <td>康XX</td>
-                                        <td>09XXXXXXXX</td>
-                                        <td>XXXXXXXXXXXXXX</td>
-                                        <td>2018/01/30</td>
-                                        <td>XXXXXXXXX</td>
-                                        <td>2</td>
-                                        <td>120</td>
-                                        <td>240</td>
-                                        <td>康XX</td>
-                                        <td>09XXXXXXXX</td>
-                                    </tr>
-                                    <tr>
-                                        <td>01</td>
-                                        <td>MOMO</td>
-                                        <td>001</td>
-                                        <td>2018/01/24</td>
-                                        <td>康XX</td>
-                                        <td>09XXXXXXXX</td>
-                                        <td>XXXXXXXXXXXXXX</td>
-                                        <td>2018/01/30</td>
-                                        <td>XXXXXXXXX</td>
-                                        <td>2</td>
-                                        <td>120</td>
-                                        <td>240</td>
-                                        <td>康XX</td>
-                                        <td>09XXXXXXXX</td>
-                                    </tr>
-                                    <tr>
-                                        <td>01</td>
-                                        <td>MOMO</td>
-                                        <td>001</td>
-                                        <td>2018/01/24</td>
-                                        <td>康XX</td>
-                                        <td>09XXXXXXXX</td>
-                                        <td>XXXXXXXXXXXXXX</td>
-                                        <td>2018/01/30</td>
-                                        <td>XXXXXXXXX</td>
-                                        <td>2</td>
-                                        <td>120</td>
-                                        <td>240</td>
-                                        <td>康XX</td>
-                                        <td>09XXXXXXXX</td>
+                                <tbody>
+                                    <tr v-for="saf25 in MOMO.saf25FileInfo.saf25List">
+                                        <td>{{saf25.saf2502_seq}}</td>
+                                        <td>{{saf25.saf2503_ord_no}}</td>
+                                        <td>{{saf25.saf2506_ord_status}}</td>
+                                        <td>{{saf25.saf2505_ord_remark}}</td>
+                                        <td>{{saf25.saf2520_dis_date}}</td>
+                                        <td>{{saf25.saf2529_logis_no}}</td>
+                                        <td>{{saf25.saf2528_fre_no}}</td>
+                                        <td>{{saf25.saf2507_ord_class}}</td>
+                                        <td>{{saf25.saf2522_dis_demand}}</td>
+                                        <td>{{saf25.saf2504_ord_date}}</td>
+                                        <td>{{saf25.saf2523_ship_date}}</td>
+                                        <td>{{saf25.saf2514_rec_name}}</td>
+                                        <td>{{saf25.saf2516_rec_tel01}}</td>
+                                        <td>{{saf25.saf2515_rec_cell}}</td>
+                                        <td>{{saf25.saf2519_rec_address}}</td>
+                                        <td>{{saf25.saf2536_pcode_v}}</td>
+                                        <td>{{saf25.saf2533_pspec}}</td>
+                                        <td>{{saf25.saf2531_psname}}</td>
+                                        <td>{{saf25.saf2537_pcode}}</td>
+                                        <td>{{saf25.saf2532_pname}}</td>
+                                        <td>{{saf25.saf2541_ord_qty}}</td>
+                                        <td>{{saf25.saf2544_cost}}</td>
+                                        <td>{{saf25.saf2553_gifts}}</td>
+                                        <td>{{saf25.saf2510_ord_name}}</td>
+                                        <td>{{saf25.saf2538_inv_no}}</td>
+                                        <td>{{saf25.saf2539_inv_date}}</td>
+                                        <td>{{saf25.saf2554_identifier}}</td>
+                                        <td>{{saf25.saf2555_chg_price}}</td>
+
                                     </tr>
                                 </tbody>
-
                             </table>
                         </div>
-                       
+
+                        <div class="scroll-table" v-if="PChome.open">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr class="">
+                                        <th colspan="14" style="border: 1px solid white">
+                                            <div>
+                                                <table>
+                                                    <tr>
+                                                        <td style="padding: 3px">
+                                                            <input type="checkbox" v-model="PChome.checked" /></td>
+                                                        <td style="padding: 3px">{{PChome.saf25FileInfo.FileName}}</td>
+                                                        <td style="padding: 3px">
+                                                           <label class="btn btn-default" >
+                                                                <input style="display: none;" type="file" accept=".csv,.xls,.xlsx"  v-on:change="onFileChange('PChome', $event)">
+                                                                 重新上傳檔案和送出比對
+                                                            </label>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                    <tr class="bg-primary text-light">
+                                        <th>訂單編號</th>
+                                        <th>NO</th>
+                                        <th>出貨單號</th>
+                                        <th>確認</th>
+                                        <th>出貨日期</th>
+                                        <th>轉單日期</th>
+                                        <th>預購日/指定配達日</th>
+                                        <th>收貨人</th>
+                                        <th>ZIP</th>
+                                        <th>收貨地址(訂單編號)</th>
+                                        <th>收貨人電話</th>
+                                        <th>商品名稱</th>
+                                        <th>下定時數量</th>
+                                        <th>取消數量</th>
+                                        <th>應出貨數量</th>
+                                        <th>單位成本</th>
+                                        <th>成本小計</th>
+                                        <th>商品規格</th>
+                                        <th>廠商料號</th>
+                                        <th>備註</th>
+                                        <th>客戶留言</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="saf25 in PChome.saf25FileInfo.saf25List">
+                                        <td>{{saf25.saf2503_ord_no}}</td>
+                                        <td>{{saf25.saf2502_seq}}</td>
+                                        <td>{{saf25.saf2527_ship_no}}</td>
+                                        <td>{{saf25.saf2506_ord_status}}</td>
+                                        <td>{{saf25.saf2523_ship_date}}</td>
+                                        <td>{{saf25.saf2504_ord_date}}</td>
+                                        <td>{{saf25.saf2520_dis_date}}</td>
+                                        <td>{{saf25.saf2514_rec_name}}</td>
+                                        <td>{{saf25.saf2522_dis_demand}}</td>
+                                        <td>{{saf25.saf2519_rec_address}}</td>
+                                        <td>{{saf25.saf2515_rec_cell}}</td>
+                                        <td>{{saf25.saf2531_psname}}</td>
+                                        <td>{{saf25.saf2541_ord_qty}}</td>
+                                        <td>{{saf25.saf2543_cancel_qty}}</td>
+                                        <td>{{saf25.saf2540_ship_qty}}</td>
+                                        <td>{{saf25.saf2544_cost}}</td>
+                                        <td>{{saf25.saf2545_cost_sub}}</td>
+                                        <td>{{saf25.saf2532_pname}}</td>
+                                        <td>{{saf25.saf2536_pcode_v}}</td>
+                                        <td>{{saf25.saf2505_ord_remark}}</td>
+                                        <td>{{saf25.saf2556_leave_msg}}</td>
+
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
 
                     </div>
                 </div>

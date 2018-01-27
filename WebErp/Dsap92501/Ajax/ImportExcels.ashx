@@ -27,27 +27,27 @@ public class ImportExcels : IHttpHandler
         HttpPostedFile file = context.Request.Files[0];
         var uploadsPath = uploadsDirectory + "\\" + file.FileName;
 
+        
+        
         if (file.FileName.ToUpper().Contains("MOMO.CSV"))
         {
             //處理CSV欄位的特殊符號
             CSVTool(uploadsPath);
+            //CSV物件化
             var rowList = CSVtoObject(uploadsPath);
+            //檔案名 跟公司名稱
             saf25FileInfo.FileName = file.FileName;
             saf25FileInfo.CompanyName = "MOMO";
+            //物件化的CSV 轉成saf25格式(這裡依照每家的格式自訂義)
             MOMO_csvtosaf25(rowList, saf25FileInfo, OrderTime);
-  
-
         }
         else if (file.FileName.ToUpper().Contains("PCHOME.CSV"))
         {
             CSVTool(uploadsPath);
             var rowList = CSVtoObject(uploadsPath);
-           
             saf25FileInfo.FileName = file.FileName;
             saf25FileInfo.CompanyName = "PChome";
             Pchome_csvtosaf25(rowList, saf25FileInfo, OrderTime);
-          
-
         }
 
 
@@ -213,6 +213,8 @@ public class ImportExcels : IHttpHandler
                 //E
                 else if (k == 4)
                 {
+
+                    //時間判斷 DateTimeTryParse(欄位資料，saf25FileInfo，列，欄，是否允許NULL(DB))
                     saf25.saf2520_dis_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
                 }
                 //F

@@ -28,43 +28,53 @@
             data: {
                 MultipleFile: [],
                 DateTime: "",
-                Momo: {
-                    type:"MOMO",
-                    open:false,
+                MOMO: {
+                    checked:true,
+                    open: false,
+                    File:[],
+                    FileName: "",
                     saf25FileInfo:{}
                 },
                 PChome: {
-                    type: "PChome",
+                    checked: true,
                     open: false,
+                    File:[],
+                    FileName: "",
                     saf25FileInfo: {}
                 }  
             },
             methods: {
                
-                Submit: function () {
+                MultipleSubmit: function () {
                     LoadingHelper.showLoading();
-
 
                     if (this.DateTime.trim() == "") {
                         alert("未填日期")
                         return;
                     }
-
-
-                    
-
-
                     var vueobj = this;
-                    for (var i = 0; i < this.MultipleFile.length; i++) {
+                    for (var i = 0; i < vueobj.MultipleFile.length; i++) {
                         var formData = new FormData();
-                        formData.append("file", this.MultipleFile[i])
-                        if (this.MultipleFile[i].name.indexOf("MOMO.CSV")) {
+                        formData.append("file", vueobj.MultipleFile[i])
 
-                            ImportExcelsAjax(formData, function (result) {
-                                vueobj.Momo.open = true;
-                                vueobj.saf25FileInfo = JSON.parse(result);
+                        if (vueobj.MultipleFile[i].name.toUpperCase().indexOf("02. MOMO.CSV")>-1) {
+                            vueobj.MOMO.FileName = vueobj.MultipleFile[i].name;
+                            vueobj.ImportExcelsAjax(formData, function (result) {
+                                vueobj.MOMO.open = true;
+                                vueobj.MOMO.saf25FileInfo = JSON.parse(result);
                             })
                         }
+                        else if (vueobj.MultipleFile[i].name.toUpperCase().indexOf("03. PCHOME.CSV") > -1) {
+
+
+                            vueobj.PChome.FileName = vueobj.MultipleFile[i].name;
+                            vueobj.ImportExcelsAjax(formData, function (result) {
+                                vueobj.PChome.open = true;
+                                vueobj.PChome.saf25FileInfo = JSON.parse(result);
+                            })
+                        }
+
+
                     }
 
                   
@@ -75,7 +85,7 @@
 
                 }, ImportExcelsAjax: function (formData,callback) {
 
-                    $.ajax({
+                   $.ajax({
                         url: "/WebErp/Dsap92501/Ajax/ImportExcels.ashx?DateTime=" + this.DateTime,
                         type: 'POST',
                         data: formData,
@@ -102,12 +112,38 @@
                 }, onMultipleFileChange: function (e) {
                     var files = e.target.files || e.dataTransfer.files;
                     this.MultipleFile = files
+                    //e.target.value = "";
+                }, onFileChange: function (type, e) {
+                    var vueobj = this
+                    var files = e.target.files || e.dataTransfer.files;
+
+                    var formData = new FormData();
+                    formData.append("file", files[0])
+
+                    if (type == "MOMO" && files[0].name.toUpperCase().indexOf("02. MOMO.CSV") > -1) {
+                        vueobj.MOMO.FileName = files[0].name;
+                        vueobj.ImportExcelsAjax(formData, function (result) {
+                            vueobj.MOMO.open = true;
+                            vueobj.MOMO.saf25FileInfo = JSON.parse(result);
+                        })
+
+                    }
+                    if (type == "PChome" && files[0].name.toUpperCase().indexOf("03. PCHOME.CSV") > -1) {
+                        vueobj.MOMO.FileName = files[0].name;
+                        vueobj.ImportExcelsAjax(formData, function (result) {
+                            vueobj.MOMO.open = true;
+                            vueobj.MOMO.saf25FileInfo = JSON.parse(result);
+                        })
+
+                    }
+
+                    e.target.value = "";
                 }, bytesToSize: function (bytes) {
                     var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
                     if (bytes == 0) return '0 Byte';
                     var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
                     return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
-                }
+                },
             }
         })
 
