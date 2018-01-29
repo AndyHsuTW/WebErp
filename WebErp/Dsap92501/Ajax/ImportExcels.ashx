@@ -881,7 +881,7 @@ public class ImportExcels : IHttpHandler
         for (var j = 0; j < rowList.Count; j++)
         {
             var saf25 = new saf25();
-            if (j == 0) continue;//跳過標題
+            if (j == 0 || j == 1) continue;//跳過標題
 
             var row = rowList[j];
             if (string.IsNullOrEmpty(row[2].ToString())) continue;
