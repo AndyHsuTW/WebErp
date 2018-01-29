@@ -800,6 +800,9 @@ public class ImportExcels : IHttpHandler
             var row = rowList[j];
 
             if (j == 1 && row[0].ToString().Equals("序號")) continue;//跳過標題
+            
+            if (row.Count!=13) continue;
+            
             if (string.IsNullOrEmpty(row[3].ToString())) continue;
 
             for (var k = 0; k < row.Count; k++)

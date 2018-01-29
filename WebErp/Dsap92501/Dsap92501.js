@@ -202,6 +202,18 @@
                             vueobj.Lutian.open = true;
                             vueobj.Lutian.saf25FileInfo = JSON.parse(result);
                         })
+                    } else if (File.name.toUpperCase().indexOf("16. 聯合報.CSV") > -1) {
+                        vueobj.Lianhebao.FileName = File.name;
+                        vueobj.ImportExcelsAjax(formData, function (result) {
+                            vueobj.Lianhebao.open = true;
+                            vueobj.Lianhebao.saf25FileInfo = JSON.parse(result);
+                        })
+                    } else if (File.name.toUpperCase().indexOf("15. 興奇.CSV") > -1) {
+                        vueobj.Xingqi.FileName = File.name;
+                        vueobj.ImportExcelsAjax(formData, function (result) {
+                            vueobj.Xingqi.open = true;
+                            vueobj.Xingqi.saf25FileInfo = JSON.parse(result);
+                        })
                     }
 
 
@@ -254,7 +266,13 @@
                     var files = e.target.files || e.dataTransfer.files;
                     if (files.length == 0) return;
 
-                    vueobj.companiestojudge(files[0]);
+                    if (type == files[0].name.toUpperCase()) {
+                        vueobj.companiestojudge(files[0]);
+                    } else {
+
+                    }
+
+                   
 
                     e.target.value = "";
                 }, bytesToSize: function (bytes) {
