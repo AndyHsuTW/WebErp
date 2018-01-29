@@ -142,27 +142,24 @@
                 <div>
                     <div class="result-div">
                         <div class="scroll-table" v-if="MOMO.open">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr class="">
-                                        <th colspan="14" style="border: 1px solid white">
-                                            <div>
-                                                <table>
-                                                    <tr>
-                                                        <td style="padding: 3px">
-                                                            <input type="checkbox" v-model="MOMO.checked" /></td>
-                                                        <td style="padding: 3px">{{MOMO.saf25FileInfo.FileName}}</td>
-                                                        <td style="padding: 3px">
+                            <div>
+                                <table>
+                                    <tr>
+                                        <td style="padding: 3px">
+                                            <input type="checkbox" v-model="MOMO.checked" /></td>
+                                        <td style="padding: 3px">{{MOMO.saf25FileInfo.FileName}}</td>
+                                        <td style="padding: 3px">
 
-                                                            <label class="btn btn-default">
-                                                                <input style="display: none;" type="file" accept=".csv,.xls,.xlsx" v-on:change="onFileChange('MOMO', $event)">
-                                                                重新送出檔案比對
-                                                            </label>
-                                                    </tr>
-                                                </table>
-                                            </div>
-                                        </th>
+                                            <label class="btn btn-default">
+                                                <input style="display: none;" type="file" accept=".csv,.xls,.xlsx" v-on:change="onFileChange('MOMO', $event)">
+                                                重新送出檔案比對
+                                            </label>
                                     </tr>
+                                </table>
+                            </div>
+                            <table class="table table-bordered" style="width: calc(100% - 18px)">
+                                <thead>
+
                                     <tr class="bg-primary text-light">
                                         <th>項次+燈號</th>
                                         <th>訂單編號</th>
@@ -1310,154 +1307,149 @@
                                     </tr>
                                 </tbody>
                             </table>
-                        </div>  <div class="scroll-table" v-if="Lutian.open">
+                        </div>
+                        <%--露天--%>
+                        <div class="scroll-table" v-if="Lutian.open">
+                            <div>
+                                <table>
+                                    <tr>
+                                        <td style="padding: 3px">
+                                            <input type="checkbox" v-model="Lutian.checked" /></td>
+                                        <td style="padding: 3px">{{Lutian.saf25FileInfo.FileName}}</td>
+                                        <td style="padding: 3px">
+                                            <label class="btn btn-default">
+                                                <input style="display: none;" type="file" accept=".csv,.xls,.xlsx" v-on:change="onFileChange('22. 露天.csv', $event)">
+                                                重新送出檔案比對
+                                            </label>
+                                    </tr>
+                                </table>
+                            </div>
                             <table class="table table-bordered">
                                 <thead>
-                                    <tr class="">
-                                        <th colspan="14" style="border: 1px solid white">
-                                            <div>
-                                                <table>
-                                                    <tr>
-                                                        <td style="padding: 3px">
-                                                            <input type="checkbox" v-model="Xingqi.checked" /></td>
-                                                        <td style="padding: 3px">{{Xingqi.saf25FileInfo.FileName}}</td>
-                                                        <td style="padding: 3px">
-                                                            <label class="btn btn-default">
-                                                                <input style="display: none;" type="file" accept=".csv,.xls,.xlsx" v-on:change="onFileChange('Xingqi', $event)">
-                                                                重新送出檔案比對
-                                                            </label>
-                                                    </tr>
-                                                </table>
-                                            </div>
-                                        </th>
-                                    </tr>
+
                                     <tr class="bg-primary text-light">
-                                        <th>訂單編號</th>
-                                        <th>NO</th>
-                                        <th>出貨單號</th>
-                                        <th>確認</th>
-                                        <th>出貨日期</th>
-                                        <th>轉單日期</th>
-                                        <th>預購日/指定配達日</th>
-                                        <th>收貨人</th>
-                                        <th>ZIP</th>
-                                        <th>收貨地址(訂單編號)</th>
-                                        <th>收貨人電話</th>
+                                        <th>賣出時間</th>
+                                        <th>商品編號</th>
                                         <th>商品名稱</th>
-                                        <th>下定時數量</th>
-                                        <th>取消數量</th>
-                                        <th>應出貨數量</th>
-                                        <th>單位成本</th>
-                                        <th>成本小計</th>
-                                        <th>商品規格</th>
-                                        <th>廠商料號</th>
-                                        <th>備註</th>
-                                        <th>客戶留言</th>
+                                        <th>規格</th>
+                                        <th>賣家自用料號</th>
+                                        <th>得標金額</th>
+                                        <th>數量</th>
+                                        <th>商品總價</th>
+                                        <th>買家帳號</th>
+                                        <th>交易狀態</th>
+                                        <th>收件人姓名</th>
+                                        <th>電話</th>
+                                        <th>手機</th>
+                                        <th>收件地址</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="saf25 in Xingqi.saf25FileInfo.saf25List">
-                                        <td>{{saf25.saf2503_ord_no}}</td>
-                                        <td>{{saf25.saf2502_seq}}</td>
-                                        <td>{{saf25.saf2527_ship_no}}</td>
-                                        <td>{{saf25.saf2506_ord_status}}</td>
-                                        <td>{{saf25.saf2523_ship_date}}</td>
+                                    <tr v-for="saf25 in Lutian.saf25FileInfo.saf25List">
                                         <td>{{saf25.saf2504_ord_date}}</td>
-                                        <td>{{saf25.saf2520_dis_date}}</td>
-                                        <td>{{saf25.saf2514_rec_name}}</td>
-                                        <td>{{saf25.saf2522_dis_demand}}</td>
-                                        <td>{{saf25.saf2519_rec_address}}</td>
-                                        <td>{{saf25.saf2515_rec_cell}}</td>
-                                        <td>{{saf25.saf2531_psname}}</td>
-                                        <td>{{saf25.saf2541_ord_qty}}</td>
-                                        <td>{{saf25.saf2543_cancel_qty}}</td>
-                                        <td>{{saf25.saf2540_ship_qty}}</td>
-                                        <td>{{saf25.saf2544_cost}}</td>
-                                        <td>{{saf25.saf2545_cost_sub}}</td>
-                                        <td>{{saf25.saf2532_pname}}</td>
                                         <td>{{saf25.saf2536_pcode_v}}</td>
-                                        <td>{{saf25.saf2505_ord_remark}}</td>
-                                        <td>{{saf25.saf2556_leave_msg}}</td>
+                                        <td>{{saf25.saf2531_psname}}</td>
+                                        <td>{{saf25.saf2532_pname}}</td>
+                                        <td>{{saf25.saf2537_pcode}}</td>
+                                        <td>{{saf25.saf2547_price}}</td>
+                                        <td>{{saf25.saf2541_ord_qty}}</td>
+                                        <td>{{saf25.saf2548_price_sub}}</td>
+                                        <td>{{saf25.saf2578_get_acc}}</td>
+                                        <td>{{saf25.saf2506_ord_status}}</td>
+                                        <td>{{saf25.saf2514_rec_name}}</td>
+                                        <td>{{saf25.saf2516_rec_tel01}}</td>
+                                        <td>{{saf25.saf2515_rec_cell}}</td>
+                                        <td>{{saf25.saf2519_rec_address}}</td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
-                        </div>  <div class="scroll-table" v-if="Yahoo.open">
+
+                        <%--Yahoo--%>
+                        <div class="scroll-table" v-if="Yahoo.open">
+                            <div>
+                                <table>
+                                    <tr>
+                                        <td style="padding: 3px">
+                                            <input type="checkbox" v-model="Yahoo.checked" /></td>
+                                        <td style="padding: 3px">{{Yahoo.saf25FileInfo.FileName}}</td>
+                                        <td style="padding: 3px">
+                                            <label class="btn btn-default">
+                                                <input style="display: none;" type="file" accept=".csv,.xls,.xlsx" v-on:change="onFileChange('23. YAHOO拍賣.csv', $event)">
+                                                重新送出檔案比對
+                                            </label>
+                                    </tr>
+                                </table>
+                            </div>
                             <table class="table table-bordered">
                                 <thead>
-                                    <tr class="">
-                                        <th colspan="14" style="border: 1px solid white">
-                                            <div>
-                                                <table>
-                                                    <tr>
-                                                        <td style="padding: 3px">
-                                                            <input type="checkbox" v-model="Yahoo.checked" /></td>
-                                                        <td style="padding: 3px">{{Yahoo.saf25FileInfo.FileName}}</td>
-                                                        <td style="padding: 3px">
-                                                            <label class="btn btn-default">
-                                                                <input style="display: none;" type="file" accept=".csv,.xls,.xlsx" v-on:change="onFileChange('23. YAHOO拍賣.csv', $event)">
-                                                                重新送出檔案比對
-                                                            </label>
-                                                    </tr>
-                                                </table>
-                                            </div>
-                                        </th>
-                                    </tr>
+
                                     <tr class="bg-primary text-light">
+                                        <th>訂單成立時間</th>
                                         <th>訂單編號</th>
-                                        <th>NO</th>
-                                        <th>出貨單號</th>
-                                        <th>確認</th>
-                                        <th>出貨日期</th>
-                                        <th>轉單日期</th>
-                                        <th>預購日/指定配達日</th>
-                                        <th>收貨人</th>
-                                        <th>ZIP</th>
-                                        <th>收貨地址(訂單編號)</th>
-                                        <th>收貨人電話</th>
+                                        <th>帳單編號</th>
+                                        <th>商品編號</th>
                                         <th>商品名稱</th>
-                                        <th>下定時數量</th>
-                                        <th>取消數量</th>
-                                        <th>應出貨數量</th>
-                                        <th>單位成本</th>
-                                        <th>成本小計</th>
-                                        <th>商品規格</th>
-                                        <th>廠商料號</th>
-                                        <th>備註</th>
-                                        <th>客戶留言</th>
+                                        <th>第一組貨號</th>
+                                        <th>規格1</th>
+                                        <th>買家拍賣代號</th>
+                                        <th>購買金額</th>
+                                        <th>購買數量</th>
+                                        <th>購買總額</th>
+                                        <th>原運費</th>
+                                        <th>訂單金額</th>
+                                        <th>超贈點</th>
+                                        <th>取件人姓名</th>
+                                        <th>電話</th>
+                                        <th>手機</th>
+                                        <th>郵遞區號</th>
+                                        <th>收件人住址</th>
+                                        <th>付款方式</th>
+                                        <th>運送方式</th>
+                                        <th>出貨日期</th>
+                                        <th>訂單狀態</th>
+                                        <th>付款狀態</th>
+                                        <th>出貨狀態</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr v-for="saf25 in Yahoo.saf25FileInfo.saf25List">
-                                        <td>{{saf25.saf2503_ord_no}}</td>
-                                        <td>{{saf25.saf2502_seq}}</td>
-                                        <td>{{saf25.saf2527_ship_no}}</td>
-                                        <td>{{saf25.saf2506_ord_status}}</td>
-                                        <td>{{saf25.saf2523_ship_date}}</td>
                                         <td>{{saf25.saf2504_ord_date}}</td>
-                                        <td>{{saf25.saf2520_dis_date}}</td>
-                                        <td>{{saf25.saf2514_rec_name}}</td>
-                                        <td>{{saf25.saf2522_dis_demand}}</td>
-                                        <td>{{saf25.saf2519_rec_address}}</td>
-                                        <td>{{saf25.saf2515_rec_cell}}</td>
-                                        <td>{{saf25.saf2531_psname}}</td>
-                                        <td>{{saf25.saf2541_ord_qty}}</td>
-                                        <td>{{saf25.saf2543_cancel_qty}}</td>
-                                        <td>{{saf25.saf2540_ship_qty}}</td>
-                                        <td>{{saf25.saf2544_cost}}</td>
-                                        <td>{{saf25.saf2545_cost_sub}}</td>
-                                        <td>{{saf25.saf2532_pname}}</td>
+                                        <td>{{saf25.saf2503_ord_no}}</td>
+                                        <td>{{saf25.saf2527_ship_no}}</td>
                                         <td>{{saf25.saf2536_pcode_v}}</td>
-                                        <td>{{saf25.saf2505_ord_remark}}</td>
-                                        <td>{{saf25.saf2556_leave_msg}}</td>
+                                        <td>{{saf25.saf2531_psname}}</td>
+                                        <td>{{saf25.saf2537_pcode}}</td>
+                                        <td>{{saf25.saf2532_pname}}</td>
+                                        <td>{{saf25.saf2571_auction}}</td>
+                                        <td>{{saf25.saf2547_price}}</td>
+                                        <td>{{saf25.saf2541_ord_qty}}</td>
+                                        <td>{{saf25.saf2548_price_sub}}</td>
+                                        <td>{{saf25.saf2546_mana_fee}}</td>
+                                        <td>{{saf25.saf2589_order_amt}}</td>
+                                        <td>{{saf25.saf2587_gift_pnt}}</td>
+                                        <td>{{saf25.saf2514_rec_name}}</td>
+                                        <td>{{saf25.saf2516_rec_tel01}}</td>
+                                        <td>{{saf25.saf2515_rec_cell}}</td>
+                                        <td>{{saf25.saf2518_rec_zip}}</td>
+                                        <td>{{saf25.saf2519_rec_address}}</td>
+                                        <td>{{saf25.saf2550_paymt_way}}</td>
+                                        <td>{{saf25.saf2530_logis_comp}}</td>
+                                        <td>{{saf25.saf2523_ship_date}}</td>
+                                        <td>{{saf25.saf2506_ord_status}}</td>
+                                        <td>{{saf25.saf2551_paymt_status}}</td>
+                                        <td>{{saf25.saf2526_ship_status}}</td>
+
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
+    </div>
 
 
 

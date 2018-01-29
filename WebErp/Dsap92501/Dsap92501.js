@@ -196,6 +196,12 @@
                             vueobj.Yahoo.open = true;
                             vueobj.Yahoo.saf25FileInfo = JSON.parse(result);
                         })
+                    } else if (File.name.toUpperCase().indexOf("22. 露天.CSV") > -1) {
+                        vueobj.Lutian.FileName = File.name;
+                        vueobj.ImportExcelsAjax(formData, function (result) {
+                            vueobj.Lutian.open = true;
+                            vueobj.Lutian.saf25FileInfo = JSON.parse(result);
+                        })
                     }
 
 

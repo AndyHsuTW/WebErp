@@ -10,6 +10,7 @@ using System.Text;
 using System.Linq;
 using System.Globalization;
 using Newtonsoft.Json;
+using System.Text.RegularExpressions;
 public class ImportExcels : IHttpHandler
 {
 
@@ -1110,7 +1111,9 @@ public class ImportExcels : IHttpHandler
                 //K
                 else if (k == 10)
                 {
-                    saf25.saf2506_ord_status = column;
+                    //有HTML Tag
+                    saf25.saf2506_ord_status = Regex.Replace(column.Replace("<br>", "，"), @"<[^>]*>", String.Empty);
+                    //saf25.saf2506_ord_status = column;
                 }
                 //L  
                 else if (k == 11)
