@@ -721,7 +721,7 @@ public class ImportExcels : IHttpHandler
                 //A
                 if (k == 0)
                 {
-                    saf25.saf2503_ord_no = column;
+                    saf25.saf2503_ord_no = column.Replace("'","");
                 }
                 //B
                 else if (k == 1)
@@ -777,7 +777,7 @@ public class ImportExcels : IHttpHandler
                 //L  
                 else if (k == 11)
                 {
-                    saf25.saf2515_rec_cell = column;
+                    saf25.saf2515_rec_cell = column.Replace("'", ""); ;
                 }
                 //M
                 else if (k == 12)

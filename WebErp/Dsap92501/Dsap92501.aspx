@@ -1020,79 +1020,61 @@
                                 </tbody>
                             </table>
                         </div>
+                        <%--瘋狂賣客--%>
                         <div class="scroll-table" v-if="Crazymike.open">
+                            <div>
+                                <table>
+                                    <tr>
+                                        <td style="padding: 3px">
+                                            <input type="checkbox" v-model="Crazymike.checked" /></td>
+                                        <td style="padding: 3px">{{Crazymike.saf25FileInfo.FileName}}</td>
+                                        <td style="padding: 3px">
+                                            <label class="btn btn-default">
+                                                <input style="display: none;" type="file" accept=".csv,.xls,.xlsx" v-on:change="onFileChange('14. 瘋狂賣客.CSV', $event)">
+                                                重新送出檔案比對
+                                            </label>
+                                    </tr>
+                                </table>
+                            </div>
                             <table class="table table-bordered">
                                 <thead>
-                                    <tr class="">
-                                        <th colspan="14" style="border: 1px solid white">
-                                            <div>
-                                                <table>
-                                                    <tr>
-                                                        <td style="padding: 3px">
-                                                            <input type="checkbox" v-model="Crazymike.checked" /></td>
-                                                        <td style="padding: 3px">{{Crazymike.saf25FileInfo.FileName}}</td>
-                                                        <td style="padding: 3px">
-                                                            <label class="btn btn-default">
-                                                                <input style="display: none;" type="file" accept=".csv,.xls,.xlsx" v-on:change="onFileChange('Crazymike', $event)">
-                                                                重新送出檔案比對
-                                                            </label>
-                                                    </tr>
-                                                </table>
-                                            </div>
-                                        </th>
-                                    </tr>
+
                                     <tr class="bg-primary text-light">
                                         <th>訂單編號</th>
-                                        <th>NO</th>
-                                        <th>出貨單號</th>
-                                        <th>確認</th>
                                         <th>出貨日期</th>
-                                        <th>轉單日期</th>
-                                        <th>預購日/指定配達日</th>
-                                        <th>收貨人</th>
-                                        <th>ZIP</th>
-                                        <th>收貨地址(訂單編號)</th>
-                                        <th>收貨人電話</th>
+                                        <th>出貨單號</th>
                                         <th>商品名稱</th>
-                                        <th>下定時數量</th>
-                                        <th>取消數量</th>
-                                        <th>應出貨數量</th>
-                                        <th>單位成本</th>
-                                        <th>成本小計</th>
+                                        <th>訂購數量</th>
                                         <th>商品規格</th>
-                                        <th>廠商料號</th>
-                                        <th>備註</th>
-                                        <th>客戶留言</th>
+                                        <th>含稅成本</th>
+                                        <th>運費成本</th>
+                                        <th>含稅小計</th>
+                                        <th>收件人姓名</th>
+                                        <th>收件人地址</th>
+                                        <th>收件人電話</th>
+                                        <th>贈品</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr v-for="saf25 in Crazymike.saf25FileInfo.saf25List">
                                         <td>{{saf25.saf2503_ord_no}}</td>
-                                        <td>{{saf25.saf2502_seq}}</td>
-                                        <td>{{saf25.saf2527_ship_no}}</td>
-                                        <td>{{saf25.saf2506_ord_status}}</td>
                                         <td>{{saf25.saf2523_ship_date}}</td>
-                                        <td>{{saf25.saf2504_ord_date}}</td>
-                                        <td>{{saf25.saf2520_dis_date}}</td>
-                                        <td>{{saf25.saf2514_rec_name}}</td>
-                                        <td>{{saf25.saf2522_dis_demand}}</td>
-                                        <td>{{saf25.saf2519_rec_address}}</td>
-                                        <td>{{saf25.saf2515_rec_cell}}</td>
+                                        <td>{{saf25.saf2527_ship_no}}</td>
                                         <td>{{saf25.saf2531_psname}}</td>
                                         <td>{{saf25.saf2541_ord_qty}}</td>
-                                        <td>{{saf25.saf2543_cancel_qty}}</td>
-                                        <td>{{saf25.saf2540_ship_qty}}</td>
-                                        <td>{{saf25.saf2544_cost}}</td>
-                                        <td>{{saf25.saf2545_cost_sub}}</td>
                                         <td>{{saf25.saf2532_pname}}</td>
-                                        <td>{{saf25.saf2536_pcode_v}}</td>
-                                        <td>{{saf25.saf2505_ord_remark}}</td>
-                                        <td>{{saf25.saf2556_leave_msg}}</td>
+                                        <td>{{saf25.saf2544_cost}}</td>
+                                        <td>{{saf25.saf2546_mana_fee}}</td>
+                                        <td>{{saf25.saf2514_rec_name}}</td>
+                                        <td>{{saf25.saf2528_fre_no}}</td>
+                                        <td>{{saf25.saf2519_rec_address}}</td>
+                                        <td>{{saf25.saf2515_rec_cell}}</td>
+                                        <td>{{saf25.saf2553_gifts}}</td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
-                       
+
                         <%--興奇--%>
                         <div class="scroll-table" v-if="Xingqi.open">
                             <div>
@@ -1143,8 +1125,8 @@
                                         <td>{{saf25.saf2541_ord_qty}}</td>
                                         <td>{{saf25.saf2544_cost}}</td>
                                         <td>{{saf25.saf2523_ship_date}}</td>
-                                       
-                                       
+
+
                                     </tr>
                                 </tbody>
                             </table>

@@ -214,6 +214,12 @@
                             vueobj.Xingqi.open = true;
                             vueobj.Xingqi.saf25FileInfo = JSON.parse(result);
                         })
+                    } else if (File.name.toUpperCase().indexOf("14. 瘋狂賣客.CSV") > -1) {
+                        vueobj.Crazymike.FileName = File.name;
+                        vueobj.ImportExcelsAjax(formData, function (result) {
+                            vueobj.Crazymike.open = true;
+                            vueobj.Crazymike.saf25FileInfo = JSON.parse(result);
+                        })
                     }
 
 
