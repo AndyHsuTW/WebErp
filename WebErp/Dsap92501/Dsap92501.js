@@ -41,7 +41,107 @@
                     File:[],
                     FileName: "",
                     saf25FileInfo: {}
-                }  
+                },
+                Formosa_Plastics: {//台塑
+                    checked: true,
+                    open: false,
+                    File:[],
+                    FileName: "",
+                    saf25FileInfo: {}
+                },
+                Taiwan_Mobile: {//台灣大哥大
+                    checked: true,
+                    open: false,
+                    File:[],
+                    FileName: "",
+                    saf25FileInfo: {}
+                },
+                Buy123: {//生活市集
+                    checked: true,
+                    open: false,
+                    File:[],
+                    FileName: "",
+                    saf25FileInfo: {}
+                },
+                Eastern: {//東森
+                    checked: true,
+                    open: false,
+                    File: [],
+                    FileName: "",
+                    saf25FileInfo: {}
+                }, Pcone: {//松果
+                    checked: true,
+                    open: false,
+                    File: [],
+                    FileName: "",
+                    saf25FileInfo: {}
+                },
+                Symphox: {//神坊
+                    checked: true,
+                    open: false,
+                    File: [],
+                    FileName: "",
+                    saf25FileInfo: {}
+                },
+                Gomaji: {//夠麻吉
+                    checked: true,
+                    open: false,
+                    File: [],
+                    FileName: "",
+                    saf25FileInfo: {}
+                },
+                PayEasy: {//康迅
+                    checked: true,
+                    open: false,
+                    File: [],
+                    FileName: "",
+                    saf25FileInfo: {}
+                },
+                UniPresiden: {//統一
+                    checked: true,
+                    open: false,
+                    File: [],
+                    FileName: "",
+                    saf25FileInfo: {}
+                },
+                Dingding: {//鼎鼎
+                    checked: true,
+                    open: false,
+                    File: [],
+                    FileName: "",
+                    saf25FileInfo: {}
+                },Crazymike:{//瘋狂賣克
+                    checked: true,
+                    open: false,
+                    File: [],
+                    FileName: "",
+                    saf25FileInfo: {}
+                }, Xingqi: {//興奇
+                    checked: true,
+                    open: false,
+                    File: [],
+                    FileName: "",
+                    saf25FileInfo: {}
+                }, Lianhebao: {//聯合報
+                    checked: true,
+                    open: false,
+                    File: [],
+                    FileName: "",
+                    saf25FileInfo: {}
+                }, Lutian: {//露天
+                    checked: true,
+                    open: false,
+                    File: [],
+                    FileName: "",
+                    saf25FileInfo: {}
+                },
+                Yahoo: {//YAHOO拍賣
+                    checked: true,
+                    open: false,
+                    File: [],
+                    FileName: "",
+                    saf25FileInfo: {}
+                }
             },
             methods: {
                
@@ -54,25 +154,10 @@
                     }
                     var vueobj = this;
                     for (var i = 0; i < vueobj.MultipleFile.length; i++) {
-                        var formData = new FormData();
-                        formData.append("file", vueobj.MultipleFile[i])
 
-                        if (vueobj.MultipleFile[i].name.toUpperCase().indexOf("02. MOMO.CSV")>-1) {
-                            vueobj.MOMO.FileName = vueobj.MultipleFile[i].name;
-                            vueobj.ImportExcelsAjax(formData, function (result) {
-                                vueobj.MOMO.open = true;
-                                vueobj.MOMO.saf25FileInfo = JSON.parse(result);
-                            })
-                        }
-                        else if (vueobj.MultipleFile[i].name.toUpperCase().indexOf("03. PCHOME.CSV") > -1) {
+                        vueobj.companiestojudge(vueobj.MultipleFile[i])
 
-
-                            vueobj.PChome.FileName = vueobj.MultipleFile[i].name;
-                            vueobj.ImportExcelsAjax(formData, function (result) {
-                                vueobj.PChome.open = true;
-                                vueobj.PChome.saf25FileInfo = JSON.parse(result);
-                            })
-                        }
+                       
 
 
                     }
@@ -83,9 +168,40 @@
                     LoadingHelper.hideLoading();
 
 
-                }, ImportExcelsAjax: function (formData,callback) {
+                }, companiestojudge: function (File) {
+                    var formData = new FormData();
+                    formData.append("file", File)
 
-                   $.ajax({
+                    var vueobj = this;
+
+                    if (File.name.toUpperCase().indexOf("02. MOMO.CSV") > -1) {
+                        vueobj.MOMO.FileName = File.name;
+                        vueobj.ImportExcelsAjax(formData, function (result) {
+                            vueobj.MOMO.open = true;
+                            vueobj.MOMO.saf25FileInfo = JSON.parse(result);
+                        })
+                    }
+                    else if (File.name.toUpperCase().indexOf("03. PCHOME.CSV") > -1) {
+
+
+                        vueobj.PChome.FileName = File.name;
+                        vueobj.ImportExcelsAjax(formData, function (result) {
+                            vueobj.PChome.open = true;
+                            vueobj.PChome.saf25FileInfo = JSON.parse(result);
+                        })
+                    } else if (File.name.toUpperCase().indexOf("23. YAHOO拍賣.CSV") > -1) {
+
+                        vueobj.PChome.FileName = File.name;
+                        vueobj.ImportExcelsAjax(formData, function (result) {
+                            vueobj.Yahoo.open = true;
+                            vueobj.Yahoo.saf25FileInfo = JSON.parse(result);
+                        })
+                    }
+
+
+                },ImportExcelsAjax: function (formData,callback) {
+
+                    $.ajax({
                         url: "/WebErp/Dsap92501/Ajax/ImportExcels.ashx?DateTime=" + this.DateTime,
                         type: 'POST',
                         data: formData,
@@ -111,31 +227,28 @@
                     $("#ImportExcelInput").trigger("click");
                 }, onMultipleFileChange: function (e) {
                     var files = e.target.files || e.dataTransfer.files;
+                    if (files.length == 0) return;
+
+                    //檔案排序
+                    [].slice.call(files).sort(function (a, b) {
+                        var keyA = a.name,
+                            keyB = b.name;
+                        // Compare the 2 dates
+                        if (keyA < keyB) return -1;
+                        if (keyA > keyB) return 1;
+                        return 0;
+                    });
+
+
+
                     this.MultipleFile = files
                     //e.target.value = "";
                 }, onFileChange: function (type, e) {
                     var vueobj = this
                     var files = e.target.files || e.dataTransfer.files;
+                    if (files.length == 0) return;
 
-                    var formData = new FormData();
-                    formData.append("file", files[0])
-
-                    if (type == "MOMO" && files[0].name.toUpperCase().indexOf("02. MOMO.CSV") > -1) {
-                        vueobj.MOMO.FileName = files[0].name;
-                        vueobj.ImportExcelsAjax(formData, function (result) {
-                            vueobj.MOMO.open = true;
-                            vueobj.MOMO.saf25FileInfo = JSON.parse(result);
-                        })
-
-                    }
-                    if (type == "PChome" && files[0].name.toUpperCase().indexOf("03. PCHOME.CSV") > -1) {
-                        vueobj.MOMO.FileName = files[0].name;
-                        vueobj.ImportExcelsAjax(formData, function (result) {
-                            vueobj.MOMO.open = true;
-                            vueobj.MOMO.saf25FileInfo = JSON.parse(result);
-                        })
-
-                    }
+                    vueobj.companiestojudge(files[0]);
 
                     e.target.value = "";
                 }, bytesToSize: function (bytes) {

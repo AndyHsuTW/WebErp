@@ -1713,6 +1713,7 @@ public class ImportExcels : IHttpHandler
         }
         return rowList;
     }
+    
     public ErrorInfo CreatErrorMsg(int Row, int column, string Msg)
     {
         var strReturn = "";
@@ -1788,6 +1789,10 @@ public class ImportExcels : IHttpHandler
                     {
                         quotMarkMode = true;
                         sb.Append("");
+                    }
+                    else if (ch=='\t')
+                    {
+                        sb.Append(',');
                     }
                     else
                     {
