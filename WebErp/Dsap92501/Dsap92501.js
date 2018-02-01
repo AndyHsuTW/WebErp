@@ -220,8 +220,69 @@
                             vueobj.Crazymike.open = true;
                             vueobj.Crazymike.saf25FileInfo = JSON.parse(result);
                         })
+                    } else if (File.name.toUpperCase().indexOf("13. 鼎鼎.CSV") > -1) {
+                        vueobj.Dingding.FileName = File.name;
+                        vueobj.ImportExcelsAjax(formData, function (result) {
+                            vueobj.Dingding.open = true;
+                            vueobj.Dingding.saf25FileInfo = JSON.parse(result);
+                        })
                     }
-
+                    else if (File.name.toUpperCase().indexOf("12. 統一.CSV") > -1) {
+                        vueobj.UniPresiden.FileName = File.name;
+                        vueobj.ImportExcelsAjax(formData, function (result) {
+                            vueobj.UniPresiden.open = true;
+                            vueobj.UniPresiden.saf25FileInfo = JSON.parse(result);
+                        })
+                    }
+                    else if (File.name.toUpperCase().indexOf("11. 康迅.CSV") > -1) {
+                        vueobj.PayEasy.FileName = File.name;
+                        vueobj.ImportExcelsAjax(formData, function (result) {
+                            vueobj.PayEasy.open = true;
+                            vueobj.PayEasy.saf25FileInfo = JSON.parse(result);
+                        })
+                    } else if (File.name.toUpperCase().indexOf("10. 夠麻吉.CSV") > -1) {
+                        vueobj.Gomaji.FileName = File.name;
+                        vueobj.ImportExcelsAjax(formData, function (result) {
+                            vueobj.Gomaji.open = true;
+                            vueobj.Gomaji.saf25FileInfo = JSON.parse(result);
+                        })
+                    } else if (File.name.toUpperCase().indexOf("09. 神坊.CSV") > -1) {
+                        vueobj.Symphox.FileName = File.name;
+                        vueobj.ImportExcelsAjax(formData, function (result) {
+                            vueobj.Symphox.open = true;
+                            vueobj.Symphox.saf25FileInfo = JSON.parse(result);
+                        })
+                    } else if (File.name.toUpperCase().indexOf("08. 松果.CSV") > -1) {
+                        vueobj.Pcone.FileName = File.name;
+                        vueobj.ImportExcelsAjax(formData, function (result) {
+                            vueobj.Pcone.open = true;
+                            vueobj.Pcone.saf25FileInfo = JSON.parse(result);
+                        })
+                    } else if (File.name.toUpperCase().indexOf("07. 東森 森森.CSV") > -1) {
+                        vueobj.Eastern.FileName = File.name;
+                        vueobj.ImportExcelsAjax(formData, function (result) {
+                            vueobj.Eastern.open = true;
+                            vueobj.Eastern.saf25FileInfo = JSON.parse(result);
+                        })
+                    } else if (File.name.toUpperCase().indexOf("06. 生活市集.CSV") > -1) {
+                        vueobj.Buy123.FileName = File.name;
+                        vueobj.ImportExcelsAjax(formData, function (result) {
+                            vueobj.Buy123.open = true;
+                            vueobj.Buy123.saf25FileInfo = JSON.parse(result);
+                        })
+                    } else if (File.name.toUpperCase().indexOf("05. 台灣大哥大.CSV") > -1) {
+                        vueobj.Taiwan_Mobile.FileName = File.name;
+                        vueobj.ImportExcelsAjax(formData, function (result) {
+                            vueobj.Taiwan_Mobile.open = true;
+                            vueobj.Taiwan_Mobile.saf25FileInfo = JSON.parse(result);
+                        })
+                    } else if (File.name.toUpperCase().indexOf("04. 台塑.CSV") > -1) {
+                        vueobj.Taiwan_Mobile.FileName = File.name;
+                        vueobj.ImportExcelsAjax(formData, function (result) {
+                            vueobj.Taiwan_Mobile.open = true;
+                            vueobj.Taiwan_Mobile.saf25FileInfo = JSON.parse(result);
+                        })
+                    }
 
                 },ImportExcelsAjax: function (formData,callback) {
 
