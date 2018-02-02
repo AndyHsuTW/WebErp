@@ -29,37 +29,37 @@
                 MultipleFile: [],
                 DateTime: "",
                 MOMO: {
-                    checked:true,
+                    checked: true,
                     open: false,
-                    File:[],
+                    File: [],
                     FileName: "",
-                    saf25FileInfo:{}
+                    saf25FileInfo: {}
                 },
                 PChome: {
                     checked: true,
                     open: false,
-                    File:[],
+                    File: [],
                     FileName: "",
                     saf25FileInfo: {}
                 },
                 Formosa_Plastics: {//台塑
                     checked: true,
                     open: false,
-                    File:[],
+                    File: [],
                     FileName: "",
                     saf25FileInfo: {}
                 },
                 Taiwan_Mobile: {//台灣大哥大
                     checked: true,
                     open: false,
-                    File:[],
+                    File: [],
                     FileName: "",
                     saf25FileInfo: {}
                 },
                 Buy123: {//生活市集
                     checked: true,
                     open: false,
-                    File:[],
+                    File: [],
                     FileName: "",
                     saf25FileInfo: {}
                 },
@@ -110,7 +110,7 @@
                     File: [],
                     FileName: "",
                     saf25FileInfo: {}
-                },Crazymike:{//瘋狂賣克
+                }, Crazymike: {//瘋狂賣克
                     checked: true,
                     open: false,
                     File: [],
@@ -141,10 +141,22 @@
                     File: [],
                     FileName: "",
                     saf25FileInfo: {}
+                }, YahooMart: {// 奇摩超級商城
+                    checked: true,
+                    open: false,
+                    File: [],
+                    FileName: "",
+                    saf25FileInfo: {}
+                }, Motian: {// 摩天
+                    checked: true,
+                    open: false,
+                    File: [],
+                    FileName: "",
+                    saf25FileInfo: {}
                 }
             },
             methods: {
-               
+
                 MultipleSubmit: function () {
                     LoadingHelper.showLoading();
 
@@ -157,14 +169,14 @@
 
                         vueobj.companiestojudge(vueobj.MultipleFile[i])
 
-                       
+
 
 
                     }
 
-                  
-                    
-                   
+
+
+
                     LoadingHelper.hideLoading();
 
 
@@ -282,9 +294,21 @@
                             vueobj.Taiwan_Mobile.open = true;
                             vueobj.Taiwan_Mobile.saf25FileInfo = JSON.parse(result);
                         })
+                    } else if (File.name.toUpperCase().indexOf("奇摩超級商城.XLS") > -1) {
+                        vueobj.YahooMart.FileName = File.name;
+                        vueobj.ImportExcelsAjax(formData, function (result) {
+                            vueobj.YahooMart.open = true;
+                            vueobj.YahooMart.saf25FileInfo = JSON.parse(result);
+                        })
+                    } else if (File.name.toUpperCase().indexOf("摩天.XLS") > -1) {
+                        vueobj.YahooMart.FileName = File.name;
+                        vueobj.ImportExcelsAjax(formData, function (result) {
+                            vueobj.YahooMart.open = true;
+                            vueobj.YahooMart.saf25FileInfo = JSON.parse(result);
+                        })
                     }
 
-                },ImportExcelsAjax: function (formData,callback) {
+                }, ImportExcelsAjax: function (formData, callback) {
 
                     $.ajax({
                         url: "/WebErp/Dsap92501/Ajax/ImportExcels.ashx?DateTime=" + this.DateTime,
@@ -333,13 +357,13 @@
                     var files = e.target.files || e.dataTransfer.files;
                     if (files.length == 0) return;
 
-                    if (type == files[0].name.toUpperCase()) {
+                    if (files[0].name.toUpperCase().indexOf(type) > -1) {
                         vueobj.companiestojudge(files[0]);
                     } else {
 
                     }
 
-                   
+
 
                     e.target.value = "";
                 }, bytesToSize: function (bytes) {
