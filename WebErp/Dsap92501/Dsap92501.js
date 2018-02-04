@@ -22,12 +22,20 @@
     var requiredFiles = ["bootstrap", "functionButton", "uibPagination", "vueDatetimepicker", "LoadingHelper", "UserLog"];
 
     function onLoaded(bootstrap, functionButton, uibPagination, vueDatetimepicker, loadingHelper) {
-
+        SaveEnterPageLog(rootUrl, localStorage.getItem("USER_ID"), "Dsap92501");
+        Array.prototype.remove = function (val) {
+            var index = this.indexOf(val);
+            if (index > -1) {
+                this.splice(index, 1);
+            }
+        };
         window.Dspa92501 = new Vue({
             el: "#Dspa92501",
             data: {
                 MultipleFile: [],
                 DateTime: "",
+                ModalError: [],
+
                 MOMO: {
                     checked: true,
                     open: false,
@@ -153,39 +161,184 @@
                     File: [],
                     FileName: "",
                     saf25FileInfo: {}
-                }
+                }, Letian: {// 摩天
+                    checked: true,
+                    open: false,
+                    File: [],
+                    FileName: "",
+                    saf25FileInfo: {}
+                }, Pc: {// Pc
+                    checked: true,
+                    open: false,
+                    File: [],
+                    FileName: "",
+                    saf25FileInfo: {}
+                }, requests: [],
+                ImportDBLoadding:false
             },
             methods: {
+                ImportAll: function () {
+                    var vueobj = this;
+                    if(vueobj.ImportDBLoadding){
+                        alert("還在寫入中");
+                        return;
+                    }
 
+                    
+                    var Msg = "";
+                    if (confirm("確定匯入?")) {
+                        vueobj.ImportDBLoadding = true;
+                        var List = [];
+                        if (vueobj.MOMO.checked) {
+                            List.push(vueobj.MOMO.saf25FileInfo)
+                        }
+                        if (vueobj.PChome.checked) {
+                            List.push(vueobj.PChome.saf25FileInfo)
+                        }
+                        if (vueobj.Formosa_Plastics.checked) {
+                            List.push(vueobj.Formosa_Plastics.saf25FileInfo)
+                        }
+                        if (vueobj.Taiwan_Mobile.checked) {
+                            List.push(vueobj.Taiwan_Mobile.saf25FileInfo)
+                        }
+                        if (vueobj.Buy123.checked) {
+                            List.push(vueobj.Buy123.saf25FileInfo)
+                        }
+                        if (vueobj.Eastern.checked) {
+                            List.push(vueobj.Eastern.saf25FileInfo)
+                        }
+                        if (vueobj.Pcone.checked) {
+                            List.push(vueobj.Pcone.saf25FileInfo)
+                        }
+                        if (vueobj.Gomaji.checked) {
+                            List.push(vueobj.Gomaji.saf25FileInfo)
+                        }
+                        if (vueobj.PayEasy.checked) {
+                            List.push(vueobj.PayEasy.saf25FileInfo)
+                        }
+                        if (vueobj.UniPresiden.checked) {
+                            List.push(vueobj.UniPresiden.saf25FileInfo)
+                        }
+                        if (vueobj.Dingding.checked) {
+                            List.push(vueobj.Dingding.saf25FileInfo)
+                        }
+                        if (vueobj.Crazymike.checked) {
+                            List.push(vueobj.Crazymike.saf25FileInfo)
+                        }
+                        if (vueobj.Xingqi.checked) {
+                            List.push(vueobj.Xingqi.saf25FileInfo)
+                        }
+                        if (vueobj.Lianhebao.checked) {
+                            List.push(vueobj.Lianhebao.saf25FileInfo)
+                        }
+                        if (vueobj.YahooMart.checked) {
+                            List.push(vueobj.YahooMart.saf25FileInfo)
+                        }
+                        if (vueobj.Motian.checked) {
+                            List.push(vueobj.Motian.saf25FileInfo)
+                        }
+                        if (vueobj.Pc.checked) {
+                            List.push(vueobj.Pc.saf25FileInfo)
+                        }
+                        if (vueobj.Lutian.checked) {
+                            List.push(vueobj.Lutian.saf25FileInfo)
+                        }
+                        if (vueobj.Yahoo.checked) {
+                            List.push(vueobj.Yahoo.saf25FileInfo)
+                        }
+                        LoadingHelper.showLoading();
+                        $.ajax({
+                            url: rootUrl + "Dsap92501/Ajax/Import_saf25.ashx",
+                            type: 'POST',
+                            cache: false,
+                            async: true,
+                            data:{
+                                List: JSON.stringify(List),
+                                Loginuser:localStorage.getItem("USER_ID")
+                            },
+                            success: function (result) {
+                                LoadingHelper.hideLoading();
+                                vueobj.ImportDBLoadding = false;
+                                var List = JSON.parse(result);
+                                if (List.length > 0) {
+                                    var Msg = "";
+                                    for (var i = 0; i < List.length; i++) {
+                                        Msg += List[i] + "有錯誤\n";
+
+                                    }
+                                    alert(Msg);
+
+
+                                } else {
+                                    alert("匯入成功");
+                                }
+
+                            },
+                            error: function (jqXhr, textStatus, errorThrown) {
+                                LoadingHelper.hideLoading();
+                                vueobj.ImportDBLoadding = false;
+                                console.error(errorThrown);
+                            }
+                        });
+
+
+
+                    }
+
+
+                },
+                guid: function () {
+                    function s4() {
+                        return Math.floor((1 + Math.random()) * 0x10000)
+                          .toString(16)
+                          .substring(1);
+                    }
+                    return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+                      s4() + '-' + s4() + s4() + s4();
+                },
                 MultipleSubmit: function () {
-                    LoadingHelper.showLoading();
+
 
                     if (this.DateTime.trim() == "") {
                         alert("未填日期")
                         return;
                     }
                     var vueobj = this;
+
                     for (var i = 0; i < vueobj.MultipleFile.length; i++) {
-
-                        vueobj.companiestojudge(vueobj.MultipleFile[i])
-
+                        LoadingHelper.showLoading();
 
 
+                        this.checkAjax(vueobj.MultipleFile[i]);
 
+                        //vueobj.companiestojudge(vueobj.MultipleFile[i])
                     }
 
 
 
 
-                    LoadingHelper.hideLoading();
+                }, checkAjax: function (File) {
+                    var vueobj = this;
+
+                    setTimeout(function () {
+                        if (vueobj.requests.length < 6) {
+                            vueobj.companiestojudge(File)
+                        } else {
+                            vueobj.checkAjax(File);
+
+                        }
 
 
-                }, companiestojudge: function (File) {
+                    }, 1000);
+
+                },
+
+                companiestojudge: function (File) {
                     var formData = new FormData();
                     formData.append("file", File)
 
                     var vueobj = this;
-
+                    
                     if (File.name.toUpperCase().indexOf("02. MOMO.CSV") > -1) {
                         vueobj.MOMO.FileName = File.name;
                         vueobj.ImportExcelsAjax(formData, function (result) {
@@ -270,29 +423,29 @@
                             vueobj.Pcone.open = true;
                             vueobj.Pcone.saf25FileInfo = JSON.parse(result);
                         })
-                    } else if (File.name.toUpperCase().indexOf("07. 東森 森森.CSV") > -1) {
+                    } else if (File.name.toUpperCase().indexOf("東森 森森.CSV") > -1) {
                         vueobj.Eastern.FileName = File.name;
                         vueobj.ImportExcelsAjax(formData, function (result) {
                             vueobj.Eastern.open = true;
                             vueobj.Eastern.saf25FileInfo = JSON.parse(result);
                         })
-                    } else if (File.name.toUpperCase().indexOf("06. 生活市集.CSV") > -1) {
+                    } else if (File.name.toUpperCase().indexOf("生活市集.CSV") > -1) {
                         vueobj.Buy123.FileName = File.name;
                         vueobj.ImportExcelsAjax(formData, function (result) {
                             vueobj.Buy123.open = true;
                             vueobj.Buy123.saf25FileInfo = JSON.parse(result);
                         })
-                    } else if (File.name.toUpperCase().indexOf("05. 台灣大哥大.CSV") > -1) {
+                    } else if (File.name.toUpperCase().indexOf("台灣大哥大.CSV") > -1) {
                         vueobj.Taiwan_Mobile.FileName = File.name;
                         vueobj.ImportExcelsAjax(formData, function (result) {
                             vueobj.Taiwan_Mobile.open = true;
                             vueobj.Taiwan_Mobile.saf25FileInfo = JSON.parse(result);
                         })
-                    } else if (File.name.toUpperCase().indexOf("04. 台塑.CSV") > -1) {
-                        vueobj.Taiwan_Mobile.FileName = File.name;
+                    } else if (File.name.toUpperCase().indexOf("台塑.CSV") > -1) {
+                        vueobj.Formosa_Plastics.FileName = File.name;
                         vueobj.ImportExcelsAjax(formData, function (result) {
-                            vueobj.Taiwan_Mobile.open = true;
-                            vueobj.Taiwan_Mobile.saf25FileInfo = JSON.parse(result);
+                            vueobj.Formosa_Plastics.open = true;
+                            vueobj.Formosa_Plastics.saf25FileInfo = JSON.parse(result);
                         })
                     } else if (File.name.toUpperCase().indexOf("奇摩超級商城.XLS") > -1) {
                         vueobj.YahooMart.FileName = File.name;
@@ -301,17 +454,37 @@
                             vueobj.YahooMart.saf25FileInfo = JSON.parse(result);
                         })
                     } else if (File.name.toUpperCase().indexOf("摩天.XLS") > -1) {
-                        vueobj.YahooMart.FileName = File.name;
+                        vueobj.Motian.FileName = File.name;
                         vueobj.ImportExcelsAjax(formData, function (result) {
-                            vueobj.YahooMart.open = true;
-                            vueobj.YahooMart.saf25FileInfo = JSON.parse(result);
+                            vueobj.Motian.open = true;
+                            vueobj.Motian.saf25FileInfo = JSON.parse(result);
+                        })
+                    } else if (File.name.toUpperCase().indexOf("樂天.XLS") > -1) {
+                        vueobj.Letian.FileName = File.name;
+                        vueobj.ImportExcelsAjax(formData, function (result) {
+                            vueobj.Letian.open = true;
+                            vueobj.Letian.saf25FileInfo = JSON.parse(result);
+                        })
+                    } else if (File.name.toUpperCase().indexOf("PC.XLS") > -1) {
+                        vueobj.Pc.FileName = File.name;
+                        vueobj.ImportExcelsAjax(formData, function (result) {
+                            vueobj.Pc.open = true;
+                            vueobj.Pc.saf25FileInfo = JSON.parse(result);
                         })
                     }
 
+                   
+
                 }, ImportExcelsAjax: function (formData, callback) {
 
+
+                    var vueobj = this;
+                    var guid = vueobj.guid();
+                    vueobj.requests.push(guid);
+
+
                     $.ajax({
-                        url: "/WebErp/Dsap92501/Ajax/ImportExcels.ashx?DateTime=" + this.DateTime,
+                        url: rootUrl + "Dsap92501/Ajax/ImportExcels.ashx?DateTime=" + this.DateTime + "&v=" + guid,
                         type: 'POST',
                         data: formData,
                         cache: false,
@@ -319,12 +492,20 @@
                         processData: false,
                         contentType: false,
                         success: function (result) {
+                            LoadingHelper.hideLoading();
+                            vueobj.requests.remove(guid);
                             if (typeof (callback) === "function") {
                                 callback(result);
+
+                            }
+                            if (vueobj.requests.length == 0) {
+                                LoadingHelper.hideLoading();
+
                             }
                         },
                         error: function (jqXhr, textStatus, errorThrown) {
-
+                            LoadingHelper.hideLoading();
+                            vueobj.requests.remove(guid);
                             console.error(errorThrown);
                             //alert("匯入失敗");
                         }
@@ -358,6 +539,7 @@
                     if (files.length == 0) return;
 
                     if (files[0].name.toUpperCase().indexOf(type) > -1) {
+                        LoadingHelper.showLoading();
                         vueobj.companiestojudge(files[0]);
                     } else {
 

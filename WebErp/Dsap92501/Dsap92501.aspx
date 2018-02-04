@@ -24,6 +24,7 @@
         }
 
         .scroll-table {
+            width: 95%;
             height: 450px;
             overflow-y: auto;
             overflow-y: overlay;
@@ -34,14 +35,11 @@
             margin-top: 5px;
         }
 
-        .table-borderless > tbody > tr > td,
-        .table-borderless > tbody > tr > th,
-        .table-borderless > tfoot > tr > td,
-        .table-borderless > tfoot > tr > th,
-        .table-borderless > thead > tr > td,
-        .table-borderless > thead > tr > th {
-            border: none;
+        .table-bordered th, .table-bordered td {
+            white-space: nowrap;
+            padding-right: 18px!important;
         }
+
 
         .rowclass:hover {
             background-color: #bde7ff;
@@ -82,6 +80,44 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <div id="Dspa92501" v-cloak>
 
+        <div class="modal fade" id="modalDialog" ref="modalDialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">求助</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="scroll-table">
+                            <table class="table table-bordered" style="width: 250px; height: 200px">
+                                <thead>
+                                    <tr class="bg-primary text-light">
+                                        <th>錯誤欄位</th>
+                                        <th>檔案訊息</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="rowclass" v-for="Error in ModalError">
+                                        <td>{{Error.column}}</td>
+                                        <td>
+                                            {{Error.messenge}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <function-button data-dismiss="modal"
+                            hot-key="f12">
+                    離開
+                </function-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
         <ul class="app-title">
             <li><%=Page.Title %></li>
         </ul>
@@ -121,8 +157,8 @@
 
 
             <div class="result-div" style="height: 800px; overflow-y: auto; overflow-y: overlay;">
-                <div>
-                    <table class="table table-bordered" style="width: 250px;">
+                <div class="scroll-table">
+                    <table class="table table-bordered" style="width: 250px; height: 200px">
                         <thead>
                             <tr class="bg-primary text-light">
                                 <th>檔案</th>
@@ -143,23 +179,29 @@
                     <div class="result-div">
                         <%--02. MOMO.CSV--%>
                         <div class="scroll-table" v-if="MOMO.open">
+
                             <div>
                                 <table>
                                     <tr>
                                         <td style="padding: 3px">
-                                            <input type="checkbox" v-model="MOMO.checked" /></td>
+                                            <input type="checkbox" v-model="MOMO.checked" v-if="MOMO.saf25FileInfo.cnf1004_char02!=''" /></td>
                                         <td style="padding: 3px">{{MOMO.saf25FileInfo.FileName}}</td>
                                         <td style="padding: 3px">
 
-                                            <label class="btn btn-default">
+                                            <label class="btn btn-default" v-if="MOMO.saf25FileInfo.cnf1004_char02!=''">
                                                 <input style="display: none;" type="file" accept=".csv,.xls,.xlsx" v-on:change="onFileChange('MOMO', $event)">
                                                 重新送出檔案比對
+                                            </label>
+                                            <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
+
+                                            <label class="btn btn-default" style="color: red;" v-if="MOMO.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=MOMO.saf25FileInfo.ErrorMsg">
+                                                錯誤訊息   
                                             </label>
                                         </td>
                                     </tr>
                                 </table>
                             </div>
-                            <table class="table table-bordered" style="width: calc(100% - 18px)">
+                            <table class="table table-bordered" style="width: calc(100% - 18px)" v-if="MOMO.saf25FileInfo.cnf1004_char02!=''">
                                 <thead>
 
                                     <tr class="bg-primary text-light">
@@ -227,6 +269,7 @@
                                     </tr>
                                 </tbody>
                             </table>
+
                         </div>
                         <%--03. PCHOME.CSV--%>
                         <div class="scroll-table" v-if="PChome.open">
@@ -234,18 +277,22 @@
                                 <table>
                                     <tr>
                                         <td style="padding: 3px">
-                                            <input type="checkbox" v-model="PChome.checked" /></td>
+                                            <input type="checkbox" v-model="PChome.checked" v-if="PChome.saf25FileInfo.cnf1004_char02!=''" /></td>
                                         <td style="padding: 3px">{{PChome.saf25FileInfo.FileName}}</td>
                                         <td style="padding: 3px">
-                                            <label class="btn btn-default">
+                                            <label class="btn btn-default" v-if="PChome.saf25FileInfo.cnf1004_char02!=''">
                                                 <input style="display: none;" type="file" accept=".csv,.xls,.xlsx" v-on:change="onFileChange('PChome', $event)">
                                                 重新送出檔案比對
+                                            </label>
+                                            <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
+                                            <label class="btn btn-default" style="color: red;" v-if="PChome.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=PChome.saf25FileInfo.ErrorMsg">
+                                                錯誤訊息   
                                             </label>
                                         </td>
                                     </tr>
                                 </table>
                             </div>
-                            <table class="table table-bordered">
+                            <table class="table table-bordered" style="width: calc(100% - 18px)" v-if="PChome.saf25FileInfo.cnf1004_char02!=''">
                                 <thead>
 
                                     <tr class="bg-primary text-light">
@@ -305,18 +352,22 @@
                                 <table>
                                     <tr>
                                         <td style="padding: 3px">
-                                            <input type="checkbox" v-model="Formosa_Plastics.checked" /></td>
+                                            <input type="checkbox" v-model="Formosa_Plastics.checked" v-if="Formosa_Plastics.saf25FileInfo.cnf1004_char02!=''" /></td>
                                         <td style="padding: 3px">{{Formosa_Plastics.saf25FileInfo.FileName}}</td>
                                         <td style="padding: 3px">
-                                            <label class="btn btn-default">
+                                            <label class="btn btn-default" v-if="Formosa_Plastics.saf25FileInfo.cnf1004_char02!=''">
                                                 <input style="display: none;" type="file" accept=".csv,.xls,.xlsx" v-on:change="onFileChange('04. 台塑.CSV', $event)">
                                                 重新送出檔案比對
+                                            </label>
+                                            <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
+                                            <label class="btn btn-default" style="color: red;" v-if="Formosa_Plastics.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Formosa_Plastics.saf25FileInfo.ErrorMsg">
+                                                錯誤訊息   
                                             </label>
                                         </td>
                                     </tr>
                                 </table>
                             </div>
-                            <table class="table table-bordered">
+                            <table class="table table-bordered" style="width: calc(100% - 18px)" v-if="Formosa_Plastics.saf25FileInfo.cnf1004_char02!=''">
                                 <thead>
                                     <tr class="">
                                         <th colspan="14" style="border: 1px solid white"></th>
@@ -326,6 +377,10 @@
                                         <th>訂單編號</th>
                                         <th>拆單編號</th>
                                         <th>訂購日期</th>
+
+                                        <th>訂單別</th>
+                                        <th>訂單狀態</th>
+
                                         <th>付款方式</th>
                                         <th>付款狀態</th>
                                         <th>配送方式</th>
@@ -406,18 +461,22 @@
                                 <table>
                                     <tr>
                                         <td style="padding: 3px">
-                                            <input type="checkbox" v-model="Taiwan_Mobile.checked" /></td>
+                                            <input type="checkbox" v-model="Taiwan_Mobile.checked" v-if="Taiwan_Mobile.saf25FileInfo.cnf1004_char02!=''" /></td>
                                         <td style="padding: 3px">{{Taiwan_Mobile.saf25FileInfo.FileName}}</td>
                                         <td style="padding: 3px">
-                                            <label class="btn btn-default">
+                                            <label class="btn btn-default" v-if="Taiwan_Mobile.saf25FileInfo.cnf1004_char02!=''">
                                                 <input style="display: none;" type="file" accept=".csv,.xls,.xlsx" v-on:change="onFileChange('05. 台灣大哥大.CSV', $event)">
                                                 重新送出檔案比對
+                                            </label>
+                                            <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
+                                            <label class="btn btn-default" style="color: red;" v-if="Taiwan_Mobile.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Taiwan_Mobile.saf25FileInfo.ErrorMsg">
+                                                錯誤訊息   
                                             </label>
                                         </td>
                                     </tr>
                                 </table>
                             </div>
-                            <table class="table table-bordered">
+                            <table class="table table-bordered" style="width: calc(100% - 18px)" v-if="Taiwan_Mobile.saf25FileInfo.cnf1004_char02!=''">
                                 <thead>
 
                                     <tr class="bg-primary text-light">
@@ -477,18 +536,22 @@
                                 <table>
                                     <tr>
                                         <td style="padding: 3px">
-                                            <input type="checkbox" v-model="Buy123.checked" /></td>
+                                            <input type="checkbox" v-model="Buy123.checked" v-if="Buy123.saf25FileInfo.cnf1004_char02!=''" /></td>
                                         <td style="padding: 3px">{{Buy123.saf25FileInfo.FileName}}</td>
                                         <td style="padding: 3px">
-                                            <label class="btn btn-default">
+                                            <label class="btn btn-default" v-if="Buy123.saf25FileInfo.cnf1004_char02!=''">
                                                 <input style="display: none;" type="file" accept=".csv,.xls,.xlsx" v-on:change="onFileChange('06. 生活市集.CSV', $event)">
                                                 重新送出檔案比對
+                                            </label>
+                                            <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
+                                            <label class="btn btn-default" style="color: red;" v-if="Buy123.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Buy123.saf25FileInfo.ErrorMsg">
+                                                錯誤訊息   
                                             </label>
                                         </td>
                                     </tr>
                                 </table>
                             </div>
-                            <table class="table table-bordered">
+                            <table class="table table-bordered" style="width: calc(100% - 18px)" v-if="Buy123.saf25FileInfo.cnf1004_char02!=''">
                                 <thead>
 
                                     <tr class="bg-primary text-light">
@@ -530,18 +593,22 @@
                                 <table>
                                     <tr>
                                         <td style="padding: 3px">
-                                            <input type="checkbox" v-model="Eastern.checked" /></td>
+                                            <input type="checkbox" v-model="Eastern.checked" v-if="Eastern.saf25FileInfo.cnf1004_char02!=''" /></td>
                                         <td style="padding: 3px">{{Eastern.saf25FileInfo.FileName}}</td>
                                         <td style="padding: 3px">
-                                            <label class="btn btn-default">
+                                            <label class="btn btn-default" v-if="Eastern.saf25FileInfo.cnf1004_char02!=''">
                                                 <input style="display: none;" type="file" accept=".csv,.xls,.xlsx" v-on:change="onFileChange('07. 東森 森森.CSV', $event)">
                                                 重新送出檔案比對
+                                            </label>
+                                            <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
+                                            <label class="btn btn-default" style="color: red;" v-if="Eastern.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Eastern.saf25FileInfo.ErrorMsg">
+                                                錯誤訊息   
                                             </label>
                                         </td>
                                     </tr>
                                 </table>
                             </div>
-                            <table class="table table-bordered">
+                            <table class="table table-bordered" style="width: calc(100% - 18px)" v-if="Eastern.saf25FileInfo.cnf1004_char02!=''">
                                 <thead>
 
                                     <tr class="bg-primary text-light">
@@ -574,7 +641,7 @@
                                         <th>贈品</th>
                                         <th>廠商配送訊息</th>
                                         <th>預計入庫日期</th>
-                                       
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -619,18 +686,22 @@
                                 <table>
                                     <tr>
                                         <td style="padding: 3px">
-                                            <input type="checkbox" v-model="Pcone.checked" /></td>
+                                            <input type="checkbox" v-model="Pcone.checked" v-if="Pcone.saf25FileInfo.cnf1004_char02!=''" /></td>
                                         <td style="padding: 3px">{{Pcone.saf25FileInfo.FileName}}</td>
                                         <td style="padding: 3px">
-                                            <label class="btn btn-default">
+                                            <label class="btn btn-default" v-if="Pcone.saf25FileInfo.cnf1004_char02!=''">
                                                 <input style="display: none;" type="file" accept=".csv,.xls,.xlsx" v-on:change="onFileChange('08. 松果.CSV', $event)">
                                                 重新送出檔案比對
+                                            </label>
+                                            <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
+                                            <label class="btn btn-default" style="color: red;" v-if="Pcone.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Pcone.saf25FileInfo.ErrorMsg">
+                                                錯誤訊息   
                                             </label>
                                         </td>
                                     </tr>
                                 </table>
                             </div>
-                            <table class="table table-bordered">
+                            <table class="table table-bordered" style="width: calc(100% - 18px)" v-if="Pcone.saf25FileInfo.cnf1004_char02!=''">
                                 <thead>
 
                                     <tr class="bg-primary text-light">
@@ -677,18 +748,22 @@
                                 <table>
                                     <tr>
                                         <td style="padding: 3px">
-                                            <input type="checkbox" v-model="Symphox.checked" /></td>
+                                            <input type="checkbox" v-model="Symphox.checked" v-if="Symphox.saf25FileInfo.cnf1004_char02!=''" /></td>
                                         <td style="padding: 3px">{{Symphox.saf25FileInfo.FileName}}</td>
                                         <td style="padding: 3px">
-                                            <label class="btn btn-default">
+                                            <label class="btn btn-default" v-if="Symphox.saf25FileInfo.cnf1004_char02!=''">
                                                 <input style="display: none;" type="file" accept=".csv,.xls,.xlsx" v-on:change="onFileChange('09. 神坊.CSV', $event)">
                                                 重新送出檔案比對
+                                            </label>
+                                            <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
+                                            <label class="btn btn-default" style="color: red;" v-if="Symphox.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Symphox.saf25FileInfo.ErrorMsg">
+                                                錯誤訊息   
                                             </label>
                                         </td>
                                     </tr>
                                 </table>
                             </div>
-                            <table class="table table-bordered">
+                            <table class="table table-bordered" style="width: calc(100% - 18px)" v-if="Symphox.saf25FileInfo.cnf1004_char02!=''">
                                 <thead>
 
                                     <tr class="bg-primary text-light">
@@ -733,25 +808,28 @@
                                 </tbody>
                             </table>
                         </div>
-
                         <%--夠麻吉--%>
                         <div class="scroll-table" v-if="Gomaji.open">
                             <div>
                                 <table>
                                     <tr>
                                         <td style="padding: 3px">
-                                            <input type="checkbox" v-model="Gomaji.checked" /></td>
+                                            <input type="checkbox" v-model="Gomaji.checked" v-if="Gomaji.saf25FileInfo.cnf1004_char02!=''" /></td>
                                         <td style="padding: 3px">{{Gomaji.saf25FileInfo.FileName}}</td>
                                         <td style="padding: 3px">
-                                            <label class="btn btn-default">
+                                            <label class="btn btn-default" v-if="Gomaji.saf25FileInfo.cnf1004_char02!=''">
                                                 <input style="display: none;" type="file" accept=".csv,.xls,.xlsx" v-on:change="onFileChange('10. 夠麻吉.CSV', $event)">
                                                 重新送出檔案比對
+                                            </label>
+                                            <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
+                                            <label class="btn btn-default" style="color: red;" v-if="Gomaji.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Gomaji.saf25FileInfo.ErrorMsg">
+                                                錯誤訊息   
                                             </label>
                                         </td>
                                     </tr>
                                 </table>
                             </div>
-                            <table class="table table-bordered">
+                            <table class="table table-bordered" style="width: calc(100% - 18px)" v-if="Gomaji.saf25FileInfo.cnf1004_char02!=''">
 
                                 <thead>
 
@@ -812,18 +890,22 @@
                                 <table>
                                     <tr>
                                         <td style="padding: 3px">
-                                            <input type="checkbox" v-model="PayEasy.checked" /></td>
+                                            <input type="checkbox" v-model="PayEasy.checked" v-if="PayEasy.saf25FileInfo.cnf1004_char02!=''" /></td>
                                         <td style="padding: 3px">{{PayEasy.saf25FileInfo.FileName}}</td>
                                         <td style="padding: 3px">
-                                            <label class="btn btn-default">
+                                            <label class="btn btn-default" v-if="PayEasy.saf25FileInfo.cnf1004_char02!=''">
                                                 <input style="display: none;" type="file" accept=".csv,.xls,.xlsx" v-on:change="onFileChange('11. 康迅.CSV', $event)">
                                                 重新送出檔案比對
+                                            </label>
+                                            <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
+                                            <label class="btn btn-default" style="color: red;" v-if="PayEasy.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=PayEasy.saf25FileInfo.ErrorMsg">
+                                                錯誤訊息   
                                             </label>
                                         </td>
                                     </tr>
                                 </table>
                             </div>
-                            <table class="table table-bordered">
+                            <table class="table table-bordered" style="width: calc(100% - 18px)" v-if="PayEasy.saf25FileInfo.cnf1004_char02!=''">
                                 <thead>
 
                                     <tr class="bg-primary text-light">
@@ -886,18 +968,22 @@
                                 <table>
                                     <tr>
                                         <td style="padding: 3px">
-                                            <input type="checkbox" v-model="UniPresiden.checked" /></td>
+                                            <input type="checkbox" v-model="UniPresiden.checked" v-if="UniPresiden.saf25FileInfo.cnf1004_char02!=''" /></td>
                                         <td style="padding: 3px">{{UniPresiden.saf25FileInfo.FileName}}</td>
                                         <td style="padding: 3px">
-                                            <label class="btn btn-default">
+                                            <label class="btn btn-default" v-if="UniPresiden.saf25FileInfo.cnf1004_char02!=''">
                                                 <input style="display: none;" type="file" accept=".csv,.xls,.xlsx" v-on:change="onFileChange('12. 統一.CSV', $event)">
                                                 重新送出檔案比對
+                                            </label>
+                                            <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
+                                            <label class="btn btn-default" style="color: red;" v-if="UniPresiden.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=UniPresiden.saf25FileInfo.ErrorMsg">
+                                                錯誤訊息   
                                             </label>
                                         </td>
                                     </tr>
                                 </table>
                             </div>
-                            <table class="table table-bordered">
+                            <table class="table table-bordered" style="width: calc(100% - 18px)" v-if="UniPresiden.saf25FileInfo.cnf1004_char02!=''">
                                 <thead>
 
                                     <tr class="bg-primary text-light">
@@ -969,18 +1055,22 @@
                                 <table>
                                     <tr>
                                         <td style="padding: 3px">
-                                            <input type="checkbox" v-model="Dingding.checked" /></td>
+                                            <input type="checkbox" v-model="Dingding.checked" v-if="Dingding.saf25FileInfo.cnf1004_char02!=''" /></td>
                                         <td style="padding: 3px">{{Dingding.saf25FileInfo.FileName}}</td>
                                         <td style="padding: 3px">
-                                            <label class="btn btn-default">
+                                            <label class="btn btn-default" v-if="Dingding.saf25FileInfo.cnf1004_char02!=''">
                                                 <input style="display: none;" type="file" accept=".csv,.xls,.xlsx" v-on:change="onFileChange('13. 鼎鼎.CSV', $event)">
                                                 重新送出檔案比對
+                                            </label>
+                                            <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
+                                            <label class="btn btn-default" style="color: red;" v-if="Dingding.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Dingding.saf25FileInfo.ErrorMsg">
+                                                錯誤訊息   
                                             </label>
                                         </td>
                                     </tr>
                                 </table>
                             </div>
-                            <table class="table table-bordered">
+                            <table class="table table-bordered" style="width: calc(100% - 18px)" v-if="Dingding.saf25FileInfo.cnf1004_char02!=''">
                                 <thead>
 
                                     <tr class="bg-primary text-light">
@@ -1056,18 +1146,22 @@
                                 <table>
                                     <tr>
                                         <td style="padding: 3px">
-                                            <input type="checkbox" v-model="Crazymike.checked" /></td>
+                                            <input type="checkbox" v-model="Crazymike.checked" v-if="Crazymike.saf25FileInfo.cnf1004_char02!=''" /></td>
                                         <td style="padding: 3px">{{Crazymike.saf25FileInfo.FileName}}</td>
                                         <td style="padding: 3px">
-                                            <label class="btn btn-default">
+                                            <label class="btn btn-default" v-if="Crazymike.saf25FileInfo.cnf1004_char02!=''">
                                                 <input style="display: none;" type="file" accept=".csv,.xls,.xlsx" v-on:change="onFileChange('14. 瘋狂賣客.CSV', $event)">
                                                 重新送出檔案比對
+                                            </label>
+                                            <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
+                                            <label class="btn btn-default" style="color: red;" v-if="Crazymike.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Crazymike.saf25FileInfo.ErrorMsg">
+                                                錯誤訊息   
                                             </label>
                                         </td>
                                     </tr>
                                 </table>
                             </div>
-                            <table class="table table-bordered">
+                            <table class="table table-bordered" style="width: calc(100% - 18px)" v-if="Crazymike.saf25FileInfo.cnf1004_char02!=''">
                                 <thead>
 
                                     <tr class="bg-primary text-light">
@@ -1111,18 +1205,22 @@
                                 <table>
                                     <tr>
                                         <td style="padding: 3px">
-                                            <input type="checkbox" v-model="Xingqi.checked" /></td>
+                                            <input type="checkbox" v-model="Xingqi.checked" v-if="Xingqi.saf25FileInfo.cnf1004_char02!=''" /></td>
                                         <td style="padding: 3px">{{Xingqi.saf25FileInfo.FileName}}</td>
                                         <td style="padding: 3px">
-                                            <label class="btn btn-default">
+                                            <label class="btn btn-default" v-if="Xingqi.saf25FileInfo.cnf1004_char02!=''">
                                                 <input style="display: none;" type="file" accept=".csv,.xls,.xlsx" v-on:change="onFileChange('15. 興奇.CSV', $event)">
                                                 重新送出檔案比對
+                                            </label>
+                                            <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
+                                            <label class="btn btn-default" style="color: red;" v-if="Xingqi.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Xingqi.saf25FileInfo.ErrorMsg">
+                                                錯誤訊息   
                                             </label>
                                         </td>
                                     </tr>
                                 </table>
                             </div>
-                            <table class="table table-bordered">
+                            <table class="table table-bordered" style="width: calc(100% - 18px)" v-if="Xingqi.saf25FileInfo.cnf1004_char02!=''">
                                 <thead>
 
                                     <tr class="bg-primary text-light">
@@ -1168,18 +1266,22 @@
                                 <table>
                                     <tr>
                                         <td style="padding: 3px">
-                                            <input type="checkbox" v-model="Lianhebao.checked" /></td>
+                                            <input type="checkbox" v-model="Lianhebao.checked" v-if="Lianhebao.saf25FileInfo.cnf1004_char02!=''" /></td>
                                         <td style="padding: 3px">{{Lianhebao.saf25FileInfo.FileName}}</td>
                                         <td style="padding: 3px">
-                                            <label class="btn btn-default">
+                                            <label class="btn btn-default" v-if="Lianhebao.saf25FileInfo.cnf1004_char02!=''">
                                                 <input style="display: none;" type="file" accept=".csv,.xls,.xlsx" v-on:change="onFileChange('16. 聯合報.CSV', $event)">
                                                 重新送出檔案比對
+                                            </label>
+                                            <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
+                                            <label class="btn btn-default" style="color: red;" v-if="Lianhebao.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Lianhebao.saf25FileInfo.ErrorMsg">
+                                                錯誤訊息   
                                             </label>
                                         </td>
                                     </tr>
                                 </table>
                             </div>
-                            <table class="table table-bordered">
+                            <table class="table table-bordered" style="width: calc(100% - 18px)" v-if="Lianhebao.saf25FileInfo.cnf1004_char02!=''">
                                 <thead>
                                     <tr class="bg-primary text-light">
                                         <th>最遲出貨日</th>
@@ -1242,24 +1344,28 @@
                                 </tbody>
                             </table>
                         </div>
-                        <%--18  奇摩超級商城--%>
+                        <%--18. 奇摩超級商城--%>
                         <div class="scroll-table" v-if="YahooMart.open">
                             <div>
                                 <table>
                                     <tr>
                                         <td style="padding: 3px">
-                                            <input type="checkbox" v-model="YahooMart.checked" /></td>
+                                            <input type="checkbox" v-model="YahooMart.checked" v-if="YahooMart.saf25FileInfo.cnf1004_char02!=''" /></td>
                                         <td style="padding: 3px">{{YahooMart.saf25FileInfo.FileName}}</td>
                                         <td style="padding: 3px">
-                                            <label class="btn btn-default">
+                                            <label class="btn btn-default" v-if="YahooMart.saf25FileInfo.cnf1004_char02!=''">
                                                 <input style="display: none;" type="file" accept=".csv,.xls,.xlsx" v-on:change="onFileChange('16. 聯合報.CSV', $event)">
                                                 重新送出檔案比對
+                                            </label>
+                                            <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
+                                            <label class="btn btn-default" style="color: red;" v-if="YahooMart.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=YahooMart.saf25FileInfo.ErrorMsg">
+                                                錯誤訊息   
                                             </label>
                                         </td>
                                     </tr>
                                 </table>
                             </div>
-                            <table class="table table-bordered">
+                            <table class="table table-bordered" style="width: calc(100% - 18px)" v-if="YahooMart.saf25FileInfo.cnf1004_char02!=''">
                                 <thead>
                                     <tr class="bg-primary text-light">
                                         <th>交易序號</th>
@@ -1288,7 +1394,7 @@
                                         <th>發票寄送地址</th>
                                         <th>商品稅別</th>
                                         <th>超贈點點數</th>
-                                         <th>超贈點折抵金額</th>
+                                        <th>超贈點折抵金額</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -1324,29 +1430,35 @@
                                 </tbody>
                             </table>
                         </div>
-                         <%--19  摩天--%>
+                        <%--19. 摩天--%>
                         <div class="scroll-table" v-if="Motian.open">
                             <div>
                                 <table>
                                     <tr>
                                         <td style="padding: 3px">
-                                            <input type="checkbox" v-model="Motian.checked" /></td>
+                                            <input type="checkbox" v-model="Motian.checked" v-if="Motian.saf25FileInfo.cnf1004_char02!=''" /></td>
                                         <td style="padding: 3px">{{Motian.saf25FileInfo.FileName}}</td>
                                         <td style="padding: 3px">
-                                            <label class="btn btn-default">
+                                            <label class="btn btn-default" v-if="Motian.saf25FileInfo.cnf1004_char02!=''">
                                                 <input style="display: none;" type="file" accept=".csv,.xls,.xlsx" v-on:change="onFileChange('19. 摩天.XLS', $event)">
                                                 重新送出檔案比對
+                                            </label>
+                                            <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
+                                            <label class="btn btn-default" style="color: red;" v-if="Motian.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Motian.saf25FileInfo.ErrorMsg">
+                                                錯誤訊息   
                                             </label>
                                         </td>
                                     </tr>
                                 </table>
                             </div>
-                            <table class="table table-bordered">
+                            <table class="table table-bordered" style="width: calc(100% - 18px)" v-if="Motian.saf25FileInfo.cnf1004_char02!=''">
                                 <thead>
                                     <tr class="bg-primary text-light">
+                                        <th>項次</th>
                                         <th>訂單編號</th>
                                         <th>配送狀態</th>
                                         <th>配送訊息</th>
+                                        <th>物流公司</th>
                                         <th>配送單號</th>
                                         <th>客戶配送需求</th>
                                         <th>付款日</th>
@@ -1367,7 +1479,7 @@
                                         <th>訂購人姓名</th>
                                         <th>電話</th>
                                         <th>行動電話</th>
-                                       
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -1397,30 +1509,100 @@
                                         <td>{{saf25.saf2510_ord_name}}</td>
                                         <td>{{saf25.saf2512_ord_tel01}}</td>
                                         <td>{{saf25.saf2511_ord_cell}}</td>
-                                        
+
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
+                        <%--21. Pc--%>
+                        <div class="scroll-table" v-if="Pc.open">
+                            <div>
+                                <table>
+                                    <tr>
+                                        <td style="padding: 3px">
+                                            <input type="checkbox" v-model="Pc.checked" v-if="Pc.saf25FileInfo.cnf1004_char02!=''" /></td>
+                                        <td style="padding: 3px">{{Pc.saf25FileInfo.FileName}}</td>
+                                        <td style="padding: 3px">
+                                            <label class="btn btn-default" v-if="Pc.saf25FileInfo.cnf1004_char02!=''">
+                                                <input style="display: none;" type="file" accept=".csv,.xls,.xlsx" v-on:change="onFileChange('Pc.XLS', $event)">
+                                                重新送出檔案比對
+                                            </label>
+                                            <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
+                                            <label class="btn btn-default" style="color: red;" v-if="Pc.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Pc.saf25FileInfo.ErrorMsg">
+                                                錯誤訊息   
+                                            </label>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <table class="table table-bordered" style="width: calc(100% - 18px)" v-if="Pc.saf25FileInfo.cnf1004_char02!=''">
+                                <thead>
+                                    <tr class="bg-primary text-light">
+                                        <th>訂單編號</th>
+                                        <th>訂購日期
+                                        </th>
+                                        <th>訂購人
+                                        </th>
+                                        <th>收貨人
+                                        </th>
+                                        <th>收貨人電話
+                                        </th>
+                                        <th>商品名稱
+                                        </th>
+                                        <th>數量
+                                        </th>
+                                        <th>金額
+                                        </th>
+                                        <th>商品規格
+                                        </th>
+                                        <th>顧客特殊需求／統編
+                                        </th>
+                                        <th>店家料號
+                                        </th>
 
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="saf25 in Pc.saf25FileInfo.saf25List">
+                                        <td>{{saf25.saf2503_ord_no}}</td>
+                                        <td>{{saf25.saf2504_ord_date}}</td>
+                                        <td>{{saf25.saf2510_ord_name}}</td>
+                                        <td>{{saf25.saf2514_rec_name}}</td>
+                                        <td>{{saf25.saf2515_rec_cell}}</td>
+                                        <td>{{saf25.saf2531_psname}}</td>
+                                        <td>{{saf25.saf2541_ord_qty}}</td>
+                                        <td>{{saf25.saf2548_price_sub}}</td>
+                                        <td>{{saf25.saf2532_pname}}</td>
+                                        <td>{{saf25.saf2505_ord_remark}}</td>
+                                        <td>{{saf25.saf2538_inv_no}}</td>
+
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                         <%--露天--%>
                         <div class="scroll-table" v-if="Lutian.open">
                             <div>
                                 <table>
                                     <tr>
                                         <td style="padding: 3px">
-                                            <input type="checkbox" v-model="Lutian.checked" /></td>
+                                            <input type="checkbox" v-model="Lutian.checked" v-if="Lutian.saf25FileInfo.cnf1004_char02!=''" /></td>
                                         <td style="padding: 3px">{{Lutian.saf25FileInfo.FileName}}</td>
                                         <td style="padding: 3px">
-                                            <label class="btn btn-default">
+                                            <label class="btn btn-default" v-if="Lutian.saf25FileInfo.cnf1004_char02!=''">
                                                 <input style="display: none;" type="file" accept=".csv,.xls,.xlsx" v-on:change="onFileChange('22. 露天.CSV', $event)">
                                                 重新送出檔案比對
+                                            </label>
+                                            <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
+                                            <label class="btn btn-default" style="color: red;" v-if="Lutian.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Lutian.saf25FileInfo.ErrorMsg">
+                                                錯誤訊息   
                                             </label>
                                         </td>
                                     </tr>
                                 </table>
                             </div>
-                            <table class="table table-bordered">
+                            <table class="table table-bordered" style="width: calc(100% - 18px)" v-if="Lutian.saf25FileInfo.cnf1004_char02!=''">
                                 <thead>
 
                                     <tr class="bg-primary text-light">
@@ -1466,18 +1648,22 @@
                                 <table>
                                     <tr>
                                         <td style="padding: 3px">
-                                            <input type="checkbox" v-model="Yahoo.checked" /></td>
+                                            <input type="checkbox" v-model="Yahoo.checked" v-if="Yahoo.saf25FileInfo.cnf1004_char02!=''" /></td>
                                         <td style="padding: 3px">{{Yahoo.saf25FileInfo.FileName}}</td>
                                         <td style="padding: 3px">
-                                            <label class="btn btn-default">
+                                            <label class="btn btn-default" v-if="Yahoo.saf25FileInfo.cnf1004_char02!=''">
                                                 <input style="display: none;" type="file" accept=".csv,.xls,.xlsx" v-on:change="onFileChange('23. YAHOO拍賣.CSV', $event)">
                                                 重新送出檔案比對
+                                            </label>
+                                            <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
+                                            <label class="btn btn-default" style="color: red;" v-if="Yahoo.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Yahoo.saf25FileInfo.ErrorMsg">
+                                                錯誤訊息   
                                             </label>
                                         </td>
                                     </tr>
                                 </table>
                             </div>
-                            <table class="table table-bordered">
+                            <table class="table table-bordered" style="width: calc(100% - 18px)" v-if="Yahoo.saf25FileInfo.cnf1004_char02!=''">
                                 <thead>
 
                                     <tr class="bg-primary text-light">
