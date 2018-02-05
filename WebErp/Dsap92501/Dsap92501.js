@@ -37,6 +37,9 @@
                 ModalError: [],
 
                 MOMO: {
+                    SortColumn: "",
+                    SortOrder:"",
+                    reverse:false,
                     checked: true,
                     open: false,
                     File: [],
@@ -144,6 +147,8 @@
                     saf25FileInfo: {}
                 },
                 Yahoo: {//YAHOO拍賣
+                    SortColumn: "",
+                    SortOrder: "",
                     checked: true,
                     open: false,
                     File: [],
@@ -177,6 +182,39 @@
                 ImportDBLoadding:false
             },
             methods: {
+                sortBy: function (Object, column, $event) {
+                    
+                    $($event.target).parents("tr:first").find("th").each(function () {
+                        $(this).attr("class", "")
+
+                    })
+                    $($event.target).attr("class", "orderby")
+                   
+                    if (Object.SortColumn == column) {
+                        if (Object.SortOrder == "asc") {
+                            Object.SortOrder = "desc";
+                           
+                        } else {
+                            Object.SortOrder = "asc";
+                          
+                        }
+                    } else {
+                        Object.SortOrder = "asc";
+                        
+                    }
+                    Object.SortColumn = column;
+                    Object.saf25FileInfo.saf25List.sort(function (a,b) {
+
+                        if (a[Object.SortColumn] < b[Object.SortColumn]) {
+                            return Object.SortOrder == 'asc' ? -1 : 1;
+
+                        }
+                        if (a[Object.SortColumn] > b[Object.SortColumn]) {
+                            return Object.SortOrder == 'asc' ? 1 : -1;
+                        }
+                        return 0;
+                    });
+                },
                 ImportAll: function () {
                     var vueobj = this;
                     if(vueobj.ImportDBLoadding){
