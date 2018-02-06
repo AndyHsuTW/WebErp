@@ -25,7 +25,7 @@
 
         .scroll-table {
             width: 95%;
-            height: 450px;
+            max-height: 450px;
             overflow-y: auto;
             overflow-y: overlay;
             border: solid 1px #CCC;
@@ -54,6 +54,8 @@
         .rowclass:hover {
             background-color: #bde7ff;
         }
+
+
 
 
 
@@ -99,7 +101,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">求助</h4>
+                        <h4 class="modal-title">錯誤訊息</h4>
                     </div>
                     <div class="modal-body">
                         <div class="scroll-table">
@@ -149,19 +151,19 @@
                         <td style="padding: 3px">步驟2：
                         </td>
                         <td style="padding: 3px">
-                            <function-button hot-key="f1" v-on:click.native="Upload()">選擇訂單檔案</function-button>
+                            <function-button hot-key="f1" v-on:click.native="Upload()" style="background-color:rgba(255, 169, 169, 0.5098039215686274);">選擇訂單檔案</function-button>
                             <input type="file" id="ImportExcelInput" accept=".csv,.xls,.xlsx" multiple style="display: none" v-on:change="onMultipleFileChange">
                         </td>
                         <td style="padding: 3px">步驟3：
                         </td>
                         <td style="padding: 3px">
 
-                            <function-button hot-key="f4" v-on:click.native="MultipleSubmit()">檔案送出比對</function-button>
+                            <function-button hot-key="f4" v-on:click.native="MultipleSubmit()" style="background-color:rgba(247, 255, 101, 0.6705882352941176);">檔案送出比對</function-button>
                         </td>
                         <td style="padding: 3px">步驟4：
                         </td>
                         <td style="padding: 3px">
-                            <function-button hot-key="f9" v-on:click.native="ImportAll()">檔案匯入資料庫</function-button>
+                            <function-button hot-key="f9" v-on:click.native="ImportAll()"  style="background-color: rgba(171, 255, 169, 0.51);">檔案匯入資料庫</function-button>
                         </td>
                     </tr>
                 </table>
@@ -169,7 +171,7 @@
             </div>
 
 
-            <div class="result-div" style="height: 800px; overflow-y: auto; overflow-y: overlay;">
+            <div class="result-div" style="height: 700px; overflow-y: auto; overflow-y: overlay;">
                 <div class="scroll-table">
                     <table class="table table-bordered table-fixed" style="width: 250px; height: 200px">
                         <thead>
@@ -190,6 +192,33 @@
                 </div>
                 <div id="TotalTable">
                     <div class="result-div">
+                        <%--01. 17P--%>
+                           <div class="scroll-table" v-if="one7P.open">
+
+                            <div>
+                                <table>
+                                    <tr>
+                                        <td style="padding: 3px">
+                                            <input type="checkbox" v-model="one7P.checked" v-if="one7P.saf25FileInfo.cnf1004_char02!=''" /></td>
+                                        <td style="padding: 3px">{{one7P.saf25FileInfo.FileName}}</td>
+                                        <td style="padding: 3px">
+
+                                            <label class="btn btn-default" v-if="one7P.saf25FileInfo.cnf1004_char02!=''">
+                                                <input style="display: none;" type="file" accept=".csv,.xls,.xlsx" v-on:change="onFileChange('17P', $event)">
+                                                重新送出檔案比對
+                                            </label>
+                                            <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
+
+                                            <label class="btn btn-default" style="color: red;" v-if="one7P.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=one7P.saf25FileInfo.ErrorMsg">
+                                                錯誤訊息   
+                                            </label>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                          
+
+                        </div>
                         <%--02. MOMO.CSV--%>
                         <div class="scroll-table" v-if="MOMO.open">
 

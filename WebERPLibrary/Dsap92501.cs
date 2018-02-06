@@ -58,15 +58,11 @@ namespace WebERPLibrary
         }
         public static void Insertsaf25(SqlCommand cmd, saf25 saf25, string cnf1004_char02, string LoginUser)
         {
-            if (saf25.saf2503_ord_no == "30170806481078-003") {
-                var a = 0;
-            }
-
             cmd.Parameters.Clear();
             cmd.Parameters.AddWithValue("@LoginUser", LoginUser);
             cmd.Parameters.AddWithValue("@saf2501_cuscode", cnf1004_char02);
             cmd.Parameters.AddWithValue("@saf2502_seq", saf25.saf2502_seq ?? "");
-            cmd.Parameters.AddWithValue("@saf2503_ord_no", saf25.saf2503_ord_no);
+            cmd.Parameters.AddWithValue("@saf2503_ord_no", saf25.saf2503_ord_no??"");
             cmd.Parameters.AddWithValue("@saf2504_ord_date", saf25.saf2504_ord_date);
             cmd.Parameters.AddWithValue("@saf2505_ord_remark", saf25.saf2505_ord_remark ?? "");
             cmd.Parameters.AddWithValue("@saf2506_ord_status", saf25.saf2506_ord_status ?? "");
@@ -228,11 +224,22 @@ namespace WebERPLibrary
             cmd.Parameters.AddWithValue("@saf2587_gift_pnt", String.IsNullOrEmpty(saf25.saf2587_gift_pnt) ? "0" : saf25.saf2587_gift_pnt);
             cmd.Parameters.AddWithValue("@saf2588_gift_amt", String.IsNullOrEmpty(saf25.saf2588_gift_amt) ? "0" : saf25.saf2588_gift_amt);
             cmd.Parameters.AddWithValue("@saf2589_order_amt", String.IsNullOrEmpty(saf25.saf2589_order_amt) ? "0" : saf25.saf2589_order_amt);
-            cmd.CommandText = @"
+
+            var filter = "saf2503_ord_no=@saf2503_ord_no and saf2501_cuscode=@saf2501_cuscode";
+
+            if (cnf1004_char02 == "140")
+            {
+                filter = "saf2504_ord_date=@saf2504_ord_date and saf2536_pcode_v=@saf2536_pcode_v and saf2578_get_acc=@saf2578_get_acc";
+            }
+           
+            
+
+
+            cmd.CommandText = String.Format(@"
 DECLARE @Exist int
 
 SELECT @Exist=1
-  FROM [dbo].[saf25] where saf2503_ord_no=@saf2503_ord_no and saf2501_cuscode=@saf2501_cuscode
+  FROM [dbo].[saf25] where {0}
 
 if(@Exist=1)
 begin
@@ -327,7 +334,7 @@ update [dbo].[saf25]
       ,saf2589_order_amt=@saf2589_order_amt
       ,moduser=@LoginUser
       ,moddate=GETDATE()
-	  where saf2503_ord_no=@saf2503_ord_no and saf2501_cuscode=@saf2501_cuscode
+	  where {0}
 end
 else
 begin
@@ -523,7 +530,7 @@ INSERT INTO [dbo].[saf25]
            ,@LoginUser
            ,GETDATE())
 end
-";
+", filter);
             cmd.ExecuteNonQuery();
 
         }
@@ -531,118 +538,142 @@ end
         {
             var saf25FileInfo = new saf25FileInfo();
 
-            if (FileName.ToUpper().Contains("MOMO.CSV"))
-            {
-                var rowList = setPreWork(uploadsPath, FileName, "102", ref saf25FileInfo);
-                MOMO_csvtosaf25(rowList, saf25FileInfo, OrderTime);
-            }
-            else if (FileName.ToUpper().Contains("PCHOME.CSV"))
-            {
-                var rowList = setPreWork(uploadsPath, FileName, "104", ref saf25FileInfo);
-                Pchome_csvtosaf25(rowList, saf25FileInfo, OrderTime);
-            }
-            else if (FileName.ToUpper().Contains("YAHOO") && FileName.ToUpper().Contains(".CSV"))
-            {
-                var rowList = setPreWork(uploadsPath, FileName, "142", ref saf25FileInfo);
-                Yahoo_csvtosaf25(rowList, saf25FileInfo, OrderTime);
-            }
-            else if (FileName.ToUpper().Contains("露天") && FileName.ToUpper().Contains(".CSV"))
-            {
-                var rowList = setPreWork(uploadsPath, FileName, "140", ref saf25FileInfo);
-                LuTien_csvtosaf25(rowList, saf25FileInfo, OrderTime);
-            }
-            else if (FileName.ToUpper().Contains("聯合報") && FileName.ToUpper().Contains(".CSV"))
-            {
-                var rowList = setPreWork(uploadsPath, FileName, "130", ref saf25FileInfo);
-                LienHo_csvtosaf25(rowList, saf25FileInfo, OrderTime);
-            }
-            else if (FileName.ToUpper().Contains("興奇") && FileName.ToUpper().Contains(".CSV"))
-            {
-                var rowList = setPreWork(uploadsPath, FileName, "128", ref saf25FileInfo);
-                ShinQi_csvtosaf25(rowList, saf25FileInfo, OrderTime);
-            }
-            else if (FileName.ToUpper().Contains("瘋狂賣客") && FileName.ToUpper().Contains(".CSV"))
-            {
-                var rowList = setPreWork(uploadsPath, FileName, "126", ref saf25FileInfo);
-                Crazy_csvtosaf25(rowList, saf25FileInfo, OrderTime);
-            }
-            else if (FileName.ToUpper().Contains("鼎鼎") && FileName.ToUpper().Contains(".CSV"))
-            {
-                var rowList = setPreWork(uploadsPath, FileName, "124", ref saf25FileInfo);
-                DingDing_csvtosaf25(rowList, saf25FileInfo, OrderTime);
-            }
-            else if (FileName.ToUpper().Contains("統一") && FileName.ToUpper().Contains(".CSV"))
-            {
-                var rowList = setPreWork(uploadsPath, FileName, "122", ref saf25FileInfo);
-                UniPresident_csvtosaf25(rowList, saf25FileInfo, OrderTime);
-            }
-            else if (FileName.ToUpper().Contains("康迅") && FileName.ToUpper().Contains(".CSV"))
-            {
-                var rowList = setPreWork(uploadsPath, FileName, "120", ref saf25FileInfo);
-                KS_csvtosaf25(rowList, saf25FileInfo, OrderTime);
-            }
-            else if (FileName.ToUpper().Contains("夠麻吉") && FileName.ToUpper().Contains(".CSV"))
-            {
-                var rowList = setPreWork(uploadsPath, FileName, "118", ref saf25FileInfo);
-                Gomaji_csvtosaf25(rowList, saf25FileInfo, OrderTime);
-            }
-            else if (FileName.ToUpper().Contains("神坊") && FileName.ToUpper().Contains(".CSV"))
-            {
-                var rowList = setPreWork(uploadsPath, FileName, "116", ref saf25FileInfo);
-                ShenFang_csvtosaf25(rowList, saf25FileInfo, OrderTime);
-            }
-            else if (FileName.ToUpper().Contains("松果") && FileName.ToUpper().Contains(".CSV"))
-            {
-                var rowList = setPreWork(uploadsPath, FileName, "114", ref saf25FileInfo);
-                SonGuo_csvtosaf25(rowList, saf25FileInfo, OrderTime);
-            }
-            else if (FileName.ToUpper().Contains("東森") && FileName.ToUpper().Contains(".CSV"))
-            {
-                var rowList = setPreWork(uploadsPath, FileName, "112", ref saf25FileInfo);
-                ET_csvtosaf25(rowList, saf25FileInfo, OrderTime);
-            }
-            else if (FileName.ToUpper().Contains("生活市集") && FileName.ToUpper().Contains(".CSV"))
-            {
-                var rowList = setPreWork(uploadsPath, FileName, "110", ref saf25FileInfo);
-                LifeMarket_csvtosaf25(rowList, saf25FileInfo, OrderTime);
-            }
-            else if (FileName.ToUpper().Contains("台灣大哥大") && FileName.ToUpper().Contains(".CSV"))
-            {
-                var rowList = setPreWork(uploadsPath, FileName, "108", ref saf25FileInfo);
-                TaiwanMobile_csvtosaf25(rowList, saf25FileInfo, OrderTime);
-            }
-            else if (FileName.ToUpper().Contains("台塑") && FileName.ToUpper().Contains(".CSV"))
-            {
-                var rowList = setPreWork(uploadsPath, FileName, "106", ref saf25FileInfo);
-                FormosaPlastics_csvtosaf25(rowList, saf25FileInfo, OrderTime);
-            }
-            else if (FileName.ToUpper().Contains("17P") && FileName.ToUpper().Contains(".CSV"))
-            {
-                //var rowList = setPreWork(uploadsPath, FileName, "17P", ref saf25FileInfo);
-                //SeventeenP_csvtosaf25(rowList, saf25FileInfo, OrderTime);
-            }
-            else if (FileName.ToUpper().Contains("奇摩超級商城") && FileName.ToUpper().Contains(".XLS"))
-            {
-                var rowList = setExcelPreWork(uploadsPath, FileName, "132", ref saf25FileInfo);
-                YahooSmart_tosaf25(rowList, saf25FileInfo, OrderTime);
-            }
-            else if (FileName.ToUpper().Contains("摩天") && FileName.ToUpper().Contains(".XLS"))
-            {
-                var rowList = setExcelPreWork(uploadsPath, FileName, "134", ref saf25FileInfo);
-                Motian_tosaf25(rowList, saf25FileInfo, OrderTime);
-            }
-            else if (FileName.ToUpper().Contains("樂天") && FileName.ToUpper().Contains(".XLS"))
-            {
-                var rowList = setExcelPreWork(uploadsPath, FileName, "136", ref saf25FileInfo);
-                Letian_tosaf25(rowList, saf25FileInfo, OrderTime);
-            }
-            else if (FileName.ToUpper().Contains("PC.XLS"))
-            {
 
-                var rowList = setExcelPreWork(uploadsPath, FileName, "138", ref saf25FileInfo);
-                PC_tosaf25(rowList, saf25FileInfo, OrderTime);
-            }
+            try
+            {
+                if (FileName.ToUpper().Contains("17P.CSV"))
+                {
+                    var rowList = setPreWork(uploadsPath, FileName, "100", ref saf25FileInfo);
+                    //_17P_csvtosaf25(rowList, saf25FileInfo, OrderTime);
+                    saf25FileInfo.ErrorMsg.Add(new ErrorInfo()
+                    {
+                        column = "",
+                        messenge = "因格式問題尚未處理完畢，故無法轉置17p.csv"
+                    });
+                }
+                else if (FileName.ToUpper().Contains("MOMO.CSV"))
+                {
+                    var rowList = setPreWork(uploadsPath, FileName, "102", ref saf25FileInfo);
+                    MOMO_csvtosaf25(rowList, saf25FileInfo, OrderTime);
+                }
+                else if (FileName.ToUpper().Contains("PCHOME.CSV"))
+                {
+                    var rowList = setPreWork(uploadsPath, FileName, "104", ref saf25FileInfo);
+                    Pchome_csvtosaf25(rowList, saf25FileInfo, OrderTime);
+                }
+                else if (FileName.ToUpper().Contains("YAHOO") && FileName.ToUpper().Contains(".CSV"))
+                {
+                    var rowList = setPreWork(uploadsPath, FileName, "142", ref saf25FileInfo);
+                    Yahoo_csvtosaf25(rowList, saf25FileInfo, OrderTime);
+                }
+                else if (FileName.ToUpper().Contains("露天") && FileName.ToUpper().Contains(".CSV"))
+                {
+                    var rowList = setPreWork(uploadsPath, FileName, "140", ref saf25FileInfo);
+                    LuTien_csvtosaf25(rowList, saf25FileInfo, OrderTime);
+                }
+                else if (FileName.ToUpper().Contains("聯合報") && FileName.ToUpper().Contains(".CSV"))
+                {
+                    var rowList = setPreWork(uploadsPath, FileName, "130", ref saf25FileInfo);
+                    LienHo_csvtosaf25(rowList, saf25FileInfo, OrderTime);
+                }
+                else if (FileName.ToUpper().Contains("興奇") && FileName.ToUpper().Contains(".CSV"))
+                {
+                    var rowList = setPreWork(uploadsPath, FileName, "128", ref saf25FileInfo);
+                    ShinQi_csvtosaf25(rowList, saf25FileInfo, OrderTime);
+                }
+                else if (FileName.ToUpper().Contains("瘋狂賣客") && FileName.ToUpper().Contains(".CSV"))
+                {
+                    var rowList = setPreWork(uploadsPath, FileName, "126", ref saf25FileInfo);
+                    Crazy_csvtosaf25(rowList, saf25FileInfo, OrderTime);
+                }
+                else if (FileName.ToUpper().Contains("鼎鼎") && FileName.ToUpper().Contains(".CSV"))
+                {
+                    var rowList = setPreWork(uploadsPath, FileName, "124", ref saf25FileInfo);
+                    DingDing_csvtosaf25(rowList, saf25FileInfo, OrderTime);
+                }
+                else if (FileName.ToUpper().Contains("統一") && FileName.ToUpper().Contains(".CSV"))
+                {
+                    var rowList = setPreWork(uploadsPath, FileName, "122", ref saf25FileInfo);
+                    UniPresident_csvtosaf25(rowList, saf25FileInfo, OrderTime);
+                }
+                else if (FileName.ToUpper().Contains("康迅") && FileName.ToUpper().Contains(".CSV"))
+                {
+                    var rowList = setPreWork(uploadsPath, FileName, "120", ref saf25FileInfo);
+                    KS_csvtosaf25(rowList, saf25FileInfo, OrderTime);
+                }
+                else if (FileName.ToUpper().Contains("夠麻吉") && FileName.ToUpper().Contains(".CSV"))
+                {
+                    var rowList = setPreWork(uploadsPath, FileName, "118", ref saf25FileInfo);
+                    Gomaji_csvtosaf25(rowList, saf25FileInfo, OrderTime);
+                }
+                else if (FileName.ToUpper().Contains("神坊") && FileName.ToUpper().Contains(".CSV"))
+                {
+                    var rowList = setPreWork(uploadsPath, FileName, "116", ref saf25FileInfo);
+                    ShenFang_csvtosaf25(rowList, saf25FileInfo, OrderTime);
+                }
+                else if (FileName.ToUpper().Contains("松果") && FileName.ToUpper().Contains(".CSV"))
+                {
+                    var rowList = setPreWork(uploadsPath, FileName, "114", ref saf25FileInfo);
+                    SonGuo_csvtosaf25(rowList, saf25FileInfo, OrderTime);
+                }
+                else if (FileName.ToUpper().Contains("東森") && FileName.ToUpper().Contains(".CSV"))
+                {
+                    var rowList = setPreWork(uploadsPath, FileName, "112", ref saf25FileInfo);
+                    ET_csvtosaf25(rowList, saf25FileInfo, OrderTime);
+                }
+                else if (FileName.ToUpper().Contains("生活市集") && FileName.ToUpper().Contains(".CSV"))
+                {
+                    var rowList = setPreWork(uploadsPath, FileName, "110", ref saf25FileInfo);
+                    LifeMarket_csvtosaf25(rowList, saf25FileInfo, OrderTime);
+                }
+                else if (FileName.ToUpper().Contains("台灣大哥大") && FileName.ToUpper().Contains(".CSV"))
+                {
+                    var rowList = setPreWork(uploadsPath, FileName, "108", ref saf25FileInfo);
+                    TaiwanMobile_csvtosaf25(rowList, saf25FileInfo, OrderTime);
+                }
+                else if (FileName.ToUpper().Contains("台塑") && FileName.ToUpper().Contains(".CSV"))
+                {
+                    var rowList = setPreWork(uploadsPath, FileName, "106", ref saf25FileInfo);
+                    FormosaPlastics_csvtosaf25(rowList, saf25FileInfo, OrderTime);
+                }
+                else if (FileName.ToUpper().Contains("17P") && FileName.ToUpper().Contains(".CSV"))
+                {
+                    var rowList = setPreWork(uploadsPath, FileName, "17P", ref saf25FileInfo);
+                    SeventeenP_csvtosaf25(rowList, saf25FileInfo, OrderTime);
+                }
+                else if (FileName.ToUpper().Contains("奇摩超級商城") && FileName.ToUpper().Contains(".XLS"))
+                {
+                    var rowList = setExcelPreWork(uploadsPath, FileName, "132", ref saf25FileInfo);
+                    YahooSmart_tosaf25(rowList, saf25FileInfo, OrderTime);
+                }
+                else if (FileName.ToUpper().Contains("摩天") && FileName.ToUpper().Contains(".XLS"))
+                {
+                    var rowList = setExcelPreWork(uploadsPath, FileName, "134", ref saf25FileInfo);
+                    Motian_tosaf25(rowList, saf25FileInfo, OrderTime);
+                }
+                else if (FileName.ToUpper().Contains("樂天") && FileName.ToUpper().Contains(".XLS"))
+                {
+                    var rowList = setExcelPreWork(uploadsPath, FileName, "136", ref saf25FileInfo);
+                    Letian_tosaf25(rowList, saf25FileInfo, OrderTime);
+                }
+                else if (FileName.ToUpper().Contains("PC.XLS"))
+                {
 
+                    var rowList = setExcelPreWork(uploadsPath, FileName, "138", ref saf25FileInfo);
+                    PC_tosaf25(rowList, saf25FileInfo, OrderTime);
+                }
+            }
+            catch (Exception ex)
+            {
+                saf25FileInfo.ErrorMsg = new List<ErrorInfo>();
+
+                saf25FileInfo.ErrorMsg.Add(new ErrorInfo()
+                {
+                    column = "",
+                    messenge = "因格式問題，故無法轉置"
+                });
+
+            }
             if (saf25FileInfo.ErrorMsg.Count > 0)
             {
                 saf25FileInfo.saf25List = new List<saf25>();
@@ -688,7 +719,7 @@ end
                     for (var j = 0; j < dataTable.Columns.Count; j++)
                     {
 
-                        row.Add(dataTable.Rows[i][j].ToString().Replace("\n"," "));
+                        row.Add(dataTable.Rows[i][j].ToString().Replace("\n", " "));
 
                     }
                     rowList.Add(row);
@@ -4070,6 +4101,175 @@ end
                 saf25FileInfo.saf25List.Add(saf25);
             }
 
+        }
+
+        private static void _17P_csvtosaf25(List<List<string>> rowList, saf25FileInfo saf25FileInfo, string OrderTime) {
+            for (var j = 0; j < rowList.Count; j++)
+            {
+                var saf25 = new saf25();
+                if (j == 0) continue;//跳過標題
+
+                var row = rowList[j];
+                if (string.IsNullOrEmpty(row[1].ToString())) continue;
+
+                for (var k = 0; k < row.Count; k++)
+                {
+                    var column = row[k];
+                    //A
+                    if (k == 0)
+                    {
+                        saf25.saf2502_seq = column;
+                    }
+                    //B
+                    else if (k == 1)
+                    {
+                        if (column.Trim() == "")
+                        {
+                            saf25FileInfo.ErrorMsg.Add(CreatErrorMsg(j, k, "沒有訂單編號"));
+                        }
+                        saf25.saf2503_ord_no = column;
+                    }
+                    //C
+                    else if (k == 2)
+                    {
+                        saf25.saf2504_ord_date = DateTimeTryParse(column, saf25FileInfo, j, k, true); ;
+                    }
+                    //D
+                    else if (k == 3)
+                    {
+                        saf25.saf2514_rec_name = column;
+                    }
+                    //E
+                    else if (k == 4)
+                    {
+                        
+                        saf25.saf2515_rec_cell = column;
+                    }
+                    //F
+                    else if (k == 5)
+                    {
+                        saf25.saf2519_rec_address = column;
+                    }
+                    //G
+                    else if (k == 6)
+                    {
+                        saf25.saf2531_psname = column;
+                    }
+                    //H
+                    else if (k == 7)
+                    {
+                        saf25.saf2507_ord_class = column;
+                    }
+                    //I
+                    else if (k == 8)
+                    {
+                        saf25.saf2522_dis_demand = column;
+                    }
+                    //J
+                    else if (k == 9)
+                    {
+                        //訂單日確認
+                        if (column.Trim() == "")
+                        {
+                            saf25.saf2504_ord_date = OrderTime;
+
+                        }
+                        else
+                        {
+                            saf25.saf2504_ord_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
+                        }
+                    }
+                    //K
+                    else if (k == 10)
+                    {
+                        saf25.saf2523_ship_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
+                    }
+                    //L  
+                    else if (k == 11)
+                    {
+                        saf25.saf2514_rec_name = column;
+                    }
+                    //M
+                    else if (k == 12)
+                    {
+                        saf25.saf2516_rec_tel01 = column;
+                    }
+                    //N
+                    else if (k == 13)
+                    {
+                        saf25.saf2515_rec_cell = column;
+                    }
+                    //O
+                    else if (k == 14)
+                    {
+                        saf25.saf2519_rec_address = column;
+                    }
+                    //P
+                    else if (k == 15)
+                    {
+                        saf25.saf2536_pcode_v = column;
+                    }
+                    //Q
+                    else if (k == 16)
+                    {
+                        saf25.saf2533_pspec = column;
+                    }
+                    //R
+                    else if (k == 17)
+                    {
+                        saf25.saf2531_psname = column;
+                    }
+                    //S
+                    else if (k == 18)
+                    {
+                        saf25.saf2537_pcode = column;
+                    }
+                    //T
+                    else if (k == 19)
+                    {
+                        saf25.saf2532_pname = column;
+                    }
+                    //U
+                    else if (k == 20)
+                    {
+                        saf25.saf2541_ord_qty = IntTryParse(column, saf25FileInfo, j, k, false);
+                    }
+                    //V
+                    else if (k == 21)
+                    {
+                        saf25.saf2544_cost = DoubleTryParse(column, saf25FileInfo, j, k, false);
+                    }
+                    //W
+                    else if (k == 22)
+                    {
+                        saf25.saf2553_gifts = column;
+                    }
+                    //X
+                    else if (k == 23)
+                    {
+                        saf25.saf2510_ord_name = column;
+                    }//Y
+                    else if (k == 24)
+                    {
+                        saf25.saf2538_inv_no = column;
+                    }//Z
+                    else if (k == 25)
+                    {
+                        saf25.saf2539_inv_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
+                    }//AA
+                    else if (k == 26)
+                    {
+                        saf25.saf2554_identifier = IntTryParse(column, saf25FileInfo, j, k, false);
+                    }
+                    //AB
+                    else if (k == 27)
+                    {
+                        saf25.saf2555_chg_price = column;
+                    }
+
+                }
+                saf25FileInfo.saf25List.Add(saf25);
+            }
         }
 
         private static void MOMO_csvtosaf25(List<List<string>> rowList, saf25FileInfo saf25FileInfo, string OrderTime)
