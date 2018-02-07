@@ -166,7 +166,19 @@ namespace WebERPLibrary
             cmd.Parameters.AddWithValue("@saf2559_option_case", saf25.saf2559_option_case ?? "");
             cmd.Parameters.AddWithValue("@saf2560_unit", saf25.saf2560_unit ?? "");
             cmd.Parameters.AddWithValue("@saf2561_option", saf25.saf2561_option ?? "");
-            cmd.Parameters.AddWithValue("@saf2562_warehs_date", saf25.saf2562_warehs_date ?? "");
+            if (!String.IsNullOrEmpty(saf25.saf2562_warehs_date))
+            {
+
+                cmd.Parameters.AddWithValue("@saf2562_warehs_date", saf25.saf2562_warehs_date);
+            }
+            else
+            {
+                cmd.Parameters.AddWithValue("@saf2562_warehs_date", DBNull.Value);
+
+            }
+
+           
+
             cmd.Parameters.AddWithValue("@saf2563_county", saf25.saf2563_county ?? "");
             cmd.Parameters.AddWithValue("@saf2564_post_box", saf25.saf2564_post_box ?? "");
             cmd.Parameters.AddWithValue("@saf2565_chg_notes", saf25.saf2565_chg_notes ?? "");
@@ -178,48 +190,41 @@ namespace WebERPLibrary
             cmd.Parameters.AddWithValue("@saf2571_auction", saf25.saf2571_auction ?? "");
             cmd.Parameters.AddWithValue("@saf2572_merge", saf25.saf2572_merge ?? "");
             cmd.Parameters.AddWithValue("@saf2573_discount", String.IsNullOrEmpty(saf25.saf2573_discount) ? "0" : saf25.saf2573_discount);
-            if (!String.IsNullOrEmpty(saf25.saf2574_chang_d))
-            {
-                cmd.Parameters.AddWithValue("@saf2574_chang_d", saf25.saf2574_chang_d);
-            }
-            else
-            {
-                cmd.Parameters.AddWithValue("@saf2574_chang_d", DBNull.Value);
 
-            }
+            if (!String.IsNullOrEmpty(saf25.saf2574_chang_d))
+            {cmd.Parameters.AddWithValue("@saf2574_chang_d", saf25.saf2574_chang_d);}
+            else
+            { cmd.Parameters.AddWithValue("@saf2574_chang_d", DBNull.Value);}
 
             if (!String.IsNullOrEmpty(saf25.saf2575_check_d))
-            {
-
-                cmd.Parameters.AddWithValue("@saf2575_check_d", saf25.saf2575_check_d);
-            }
+            {  cmd.Parameters.AddWithValue("@saf2575_check_d", saf25.saf2575_check_d);}
             else
-            {
-                cmd.Parameters.AddWithValue("@saf2575_check_d", DBNull.Value);
+            {   cmd.Parameters.AddWithValue("@saf2575_check_d", DBNull.Value);}
 
-            }
             if (!String.IsNullOrEmpty(saf25.saf2576_cancel_d))
-            {
-
-                cmd.Parameters.AddWithValue("@saf2576_cancel_d", saf25.saf2576_cancel_d);
-            }
+            { cmd.Parameters.AddWithValue("@saf2576_cancel_d", saf25.saf2576_cancel_d);}
             else
-            {
-                cmd.Parameters.AddWithValue("@saf2576_cancel_d", DBNull.Value);
-
-            }
+            {  cmd.Parameters.AddWithValue("@saf2576_cancel_d", DBNull.Value); }
 
 
             cmd.Parameters.AddWithValue("@saf2577_canwatch", saf25.saf2577_canwatch ?? "");
             cmd.Parameters.AddWithValue("@saf2578_get_acc", saf25.saf2578_get_acc ?? "");
             cmd.Parameters.AddWithValue("@saf2579_auction_y", saf25.saf2579_auction_y ?? "");
-
             cmd.Parameters.AddWithValue("@saf2580_email", saf25.saf2580_email ?? "");
             cmd.Parameters.AddWithValue("@saf2581_cancel_ｒ", saf25.saf2581_cancel_ｒ ?? "");
             cmd.Parameters.AddWithValue("@saf2582_serial", String.IsNullOrEmpty(saf25.saf2582_serial) ? "0" : saf25.saf2582_serial);
             cmd.Parameters.AddWithValue("@saf2583_store_remark", saf25.saf2583_store_remark ?? "");
-            cmd.Parameters.AddWithValue("@saf2584_deli_date", saf25.saf2584_deli_date ?? "");
-            cmd.Parameters.AddWithValue("@saf2585_conf_date", saf25.saf2585_conf_date ?? "");
+
+
+            if (!String.IsNullOrEmpty(saf25.saf2584_deli_date))
+            { cmd.Parameters.AddWithValue("@saf2584_deli_date", saf25.saf2584_deli_date); }
+            else
+            { cmd.Parameters.AddWithValue("@saf2584_deli_date", DBNull.Value);}
+
+            if (!String.IsNullOrEmpty(saf25.saf2585_conf_date))
+            { cmd.Parameters.AddWithValue("@saf2585_conf_date", saf25.saf2585_conf_date); }
+            else{cmd.Parameters.AddWithValue("@saf2585_conf_date", DBNull.Value);}
+
             cmd.Parameters.AddWithValue("@saf2586_tax_class", saf25.saf2586_tax_class ?? "");
             cmd.Parameters.AddWithValue("@saf2587_gift_pnt", String.IsNullOrEmpty(saf25.saf2587_gift_pnt) ? "0" : saf25.saf2587_gift_pnt);
             cmd.Parameters.AddWithValue("@saf2588_gift_amt", String.IsNullOrEmpty(saf25.saf2588_gift_amt) ? "0" : saf25.saf2588_gift_amt);
@@ -643,17 +648,17 @@ end
                 }
                 else if (FileName.ToUpper().Contains("奇摩超級商城") && FileName.ToUpper().Contains(".XLS"))
                 {
-                    var rowList = setExcelPreWork(uploadsPath, FileName, "132", ref saf25FileInfo);
+                    var rowList = setPreWork(uploadsPath, FileName, "132", ref saf25FileInfo);
                     YahooSmart_tosaf25(rowList, saf25FileInfo, OrderTime);
                 }
                 else if (FileName.ToUpper().Contains("摩天") && FileName.ToUpper().Contains(".XLS"))
                 {
-                    var rowList = setExcelPreWork(uploadsPath, FileName, "134", ref saf25FileInfo);
+                    var rowList = setPreWork(uploadsPath, FileName, "134", ref saf25FileInfo);
                     Motian_tosaf25(rowList, saf25FileInfo, OrderTime);
                 }
                 else if (FileName.ToUpper().Contains("樂天") && FileName.ToUpper().Contains(".XLS"))
                 {
-                    var rowList = setExcelPreWork(uploadsPath, FileName, "136", ref saf25FileInfo);
+                    var rowList = setPreWork(uploadsPath, FileName, "136", ref saf25FileInfo);
                     Letian_tosaf25(rowList, saf25FileInfo, OrderTime);
                 }
                 else if (FileName.ToUpper().Contains("PC.XLS"))
@@ -670,7 +675,7 @@ end
                 saf25FileInfo.ErrorMsg.Add(new ErrorInfo()
                 {
                     column = "",
-                    messenge = "因格式問題，故無法轉置"
+                    messenge = "解析過程出錯，請聯繫資訊人員"
                 });
 
             }
@@ -2466,7 +2471,7 @@ end
                     //M
                     else if (k == 12)
                     {
-                        saf25.saf2547_price = DoubleTryParse(column.Replace("$", ""), saf25FileInfo, j, k, false);
+                        saf25.saf2547_price = DoubleTryParse(column, saf25FileInfo, j, k, false);
                     }
                     //N
                     else if (k == 13)
@@ -4459,7 +4464,7 @@ end
                 {
                     if (!allowEmpty)
                     {
-                        saf25FileInfo.ErrorMsg.Add(CreatErrorMsg(row, column, "非日期格式:" + Time));
+                        saf25FileInfo.ErrorMsg.Add(CreatErrorMsg(row, column, "不符合日期格式，欄位值為:" + Time));
                     }
 
 
@@ -4478,7 +4483,7 @@ end
             {
                 if (!allowEmpty && Time.Trim() != "")
                 {
-                    saf25FileInfo.ErrorMsg.Add(CreatErrorMsg(row, column, "非日期格式:" + Time));
+                    saf25FileInfo.ErrorMsg.Add(CreatErrorMsg(row, column, "不符合日期格式，欄位值為:" + Time));
                 }
 
 
@@ -4497,7 +4502,7 @@ end
             {
                 if (!allowEmpty && Num.Trim() != "")
                 {
-                    saf25FileInfo.ErrorMsg.Add(CreatErrorMsg(row, column, "非整數格式:" + Num));
+                    saf25FileInfo.ErrorMsg.Add(CreatErrorMsg(row, column, "不符合整數格式，欄位值為:" + Num));
                 }
                 return null;
             }
@@ -4515,7 +4520,7 @@ end
             {
                 if (!allowEmpty && Num.Trim() != "")
                 {
-                    saf25FileInfo.ErrorMsg.Add(CreatErrorMsg(row, column, "非實數格式" + Num));
+                    saf25FileInfo.ErrorMsg.Add(CreatErrorMsg(row, column, "不符合實數格式，欄位值為:" + Num));
                 }
                 return "";
             }

@@ -14,10 +14,7 @@ public class Import_saf25 : IHttpHandler
         //context.Response.Write("Hello World");
         var List = JsonConvert.DeserializeObject<List<saf25FileInfo>>(context.Request.Params["List"]);
         var user = context.Request.Params["Loginuser"]??"";
-
         var msg = WebERPLibrary.Dsap92501.Import_saf25(List, user);
-
-
         context.Response.Write(JsonConvert.SerializeObject(msg));
         
         

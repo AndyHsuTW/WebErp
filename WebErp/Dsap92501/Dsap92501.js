@@ -384,11 +384,10 @@
                     }, 1000);
 
                 },
-
                 companiestojudge: function (File) {
                     var formData = new FormData();
                     formData.append("file", File)
-
+                   
                     var vueobj = this;
                     
                     if (File.name.toUpperCase().indexOf("17P.CSV") > -1) {
@@ -506,32 +505,34 @@
                             vueobj.Formosa_Plastics.open = true;
                             vueobj.Formosa_Plastics.saf25FileInfo = JSON.parse(result);
                         })
-                    } else if (File.name.toUpperCase().indexOf("奇摩超級商城.XLS") > -1) {
+                    } else if (File.name.toUpperCase().indexOf("奇摩超級商城.CSV") > -1) {
                         vueobj.YahooMart.FileName = File.name;
                         vueobj.ImportExcelsAjax(formData, function (result) {
                             vueobj.YahooMart.open = true;
                             vueobj.YahooMart.saf25FileInfo = JSON.parse(result);
                         })
-                    } else if (File.name.toUpperCase().indexOf("摩天.XLS") > -1) {
+                    } else if (File.name.toUpperCase().indexOf("摩天.CSV") > -1) {
                         vueobj.Motian.FileName = File.name;
                         vueobj.ImportExcelsAjax(formData, function (result) {
                             vueobj.Motian.open = true;
                             vueobj.Motian.saf25FileInfo = JSON.parse(result);
                         })
-                    } else if (File.name.toUpperCase().indexOf("樂天.XLS") > -1) {
+                    } else if (File.name.toUpperCase().indexOf("樂天.CSV") > -1) {
                         vueobj.Letian.FileName = File.name;
                         vueobj.ImportExcelsAjax(formData, function (result) {
                             vueobj.Letian.open = true;
                             vueobj.Letian.saf25FileInfo = JSON.parse(result);
                         })
-                    } else if (File.name.toUpperCase().indexOf("PC.XLS") > -1) {
+                    } else if (File.name.toUpperCase().indexOf("PC.CSV") > -1) {
                         vueobj.Pc.FileName = File.name;
                         vueobj.ImportExcelsAjax(formData, function (result) {
                             vueobj.Pc.open = true;
                             vueobj.Pc.saf25FileInfo = JSON.parse(result);
                         })
                     }
-
+                    if (vueobj.requests.length == 0) {
+                        LoadingHelper.hideLoading();
+                    }
                    
 
                 }, ImportExcelsAjax: function (formData, callback) {
@@ -564,8 +565,23 @@
                         },
                         error: function (jqXhr, textStatus, errorThrown) {
                             LoadingHelper.hideLoading();
+                            
                             vueobj.requests.remove(guid);
-                            console.error(errorThrown);
+                            console.log(errorThrown);
+                            var a = {};
+                            a.FileName = "",
+                            a.CompanyName = "",
+                            a.cnf1004_char02="error",
+                            a.ErrorMsg = [];
+                            a.saf25List = [];
+                            var b = {};
+                            b.column = "",
+                            b.messenge="解析過程出錯，請聯繫資訊人員"
+                            a.ErrorMsg.push(b);
+                           
+                            callback(JSON.stringify(a));
+
+                            
                             //alert("匯入失敗");
                         }
                     });
