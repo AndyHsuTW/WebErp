@@ -546,22 +546,22 @@ end
 
             try
             {
-                if (FileName.ToUpper().Contains("17P.CSV"))
+                if (FileName.ToUpper().Contains("17P") && FileName.ToUpper().Contains(".CSV"))
                 {
                     var rowList = setPreWork(uploadsPath, FileName, "100", ref saf25FileInfo);
-                    //_17P_csvtosaf25(rowList, saf25FileInfo, OrderTime);
-                    saf25FileInfo.ErrorMsg.Add(new ErrorInfo()
-                    {
-                        column = "",
-                        messenge = "因格式問題尚未處理完畢，故無法轉置17p.csv"
-                    });
+                    SeventeenP_csvtosaf25(rowList, saf25FileInfo, OrderTime);
+                    //saf25FileInfo.ErrorMsg.Add(new ErrorInfo()
+                    //{
+                    //    column = "",
+                    //    messenge = "因格式問題尚未處理完畢，故無法轉置17p.csv"
+                    //});
                 }
-                else if (FileName.ToUpper().Contains("MOMO.CSV"))
+                else if (FileName.ToUpper().Contains("MOMO") && FileName.ToUpper().Contains(".CSV"))
                 {
                     var rowList = setPreWork(uploadsPath, FileName, "102", ref saf25FileInfo);
                     MOMO_csvtosaf25(rowList, saf25FileInfo, OrderTime);
                 }
-                else if (FileName.ToUpper().Contains("PCHOME.CSV"))
+                else if (FileName.ToUpper().Contains("PCHOME") && FileName.ToUpper().Contains(".CSV"))
                 {
                     var rowList = setPreWork(uploadsPath, FileName, "104", ref saf25FileInfo);
                     Pchome_csvtosaf25(rowList, saf25FileInfo, OrderTime);
@@ -640,11 +640,6 @@ end
                 {
                     var rowList = setPreWork(uploadsPath, FileName, "106", ref saf25FileInfo);
                     FormosaPlastics_csvtosaf25(rowList, saf25FileInfo, OrderTime);
-                }
-                else if (FileName.ToUpper().Contains("17P") && FileName.ToUpper().Contains(".CSV"))
-                {
-                    var rowList = setPreWork(uploadsPath, FileName, "17P", ref saf25FileInfo);
-                    SeventeenP_csvtosaf25(rowList, saf25FileInfo, OrderTime);
                 }
                 else if (FileName.ToUpper().Contains("奇摩超級商城") && FileName.ToUpper().Contains(".XLS"))
                 {
@@ -1641,143 +1636,74 @@ end
                     //I
                     else if (k == 8)
                     {
-                        saf25.saf2522_dis_demand = column;
+                        //saf25.saf2522_dis_demand = column;
                     }
                     //J
                     else if (k == 9)
                     {
 
-                        saf25.saf2558_trans_yn = column;
+                        saf25.saf2540_ship_qty = IntTryParse(column, saf25FileInfo, j, k, false);
+                        saf25.saf2541_ord_qty = IntTryParse(column, saf25FileInfo, j, k, false);
                     }
                     //K
                     else if (k == 10)
                     {
-                        saf25.saf2526_ship_status = column;
+                        saf25.saf2547_price = DoubleTryParse(column, saf25FileInfo, j, k, false);
                     }
                     //L  
                     else if (k == 11)
                     {
-                        saf25.saf2520_dis_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
+                        saf25.saf2544_cost = DoubleTryParse(column, saf25FileInfo, j, k, false);
                     }
                     //M
                     else if (k == 12)
                     {
-                        saf25.saf2521_dis_time = column;
+                        saf25.saf2546_mana_fee = DoubleTryParse(column, saf25FileInfo, j, k, false);
                     }
                     //N
                     else if (k == 13)
                     {
-                        saf25.saf2510_ord_name = column;
+                        saf25.saf2505_ord_remark = column;
                     }
                     //O
                     else if (k == 14)
                     {
-                        saf25.saf2512_ord_tel01 = column;
+                        saf25.saf2506_ord_status = column;
                     }
                     //P
                     else if (k == 15)
                     {
-                        saf25.saf2513_ord_tel02 = column;
+                        saf25.saf2552_return = column;
                     }
                     //Q
                     else if (k == 16)
                     {
-                        saf25.saf2511_ord_cell = column;
+                        saf25.saf2523_ship_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
                     }
                     //R
                     else if (k == 17)
                     {
-                        saf25.saf2514_rec_name = column;
+                        saf25.saf2529_logis_no = column;
                     }
                     //S
                     else if (k == 18)
                     {
-                        saf25.saf2516_rec_tel01 = column;
+                        saf25.saf2530_logis_comp = column;
                     }
                     //T
                     else if (k == 19)
                     {
-                        saf25.saf2517_rec_tel02 = column;
+                        saf25.saf2528_fre_no = column;
                     }
                     //U
                     else if (k == 20)
                     {
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2524_ship_remark = column;
                     }
                     //V
                     else if (k == 21)
                     {
-                        saf25.saf2519_rec_address = column;
-                    }
-                    //W
-                    else if (k == 22)
-                    {
-                        saf25.saf2505_ord_remark = column;
-                    }
-                    //X
-                    else if (k == 23)
-                    {
-                        saf25.saf2559_option_case = column;
-                    }
-                    //Y
-                    else if (k == 24)
-                    {
-                        saf25.saf2542_groups = DoubleTryParse(column, saf25FileInfo, j, k, false);
-                    }
-                    //Z
-                    else if (k == 25)
-                    {
-                        saf25.saf2537_pcode = column;
-                    }
-                    //AA
-                    else if (k == 26)
-                    {
-                        saf25.saf2531_psname = column;
-                    }
-                    //AB
-                    else if (k == 27)
-                    {
-                        saf25.saf2532_pname = column;
-                    }
-                    //AC
-                    else if (k == 28)
-                    {
-                        saf25.saf2536_pcode_v = column;
-                    }
-                    //AD
-                    else if (k == 29)
-                    {
-                        saf25.saf2533_pspec = column;
-                    }
-                    //AE
-                    else if (k == 30)
-                    {
-                        saf25.saf2560_unit = column;
-                    }
-                    //AF
-                    else if (k == 31)
-                    {
-                        saf25.saf2547_price = DoubleTryParse(column, saf25FileInfo, j, k, false);
-                    }
-                    //AG
-                    else if (k == 32)
-                    {
-                        saf25.saf2541_ord_qty = IntTryParse(column, saf25FileInfo, j, k, false);
-                    }
-                    //AH
-                    else if (k == 33)
-                    {
-                        saf25.saf2548_price_sub = DoubleTryParse(column, saf25FileInfo, j, k, false);
-                    }
-                    //AI
-                    else if (k == 34)
-                    {
-                        saf25.saf2544_cost = DoubleTryParse(column, saf25FileInfo, j, k, false);
-                    }
-                    //AJ
-                    else if (k == 35)
-                    {
-                        saf25.saf2546_mana_fee = DoubleTryParse(column, saf25FileInfo, j, k, false);
+                        saf25.saf2525_ship_condi = column;
                     }
                 }
                 saf25FileInfo.saf25List.Add(saf25);
