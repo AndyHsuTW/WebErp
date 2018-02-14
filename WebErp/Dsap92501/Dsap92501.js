@@ -390,21 +390,21 @@
                    
                     var vueobj = this;
                     
-                    if (File.name.toUpperCase().indexOf("17P.CSV") > -1) {
+                    if (File.name.toUpperCase().indexOf("17P") > -1 && File.name.toUpperCase().indexOf("CSV") > -1) {
                         vueobj.one7P.FileName = File.name;
                         vueobj.ImportExcelsAjax(formData, function (result) {
                             vueobj.one7P.open = true;
                             vueobj.one7P.saf25FileInfo = JSON.parse(result);
                         })
                     }
-                    else if (File.name.toUpperCase().indexOf("MOMO.CSV") > -1) {
+                    else if (File.name.toUpperCase().indexOf("MOMO") > -1) {
                         vueobj.MOMO.FileName = File.name;
                         vueobj.ImportExcelsAjax(formData, function (result) {
                             vueobj.MOMO.open = true;
                             vueobj.MOMO.saf25FileInfo = JSON.parse(result);
                         })
                     }
-                    else if (File.name.toUpperCase().indexOf("PCHOME.CSV") > -1) {
+                    else if (File.name.toUpperCase().indexOf("PCHOME") > -1) {
 
 
                         vueobj.PChome.FileName = File.name;
@@ -412,118 +412,118 @@
                             vueobj.PChome.open = true;
                             vueobj.PChome.saf25FileInfo = JSON.parse(result);
                         })
-                    } else if (File.name.toUpperCase().indexOf("YAHOO拍賣.CSV") > -1) {
+                    } else if (File.name.toUpperCase().indexOf("YAHOO拍賣") > -1 && File.name.toUpperCase().indexOf("CSV") > -1) {
 
                         vueobj.PChome.FileName = File.name;
                         vueobj.ImportExcelsAjax(formData, function (result) {
                             vueobj.Yahoo.open = true;
                             vueobj.Yahoo.saf25FileInfo = JSON.parse(result);
                         })
-                    } else if (File.name.toUpperCase().indexOf("露天.CSV") > -1) {
+                    } else if (File.name.toUpperCase().indexOf("露天") > -1 && File.name.toUpperCase().indexOf("CSV") > -1) {
                         vueobj.Lutian.FileName = File.name;
                         vueobj.ImportExcelsAjax(formData, function (result) {
                             vueobj.Lutian.open = true;
                             vueobj.Lutian.saf25FileInfo = JSON.parse(result);
                         })
-                    } else if (File.name.toUpperCase().indexOf("聯合報.CSV") > -1) {
+                    } else if (File.name.toUpperCase().indexOf("聯合報") > -1 && File.name.toUpperCase().indexOf("CSV") > -1) {
                         vueobj.Lianhebao.FileName = File.name;
                         vueobj.ImportExcelsAjax(formData, function (result) {
                             vueobj.Lianhebao.open = true;
                             vueobj.Lianhebao.saf25FileInfo = JSON.parse(result);
                         })
-                    } else if (File.name.toUpperCase().indexOf("興奇.CSV") > -1) {
+                    } else if (File.name.toUpperCase().indexOf("興奇") > -1 && File.name.toUpperCase().indexOf("CSV") > -1) {
                         vueobj.Xingqi.FileName = File.name;
                         vueobj.ImportExcelsAjax(formData, function (result) {
                             vueobj.Xingqi.open = true;
                             vueobj.Xingqi.saf25FileInfo = JSON.parse(result);
                         })
-                    } else if (File.name.toUpperCase().indexOf("瘋狂賣客.CSV") > -1) {
+                    } else if (File.name.toUpperCase().indexOf("瘋狂賣客") > -1 && File.name.toUpperCase().indexOf("CSV") > -1) {
                         vueobj.Crazymike.FileName = File.name;
                         vueobj.ImportExcelsAjax(formData, function (result) {
                             vueobj.Crazymike.open = true;
                             vueobj.Crazymike.saf25FileInfo = JSON.parse(result);
                         })
-                    } else if (File.name.toUpperCase().indexOf("鼎鼎.CSV") > -1) {
+                    } else if (File.name.toUpperCase().indexOf("鼎鼎") > -1 && File.name.toUpperCase().indexOf("CSV") > -1) {
                         vueobj.Dingding.FileName = File.name;
                         vueobj.ImportExcelsAjax(formData, function (result) {
                             vueobj.Dingding.open = true;
                             vueobj.Dingding.saf25FileInfo = JSON.parse(result);
                         })
                     }
-                    else if (File.name.toUpperCase().indexOf("統一.CSV") > -1) {
+                    else if (File.name.toUpperCase().indexOf("統一") > -1 && File.name.toUpperCase().indexOf("CSV") > -1) {
                         vueobj.UniPresiden.FileName = File.name;
                         vueobj.ImportExcelsAjax(formData, function (result) {
                             vueobj.UniPresiden.open = true;
                             vueobj.UniPresiden.saf25FileInfo = JSON.parse(result);
                         })
                     }
-                    else if (File.name.toUpperCase().indexOf("康迅.CSV") > -1) {
+                    else if (File.name.toUpperCase().indexOf("康迅") > -1 && File.name.toUpperCase().indexOf("CSV") > -1) {
                         vueobj.PayEasy.FileName = File.name;
                         vueobj.ImportExcelsAjax(formData, function (result) {
                             vueobj.PayEasy.open = true;
                             vueobj.PayEasy.saf25FileInfo = JSON.parse(result);
                         })
-                    } else if (File.name.toUpperCase().indexOf("夠麻吉.CSV") > -1) {
+                    } else if (File.name.toUpperCase().indexOf("夠麻吉") > -1 && File.name.toUpperCase().indexOf("CSV") > -1) {
                         vueobj.Gomaji.FileName = File.name;
                         vueobj.ImportExcelsAjax(formData, function (result) {
                             vueobj.Gomaji.open = true;
                             vueobj.Gomaji.saf25FileInfo = JSON.parse(result);
                         })
-                    } else if (File.name.toUpperCase().indexOf("神坊.CSV") > -1) {
+                    } else if (File.name.toUpperCase().indexOf("神坊") > -1 && File.name.toUpperCase().indexOf("CSV") > -1) {
                         vueobj.Symphox.FileName = File.name;
                         vueobj.ImportExcelsAjax(formData, function (result) {
                             vueobj.Symphox.open = true;
                             vueobj.Symphox.saf25FileInfo = JSON.parse(result);
                         })
-                    } else if (File.name.toUpperCase().indexOf("松果.CSV") > -1) {
+                    } else if (File.name.toUpperCase().indexOf("松果") > -1 && File.name.toUpperCase().indexOf("CSV") > -1) {
                         vueobj.Pcone.FileName = File.name;
                         vueobj.ImportExcelsAjax(formData, function (result) {
                             vueobj.Pcone.open = true;
                             vueobj.Pcone.saf25FileInfo = JSON.parse(result);
                         })
-                    } else if (File.name.toUpperCase().indexOf("東森 森森.CSV") > -1) {
+                    } else if (File.name.toUpperCase().indexOf("東森 森森") > -1 && File.name.toUpperCase().indexOf("CSV") > -1) {
                         vueobj.Eastern.FileName = File.name;
                         vueobj.ImportExcelsAjax(formData, function (result) {
                             vueobj.Eastern.open = true;
                             vueobj.Eastern.saf25FileInfo = JSON.parse(result);
                         })
-                    } else if (File.name.toUpperCase().indexOf("生活市集.CSV") > -1) {
+                    } else if (File.name.toUpperCase().indexOf("生活市集") > -1 && File.name.toUpperCase().indexOf("CSV") > -1) {
                         vueobj.Buy123.FileName = File.name;
                         vueobj.ImportExcelsAjax(formData, function (result) {
                             vueobj.Buy123.open = true;
                             vueobj.Buy123.saf25FileInfo = JSON.parse(result);
                         })
-                    } else if (File.name.toUpperCase().indexOf("台灣大哥大.CSV") > -1) {
+                    } else if (File.name.toUpperCase().indexOf("台灣大哥大") > -1 && File.name.toUpperCase().indexOf("CSV") > -1) {
                         vueobj.Taiwan_Mobile.FileName = File.name;
                         vueobj.ImportExcelsAjax(formData, function (result) {
                             vueobj.Taiwan_Mobile.open = true;
                             vueobj.Taiwan_Mobile.saf25FileInfo = JSON.parse(result);
                         })
-                    } else if (File.name.toUpperCase().indexOf("台塑.CSV") > -1) {
+                    } else if (File.name.toUpperCase().indexOf("台塑") > -1 && File.name.toUpperCase().indexOf("CSV") > -1) {
                         vueobj.Formosa_Plastics.FileName = File.name;
                         vueobj.ImportExcelsAjax(formData, function (result) {
                             vueobj.Formosa_Plastics.open = true;
                             vueobj.Formosa_Plastics.saf25FileInfo = JSON.parse(result);
                         })
-                    } else if (File.name.toUpperCase().indexOf("奇摩超級商城.CSV") > -1) {
+                    } else if (File.name.toUpperCase().indexOf("奇摩超級商城") > -1 && File.name.toUpperCase().indexOf("CSV") > -1) {
                         vueobj.YahooMart.FileName = File.name;
                         vueobj.ImportExcelsAjax(formData, function (result) {
                             vueobj.YahooMart.open = true;
                             vueobj.YahooMart.saf25FileInfo = JSON.parse(result);
                         })
-                    } else if (File.name.toUpperCase().indexOf("摩天.CSV") > -1) {
+                    } else if (File.name.toUpperCase().indexOf("摩天") > -1 && File.name.toUpperCase().indexOf("CSV") > -1) {
                         vueobj.Motian.FileName = File.name;
                         vueobj.ImportExcelsAjax(formData, function (result) {
                             vueobj.Motian.open = true;
                             vueobj.Motian.saf25FileInfo = JSON.parse(result);
                         })
-                    } else if (File.name.toUpperCase().indexOf("樂天.CSV") > -1) {
+                    } else if (File.name.toUpperCase().indexOf("樂天") > -1 && File.name.toUpperCase().indexOf("CSV") > -1) {
                         vueobj.Letian.FileName = File.name;
                         vueobj.ImportExcelsAjax(formData, function (result) {
                             vueobj.Letian.open = true;
                             vueobj.Letian.saf25FileInfo = JSON.parse(result);
                         })
-                    } else if (File.name.toUpperCase().indexOf("PC.CSV") > -1) {
+                    } else if (File.name.toUpperCase().indexOf("PC") > -1 && File.name.toUpperCase().indexOf("CSV") > -1) {
                         vueobj.Pc.FileName = File.name;
                         vueobj.ImportExcelsAjax(formData, function (result) {
                             vueobj.Pc.open = true;

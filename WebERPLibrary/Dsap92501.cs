@@ -641,12 +641,12 @@ end
                     var rowList = setPreWork(uploadsPath, FileName, "106", ref saf25FileInfo);
                     FormosaPlastics_csvtosaf25(rowList, saf25FileInfo, OrderTime);
                 }
-                else if (FileName.ToUpper().Contains("奇摩超級商城") && FileName.ToUpper().Contains(".XLS"))
+                else if (FileName.ToUpper().Contains("奇摩超級商城") && FileName.ToUpper().Contains(".CSV"))
                 {
                     var rowList = setPreWork(uploadsPath, FileName, "132", ref saf25FileInfo);
                     YahooSmart_tosaf25(rowList, saf25FileInfo, OrderTime);
                 }
-                else if (FileName.ToUpper().Contains("摩天") && FileName.ToUpper().Contains(".XLS"))
+                else if (FileName.ToUpper().Contains("摩天") && FileName.ToUpper().Contains(".CSV"))
                 {
                     var rowList = setPreWork(uploadsPath, FileName, "134", ref saf25FileInfo);
                     Motian_tosaf25(rowList, saf25FileInfo, OrderTime);
