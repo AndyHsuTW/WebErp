@@ -54,7 +54,9 @@
                 "vue-tables-2":"public/scripts/VueComponent/vue-tables-2.min",
                 "LoadingHelper": "public/scripts/LoadingHelper/LoadingHelper",
                 "LoadingHelper-css": "public/scripts/LoadingHelper/LoadingHelper",
-                "UserLog": "public/scripts/UserLog/UserLog"
+                "UserLog": "public/scripts/UserLog/UserLog",
+                "vue-multiselect": "public/scripts/VueComponent/multiselect/vue-multiselect@2.0.3.min",
+                "vue-multiselect-css": "public/scripts/VueComponent/multiselect/vue-multiselect.min"
             },
             shim: {
                 "bootstrap": {
@@ -62,6 +64,9 @@
                 },
                 "LoadingHelper": {
                     "deps": ["css!LoadingHelper-css"]
+                },
+                "vue-multiselect": {
+                    "deps": ["css!vue-multiselect-css"]
                 }
             },
             map: {
@@ -69,7 +74,7 @@
                     css: '<%=rootUrl%>public/scripts/requirejs/css.min.js'
                 }
             },
-            urlArgs: "appVersion=20180118" //reload all dependencies
+            urlArgs: "appVersion=20180218" //reload all dependencies
         });
     </script>
     <asp:ContentPlaceHolder ID="head" runat="server">

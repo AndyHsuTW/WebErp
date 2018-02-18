@@ -16,3 +16,9 @@ C:\Users\hamow\OneDrive\Documents\case\GA_System\VS_Project\WebERPLibrary\bin\De
 C:\Users\hamow\OneDrive\Documents\case\GA_System\VS_Project\WebERPLibrary\obj\Debug\WebERPLibrary.csprojResolveAssemblyReference.cache
 C:\Users\hamow\OneDrive\Documents\case\GA_System\VS_Project\WebERPLibrary\obj\Debug\WebERPLibrary.dll
 C:\Users\hamow\OneDrive\Documents\case\GA_System\VS_Project\WebERPLibrary\obj\Debug\WebERPLibrary.pdb
+C:\Users\hamow\OneDrive\Documents\case\GA_System\VS_Project\WebERPLibrary\bin\Debug\ExcelDataReader.DataSet.dll
+C:\Users\hamow\OneDrive\Documents\case\GA_System\VS_Project\WebERPLibrary\bin\Debug\ExcelDataReader.dll
+C:\Users\hamow\OneDrive\Documents\case\GA_System\VS_Project\WebERPLibrary\bin\Debug\Newtonsoft.Json.dll
+C:\Users\hamow\OneDrive\Documents\case\GA_System\VS_Project\WebERPLibrary\bin\Debug\ExcelDataReader.xml
+C:\Users\hamow\OneDrive\Documents\case\GA_System\VS_Project\WebERPLibrary\bin\Debug\ExcelDataReader.DataSet.xml
+C:\Users\hamow\OneDrive\Documents\case\GA_System\VS_Project\WebERPLibrary\bin\Debug\Newtonsoft.Json.xml

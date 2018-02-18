@@ -15,9 +15,12 @@ using OfficeOpenXml.Style;
 
 namespace DCNP005
 {
+    /// <summary>
+    /// Table Schema說明
+    /// </summary>
     public class Cnf05
     {
-        #region properties
+        #region properties from database
 
         public int id { get; set; }
 
@@ -146,8 +149,6 @@ UPDATE [dbo].[cnf05]
       ,[cnf0505_fieldname_en] = @cnf0505_fieldname_en
       ,[cnf0506_program] = @cnf0506_program
       ,[remark] = @remark
-      ,[adduser] = @adduser
-      ,[adddate] = @adddate
       ,[moduser] = @moduser
       ,[moddate] = @moddate
  WHERE id=@id
@@ -160,8 +161,6 @@ UPDATE [dbo].[cnf05]
                 sqlCmd.Parameters.AddWithValue("@cnf0505_fieldname_en", cnf05.cnf0505_fieldname_en);
                 sqlCmd.Parameters.AddWithValue("@cnf0506_program", cnf05.cnf0506_program);
                 sqlCmd.Parameters.AddWithValueSafe("@remark", cnf05.remark);
-                sqlCmd.Parameters.AddWithValue("@adduser", cnf05.adduser);
-                sqlCmd.Parameters.AddWithValueSafe("@adddate", cnf05.adddate);
                 sqlCmd.Parameters.AddWithValue("@moduser", cnf05.moduser);
                 sqlCmd.Parameters.AddWithValueSafe("@moddate", cnf05.moddate);
 

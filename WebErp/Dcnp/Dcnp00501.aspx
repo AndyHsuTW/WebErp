@@ -1,6 +1,5 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/master/BaseMasterPage.master" AutoEventWireup="true" CodeFile="Dcnp00501.aspx.cs" Inherits="Dcnp_Dcnp00501" %>
 
-<%@ Register Assembly="CrystalDecisions.Web, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" Namespace="CrystalDecisions.Web" TagPrefix="CR" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <style>
@@ -13,11 +12,15 @@
         .app-body
         {
             padding-left: 5px;
+            min-width: 1080px;
         }
 
         .filter-div
         {
             margin-top: 5px;
+        }
+        .filter-div input {
+            margin-bottom: 2px;
         }
 
         .no-margin
@@ -51,9 +54,16 @@
         .table.sortable>thead>tr>th{
             cursor: pointer;
             white-space: nowrap;
+            position: relative;
+            padding-right: 16px;
         }
         .table.sortable .no-sortable{
             cursor: default;
+        }
+        .table.sortable .sort-item {
+            position: absolute;
+            right: 2px;
+            top: 35%;
         }
     </style>
 </asp:Content>
@@ -166,71 +176,71 @@
                                     <input type="checkbox" value="" v-on:click="OnCheckAll" v-model="IsCheckAll">
                                 </th>
                                 <th v-on:click="OnTableSorting('cnf0501_file')" >
-                                    檔案代號<br>
-                                    <span class="pull-right glyphicon  " 
+                                    檔案代號
+                                    <span class="sort-item glyphicon  " 
                                         v-bind:class="{'glyphicon-sort':SortColumn!='cnf0501_file', 
                                         'glyphicon-chevron-up': SortColumn=='cnf0501_file' && SortOrder=='asc',
                                         'glyphicon-chevron-down': SortColumn=='cnf0501_file' && SortOrder=='desc'}"></span>
                                 </th>
                                 <th v-on:click="OnTableSorting('cnf0502_field')">
-                                    欄位名稱<br>
-                                    <span class="pull-right glyphicon  " 
+                                    欄位名稱
+                                    <span class="sort-item glyphicon  " 
                                         v-bind:class="{'glyphicon-sort':SortColumn!='cnf0502_field', 
                                         'glyphicon-chevron-up': SortColumn=='cnf0502_field' && SortOrder=='asc',
                                         'glyphicon-chevron-down': SortColumn=='cnf0502_field' && SortOrder=='desc'}"></span>
                                 </th>
                                 <th v-on:click="OnTableSorting('cnf0503_fieldname_tw')">
-                                    中文說明-繁體<br>
-                                    <span class="pull-right glyphicon  " 
+                                    中文說明-繁體
+                                    <span class="sort-item glyphicon  " 
                                         v-bind:class="{'glyphicon-sort':SortColumn!='cnf0503_fieldname_tw', 
                                         'glyphicon-chevron-up': SortColumn=='cnf0503_fieldname_tw' && SortOrder=='asc',
                                         'glyphicon-chevron-down': SortColumn=='cnf0503_fieldname_tw' && SortOrder=='desc'}"></span>
                                 </th>
                                 <th v-on:click="OnTableSorting('cnf0506_program')">
-                                    程式代號<br>
-                                    <span class="pull-right glyphicon  " 
+                                    程式代號
+                                    <span class="sort-item glyphicon  " 
                                         v-bind:class="{'glyphicon-sort':SortColumn!='cnf0506_program', 
                                         'glyphicon-chevron-up': SortColumn=='cnf0506_program' && SortOrder=='asc',
                                         'glyphicon-chevron-down': SortColumn=='cnf0506_program' && SortOrder=='desc'}"></span>
                                 </th>
                                 <th v-on:click="OnTableSorting('adddate')">
-                                    新增日期<br>
-                                    <span class="pull-right glyphicon  " 
+                                    新增日期
+                                    <span class="sort-item glyphicon  " 
                                         v-bind:class="{'glyphicon-sort':SortColumn!='adddate', 
                                         'glyphicon-chevron-up': SortColumn=='adddate' && SortOrder=='asc',
                                         'glyphicon-chevron-down': SortColumn=='adddate' && SortOrder=='desc'}"></span>
                                 </th>
                                 <th v-on:click="OnTableSorting('adduser')">
-                                    新增者<br>
-                                    <span class="pull-right glyphicon  " 
+                                    新增者
+                                    <span class="sort-item glyphicon  " 
                                         v-bind:class="{'glyphicon-sort':SortColumn!='adduser', 
                                         'glyphicon-chevron-up': SortColumn=='adduser' && SortOrder=='asc',
                                         'glyphicon-chevron-down': SortColumn=='adduser' && SortOrder=='desc'}"></span>
                                 </th>
                                 <th v-on:click="OnTableSorting('moddate')">
-                                    修改日期<br>
-                                    <span class="pull-right glyphicon  " 
+                                    修改日期
+                                    <span class="sort-item glyphicon  " 
                                         v-bind:class="{'glyphicon-sort':SortColumn!='moddate', 
                                         'glyphicon-chevron-up': SortColumn=='moddate' && SortOrder=='asc',
                                         'glyphicon-chevron-down': SortColumn=='moddate' && SortOrder=='desc'}"></span>
                                 </th>
                                 <th v-on:click="OnTableSorting('moduser')">
-                                    修改者<br>
-                                    <span class="pull-right glyphicon  " 
+                                    修改者
+                                    <span class="sort-item glyphicon  " 
                                         v-bind:class="{'glyphicon-sort':SortColumn!='moduser', 
                                         'glyphicon-chevron-up': SortColumn=='moduser' && SortOrder=='asc',
                                         'glyphicon-chevron-down': SortColumn=='moduser' && SortOrder=='desc'}"></span>
                                 </th>
                                 <th v-on:click="OnTableSorting('cnf0504_fieldname_cn')">
-                                    中文說明-簡體<br>
-                                    <span class="pull-right glyphicon  " 
+                                    中文說明-簡體
+                                    <span class="sort-item glyphicon  " 
                                         v-bind:class="{'glyphicon-sort':SortColumn!='cnf0504_fieldname_cn', 
                                         'glyphicon-chevron-up': SortColumn=='cnf0504_fieldname_cn' && SortOrder=='asc',
                                         'glyphicon-chevron-down': SortColumn=='cnf0504_fieldname_cn' && SortOrder=='desc'}"></span>
                                 </th>
                                 <th v-on:click="OnTableSorting('cnf0505_fieldname_en')">
-                                    英文說明<br>
-                                    <span class="pull-right glyphicon  " 
+                                    英文說明
+                                    <span class="sort-item glyphicon  " 
                                         v-bind:class="{'glyphicon-sort':SortColumn!='cnf0505_fieldname_en', 
                                         'glyphicon-chevron-up': SortColumn=='cnf0505_fieldname_en' && SortOrder=='asc',
                                         'glyphicon-chevron-down': SortColumn=='cnf0505_fieldname_en' && SortOrder=='desc'}"></span>
@@ -245,12 +255,12 @@
                                 </td>
                                 <td>{{cnf05Item.cnf0501_file}}</td>
                                 <td>{{cnf05Item.cnf0502_field}}</td>
-                                <td>{{cnf05Item.cnf0503_fieldname_tw}}</td>
+                                <td >{{cnf05Item.cnf0503_fieldname_tw}}</td>
                                 <td>{{cnf05Item.cnf0506_program}}</td>
-                                <td>{{new Date(cnf05Item.adddate).dateFormat('Y/m/d')}}</td>
+                                <td>{{new Date(cnf05Item.adddate).dateFormat(UiDateFormat)}}</td>
                                 <td>{{cnf05Item.adduser}}</td>
                                 <td>
-                                    {{cnf05Item.moddate==null?"":new Date(cnf05Item.moddate).dateFormat('Y/m/d')}}
+                                    {{cnf05Item.moddate==null?"":new Date(cnf05Item.moddate).dateFormat(UiDateFormat)}}
                                 </td>
                                 <td>{{cnf05Item.moduser}}</td>
                                 <td>{{cnf05Item.cnf0504_fieldname_cn}}</td>
@@ -525,7 +535,6 @@
         </div>
 
     </div>
-    <CR:CrystalReportViewer ID="CrystalReportViewer1" runat="server" AutoDataBind="true" />
     <script>
         (function () {
             requirejs.config({

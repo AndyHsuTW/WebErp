@@ -215,13 +215,18 @@ namespace WebERPLibrary
                 SELECT ROW_NUMBER() OVER(ORDER BY inf01.ID) AS RowId
                 ,inf01.status
                 ,inf0102_pcode
+                ,inf0107_pclass
                 ,inf0113_psname
                 ,inf0110_pname
                 ,inf0111_color
                 ,inf0115_runit
+                ,inf0116_pqty_o
+                ,inf01125_tax
                 ,ISNULL(inf0123_pdept,'')+'-'+ISNULL(@pdeptcode,'') as  inf0123_pdept
                 ,ISNULL(inf0124_pcat,'')+'-'+ISNULL(@pcatcode,'') as inf0124_pcat
+                ,inf01a03_size
                 ,inf01a07_retail
+                ,inf01a13_cost
                 ,inf01b24_inv_qty
                 ,ISNULL(inf0104_mcode,'')+'-'+ISNULL(inf0302_bname,'') as bname
                 ,inf0175_graphy
@@ -286,14 +291,18 @@ namespace WebERPLibrary
                         List.Add(new D_pcodeData()
                         {
                             pcode = rd["inf0102_pcode"].ToString(),
+                            pclass = rd["inf0107_pclass"].ToString(),
                             psname = rd["inf0113_psname"].ToString(),
                             pname = rd["inf0110_pname"].ToString(),
                             color = rd["inf0111_color"].ToString(),
+                            cost = rd["inf01a13_cost"].ToString(),
                             runit = rd["inf0115_runit"].ToString(),
-
                             pdept = rd["inf0123_pdept"].ToString(),
                             pcat = rd["inf0124_pcat"].ToString(),
+                            pqty_o = Convert.ToDouble(rd["inf0116_pqty_o"]),
                             retail = rd["inf01a07_retail"].ToString(),
+                            size = rd["inf01a03_size"].ToString(),
+                            tax = Convert.ToDouble(rd["inf01125_tax"]),
                             inv_qty = rd["inf01b24_inv_qty"].ToString(),
                             bname = rd["bname"].ToString(),
                             graphy = rd["inf0175_graphy"].ToString(),
@@ -533,13 +542,18 @@ namespace WebERPLibrary
     public class D_pcodeData
     {
         public string pcode { get; set; }
+        public string pclass { get; set; }
         public string psname { get; set; }
         public string pname { get; set; }
         public string color { get; set; }
+        public string cost { get; set; }
         public string runit { get; set; }
         public string pdept { get; set; }
         public string pcat { get; set; }
+        public double pqty_o { get; set; }
         public string retail { get; set; }
+        public string size { get; set; }
+        public double tax { get; set; }
         public string inv_qty { get; set; }
         public string bname { get; set; }
         public string graphy { get; set; }

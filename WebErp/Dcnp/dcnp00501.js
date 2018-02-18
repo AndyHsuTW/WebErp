@@ -31,18 +31,8 @@
         window.dcnp00501 = new Vue({
             el: "#Dcnp00501",
             data: {
-                Cnf05HandlerUrl:rootUrl + 'Dcnp/Ajax/Cnf05Handler.ashx',
-                Filter: {
-                    AddDateStart: null,
-                    AddDateEnd: null,
-                    Keyword: null,
-                    Cnf0501FileStart: null,
-                    Cnf0501FileEnd: null,
-                    Cnf0506ProgramStart: null,
-                    Cnf0506ProgramEnd: null,
-                    Cnf0502FieldStart:null,
-                    Cnf0502FieldEnd:null,
-                },
+                Cnf05HandlerUrl: rootUrl + 'Dcnp/Ajax/Cnf05Handler.ashx',
+                Cnf05List: [],// source data from server
                 EditDialog: {
                     display: true,
                     isBatchMode: false,
@@ -59,8 +49,6 @@
                     moduser: "",
                     moddate: null,
                 },
-                Cnf05List: [],
-                IsCheckAll: false,
                 Export: {
                     cnf0501_file: true,
                     cnf0502_field: true,
@@ -73,8 +61,21 @@
                     cnf0504_fieldname_cn: true,
                     cnf0505_fieldname_en: true
                 },
-                SortColumn:null,
-                SortOrder:null
+                Filter: {
+                    AddDateStart: null,
+                    AddDateEnd: null,
+                    Keyword: null,
+                    Cnf0501FileStart: null,
+                    Cnf0501FileEnd: null,
+                    Cnf0506ProgramStart: null,
+                    Cnf0506ProgramEnd: null,
+                    Cnf0502FieldStart: null,
+                    Cnf0502FieldEnd: null,
+                },
+                IsCheckAll: false,
+                UiDateFormat: "Y/m/d",
+                SortColumn: null,
+                SortOrder: null
             },
             components: {},
             computed: {
@@ -104,7 +105,7 @@
                         cnf0502_field_end: this.Filter.Cnf0502FieldEnd,
                         adddate_start: this.Filter.AddDateStart,
                         adddate_end: this.Filter.AddDateEnd
-                    }
+                    };
                     LoadingHelper.showLoading();
                     var vueObj = this;
                     return $.ajax({
@@ -122,12 +123,7 @@
                             if(vueObj.SortColumn!=null){
                                 vueObj.Cnf05List.sort(vueObj.SortCnf05List);
                             }
-                            for(var i in vueObj.Cnf05List){
-                                vueObj.Cnf05List[i].adddate = new Date(vueObj.Cnf05List[i].adddate).dateFormat('Y/m/d');
-                                if(vueObj.Cnf05List[i].moddate){
-                                    vueObj.Cnf05List[i].moddate = new Date(vueObj.Cnf05List[i].moddate).dateFormat('Y/m/d');
-                                }
-                            }
+                            
                             if(vueObj.Cnf05List.length==0){
                                 alert("查無資料");
                             }
@@ -148,7 +144,7 @@
                     this.ResetEditDialog();
                     this.EditDialog.display = true;
                     this.EditDialog.isBatchMode = false;
-                    var dateNow = new Date().dateFormat('Y/m/d');
+                    var dateNow = new Date().dateFormat(this.UiDateFormat);
                     this.EditDialog.adddate = dateNow;
                     this.$refs.AddDate.setValue(dateNow);
                     this.EditDialog.adduser = loginUserName;
@@ -167,8 +163,8 @@
                     this.EditDialog.cnf0506_program = cnf05Item.cnf0506_program;
                     this.EditDialog.remark = cnf05Item.remark;
 
-                    var dateNow = new Date().dateFormat('Y/m/d');
-                    this.EditDialog.adddate = new Date(cnf05Item.adddate).dateFormat('Y/m/d');
+                    var dateNow = new Date().dateFormat(this.UiDateFormat);
+                    this.EditDialog.adddate = new Date(cnf05Item.adddate).dateFormat(this.UiDateFormat);
                     this.$refs.AddDate.setValue(this.EditDialog.adddate);
                     this.EditDialog.moddate = dateNow;
                     this.$refs.ModDate.setValue(dateNow);
@@ -196,7 +192,7 @@
                     this.EditDialog.display = true;
                     this.EditDialog.isBatchMode = true;
                     
-                    var dateNow = new Date().dateFormat('Y/m/d');
+                    var dateNow = new Date().dateFormat(this.UiDateFormat);
                     this.EditDialog.moddate = dateNow;
                     this.$refs.ModDate.setValue(dateNow);
                     this.EditDialog.moduser = loginUserName;
@@ -213,7 +209,7 @@
                     this.EditDialog.cnf0506_program = cnf05Item.cnf0506_program;
                     this.EditDialog.remark = cnf05Item.remark;
 
-                    var dateNow = new Date().dateFormat('Y/m/d');
+                    var dateNow = new Date().dateFormat(this.UiDateFormat);
                     this.EditDialog.adddate = dateNow;
                     this.$refs.AddDate.setValue(dateNow);
                     this.EditDialog.adduser = loginUserName;
@@ -450,6 +446,7 @@
                         return;
                     }
                     // construct upload data
+                    var act = this.EditDialog.editingItem.id ? "update" : "add";
                     var cnf05Data = {
                         id: this.EditDialog.editingItem.id,
                         cnf0501_file: this.EditDialog.cnf0501_file,
@@ -460,12 +457,11 @@
                         cnf0506_program: this.EditDialog.cnf0506_program,
                         remark: this.EditDialog.remark,
                         adduser: this.EditDialog.adduser,
-                        adddate: this.EditDialog.adddate,
+                        adddate: this.EditDialog.adddate + new Date().dateFormat(" H:i"),
                         moduser: this.EditDialog.moduser,
-                        moddate: this.EditDialog.moddate
+                        moddate: act == "update" ? this.EditDialog.moddate + new Date().dateFormat(" H:i") : null
                     };
                     var vueObj = this;
-                    var act = this.EditDialog.editingItem.id ? "update" : "add";
                     LoadingHelper.showLoading();
                     return $.ajax({
                         type: 'POST',
@@ -542,13 +538,21 @@
 
                    this.Cnf05List.sort(this.SortCnf05List);
                 },
-                SortCnf05List:function(a,b){
-                    if (a[this.SortColumn] < b[this.SortColumn]){
-                        return this.SortOrder=='asc'?-1:1;
+                SortCnf05List: function (a, b) {
+                    var paramA = a[this.SortColumn] || "";
+                    var paramB = b[this.SortColumn] || "";
+                    if (paramA < paramB) {
+                        return this.SortOrder == 'asc' ? -1 : 1;
+                    }
+                    if (paramA > paramB) {
+                        return this.SortOrder == 'asc' ? 1 : -1;
+                    }
+                    if (a["id"] < b["id"]) {
+                        return this.SortOrder == 'asc' ? -1 : 1;
 
                     }
-                    if (a[this.SortColumn] > b[this.SortColumn]){
-                        return this.SortOrder=='asc'?1:-1;
+                    if (a["id"] > b["id"]) {
+                        return this.SortOrder == 'asc' ? 1 : -1;
                     }
                     return 0;
                 },
