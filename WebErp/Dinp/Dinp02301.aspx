@@ -3,8 +3,6 @@
 <%@ Import Namespace="System.Web.Hosting" %>
 <%@ Import Namespace="Newtonsoft.Json" %>
 
-<%@ Register Assembly="CrystalDecisions.Web, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" Namespace="CrystalDecisions.Web" TagPrefix="CR" %>
-
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 
     <style>
@@ -105,6 +103,15 @@
             overflow-y: overlay;
             border: solid 1px #CCC;
         }
+        .scroll-div
+        {
+            overflow-y: auto;
+            overflow-y: overlay;
+        }
+        #ExportDialog .scroll-div
+        {
+            height: 300px;
+        }
 
         .main-result-div .scroll-table,
         .sub-result-div .scroll-table
@@ -149,8 +156,6 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <% string rootUrl = HostingEnvironment.ApplicationVirtualPath.Length > 1 ? HostingEnvironment.ApplicationVirtualPath + "/" : HostingEnvironment.ApplicationVirtualPath; %>
-
-    <CR:CrystalReportViewer ID="CrystalReportViewer1" runat="server" AutoDataBind="true" />
 
     <div id="Dinp02301Search" v-if="Display" v-cloak>
         <ul class="app-title">
@@ -447,6 +452,59 @@
                             </tr>
                         </tbody>
                     </table>
+                </div>
+            </div>
+            <div class="modal fade" id="ExportDialog" ref="ExportDialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">選擇匯出欄位</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row scroll-div">
+                                <div class="col-xs-6">
+                                    <h4>Inf29</h4>
+                                    <button type="button" class="btn btn-default" v-on:click="OnExportAllFieldClick(true)">
+                                        全選
+                                    </button>
+                                    <button type="button" class="btn btn-default" v-on:click="OnExportAllFieldClick(false)">
+                                        全不選
+                                    </button>
+                                    <div class="checkbox" v-for="inf29Field in Export.Inf29List">
+                                        <label>
+                                            <input type="checkbox" v-bind:value="inf29Field.cnf0502_field" v-model="Export.SelectedInf29List">
+                                            {{inf29Field.cnf0503_fieldname_tw}}
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6">
+                                    <h4>Inf29a</h4>
+                                    <button type="button" class="btn btn-default" v-on:click="OnExportAllFieldClick(null,true)">
+                                        全選
+                                    </button>
+                                    <button type="button" class="btn btn-default" v-on:click="OnExportAllFieldClick(null,false)">
+                                        全不選
+                                    </button>
+                                    <div class="checkbox" v-for="inf29aField in Export.Inf29aList">
+                                        <label>
+                                            <input type="checkbox" v-bind:value="inf29aField.cnf0502_field" v-model="Export.SelectedInf29aList">
+                                            {{inf29aField.cnf0503_fieldname_tw}}
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <function-button data-dismiss="modal"
+                                hot-key="f12">
+                                離開
+                            </function-button>
+                            <button type="button" class="btn btn-primary"
+                                v-on:click="OnExportSubmit()">
+                                開始匯出</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -852,7 +910,7 @@
                             <h4 class="modal-title">商品資料查詢</h4>
                         </div>
                         <div class="modal-body">
-                            <iframe src="<%=rootUrl %>D_pcode/D_pcode.aspx" style="width:100%;height: 500px;">
+                            <iframe src="../D_pcode/D_pcode.aspx" style="width:100%;height: 500px;">
                             </iframe>
                         </div>
                         <div class="modal-footer">

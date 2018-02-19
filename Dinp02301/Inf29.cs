@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DCNP005;
 using ErpBaseLibrary.DB;
+using NPOI.HSSF.UserModel;
+using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
 
 namespace Dinp02301
 {
@@ -66,6 +71,28 @@ namespace Dinp02301
         public double Qty { get; set; }
 
         public List<Inf29a> Inf29aList { get; set; }
+
+        /// <summary>
+        /// Get value by property name
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="propName"></param>
+        /// <returns></returns>
+        public static object GetPropValue(object src, string propName)
+        {
+            return src.GetType().GetProperty(propName).GetValue(src, null);
+        }
+
+        /// <summary>
+        /// Get value by property name
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="propName"></param>
+        /// <returns></returns>
+        public static void SetPropValue(object src, string propName, object value)
+        {
+            src.GetType().GetProperty(propName).SetValue(src, value);
+        }
 
         /// <summary>
         /// inf2902_docno_type + inf2902_docno_date + inf2902_docno_seq
@@ -207,6 +234,49 @@ namespace Dinp02301
             }
             return inf29List;
         }
+
+        public static List<Dictionary<string,object>> GetExportItems(Cnf05[] fieldInfoList, List<int> inf29IdList)
+        {
+            List<Dictionary<string, object>> inf29List = new List<Dictionary<string, object>>();
+
+            if (fieldInfoList == null || fieldInfoList.Length == 0)
+            {
+                throw new ArgumentNullException("fieldInfoList");
+            }
+            string fieldNamesSql = String.Join(", ", fieldInfoList.Select(o => o.cnf0502_field));
+            string idListSql = String.Join("','", inf29IdList);
+
+            using (var conn = new SqlConnection { ConnectionString = MyConnStringList.AzureGoodeasy })
+            using (var sqlCmd = conn.CreateCommand())
+            {
+                conn.Open();
+
+                sqlCmd.CommandText = String.Format(@"
+        SELECT {0}
+          FROM [dbo].[inf29] 
+        WHERE id IN('{1}') ", fieldNamesSql, idListSql);
+
+                using (var sqlReader = sqlCmd.ExecuteReader())
+                {
+                    if (sqlReader.HasRows)
+                    {
+                        while (sqlReader.Read())
+                        {
+                            Dictionary<string, object> inf29 = new Dictionary<string, object>();
+
+                            foreach (var fieldInfo in fieldInfoList)
+                            {
+                                var data = sqlReader[fieldInfo.cnf0502_field];
+                                inf29.Add(fieldInfo.cnf0502_field,data);
+                            }
+                            inf29List.Add(inf29);
+                        }
+                    }
+                }
+            }
+            return inf29List;
+        }
+
 
         public static int GetLastDocnoSeq(string docnoType, DateTime docnoDate)
         {
@@ -350,6 +420,73 @@ namespace Dinp02301
             }
         }
 
+
+        public static List<Inf29> ParseFromExcelNpoi(Stream stream, int excelVersion, string user)
+        {
+            List<Inf29> cnf05List = new List<Inf29>();
+            IWorkbook workbook = (excelVersion == 2003 ? (IWorkbook)new HSSFWorkbook(stream) : new XSSFWorkbook(stream));
+            ISheet sheet = workbook.GetSheetAt(0);
+
+            int startRowNumber = 1; // skip title
+            int endRowNumber = sheet.LastRowNum;
+
+            for (int i = startRowNumber; i <= endRowNumber; i++)
+            {
+                IRow excelRow = sheet.GetRow(i);
+                int startColumn = 0;
+                int endColumn = excelRow.LastCellNum;
+                Inf29 cnf05 = new Inf29();
+                
+            }
+            return cnf05List;
+        }
+
+
+        public static IWorkbook ExportExcelNpoi(Cnf05[] fieldInfoList, List<Dictionary<string,object>> inf29List, int excelVersion)
+        {
+            IWorkbook workbook = null;
+            if (excelVersion == 2003)
+            {
+                workbook = new HSSFWorkbook();
+            }
+            else
+            {
+                workbook = new XSSFWorkbook();
+            }
+            ISheet sheet = workbook.CreateSheet("Inf29");
+            int headRowIndex = 0;
+            IRow headRow = sheet.CreateRow(headRowIndex++);
+            for (var i = 0; i < fieldInfoList.Length; i++)
+            {
+                headRow.CreateCell(i).SetCellValue(fieldInfoList[i].cnf0503_fieldname_tw);
+            }
+            IRow headRow2 = sheet.CreateRow(headRowIndex++);
+            for (var i = 0; i < fieldInfoList.Length; i++)
+            {
+                headRow2.CreateCell(i).SetCellValue(fieldInfoList[i].cnf0502_field);
+            }
+            for (int i = 0; i < inf29List.Count; i++)
+            {
+                IRow excelRow = sheet.CreateRow(i + headRowIndex);
+                Dictionary<string,object> inf29Item = inf29List[i];
+                for (var j = 0; j < fieldInfoList.Length; j++)
+                {
+                    var val = inf29Item[fieldInfoList[j].cnf0502_field];
+                    var excelCell = excelRow.CreateCell(j);
+                    excelCell.SetCellValue(val != null ? val.ToString() : "");
+                    if (val is DateTime)
+                    {
+                        excelCell.SetCellValue(((DateTime)val).ToString("yyyy/MM/dd"));
+                    }
+                }
+            }
+
+            for (var i = 0; i < fieldInfoList.Length; i++)
+            {
+                sheet.AutoSizeColumn(i);
+            }
+            return workbook;
+        }
 
     }
 }

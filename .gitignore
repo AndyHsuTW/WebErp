@@ -8,3 +8,12 @@ DCNP005/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
 *.cache
 .vs/WebErp/v15/sqlite3/storage.ide
 Dinp02301/obj/*
+DCNP005/bin/Release/*
+DCNP005/obj/Release/*
+Dinp02301/bin/Release/*
+ErpBaseLibrary/bin/Release/*
+ErpBaseLibrary/obj/Release/*
+WebErp/App_Data/PublishProfiles/*
+WebErp/website.publishproj
+WebERPLibrary/bin/Release/*
+WebERPLibrary/obj/Release/*

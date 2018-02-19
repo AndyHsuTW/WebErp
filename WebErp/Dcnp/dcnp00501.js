@@ -298,7 +298,7 @@
                         }
                     }
                     if (dataList.length == 0 || fields.length == 0) {
-                        $(this.customData.vueObj.$refs.EditDialog).modal('hide');
+                        $(this.$refs.EditDialog).modal('hide');
                         return $.when(null);
                     }
                     LoadingHelper.showLoading();

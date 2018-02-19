@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using DCNP005;
 using Dinp02301;
 
 public partial class Dinp_Dinp02301 : System.Web.UI.Page
@@ -37,6 +38,11 @@ public partial class Dinp_Dinp02301 : System.Web.UI.Page
         WherehouseList = Cnf10.GetList("004");
         InReasonList = Cnf10.GetList("S15");
         CurrencyList = Cnf10.GetList("073");
+        var list = Cnf05.Search(new Cnf05.FilterOption
+            {
+                cnf0501_file_start = "inf29",
+                cnf0501_file_end = "inf29"
+            });
 
     }
 }

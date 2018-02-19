@@ -31,7 +31,7 @@
         window.dinp02301Search = new Vue({
             el: "#Dinp02301Search",
             data: {
-                Display:true,
+                Display: true,
                 Filter: {
                     ProDateStart: null,
                     ProDateEnd: null,
@@ -59,23 +59,29 @@
                     RefNoTypeSeqEnd: null,
                     Keyword: null,
                 },
-                Inf29List: [],// source data from server
-                Inf29aList: [],// source data from server
-                SelectedInf29Item:null,
-                SelectedInf29aItem:null,
+                Inf29List: [], // source data from server
+                Inf29aList: [], // source data from server
+                Export: {
+                    Inf29List: [],
+                    Inf29aList: [],
+                    SelectedInf29List: [],
+                    SelectedInf29aList: []
+                },
+                SelectedInf29Item: null,
+                SelectedInf29aItem: null,
                 UiDateFormat: "Y/m/d",
             },
             components: {},
             computed: {
-                
+
             },
             methods: {
                 OnSearch: function () {
                     console.log("OnSearch");
                     this.SelectedInf29Item = null;
                     this.SelectedInf29aItem = null;
-                    this.Inf29aList= [];
-                    
+                    this.Inf29aList = [];
+
                     var filterOption = {
                         keyword: this.Filter.Keyword,
                     };
@@ -106,7 +112,7 @@
                                 if (inf29List[i].inf2904_pro_date) {
                                     inf29List[i].inf2904_pro_date = new Date(inf29List[i].inf2904_pro_date).dateFormat('Ymd');
                                 }
-                                
+
                             }
                             if (inf29List.length == 0) {
                                 alert("查無資料");
@@ -123,11 +129,11 @@
                     });
 
                 },
-                OnMainRowClick:function(inf29Item){
+                OnMainRowClick: function (inf29Item) {
                     this.SelectedInf29Item = inf29Item;
                     this.GetInf29aList(inf29Item.inf2901_docno);
                 },
-                OnSubRowClick:function(inf29aItem){
+                OnSubRowClick: function (inf29aItem) {
                     this.SelectedInf29aItem = inf29aItem;
                 },
                 OnAdd: function () {
@@ -135,7 +141,7 @@
                     this.Display = false;
                     window.dinp02301Edit.Display = true;
                 },
-                OnDelete:function(){
+                OnDelete: function () {
                     LoadingHelper.showLoading();
                     var vueObj = this;
                     return $.ajax({
@@ -144,14 +150,14 @@
                         cache: false,
                         data: {
                             act: "del",
-                            data: this.SelectedInf29Item.inf2901_docno 
+                            data: this.SelectedInf29Item.inf2901_docno
                         },
                         dataType: 'text',
                         success: function (result) {
                             LoadingHelper.hideLoading();
                             if (result != "ok") {
                                 alert("刪除失敗");
-                            }else{
+                            } else {
                                 vueObj.OnSearch();
                             }
                         },
@@ -165,26 +171,84 @@
                         }
                     });
                 },
-                OnCopy: function() {
+                OnExportAllFieldClick: function (checkAllInf29, checkAllInf29a) {
+                    if (checkAllInf29 == null) {
+                        this.Export.SelectedInf29aList = [];
+                        if (checkAllInf29a) {
+                            for (var i in this.Export.Inf29aList) {
+                                var field = this.Export.Inf29aList[i];
+                                this.Export.SelectedInf29aList.push(field.cnf0502_field);
+                            }
+                        } 
+                    } else {
+                        this.Export.SelectedInf29List = [];
+                        if (checkAllInf29) {
+                            for (var i in this.Export.Inf29List) {
+                                var field = this.Export.Inf29List[i];
+                                this.Export.SelectedInf29List.push(field.cnf0502_field);
+                            }
+                        } 
+                    }
+                },
+                OnExportSubmit: function () {
+                    var vueObj = this;
+                    // Get inf29 id list
+                    var inf29idList = [];
+                    for (var i in this.Inf29List) {
+                        var inf29Item = this.Inf29List[i];
+                        inf29idList.push(inf29Item.id);
+                    }
+                    if (inf29idList.length == 0) {
+                        $(this.$refs.EditDialog).modal('hide');
+                        return $.when(null);
+                    }
+
+                    var inf29fields = this.Export.Inf29List.filter(function(element, index, array){
+                        return vueObj.Export.SelectedInf29List.indexOf(element.cnf0502_field)>=0;
+                    });
+                    var inf29afields = this.Export.Inf29aList.filter(function(element, index, array){
+                        return vueObj.Export.SelectedInf29aList.indexOf(element.cnf0502_field)>=0;
+                    });
+
+                    LoadingHelper.showLoading();
+                    return $.ajax({
+                        type: 'POST',
+                        url: rootUrl + "Dinp/Ajax/Inf29Handler.ashx",
+                        cache: false,
+                        data: {
+                            act: "export",
+                            inf29fields: JSON.stringify(inf29fields),
+                            inf29afields: JSON.stringify(inf29afields),
+                            data:JSON.stringify(inf29idList)
+                        },
+                        dataType: 'text',
+                        success: function (result) {
+                            LoadingHelper.hideLoading();
+                            if (result == "ok") {
+                                $(vueObj.$refs.ExportDialog).modal('hide');
+                                location.href = rootUrl + "Dinp/Ajax/Inf29Export.ashx";
+                            } else {
+                                alert("匯出失敗");
+                            }
+                        },
+                        error: function (jqXhr, textStatus, errorThrown) {
+                            LoadingHelper.hideLoading();
+                            if (jqXhr.status == 0) {
+                                return;
+                            }
+                            console.error(errorThrown);
+                            alert("匯出失敗");
+                        }
+                    });
+                },
+                OnCopy: function () {
 
                 },
-                OnPrint:function() {
-                    
+                OnPrint: function () {
+
                 },
                 OnExport: function () {
                     // reset dialog
-                    this.Export = {
-                        cnf0501_file: true,
-                        cnf0502_field: true,
-                        cnf0503_fieldname_tw: true,
-                        cnf0506_program: true,
-                        adddate: true,
-                        adduser: true,
-                        moddate: true,
-                        moduser: true,
-                        cnf0504_fieldname_cn: true,
-                        cnf0505_fieldname_en: true
-                    };
                 },
                 AutoFillFilter: function (field, value, type) {
                     this.Filter[field] = value;
@@ -215,7 +279,7 @@
                 GetCustomerName: function (customerCode) {
                     return "customerCode";
                 },
-                GetInf29aList:function(docno){
+                GetInf29aList: function (docno) {
                     LoadingHelper.showLoading();
                     var vueObj = this;
                     return $.ajax({
@@ -246,13 +310,34 @@
                         }
                     });
                 },
+                GetExportFields: function () {
+                    var vueObj = this;
+                    return $.ajax({
+                        type: 'GET',
+                        url: rootUrl + "Dinp/Ajax/GetExportFields.ashx",
+                        cache: true,
+                        dataType: 'text',
+                        success: function (exportFieldsJson) {
+                            var exportFields = JSON.parse(exportFieldsJson);
+                            vueObj.Export.Inf29List = exportFields[0];
+                            vueObj.Export.Inf29aList = exportFields[1];
+                        },
+                        error: function (jqXhr, textStatus, errorThrown) {
+                            if (jqXhr.status == 0) {
+                                return;
+                            }
+                            console.error(errorThrown);
+                        }
+                    });
+                },
             },
             directives: {
 
             },
-            mounted: function() {
+            mounted: function () {
                 var now = new Date();
                 this.Filter.ProDateStart = now.dateFormat(this.UiDateFormat);
+                this.GetExportFields();
             }
         });
     }

@@ -33,7 +33,7 @@
         }
     </style>
  
-    <script src="<%=rootUrl %>public/scripts/vue/vue.js" type="text/javascript"></script>
+    <script src="<%=rootUrl %>public/scripts/vue/vue<%=ConfigurationManager.AppSettings["IsDebug"]=="true"?"":".min" %>.js" type="text/javascript"></script>
     <script src="<%=rootUrl %>public/scripts/requirejs/require.min.js" type="text/javascript"></script>
     <script src="<%=rootUrl %>public/scripts/jQuery/jquery-1.12.4.min.js" type="text/javascript"></script>
     <script>
