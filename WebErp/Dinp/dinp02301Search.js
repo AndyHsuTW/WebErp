@@ -25,9 +25,27 @@
         }
     });
 
-    var requiredFiles = ["bootstrap", "FunctionButton", "vuejs-uib-pagination", "vue-jQuerydatetimepicker", "LoadingHelper", "jquery.mousewheel"];
+    var requiredFiles = ["bootstrap",
+        "FunctionButton",
+        "vue-jQuerydatetimepicker",
+        "LoadingHelper",
+        "jquery.mousewheel",
+        "UserLog",
+        "print-js",
+        "vue-multiselect"
+    ];
 
-    function onLoaded(bootstrap, functionButton, uibPagination, vueDatetimepicker, loadingHelper) {
+    function onLoaded(bootstrap, 
+        functionButton, 
+        vueDatetimepicker, 
+        loadingHelper, 
+        jqMousewheel,
+        userLog, 
+        printJs, 
+        vueMultiselect) {
+        if(vueMultiselect==null){
+            vueMultiselect = window.VueMultiselect;
+        }
         window.dinp02301Search = new Vue({
             el: "#Dinp02301Search",
             data: {
@@ -47,18 +65,20 @@
                     InReasonEnd: null,
                     CustomerCodeStart: null,
                     CustomerCodeEnd: null,
-                    AdddateStart: null,
-                    AdddateEnd: null,
+                    AddDateStart: null,
+                    AddDateEnd: null,
                     BcodeStart: null,
                     BcodeEnd: null,
                     RefNoTypeStart: null,
-                    RefNoTypeDateStart: null,
-                    RefNoTypeSeqStart: null,
                     RefNoTypeEnd: null,
-                    RefNoTypeDateEnd: null,
-                    RefNoTypeSeqEnd: null,
+                    RefNoDateStart: null,
+                    RefNoDateEnd: null,
+                    RefNoSeqStart: null,
+                    RefNoSeqEnd: null,
                     Keyword: null,
                 },
+                BcodeList: [], //公司代號下拉選單資料
+                WherehouseList: [], //倉庫代號下拉選單資料
                 Inf29List: [], // source data from server
                 Inf29aList: [], // source data from server
                 Export: {
@@ -70,8 +90,14 @@
                 SelectedInf29Item: null,
                 SelectedInf29aItem: null,
                 UiDateFormat: "Y/m/d",
+                Inf29SortColumn:null,
+                Inf29SortOrder:null,
+                Inf29aSortColumn:null,
+                Inf29aSortOrder:null,
             },
-            components: {},
+            components: {
+                Multiselect: vueMultiselect.default
+            },
             computed: {
 
             },
@@ -84,6 +110,28 @@
 
                     var filterOption = {
                         keyword: this.Filter.Keyword,
+                        inf2904_pro_date_start:this.Filter.ProDateStart,
+                        inf2904_pro_date_end:this.Filter.ProDateEnd,
+                        inf29a05_pcode_start:this.Filter.PcodeStart,
+                        inf29a05_pcode_end:this.Filter.PcodeEnd,
+                        inf29a05_shoes_code_start:this.Filter.ShoesCodeStart,
+                        inf29a05_shoes_code_end:this.Filter.ShoesCodeEnd,
+                        inf2952_project_no_start:this.Filter.ProjectNoStart,
+                        inf2952_project_no_end:this.Filter.ProjectNoEnd,
+                        inf2906_wherehouse_start:(this.Filter.WherehouseStart||{}).cnf1002_fileorder,
+                        inf2906_wherehouse_end:(this.Filter.WherehouseEnd||{}).cnf1002_fileorder,
+                        inf2910_in_reason_start:this.Filter.InReasonStart,
+                        inf2910_in_reason_end:this.Filter.InReasonEnd,
+                        inf2903_customer_code_start:this.Filter.CustomerCodeStart,
+                        inf2903_customer_code_end:this.Filter.CustomerCodeEnd,
+                        inf2901_bcode_start:(this.Filter.BcodeStart||{}).cnf0701_bcode,
+                        inf2901_bcode_end:(this.Filter.BcodeEnd||{}).cnf0701_bcode,
+                        inf2906_ref_no_type_start:this.Filter.RefNoTypeStart,
+                        inf2906_ref_no_type_end:this.Filter.RefNoTypeEnd,
+                        inf2906_ref_no_date_start:this.Filter.RefNoDateStart,
+                        inf2906_ref_no_date_end:this.Filter.RefNoDateEnd,
+                        adddate_start:this.Filter.AddDateStart,
+                        adddate_end:this.Filter.AddDateEnd,
                     };
                     LoadingHelper.showLoading();
                     var vueObj = this;
@@ -130,18 +178,40 @@
 
                 },
                 OnMainRowClick: function (inf29Item) {
-                    this.SelectedInf29Item = inf29Item;
-                    this.GetInf29aList(inf29Item.inf2901_docno);
+                    if(this.SelectedInf29Item==inf29Item){
+                        this.SelectedInf29Item = null;
+                        this.SelectedInf29aItem = null;
+                        this.Inf29aList = [];
+                    } else {
+                        this.SelectedInf29Item = inf29Item;
+                        this.GetInf29aList(inf29Item.inf2901_docno);
+                    }
+                    
                 },
                 OnSubRowClick: function (inf29aItem) {
-                    this.SelectedInf29aItem = inf29aItem;
+                    if(this.SelectedInf29aItem==inf29aItem){
+                        this.SelectedInf29aItem = null;
+                    } else {
+                        this.SelectedInf29aItem = inf29aItem;
+                    }
                 },
                 OnAdd: function () {
                     console.log("OnAdd");
                     this.Display = false;
                     window.dinp02301Edit.Display = true;
+                    window.dinp02301Edit.Reset();
                 },
                 OnDelete: function () {
+                    if (this.SelectedInf29Item == null) {
+                        return;
+                    }
+                    if(this.SelectedInf29Item.adduser != loginUserName){
+                        alert("只可以刪除自己的資料");
+                        return;
+                    }
+                    if (!confirm("是否確認刪除?")) {
+                        return;
+                    }
                     LoadingHelper.showLoading();
                     var vueObj = this;
                     return $.ajax({
@@ -199,15 +269,15 @@
                         inf29idList.push(inf29Item.id);
                     }
                     if (inf29idList.length == 0) {
-                        $(this.$refs.EditDialog).modal('hide');
+                        $(this.$refs.ExportDialog).modal('hide');
                         return $.when(null);
                     }
 
-                    var inf29fields = this.Export.Inf29List.filter(function(element, index, array){
-                        return vueObj.Export.SelectedInf29List.indexOf(element.cnf0502_field)>=0;
+                    var inf29fields = this.Export.Inf29List.filter(function(item, index, array){
+                        return vueObj.Export.SelectedInf29List.indexOf(item.cnf0502_field)>=0;
                     });
-                    var inf29afields = this.Export.Inf29aList.filter(function(element, index, array){
-                        return vueObj.Export.SelectedInf29aList.indexOf(element.cnf0502_field)>=0;
+                    var inf29afields = this.Export.Inf29aList.filter(function(item, index, array){
+                        return vueObj.Export.SelectedInf29aList.indexOf(item.cnf0502_field)>=0;
                     });
 
                     LoadingHelper.showLoading();
@@ -241,14 +311,153 @@
                         }
                     });
                 },
-                OnCopy: function () {
+                OnImportSubmit: function () {
+                    var vueObj = this;
+                    var formData = new FormData();
+                    // 取得UploadFile元件的檔案
+                    var files = this.$refs.ImportExcelInput.files;
+                    if(files.length==0){
+                        alert("請先選擇檔案");
+                        return;
+                    }
+                    // 將指定的檔案放在formData內
+                    formData.append("file", files[0]);
+                    formData.append("act", "import");
+                    formData.append("user", loginUserName);
+                    LoadingHelper.showLoading();
+                    //發送http請求
+                    return $.ajax({
+                        url: rootUrl + "Dinp/Ajax/Inf29Handler.ashx",
+                        type: 'POST',
+                        data: formData,
+                        cache: false,
+                        dataType: 'text',
+                        processData: false,
+                        contentType: false,
+                        success: function (result) {
+                            // IE might have issue to upload same file 
+                            vueObj.$refs.ImportExcelInput.value = "";
+                            LoadingHelper.hideLoading();
+                            if (result == "ok") {
+                                $(vueObj.$refs.ImportExcelDialog).modal('hide');
+                                vueObj.OnSearch();
+                                alert("匯入成功");
+                            } else {
+                                alert("匯入失敗\n" + result);
+                            }
+                        },
+                        error: function (jqXhr, textStatus, errorThrown) {
+                            LoadingHelper.hideLoading();
+                            if (jqXhr.status == 0) {
+                                return;
+                            }
+                            console.error(errorThrown);
+                            alert("匯入失敗");
+                        }
+                    });
 
                 },
-                OnPrint: function () {
+                OnCopy: function () {
+                    if(this.SelectedInf29Item==null){
+                        return;
+                    }
+                    window.dinp02301Edit.Reset();
+                    window.dinp02301Edit.Display = true;
+                    window.dinp02301Search.Display = false;
+                    // send selected inf29 to dinpEdit object
+                    window.dinp02301Edit.SetCopy(this.SelectedInf29Item);
+                    // get inf29alist from server, remove id...
 
+                    var inf29Item = {
+                        id:null,//儲存成功後從伺服器返回
+                        BCodeInfo: null, //公司代號相關資料
+                        inf2902_docno_type: "XC", //單據分類編號. 組成異動單號
+                        inf2902_docno_date: null, //異動單號_日期. 組成異動單號
+                        inf2904_pro_date: null, //異動日期
+                        inf2902_docno_seq:null,//異動單號_流水號, 儲存成功後從伺服器返回
+                        SelectedWherehouse: null, //選中的倉庫代號
+                        inf2952_project_no: null, //專案代號
+                        ProjectFullname: null, //專案全名
+                        inf2916_apr_empid: null, //員工ID
+                        EmpCname: null, //員工Name
+                        inf2903_customer_code: null, //客戶代碼
+                        Inf2903CustomerCodeName: null, //cmf0104_fname客戶名稱
+                        inf2906_ref_no_type: null, //單據來源
+                        inf2906_ref_no_date: null, //單據來源
+                        inf2906_ref_no_seq: null, //單據來源
+                        SelectedInReason: null, //異動代號
+                        inf2910_in_reason: null, //異動代號
+                        remark: null,
+                        adddate: null,
+                        adduser: null,
+                        moddate: null,
+                        moduser: null,
+                    };
+                },
+                OnPrint: function () {
+                    var vueObj = this;
+                    var bcodeInfo = null;
+                    if(this.Filter.BcodeStart==this.Filter.BcodeEnd){
+                        bcodeInfo = this.Filter.BcodeStart;
+                    }
+                    var inf29idList = [];
+                    for (var i in this.Inf29List) {
+                        var inf29Item = this.Inf29List[i];
+                        inf29idList.push(inf29Item.id);
+                    }
+                    if(inf29idList.length==0){
+                        alert("無查詢資料");
+                        return;
+                    }
+                    LoadingHelper.showLoading();
+                    return $.ajax({
+                        type: 'POST',
+                        url: rootUrl + "Dinp/Ajax/Inf29Handler.ashx",
+                        cache: false,
+                        data: {
+                            act: "print",
+                            data:JSON.stringify(inf29idList),
+                            printBcode:JSON.stringify(bcodeInfo),
+                        },
+                        dataType: 'text',
+                        success: function (result) {
+                            if (result == "ok") {
+                                printJS({printable: rootUrl + "Dinp/Ajax/Inf29Print.ashx",
+                                    type: 'pdf',
+                                    onLoadingStart:null,
+                                    onLoadingEnd:LoadingHelper.hideLoading});
+                            } else {
+                                alert("匯出失敗");
+                            }
+                        },
+                        error: function (jqXhr, textStatus, errorThrown) {
+                            LoadingHelper.hideLoading();
+                            if (jqXhr.status == 0) {
+                                return;
+                            }
+                            console.error(errorThrown);
+                            alert("匯出失敗");
+                        }
+                    });
                 },
                 OnExport: function () {
                     // reset dialog
+                },
+                OnImport:function(){
+                    // reset dialog
+                    this.$refs.ImportExcelInput.value = null
+                },
+                OnExit:function(){
+                    //igonre if other exit event triggered
+                    if($(this.$refs.ExportDialog).hasClass('in')
+                        || $(this.$refs.ImportExcelDialog).hasClass('in')
+                        || $(this.$refs.HelpDialog).hasClass('in') ){
+                        return;
+                    }
+                    window.close();
+                    setTimeout(function(){
+                        window.location.href="about:blank";
+                    },500);
                 },
                 AutoFillFilter: function (field, value, type) {
                     this.Filter[field] = value;
@@ -256,19 +465,69 @@
                         this.$refs["Filter" + field].setValue(value);
                     }
                 },
-                OnTableSorting: function (column) {
-                    if (this.SortColumn == column) {
-                        if (this.SortOrder == "asc") {
-                            this.SortOrder = "desc";
+                OnInf29TableSorting: function (column) {
+                    if (this.Inf29SortColumn == column) {
+                        if (this.Inf29SortOrder == "asc") {
+                            this.Inf29SortOrder = "desc";
                         } else {
-                            this.SortOrder = "asc";
+                            this.Inf29SortOrder = "asc";
                         }
                     } else {
-                        this.SortOrder = "asc";
+                        this.Inf29SortOrder = "asc";
                     }
-                    this.SortColumn = column;
+                    this.Inf29SortColumn = column;
 
-                    this.Cnf05List.sort(this.SortCnf05List);
+                    this.Inf29List.sort(this.SortInf29List);
+                },
+                OnInf29aTableSorting: function (column) {
+                    if (this.Inf29aSortColumn == column) {
+                        if (this.Inf29aSortOrder == "asc") {
+                            this.Inf29aSortOrder = "desc";
+                        } else {
+                            this.Inf29aSortOrder = "asc";
+                        }
+                    } else {
+                        this.Inf29aSortOrder = "asc";
+                    }
+                    this.Inf29aSortColumn = column;
+
+                    this.Inf29aList.sort(this.SortInf29aList);
+                },
+                SortInf29List:function(a, b){
+                    var paramA = a[this.Inf29SortColumn] || "";
+                    var paramB = b[this.Inf29SortColumn] || "";
+                    if (paramA < paramB) {
+                        return this.Inf29SortOrder == 'asc' ? -1 : 1;
+                    }
+                    if (paramA > paramB) {
+                        return this.Inf29SortOrder == 'asc' ? 1 : -1;
+                    }
+                    if (a["id"] < b["id"]) {
+                        return this.Inf29SortOrder == 'asc' ? -1 : 1;
+
+                    }
+                    if (a["id"] > b["id"]) {
+                        return this.Inf29SortOrder == 'asc' ? 1 : -1;
+                    }
+                    return 0;
+                },
+                SortInf29aList:function(a, b){
+                    var paramA = a[this.Inf29aSortColumn] || "";
+                    var paramB = b[this.Inf29aSortColumn] || "";
+                    if (paramA < paramB) {
+                        return this.Inf29aSortOrder == 'asc' ? -1 : 1;
+                    }
+                    if (paramA > paramB) {
+                        return this.Inf29aSortOrder == 'asc' ? 1 : -1;
+                    }
+                    if (a["id"] < b["id"]) {
+                        return this.Inf29aSortOrder == 'asc' ? -1 : 1;
+
+                    }
+                    if (a["id"] > b["id"]) {
+                        return this.Inf29aSortOrder == 'asc' ? 1 : -1;
+                    }
+                    return 0;
                 },
                 GetTotalQty: function (inf29Item) {
                     return 123;
@@ -330,13 +589,18 @@
                         }
                     });
                 },
+                BcodeSelectLabel: function (bcode) {
+                    return bcode.cnf0701_bcode + "-" + bcode.cnf0703_bfname;
+                },
+                WherehouseSelectLabel: function (wherehouse) {
+                    return wherehouse.cnf1002_fileorder + "-" + wherehouse.cnf1003_char01;
+                },
             },
             directives: {
 
             },
             mounted: function () {
-                var now = new Date();
-                this.Filter.ProDateStart = now.dateFormat(this.UiDateFormat);
+                SaveEnterPageLog(rootUrl, loginUserName, "Dinp02301");
                 this.GetExportFields();
             }
         });

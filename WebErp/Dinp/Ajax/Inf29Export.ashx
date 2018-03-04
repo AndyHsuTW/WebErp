@@ -20,18 +20,21 @@ public class Inf29Export : IHttpHandler, IRequiresSessionState
         List<int> inf29IdList = context.Session["exportItems"] as List<int>;
         int excelVersion = (int)context.Session["exportExcelVersion"];
 
-        context.Session["in29ExportFields"] = null;
-        context.Session["in29aExportFields"] = null;
-        context.Session["exportItems"] = null;
-        context.Session["exportExcelVersion"] = null;
-
+        context.Session.Remove("in29ExportFields");
+        context.Session.Remove("in29aExportFields");
+        context.Session.Remove("exportItems");
+        context.Session.Remove("exportExcelVersion");
+        
         if (inf29IdList == null)
         {
             throw new Exception("Export file failed.");
         }
-        var inf29List = Inf29.GetExportItems(inf29FieldList, inf29IdList);
+        var inf29rows = Inf29.GetExportItems(inf29FieldList, inf29aFieldList, inf29IdList);
+//        var inf29aList = Inf29a.GetExportItems(inf29aFieldList, inf29IdList);
+
+        var excel = Inf29.ExportExcelNpoi(inf29FieldList, inf29aFieldList, inf29rows, excelVersion);
+//        excel = Inf29a.ExportExcelNpoi(inf29aFieldList, inf29aList, excelVersion, excel);
         
-        var excel = Inf29.ExportExcelNpoi(inf29FieldList, inf29List, excelVersion);
         byte[] excelBinary = null;
         using (MemoryStream ms = new MemoryStream())
         {

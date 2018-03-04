@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using DCNP005;
 using Dinp02301;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 
 public partial class Dinp_Dinp02301 : System.Web.UI.Page
 {
-    public string AppVersion = "v18.02.17";
+    public string AppVersion = "v18.03.04";
 
     /// <summary>
     /// 公司代號下拉選單來源
@@ -38,11 +41,8 @@ public partial class Dinp_Dinp02301 : System.Web.UI.Page
         WherehouseList = Cnf10.GetList("004");
         InReasonList = Cnf10.GetList("S15");
         CurrencyList = Cnf10.GetList("073");
-        var list = Cnf05.Search(new Cnf05.FilterOption
-            {
-                cnf0501_file_start = "inf29",
-                cnf0501_file_end = "inf29"
-            });
 
+        Inf29.CreateKeywordSP();
     }
+
 }

@@ -2,7 +2,7 @@
 
 /*!
  * 
- * 20170608 Andy Hsu
+ * 20180228 Andy Hsu
  * jQuery-datetimepicker
  * Global constant:
  * js file:
@@ -54,11 +54,15 @@ Vue.component("vue-datetimepicker", {
             onChangeDateTime: function onChangeDateTime(dp, $input) {
                 vm.value = $input.val();
                 vm.$emit('input', vm.value);
+                vm.$emit('change', vm.value);
                 if (typeof vm.changecallback == 'function') {
                     vm.changecallback();
                 }
             },
             timepicker: this.timepicker
         });
+    },
+    beforeDestroy: function beforeDestroy() {
+        $(this.$el).datetimepicker('destroy');
     }
 });

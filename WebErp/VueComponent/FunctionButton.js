@@ -40,14 +40,16 @@
                 };
             },
             methods: {
-
+                OnHotKey: function(){
+                    $(this.$el).trigger('click');
+                    return false;
+                }
             },
             mounted: function () {
-                var that = this;
-                $(document).on('keydown',null, this.hotKey, function(){
-                    $(that.$el).trigger('click');
-                    return false;
-                });
+                $(document).on('keydown',null, this.hotKey,this.OnHotKey);
+            },
+            beforeDestroy:function(){
+                $(document).off('keydown',null, this.OnHotKey);
             }
         });
     }

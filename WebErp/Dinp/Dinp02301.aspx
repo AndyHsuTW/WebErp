@@ -18,6 +18,11 @@
             border-color: #A8A8A8;
             border-radius: 0;
         }
+        .app-body .multiselect
+        {
+            display: inline-block;
+        }
+        
         /* multiselect default end */
 
         .app-title
@@ -26,7 +31,7 @@
             color: #FFF;
         }
 
-        .app-body,
+        .app-body
         {
             padding-left: 5px;
             min-width: 1080px;
@@ -36,6 +41,11 @@
         .editParam-div
         {
             margin-top: 5px;
+        }
+        .filter-div .medium-field,
+        .editParam-div .medium-field
+        {
+            width: 175px;
         }
         .filter-div .small-field,
         .editParam-div .small-field
@@ -169,7 +179,7 @@
                     v-on:click.native="OnSearch()">
                             查詢
                         </function-button>
-                <function-button id="AddBtn" data-toggle="modal" href='#EditDialog'
+                <function-button id="AddBtn" 
                     hot-key="f2"
                     v-on:click.native="OnAdd()">
                             新增
@@ -184,7 +194,7 @@
                     v-on:click.native="OnCopy()">
                             複製
                         </function-button>
-                <function-button id="PrintBtn" data-toggle="modal" href='#ExportDialog'
+                <function-button id="PrintBtn" 
                     hot-key="f6"
                     v-on:click.native="OnPrint()">
                             印表
@@ -195,13 +205,19 @@
                             匯出
                         </function-button>
                 <function-button id="ImportBtn" data-toggle="modal" href='#ImportExcelDialog'
-                    hot-key="f8">
+                    hot-key="f8"
+                    v-on:click.native="OnImport()">
                             匯入Excel
-                        </function-button>
+                </function-button>
                 <function-button id="HelpBtn" data-toggle="modal" href='#HelpDialog'
                     hot-key="f11">
                             求助
-                        </function-button>
+                </function-button>
+                <function-button id="HelpBtn"
+                    hot-key="f12"
+                    v-on:click.native="OnExit()">
+                            離開
+                </function-button>
             </div>
             <div class="filter-div">
                 <table class="">
@@ -211,21 +227,21 @@
                                 <span>起~</span>
                             </td>
                             <td>
-                                <vue-datetimepicker placeholder=""
+                                <vue-datetimepicker placeholder="" class="medium-field"
                                     v-model="Filter.ProDateStart"
                                     v-on:change="AutoFillFilter('ProDateEnd',Filter.ProDateStart,'datetime')"></vue-datetimepicker>
                                 迄~
-                                <vue-datetimepicker id="FilterProDateEnd" ref="FilterProDateEnd" placeholder=""
+                                <vue-datetimepicker id="FilterProDateEnd" class="medium-field" ref="FilterProDateEnd" placeholder=""
                                     v-model="Filter.ProDateEnd"></vue-datetimepicker>
                             </td>
                             <td>商品編號
                                 <span>起~</span>
                             </td>
                             <td>
-                                <input type="text" v-model="Filter.PcodeStart"
+                                <input type="text" class="medium-field" v-model="Filter.PcodeStart"
                                     v-on:change="AutoFillFilter('PcodeEnd',Filter.PcodeStart)" />
                                 迄~
-                                <input type="text" v-model="Filter.PcodeEnd" />
+                                <input type="text" class="medium-field" v-model="Filter.PcodeEnd" />
                             </td>
                         </tr>
                         <tr>
@@ -233,19 +249,19 @@
                                 <span>起~</span>
                             </td>
                             <td>
-                                <input type="text" v-model="Filter.ProjectNoStart"
+                                <input type="text" class="medium-field" v-model="Filter.ProjectNoStart"
                                     v-on:change="AutoFillFilter('ProjectNoEnd',Filter.ProjectNoStart)" />
                                 迄~
-                                <input type="text" v-model="Filter.ProjectNoEnd" />
+                                <input type="text" class="medium-field" v-model="Filter.ProjectNoEnd" />
                             </td>
                             <td>產品貨號
                                 <span>起~</span>
                             </td>
                             <td>
-                                <input type="text" v-model="Filter.ShoesCodeStart"
+                                <input type="text" class="medium-field" v-model="Filter.ShoesCodeStart"
                                     v-on:change="AutoFillFilter('ShoesCodeEnd',Filter.ShoesCodeStart)" />
                                 迄~
-                                <input type="text" v-model="Filter.ShoesCodeEnd" />
+                                <input type="text" class="medium-field" v-model="Filter.ShoesCodeEnd" />
                             </td>
                         </tr>
                         <tr>
@@ -253,19 +269,37 @@
                                 <span>起~</span>
                             </td>
                             <td>
-                                <input type="text" v-model="Filter.WherehouseStart"
-                                    v-on:change="AutoFillFilter('WherehouseEnd',Filter.WherehouseStart)" />
+                                <multiselect class="medium-field"
+                                    v-model="Filter.WherehouseStart"
+                                    v-bind:options="WherehouseList"
+                                    v-bind:close-on-select="true"
+                                    v-bind:placeholder="''"
+                                    v-bind:show-labels="false" 
+                                    v-bind:custom-label="WherehouseSelectLabel"
+                                    v-on:input="AutoFillFilter('WherehouseEnd',Filter.WherehouseStart)"
+                                    track-by="cnf1002_fileorder"
+                                    label="cnf1003_char01">
+                                </multiselect>
                                 迄~
-                                <input type="text" v-model="Filter.WherehouseEnd" />
+                                <multiselect class="medium-field"
+                                    v-model="Filter.WherehouseEnd"
+                                    v-bind:options="WherehouseList"
+                                    v-bind:close-on-select="true"
+                                    v-bind:placeholder="''"
+                                    v-bind:show-labels="false" 
+                                    v-bind:custom-label="WherehouseSelectLabel"
+                                    track-by="cnf1002_fileorder"
+                                    label="cnf1003_char01">
+                                </multiselect>
                             </td>
                             <td>異動代碼
                                 <span>起~</span>
                             </td>
                             <td>
-                                <input type="text" v-model="Filter.InReasonStart"
+                                <input type="text" class="medium-field" v-model="Filter.InReasonStart"
                                     v-on:change="AutoFillFilter('InReasonEnd',Filter.InReasonStart)" />
                                 迄~
-                                <input type="text" v-model="Filter.InReasonEnd" />
+                                <input type="text" class="medium-field" v-model="Filter.InReasonEnd" />
                             </td>
                         </tr>
                         <tr>
@@ -273,21 +307,21 @@
                                 <span>起~</span>
                             </td>
                             <td>
-                                <input type="text" v-model="Filter.CustomerCodeStart"
+                                <input type="text" class="medium-field" v-model="Filter.CustomerCodeStart"
                                     v-on:change="AutoFillFilter('CustomerCodeEnd',Filter.CustomerCodeStart)" />
                                 迄~
-                                <input type="text" v-model="Filter.CustomerCodeEnd" />
+                                <input type="text" class="medium-field" v-model="Filter.CustomerCodeEnd" />
                             </td>
                             <td>新增日期
                                 <span>起~</span>
                             </td>
                             <td>
-                                <vue-datetimepicker placeholder=""
-                                    v-model="Filter.AdddateStart"
-                                    v-on:change="AutoFillFilter('AdddateEnd',Filter.AdddateStart,'datetime')"></vue-datetimepicker>
+                                <vue-datetimepicker class="medium-field" placeholder=""
+                                    v-model="Filter.AddDateStart"
+                                    v-on:change="AutoFillFilter('AddDateEnd',Filter.AddDateStart,'datetime')"></vue-datetimepicker>
                                 迄~
-                                <vue-datetimepicker id="FilterAdddateEnd" ref="FilterAdddateEnd" placeholder=""
-                                    v-model="Filter.AdddateEnd"></vue-datetimepicker>
+                                <vue-datetimepicker id="FilterAddDateEnd" class="medium-field" ref="FilterAddDateEnd" placeholder=""
+                                    v-model="Filter.AddDateEnd"></vue-datetimepicker>
                             </td>
                         </tr>
                         <tr>
@@ -295,10 +329,28 @@
                                 <span>起~</span>
                             </td>
                             <td>
-                                <input type="text" v-model="Filter.BcodeStart"
-                                    v-on:change="AutoFillFilter('BcodeEnd',Filter.BcodeStart)" />
+                                <multiselect class="medium-field"
+                                    v-model="Filter.BcodeStart"
+                                    v-bind:options="BcodeList"
+                                    v-bind:close-on-select="true"
+                                    v-bind:placeholder="''"
+                                    v-bind:show-labels="false" 
+                                    v-bind:custom-label="BcodeSelectLabel"
+                                    v-on:input="AutoFillFilter('BcodeEnd',Filter.BcodeStart)"
+                                    track-by="cnf0701_bcode"
+                                    label="cnf0703_bfname">
+                                </multiselect>
                                 迄~
-                                <input type="text" v-model="Filter.BcodeEnd" />
+                                <multiselect class="medium-field"
+                                    v-model="Filter.BcodeEnd"
+                                    v-bind:options="BcodeList"
+                                    v-bind:close-on-select="true"
+                                    v-bind:placeholder="''"
+                                    v-bind:show-labels="false" 
+                                    v-bind:custom-label="BcodeSelectLabel"
+                                    track-by="cnf0701_bcode"
+                                    label="cnf0703_bfname">
+                                </multiselect>
                             </td>
                             <td>來源單據
                                 <span>起~</span>
@@ -307,17 +359,17 @@
                                 <span class="ref-inputs">
                                     <input type="text" v-model="Filter.RefNoTypeStart"
                                         v-on:change="AutoFillFilter('RefNoTypeEnd',Filter.RefNoTypeStart)" />
-                                    <input type="text" v-model="Filter.RefNoTypeDateStart"
-                                        v-on:change="AutoFillFilter('RefNoTypeDateEnd',Filter.RefNoTypeDateStart)" />
-                                    <input type="text" v-model="Filter.RefNoTypeSeqStart"
-                                        v-on:change="AutoFillFilter('RefNoTypeSeqEnd',Filter.RefNoTypeSeqStart)" />
+                                    <input type="text" v-model="Filter.RefNoDateStart"
+                                        v-on:change="AutoFillFilter('RefNoDateEnd',Filter.RefNoDateStart)" />
+                                    <input type="text" v-model="Filter.RefNoSeqStart"
+                                        v-on:change="AutoFillFilter('RefNoSeqEnd',Filter.RefNoSeqStart)" />
                                 </span>
 
                                 迄~
                                 <span class="ref-inputs">
                                     <input type="text" v-model="Filter.RefNoTypeEnd" />
-                                    <input type="text" v-model="Filter.RefNoTypeDateEnd" />
-                                    <input type="text" v-model="Filter.RefNoTypeSeqEnd" />
+                                    <input type="text" v-model="Filter.RefNoDateEnd" />
+                                    <input type="text" v-model="Filter.RefNoSeqEnd" />
                                 </span>
                             </td>
                         </tr>
@@ -325,7 +377,7 @@
                             <td>關鍵字
                             </td>
                             <td>
-                                <input type="text" v-model="Filter.Keyword">
+                                <input type="text" class="medium-field" v-model="Filter.Keyword">
                             </td>
                         </tr>
                     </tbody>
@@ -336,29 +388,69 @@
                     <table class="table table-bordered sortable">
                         <thead>
                             <tr class="bg-primary text-light">
-                                <th v-on:click="OnTableSorting('Inf2902DocNoShort')">異動單號
-
+                                <th v-on:click="OnInf29TableSorting('Inf2902DocNoShort')">
+                                    異動單號
+                                    <span class="sort-item glyphicon" 
+                                        v-bind:class="{'glyphicon-sort':Inf29SortColumn!='Inf2902DocNoShort', 
+                                        'glyphicon-chevron-up': Inf29SortColumn=='Inf2902DocNoShort' && Inf29SortOrder=='asc',
+                                        'glyphicon-chevron-down': Inf29SortColumn=='Inf2902DocNoShort' && Inf29SortOrder=='desc'}">
+                                    </span>
                                 </th>
-                                <th v-on:click="OnTableSorting('inf2904_pro_date')">異動日期
-                                    
+                                <th v-on:click="OnInf29TableSorting('inf2904_pro_date')">
+                                    異動日期
+                                    <span class="sort-item glyphicon" 
+                                        v-bind:class="{'glyphicon-sort':Inf29SortColumn!='inf2904_pro_date', 
+                                        'glyphicon-chevron-up': Inf29SortColumn=='inf2904_pro_date' && Inf29SortOrder=='asc',
+                                        'glyphicon-chevron-down': Inf29SortColumn=='inf2904_pro_date' && Inf29SortOrder=='desc'}">
+                                    </span>
                                 </th>
-                                <th v-on:click="OnTableSorting('inf2906_wherehouse')">倉庫
-                                    
+                                <th v-on:click="OnInf29TableSorting('inf2906_wherehouse')">
+                                    倉庫
+                                    <span class="sort-item glyphicon" 
+                                        v-bind:class="{'glyphicon-sort':Inf29SortColumn!='inf2906_wherehouse', 
+                                        'glyphicon-chevron-up': Inf29SortColumn=='inf2906_wherehouse' && Inf29SortOrder=='asc',
+                                        'glyphicon-chevron-down': Inf29SortColumn=='inf2906_wherehouse' && Inf29SortOrder=='desc'}">
+                                    </span>
                                 </th>
-                                <th v-on:click="OnTableSorting('cnf0506_program')">數量
-                                    
+                                <th v-on:click="OnInf29TableSorting('Qty')">
+                                    數量
+                                    <span class="sort-item glyphicon" 
+                                        v-bind:class="{'glyphicon-sort':Inf29SortColumn!='Qty', 
+                                        'glyphicon-chevron-up': Inf29SortColumn=='Qty' && Inf29SortOrder=='asc',
+                                        'glyphicon-chevron-down': Inf29SortColumn=='Qty' && Inf29SortOrder=='desc'}">
+                                    </span>
                                 </th>
-                                <th v-on:click="OnTableSorting('adddate')">專案代號
-                                   
+                                <th v-on:click="OnInf29TableSorting('inf2952_project_no')">
+                                    專案代號
+                                    <span class="sort-item glyphicon" 
+                                    v-bind:class="{'glyphicon-sort':Inf29SortColumn!='inf2952_project_no', 
+                                    'glyphicon-chevron-up': Inf29SortColumn=='inf2952_project_no' && Inf29SortOrder=='asc',
+                                    'glyphicon-chevron-down': Inf29SortColumn=='inf2952_project_no' && Inf29SortOrder=='desc'}">
+                                </span>
                                 </th>
-                                <th v-on:click="OnTableSorting('adduser')">異動代號及中文
-
+                                <th v-on:click="OnInf29TableSorting('inf2910_in_reason')">
+                                    異動代號及中文
+                                    <span class="sort-item glyphicon" 
+                                        v-bind:class="{'glyphicon-sort':Inf29SortColumn!='inf2910_in_reason', 
+                                        'glyphicon-chevron-up': Inf29SortColumn=='inf2910_in_reason' && Inf29SortOrder=='asc',
+                                        'glyphicon-chevron-down': Inf29SortColumn=='inf2910_in_reason' && Inf29SortOrder=='desc'}">
+                                    </span>
                                 </th>
-                                <th v-on:click="OnTableSorting('moddate')">來源單號
-
+                                <th v-on:click="OnInf29TableSorting('Inf2906RefNo')">
+                                    來源單號
+                                    <span class="sort-item glyphicon" 
+                                        v-bind:class="{'glyphicon-sort':Inf29SortColumn!='Inf2906RefNo', 
+                                        'glyphicon-chevron-up': Inf29SortColumn=='Inf2906RefNo' && Inf29SortOrder=='asc',
+                                        'glyphicon-chevron-down': Inf29SortColumn=='Inf2906RefNo' && Inf29SortOrder=='desc'}">
+                                    </span>
                                 </th>
-                                <th v-on:click="OnTableSorting('moduser')">客戶代號/名稱
-
+                                <th v-on:click="OnInf29TableSorting('inf2903_customer_code')">
+                                    客戶代號/名稱
+                                    <span class="sort-item glyphicon" 
+                                        v-bind:class="{'glyphicon-sort':Inf29SortColumn!='inf2903_customer_code', 
+                                        'glyphicon-chevron-up': Inf29SortColumn=='inf2903_customer_code' && Inf29SortOrder=='asc',
+                                        'glyphicon-chevron-down': Inf29SortColumn=='inf2903_customer_code' && Inf29SortOrder=='desc'}">
+                                    </span>
                                 </th>
                             </tr>
                         </thead>
@@ -386,45 +478,99 @@
                     <table class="table table-bordered sortable">
                         <thead>
                             <tr class="bg-primary text-light">
-                                <th v-on:click="OnTableSorting('Inf2902DocNoShort')">
+                                <th v-on:click="OnInf29aTableSorting('inf29a02_seq')">
                                     序號
+                                    <span class="sort-item glyphicon" 
+                                        v-bind:class="{'glyphicon-sort':Inf29aSortColumn!='inf29a02_seq', 
+                                        'glyphicon-chevron-up': Inf29aSortColumn=='inf29a02_seq' && Inf29aSortOrder=='asc',
+                                        'glyphicon-chevron-down': Inf29aSortColumn=='inf29a02_seq' && Inf29aSortOrder=='desc'}">
+                                    </span>
                                 </th>
-                                <th v-on:click="OnTableSorting('inf2904_pro_date')">
+                                <th v-on:click="OnInf29aTableSorting('inf29a05_pcode')">
                                     產品編號
+                                    <span class="sort-item glyphicon" 
+                                        v-bind:class="{'glyphicon-sort':Inf29aSortColumn!='inf29a05_pcode', 
+                                        'glyphicon-chevron-up': Inf29aSortColumn=='inf29a05_pcode' && Inf29aSortOrder=='asc',
+                                        'glyphicon-chevron-down': Inf29aSortColumn=='inf29a05_pcode' && Inf29aSortOrder=='desc'}">
+                                    </span>
                                 </th>
-                                <th v-on:click="OnTableSorting('inf2906_wherehouse')">
+                                <th v-on:click="OnInf29aTableSorting('inf29a05_shoes_code')">
                                     貨號
+                                    <span class="sort-item glyphicon" 
+                                        v-bind:class="{'glyphicon-sort':Inf29aSortColumn!='inf29a05_shoes_code', 
+                                        'glyphicon-chevron-up': Inf29aSortColumn=='inf29a05_shoes_code' && Inf29aSortOrder=='asc',
+                                        'glyphicon-chevron-down': Inf29aSortColumn=='inf29a05_shoes_code' && Inf29aSortOrder=='desc'}">
+                                    </span>
                                 </th>
-                                <th v-on:click="OnTableSorting('cnf0506_program')">
+                                <th v-on:click="OnInf29aTableSorting('inf29a33_product_name')">
                                     產品簡稱
+                                    <span class="sort-item glyphicon" 
+                                        v-bind:class="{'glyphicon-sort':Inf29aSortColumn!='inf29a33_product_name', 
+                                        'glyphicon-chevron-up': Inf29aSortColumn=='inf29a33_product_name' && Inf29aSortOrder=='asc',
+                                        'glyphicon-chevron-down': Inf29aSortColumn=='inf29a33_product_name' && Inf29aSortOrder=='desc'}">
+                                    </span>
                                 </th>
-                                <th v-on:click="OnTableSorting('adduser')">
+                                <th v-on:click="OnInf29aTableSorting('inf29a17_runit')">
                                     單位
+                                    <span class="sort-item glyphicon" 
+                                        v-bind:class="{'glyphicon-sort':Inf29aSortColumn!='inf29a17_runit', 
+                                        'glyphicon-chevron-up': Inf29aSortColumn=='inf29a17_runit' && Inf29aSortOrder=='asc',
+                                        'glyphicon-chevron-down': Inf29aSortColumn=='inf29a17_runit' && Inf29aSortOrder=='desc'}">
+                                    </span>
                                 </th>
-                                <th v-on:click="OnTableSorting('adddate')">
+                                <th v-on:click="OnInf29aTableSorting('inf29a13_sold_qty')">
                                     數量
+                                    <span class="sort-item glyphicon" 
+                                        v-bind:class="{'glyphicon-sort':Inf29aSortColumn!='inf29a13_sold_qty', 
+                                        'glyphicon-chevron-up': Inf29aSortColumn=='inf29a13_sold_qty' && Inf29aSortOrder=='asc',
+                                        'glyphicon-chevron-down': Inf29aSortColumn=='inf29a13_sold_qty' && Inf29aSortOrder=='desc'}">
+                                    </span>
                                 </th>
-                                <th v-on:click="OnTableSorting('adddate')">
+                                <th v-on:click="OnInf29aTableSorting('inf29a11_dis_rate')">
                                     折扣
+                                    <span class="sort-item glyphicon" 
+                                        v-bind:class="{'glyphicon-sort':Inf29aSortColumn!='inf29a11_dis_rate', 
+                                        'glyphicon-chevron-up': Inf29aSortColumn=='inf29a11_dis_rate' && Inf29aSortOrder=='asc',
+                                        'glyphicon-chevron-down': Inf29aSortColumn=='inf29a11_dis_rate' && Inf29aSortOrder=='desc'}">
+                                    </span>
                                 </th>
-                                <th v-on:click="OnTableSorting('moddate')">
+                                <th v-on:click="OnInf29aTableSorting('inf29a10_ocost_one')">
                                     原價
+                                    <span class="sort-item glyphicon" 
+                                        v-bind:class="{'glyphicon-sort':Inf29aSortColumn!='inf29a10_ocost_one', 
+                                        'glyphicon-chevron-up': Inf29aSortColumn=='inf29a10_ocost_one' && Inf29aSortOrder=='asc',
+                                        'glyphicon-chevron-down': Inf29aSortColumn=='inf29a10_ocost_one' && Inf29aSortOrder=='desc'}">
+                                    </span>
                                 </th>
-                                <th v-on:click="OnTableSorting('moduser')">
+                                <th v-on:click="OnInf29aTableSorting('inf29a10_cost_one')">
                                     進價
+                                    <span class="sort-item glyphicon" 
+                                        v-bind:class="{'glyphicon-sort':Inf29aSortColumn!='inf29a10_cost_one', 
+                                        'glyphicon-chevron-up': Inf29aSortColumn=='inf29a10_cost_one' && Inf29aSortOrder=='asc',
+                                        'glyphicon-chevron-down': Inf29aSortColumn=='inf29a10_cost_one' && Inf29aSortOrder=='desc'}">
+                                    </span>
                                 </th>
-                                <th v-on:click="OnTableSorting('moduser')">
+                                <th v-on:click="OnInf29aTableSorting('inf29a38_one_amt')">
                                     金額小記
+                                    <span class="sort-item glyphicon" 
+                                        v-bind:class="{'glyphicon-sort':Inf29aSortColumn!='inf29a38_one_amt', 
+                                        'glyphicon-chevron-up': Inf29aSortColumn=='inf29a38_one_amt' && Inf29aSortOrder=='asc',
+                                        'glyphicon-chevron-down': Inf29aSortColumn=='inf29a38_one_amt' && Inf29aSortOrder=='desc'}">
+                                    </span>
                                 </th>
-                                <th v-on:click="OnTableSorting('moduser')">
+                                <th v-on:click="OnInf29aTableSorting('remark')">
                                     備註
+                                    <span class="sort-item glyphicon" 
+                                        v-bind:class="{'glyphicon-sort':Inf29aSortColumn!='remark', 
+                                        'glyphicon-chevron-up': Inf29aSortColumn=='remark' && Inf29aSortOrder=='asc',
+                                        'glyphicon-chevron-down': Inf29aSortColumn=='remark' && Inf29aSortOrder=='desc'}">
+                                    </span>
                                 </th>
-
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="inf29aItem in Inf29aList" 
-                                v-on:click="OnRowClick(inf29aItem)"
+                                v-on:click="OnSubRowClick(inf29aItem)"
                                 v-bind:class="{'selected-row':inf29aItem==SelectedInf29aItem}"
                                 >
                                 <!-- 項次 -->
@@ -507,6 +653,53 @@
                     </div>
                 </div>
             </div>
+            
+            <div class="modal fade" id="ImportExcelDialog" ref="ImportExcelDialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title"></h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="ImportExcelInput">匯入Excel</label>
+                                <input type="file" id="ImportExcelInput" ref="ImportExcelInput" accept=".xls,.xlsx">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <function-button data-dismiss="modal"
+                                hot-key="f12">
+                        離開
+                    </function-button>
+                            <button type="button" class="btn btn-primary"
+                                v-on:click="OnImportSubmit()">
+                                開始匯入</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal fade" id="HelpDialog" ref="HelpDialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">求助</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div style="padding: 100px;">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <function-button data-dismiss="modal"
+                                hot-key="f12">
+                        離開
+                    </function-button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -522,7 +715,7 @@
                     v-on:click.native="OnExit()">
                     查詢
                 </function-button>
-                <function-button id="Function-button4" data-toggle="modal" href='#EditDialog'
+                <function-button id="Function-button4" 
                     hot-key="f2"
                     v-on:click.native="OnAdd()">
                     新增
@@ -532,29 +725,15 @@
                     v-on:click.native="OnDelete()">
                     刪除
                 </function-button>
-                <function-button id="CopyBtn"
-                    hot-key="f4"
-                    v-on:click.native="OnCopy()">
-                    複製
-                </function-button>
                 <function-button id="SaveBtn"
                     hot-key="f5"
                     v-on:click.native="OnSave()">
                     存檔
                 </function-button>
-                <function-button id="PrintBtn" data-toggle="modal" href='#ExportDialog'
+                <function-button id="PrintBtn" 
                     hot-key="f6"
                     v-on:click.native="OnPrint()">
                     印表
-                </function-button>
-                <function-button id="ExportBtn" data-toggle="modal" href='#ExportDialog'
-                    hot-key="f7"
-                    v-on:click.native="OnExport()">
-                    匯出
-                </function-button>
-                <function-button id="ImportBtn" data-toggle="modal" href='#ImportExcelDialog'
-                    hot-key="f8">
-                    匯入Excel
                 </function-button>
                 <function-button id="HelpBtn" data-toggle="modal" href='#HelpDialog'
                     hot-key="f11">
@@ -582,7 +761,6 @@
                                     v-bind:custom-label="BcodeSelectLabel"
                                     track-by="cnf0701_bcode"
                                     label="cnf0703_bfname">
-                                    
                                 </multiselect>
                             </td>
                             <td>異動單號
@@ -820,38 +998,93 @@
                     <table class="table table-bordered sortable">
                         <thead>
                             <tr class="bg-primary text-light">
-                                <th v-on:click="OnTableSorting('Inf2902DocNoShort')">
+                                <th v-on:click="OnTableSorting('inf29a02_seq')">
                                     項次
+                                    <span class="sort-item glyphicon" 
+                                        v-bind:class="{'glyphicon-sort':SortColumn!='inf29a02_seq', 
+                                        'glyphicon-chevron-up': SortColumn=='inf29a02_seq' && SortOrder=='asc',
+                                        'glyphicon-chevron-down': SortColumn=='inf29a02_seq' && SortOrder=='desc'}">
+                                    </span>
                                 </th>
-                                <th v-on:click="OnTableSorting('inf2904_pro_date')">
+                                <th v-on:click="OnTableSorting('inf29a05_pcode')">
                                     產品編號
+                                    <span class="sort-item glyphicon" 
+                                        v-bind:class="{'glyphicon-sort':SortColumn!='inf29a05_pcode', 
+                                        'glyphicon-chevron-up': SortColumn=='inf29a05_pcode' && SortOrder=='asc',
+                                        'glyphicon-chevron-down': SortColumn=='inf29a05_pcode' && SortOrder=='desc'}">
+                                    </span>
                                 </th>
-                                <th v-on:click="OnTableSorting('inf2906_wherehouse')">
+                                <th v-on:click="OnTableSorting('inf29a05_shoes_code')">
                                     貨號
+                                    <span class="sort-item glyphicon" 
+                                        v-bind:class="{'glyphicon-sort':SortColumn!='inf29a05_shoes_code', 
+                                        'glyphicon-chevron-up': SortColumn=='inf29a05_shoes_code' && SortOrder=='asc',
+                                        'glyphicon-chevron-down': SortColumn=='inf29a05_shoes_code' && SortOrder=='desc'}">
+                                    </span>
                                 </th>
-                                <th v-on:click="OnTableSorting('cnf0506_program')">
+                                <th v-on:click="OnTableSorting('inf29a33_product_name')">
                                     產品簡稱
+                                    <span class="sort-item glyphicon" 
+                                        v-bind:class="{'glyphicon-sort':SortColumn!='inf29a33_product_name', 
+                                        'glyphicon-chevron-up': SortColumn=='inf29a33_product_name' && SortOrder=='asc',
+                                        'glyphicon-chevron-down': SortColumn=='inf29a33_product_name' && SortOrder=='desc'}">
+                                    </span>
                                 </th>
-                                <th v-on:click="OnTableSorting('adddate')">
+                                <th v-on:click="OnTableSorting('inf29a13_sold_qty')">
                                     數量
+                                    <span class="sort-item glyphicon" 
+                                        v-bind:class="{'glyphicon-sort':SortColumn!='inf29a13_sold_qty', 
+                                        'glyphicon-chevron-up': SortColumn=='inf29a13_sold_qty' && SortOrder=='asc',
+                                        'glyphicon-chevron-down': SortColumn=='inf29a13_sold_qty' && SortOrder=='desc'}">
+                                    </span>
                                 </th>
-                                <th v-on:click="OnTableSorting('adddate')">
+                                <th v-on:click="OnTableSorting('inf29a11_dis_rate')">
                                     折扣
+                                    <span class="sort-item glyphicon" 
+                                        v-bind:class="{'glyphicon-sort':SortColumn!='inf29a11_dis_rate', 
+                                        'glyphicon-chevron-up': SortColumn=='inf29a11_dis_rate' && SortOrder=='asc',
+                                        'glyphicon-chevron-down': SortColumn=='inf29a11_dis_rate' && SortOrder=='desc'}">
+                                    </span>
                                 </th>
-                                <th v-on:click="OnTableSorting('adduser')">
+                                <th v-on:click="OnTableSorting('inf29a17_runit')">
                                     單位
+                                    <span class="sort-item glyphicon" 
+                                        v-bind:class="{'glyphicon-sort':SortColumn!='inf29a17_runit', 
+                                        'glyphicon-chevron-up': SortColumn=='inf29a17_runit' && SortOrder=='asc',
+                                        'glyphicon-chevron-down': SortColumn=='inf29a17_runit' && SortOrder=='desc'}">
+                                    </span>
                                 </th>
-                                <th v-on:click="OnTableSorting('moddate')">
+                                <th v-on:click="OnTableSorting('inf29a10_ocost_one')">
                                     原價
+                                    <span class="sort-item glyphicon" 
+                                        v-bind:class="{'glyphicon-sort':SortColumn!='inf29a10_ocost_one', 
+                                        'glyphicon-chevron-up': SortColumn=='inf29a10_ocost_one' && SortOrder=='asc',
+                                        'glyphicon-chevron-down': SortColumn=='inf29a10_ocost_one' && SortOrder=='desc'}">
+                                    </span>
                                 </th>
-                                <th v-on:click="OnTableSorting('moduser')">
+                                <th v-on:click="OnTableSorting('inf29a10_cost_one')">
                                     進價
+                                    <span class="sort-item glyphicon" 
+                                        v-bind:class="{'glyphicon-sort':SortColumn!='inf29a10_cost_one', 
+                                        'glyphicon-chevron-up': SortColumn=='inf29a10_cost_one' && SortOrder=='asc',
+                                        'glyphicon-chevron-down': SortColumn=='inf29a10_cost_one' && SortOrder=='desc'}">
+                                    </span>
                                 </th>
-                                <th v-on:click="OnTableSorting('moduser')">
+                                <th v-on:click="OnTableSorting('inf29a38_one_amt')">
                                     金額小記
+                                    <span class="sort-item glyphicon" 
+                                        v-bind:class="{'glyphicon-sort':SortColumn!='inf29a38_one_amt', 
+                                        'glyphicon-chevron-up': SortColumn=='inf29a38_one_amt' && SortOrder=='asc',
+                                        'glyphicon-chevron-down': SortColumn=='inf29a38_one_amt' && SortOrder=='desc'}">
+                                    </span>
                                 </th>
-                                <th v-on:click="OnTableSorting('moduser')">
+                                <th v-on:click="OnTableSorting('Confirmed')">
                                     確認
+                                    <span class="sort-item glyphicon" 
+                                        v-bind:class="{'glyphicon-sort':SortColumn!='Confirmed', 
+                                        'glyphicon-chevron-up': SortColumn=='Confirmed' && SortOrder=='asc',
+                                        'glyphicon-chevron-down': SortColumn=='Confirmed' && SortOrder=='desc'}">
+                                    </span>
                                 </th>
 
                             </tr>
@@ -902,7 +1135,7 @@
                     <input type="text" class="small-field" v-model="TotalPrice" disabled="disabled"/>
                 </div>
             </div>
-            <div class="modal fade" id="DPcodeDialog">
+            <div class="modal fade" id="DPcodeDialog" ref="DPcodeDialog" v-modal-show-focus="$refs.DPcodeFrame">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -910,19 +1143,37 @@
                             <h4 class="modal-title">商品資料查詢</h4>
                         </div>
                         <div class="modal-body">
-                            <iframe src="../D_pcode/D_pcode.aspx" style="width:100%;height: 500px;">
+                            <iframe src="../D_pcode/D_pcode.aspx" style="width:100%;height: 500px;"  >
                             </iframe>
                         </div>
                         <div class="modal-footer">
-                            <function-button data-dismiss="modal"
-                                hot-key="f12">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">
                                 離開
-                            </function-button>
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
-            
+            <div class="modal fade" id="HelpDialog" ref="HelpDialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">求助</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div style="padding: 100px;">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <function-button data-dismiss="modal"
+                                hot-key="f12">
+                        離開
+                    </function-button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -945,7 +1196,9 @@
             var requiredFiles = ["dinp02301Search", "dinp02301Edit"];
 
             function onLoaded(dinp02301Search, dinp02301Edit) {
+                window.dinp02301Search.BcodeList = BcodeList;
                 window.dinp02301Edit.BcodeList = BcodeList;
+                window.dinp02301Search.WherehouseList = WherehouseList;
                 window.dinp02301Edit.WherehouseList = WherehouseList;
                 window.dinp02301Edit.InReasonList = InReasonList;
                 window.dinp02301Edit.CurrencyList = CurrencyList;

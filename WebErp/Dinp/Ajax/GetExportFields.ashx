@@ -5,6 +5,9 @@ using System.Web;
 using DCNP005;
 using Newtonsoft.Json;
 
+/// <summary>
+/// 讀 cnf05 取得Inf29, Inf29a可匯出欄位
+/// </summary>
 public class GetExportFields : IHttpHandler {
     
     public void ProcessRequest (HttpContext context) {

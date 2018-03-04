@@ -1,6 +1,7 @@
 ﻿<%@ WebHandler Language="C#" Class="GetCustomCodeInfo" %>
 
 using System;
+using System.Threading;
 using System.Web;
 using Dinp02301;
 using Newtonsoft.Json;
@@ -10,33 +11,17 @@ using Newtonsoft.Json;
 /// </summary>
 public class GetCustomCodeInfo : IHttpHandler {
 
-    public string InReasonCh02 { get; set; }
+    public string InReason { get; set; }
 
     public string CustomCode { get; set; }
     
     public void ProcessRequest (HttpContext context)
     {
-        this.InReasonCh02 = context.Request.Params["inReasonCh02"];
+        this.InReason = context.Request.Params["inReason"];
         this.CustomCode = context.Request.Params["customCode"];
-
-        object customCodeInfo = null;
-        switch (this.InReasonCh02)
-        {
-            case "cmf01":
-                customCodeInfo = Cmf01.GetData(this.CustomCode);
-                break;
-            case "cnf07":
-                break;
-            case "inf03":
-                break;
-            case "taf10":
-                break;
-            case "cnf10":
-                break;
-        }
         
         context.Response.ContentType = "text/plain";
-        context.Response.Write(JsonConvert.SerializeObject(customCodeInfo));
+        context.Response.Write(Inf29.GetCustomerCodeName(this.InReason, this.CustomCode));
     }
  
     public bool IsReusable {

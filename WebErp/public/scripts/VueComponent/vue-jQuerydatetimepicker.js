@@ -1,7 +1,7 @@
 ﻿
 /*!
  * 
- * 20170608 Andy Hsu
+ * 20180228 Andy Hsu
  * jQuery-datetimepicker
  * Global constant:
  * js file:
@@ -63,5 +63,8 @@ Vue.component("vue-datetimepicker", {
             },
             timepicker: this.timepicker
         });
+    },
+    beforeDestroy:function(){
+        $(this.$el).datetimepicker('destroy');
     }
 });

@@ -31,13 +31,17 @@
             data: function data() {
                 return {};
             },
-            methods: {},
-            mounted: function mounted() {
-                var that = this;
-                $(document).on('keydown', null, this.hotKey, function () {
-                    $(that.$el).trigger('click');
+            methods: {
+                OnHotKey: function OnHotKey() {
+                    $(this.$el).trigger('click');
                     return false;
-                });
+                }
+            },
+            mounted: function mounted() {
+                $(document).on('keydown', null, this.hotKey, this.OnHotKey);
+            },
+            beforeDestroy: function beforeDestroy() {
+                $(document).off('keydown', null, this.OnHotKey);
             }
         });
     }
