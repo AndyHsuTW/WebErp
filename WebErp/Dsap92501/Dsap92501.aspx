@@ -204,7 +204,7 @@
                                         <td style="padding: 3px">
 
                                             <label class="btn btn-default" v-if="one7P.saf25FileInfo.cnf1004_char02!=''" style="background-color: rgba(247, 255, 101, 0.67);">
-                                                <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('17P', $event)">
+                                                <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('01', $event)">
                                                 重新送出檔案比對
                                             </label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
@@ -283,7 +283,7 @@
                                         <td style="padding: 3px">
 
                                             <label class="btn btn-default" v-if="MOMO.saf25FileInfo.cnf1004_char02!=''" style="background-color: rgba(247, 255, 101, 0.67);">
-                                                <input style="display: none;" type="file" accept=".csv" v-on:change="onFileChange('MOMO', $event)">
+                                                <input style="display: none;" type="file" accept=".csv" v-on:change="onFileChange('02', $event)">
                                                 重新送出檔案比對
                                             </label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
@@ -375,7 +375,7 @@
                                         <td style="padding: 3px">{{PChome.saf25FileInfo.FileName}}</td>
                                         <td style="padding: 3px">
                                             <label class="btn btn-default" v-if="PChome.saf25FileInfo.cnf1004_char02!=''" style="background-color: rgba(247, 255, 101, 0.67);">
-                                                <input style="display: none;" type="file" accept=".csv" v-on:change="onFileChange('PChome', $event)">
+                                                <input style="display: none;" type="file" accept=".csv" v-on:change="onFileChange('03', $event)">
                                                 重新送出檔案比對
                                             </label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
@@ -450,7 +450,7 @@
                                         <td style="padding: 3px">{{Formosa_Plastics.saf25FileInfo.FileName}}</td>
                                         <td style="padding: 3px">
                                             <label class="btn btn-default" v-if="Formosa_Plastics.saf25FileInfo.cnf1004_char02!=''" style="background-color: rgba(247, 255, 101, 0.67);">
-                                                <input style="display: none;" type="file" accept=".csv" v-on:change="onFileChange('台塑', $event)">
+                                                <input style="display: none;" type="file" accept=".csv" v-on:change="onFileChange('04', $event)">
                                                 重新送出檔案比對
                                             </label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
@@ -559,7 +559,7 @@
                                         <td style="padding: 3px">{{Taiwan_Mobile.saf25FileInfo.FileName}}</td>
                                         <td style="padding: 3px">
                                             <label class="btn btn-default" v-if="Taiwan_Mobile.saf25FileInfo.cnf1004_char02!=''" style="background-color: rgba(247, 255, 101, 0.67);">
-                                                <input style="display: none;" type="file" accept=".csv" v-on:change="onFileChange('台灣大哥大', $event)">
+                                                <input style="display: none;" type="file" accept=".csv" v-on:change="onFileChange('05', $event)">
                                                 重新送出檔案比對
                                             </label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
@@ -634,7 +634,7 @@
                                         <td style="padding: 3px">{{Buy123.saf25FileInfo.FileName}}</td>
                                         <td style="padding: 3px">
                                             <label class="btn btn-default" v-if="Buy123.saf25FileInfo.cnf1004_char02!=''" style="background-color: rgba(247, 255, 101, 0.67);">
-                                                <input style="display: none;" type="file" accept=".csv" v-on:change="onFileChange('生活市集', $event)">
+                                                <input style="display: none;" type="file" accept=".csv" v-on:change="onFileChange('06', $event)">
                                                 重新送出檔案比對
                                             </label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
@@ -691,7 +691,7 @@
                                         <td style="padding: 3px">{{Eastern.saf25FileInfo.FileName}}</td>
                                         <td style="padding: 3px">
                                             <label class="btn btn-default" v-if="Eastern.saf25FileInfo.cnf1004_char02!=''" style="background-color: rgba(247, 255, 101, 0.67);">
-                                                <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('東森 森森', $event)">
+                                                <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('07', $event)">
                                                 重新送出檔案比對
                                             </label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
@@ -784,7 +784,7 @@
                                         <td style="padding: 3px">{{Pcone.saf25FileInfo.FileName}}</td>
                                         <td style="padding: 3px">
                                             <label class="btn btn-default" v-if="Pcone.saf25FileInfo.cnf1004_char02!=''" style="background-color: rgba(247, 255, 101, 0.67);">
-                                                <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('松果', $event)">
+                                                <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('08', $event)">
                                                 重新送出檔案比對
                                             </label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
@@ -846,7 +846,7 @@
                                         <td style="padding: 3px">{{Symphox.saf25FileInfo.FileName}}</td>
                                         <td style="padding: 3px">
                                             <label class="btn btn-default" v-if="Symphox.saf25FileInfo.cnf1004_char02!=''" style="background-color: rgba(247, 255, 101, 0.67);">
-                                                <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('神坊', $event)">
+                                                <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('09', $event)">
                                                 重新送出檔案比對
                                             </label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
@@ -912,7 +912,7 @@
                                         <td style="padding: 3px">{{Gomaji.saf25FileInfo.FileName}}</td>
                                         <td style="padding: 3px">
                                             <label class="btn btn-default" v-if="Gomaji.saf25FileInfo.cnf1004_char02!=''" style="background-color: rgba(247, 255, 101, 0.67);">
-                                                <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('夠麻吉', $event)">
+                                                <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('10', $event)">
                                                 重新送出檔案比對
                                             </label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
@@ -988,7 +988,7 @@
                                         <td style="padding: 3px">{{PayEasy.saf25FileInfo.FileName}}</td>
                                         <td style="padding: 3px">
                                             <label class="btn btn-default" v-if="PayEasy.saf25FileInfo.cnf1004_char02!=''" style="background-color: rgba(247, 255, 101, 0.67);">
-                                                <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('康迅', $event)">
+                                                <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('11', $event)">
                                                 重新送出檔案比對
                                             </label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
@@ -1066,7 +1066,7 @@
                                         <td style="padding: 3px">{{UniPresiden.saf25FileInfo.FileName}}</td>
                                         <td style="padding: 3px">
                                             <label class="btn btn-default" v-if="UniPresiden.saf25FileInfo.cnf1004_char02!=''" style="background-color: rgba(247, 255, 101, 0.67);">
-                                                <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('統一', $event)">
+                                                <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('12', $event)">
                                                 重新送出檔案比對
                                             </label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
@@ -1153,7 +1153,7 @@
                                         <td style="padding: 3px">{{Dingding.saf25FileInfo.FileName}}</td>
                                         <td style="padding: 3px">
                                             <label class="btn btn-default" v-if="Dingding.saf25FileInfo.cnf1004_char02!=''" style="background-color: rgba(247, 255, 101, 0.67);">
-                                                <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('鼎鼎', $event)">
+                                                <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('13', $event)">
                                                 重新送出檔案比對
                                             </label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
@@ -1244,7 +1244,7 @@
                                         <td style="padding: 3px">{{Crazymike.saf25FileInfo.FileName}}</td>
                                         <td style="padding: 3px">
                                             <label class="btn btn-default" v-if="Crazymike.saf25FileInfo.cnf1004_char02!=''" style="background-color: rgba(247, 255, 101, 0.67);">
-                                                <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('瘋狂賣客', $event)">
+                                                <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('14', $event)">
                                                 重新送出檔案比對
                                             </label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
@@ -1303,7 +1303,7 @@
                                         <td style="padding: 3px">{{Xingqi.saf25FileInfo.FileName}}</td>
                                         <td style="padding: 3px">
                                             <label class="btn btn-default" v-if="Xingqi.saf25FileInfo.cnf1004_char02!=''" style="background-color: rgba(247, 255, 101, 0.67);">
-                                                <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('興奇', $event)">
+                                                <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('15', $event)">
                                                 重新送出檔案比對
                                             </label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
@@ -1364,7 +1364,7 @@
                                         <td style="padding: 3px">{{Lianhebao.saf25FileInfo.FileName}}</td>
                                         <td style="padding: 3px">
                                             <label class="btn btn-default" v-if="Lianhebao.saf25FileInfo.cnf1004_char02!=''" style="background-color: rgba(247, 255, 101, 0.67);">
-                                                <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('聯合報', $event)">
+                                                <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('16', $event)">
                                                 重新送出檔案比對
                                             </label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
@@ -1448,7 +1448,7 @@
                                         <td style="padding: 3px">{{YahooMart.saf25FileInfo.FileName}}</td>
                                         <td style="padding: 3px">
                                             <label class="btn btn-default" v-if="YahooMart.saf25FileInfo.cnf1004_char02!=''" style="background-color: rgba(247, 255, 101, 0.67);">
-                                                <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('聯合報', $event)">
+                                                <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('18', $event)">
                                                 重新送出檔案比對
                                             </label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
@@ -1534,7 +1534,7 @@
                                         <td style="padding: 3px">{{Motian.saf25FileInfo.FileName}}</td>
                                         <td style="padding: 3px">
                                             <label class="btn btn-default" v-if="Motian.saf25FileInfo.cnf1004_char02!=''" style="background-color: rgba(247, 255, 101, 0.67);">
-                                                <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('摩天', $event)">
+                                                <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('19', $event)">
                                                 重新送出檔案比對
                                             </label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
@@ -1618,7 +1618,7 @@
                                         <td style="padding: 3px">{{Pc.saf25FileInfo.FileName}}</td>
                                         <td style="padding: 3px">
                                             <label class="btn btn-default" v-if="Pc.saf25FileInfo.cnf1004_char02!=''" style="background-color: rgba(247, 255, 101, 0.67);">
-                                                <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('Pc', $event)">
+                                                <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('21', $event)">
                                                 重新送出檔案比對
                                             </label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
@@ -1685,7 +1685,7 @@
                                         <td style="padding: 3px">{{Lutian.saf25FileInfo.FileName}}</td>
                                         <td style="padding: 3px">
                                             <label class="btn btn-default" v-if="Lutian.saf25FileInfo.cnf1004_char02!=''" style="background-color: rgba(247, 255, 101, 0.67);">
-                                                <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('露天', $event)">
+                                                <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('22', $event)">
                                                 重新送出檔案比對
                                             </label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
@@ -1746,7 +1746,7 @@
                                         <td style="padding: 3px">{{Yahoo.saf25FileInfo.FileName}}</td>
                                         <td style="padding: 3px">
                                             <label class="btn btn-default" v-if="Yahoo.saf25FileInfo.cnf1004_char02!=''" style="background-color: rgba(247, 255, 101, 0.67);">
-                                                <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('YAHOO拍賣', $event)">
+                                                <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('23', $event)">
                                                 重新送出檔案比對
                                             </label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>

@@ -11,7 +11,7 @@ public partial class Dsap92501_Dsap92501 : System.Web.UI.Page
     
     protected void Page_Load(object sender, EventArgs e)
     {
-        Page.Title = "各網站excel資料轉入訂單v18.02.04";
-        Title = "各網站excel資料轉入訂單v18.02.04";
+        Page.Title = "各網站excel資料轉入訂單v18.03.05";
+        Title = Page.Title;
     }
 }
