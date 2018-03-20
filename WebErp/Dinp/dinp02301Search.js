@@ -205,7 +205,7 @@
                     if (this.SelectedInf29Item == null) {
                         return;
                     }
-                    if(this.SelectedInf29Item.adduser != loginUserName){
+                    if (this.SelectedInf29Item.adduser.toLowerCase() != loginUserName.toLowerCase()) {
                         alert("只可以刪除自己的資料");
                         return;
                     }
@@ -421,8 +421,8 @@
                         },
                         dataType: 'text',
                         success: function (result) {
-                            if (result == "ok") {
-                                printJS({printable: rootUrl + "Dinp/Ajax/Inf29Print.ashx",
+                            if (result != "") {
+                                printJS({printable: rootUrl + "Dinp/Ajax/Inf29Print.ashx?session="+result,
                                     type: 'pdf',
                                     onLoadingStart:null,
                                     onLoadingEnd:LoadingHelper.hideLoading});
@@ -529,8 +529,11 @@
                     }
                     return 0;
                 },
-                GetTotalQty: function (inf29Item) {
-                    return 123;
+                GetWherehouseName: function (wherehouse) {
+                    var wherehouseInfo = this.WherehouseList.filter(function(item, index, array){
+                        return item.cnf1002_fileorder==wherehouse;
+                    }).shift();
+                    return (wherehouseInfo || {}).cnf1003_char01;
                 },
                 GetInReasonName: function (inReason) {
                     return "inReason";

@@ -546,7 +546,7 @@
                         },
                         dataType: 'text',
                         success: function (customCodeName) {
-                            if (customCodeName == null||customCodeName==""||customCodeName=="NotFound") {
+                            if (customCodeName == null||customCodeName=="") {
                                 vueObj.Inf29Item.inf2903_customer_code=null;
                                 vueObj.Inf29Item.Inf2903CustomerCodeName=null;
                                 switch (vueObj.Inf29Item.SelectedInReason.cnf1004_char02) {

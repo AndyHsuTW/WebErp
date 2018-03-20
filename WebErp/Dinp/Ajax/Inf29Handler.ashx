@@ -112,6 +112,9 @@ public class Inf29Handler : IHttpHandler, IRequiresSessionState
                     {
                         context.Session["printBcode"] = JsonConvert.DeserializeObject<Cnf07>(this.PrintBcode);
                     }
+                    
+                    context.Response.Write(Guid.NewGuid().ToString());
+                    return; 
                 }
                 break;
             case "import":

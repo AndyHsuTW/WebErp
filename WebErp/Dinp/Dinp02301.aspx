@@ -460,7 +460,7 @@
                                 v-bind:class="{'selected-row':inf29Item==SelectedInf29Item}">
                                 <td>{{inf29Item.Inf2902DocNoShort }}</td>
                                 <td>{{inf29Item.inf2904_pro_date}}</td>
-                                <td>{{inf29Item.inf2906_wherehouse}}</td>
+                                <td>{{ GetWherehouseName(inf29Item.inf2906_wherehouse)}}</td>
                                 <td>{{inf29Item.Qty}}</td>
                                 <td>{{inf29Item.inf2952_project_no}}</td>
                                 <td>{{inf29Item.inf2910_in_reason }}/{{inf29Item.Inf2910InReasonName}}</td>

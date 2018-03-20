@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using ErpBaseLibrary.DB;
 
 namespace Dinp02301
@@ -17,9 +16,20 @@ namespace Dinp02301
 
         public string cnf0701_bcode { get; set; }
 
+        /// <summary>
+        /// 總或分公司簡稱
+        /// </summary>
         public string cnf0702_bname { get; set; }
 
+        /// <summary>
+        /// 總或分公司名稱
+        /// </summary>
         public string cnf0703_bfname { get; set; }
+
+        /// <summary>
+        /// 0:總公司 1:分公司 2:倉庫  B版所有程式
+        /// </summary>
+        public string cnf0751_tax_headoffice { get; set; }
 
         #endregion
 
@@ -40,6 +50,7 @@ namespace Dinp02301
     SELECT [cnf0701_bcode]
           ,[cnf0702_bname]
           ,[cnf0703_bfname]
+          ,[cnf0751_tax_headoffice]
       FROM [cnf07] 
     WHERE status != '1' ");
 
@@ -53,6 +64,7 @@ namespace Dinp02301
                             cnf07.cnf0701_bcode = Convert.ToString(sqlReader["cnf0701_bcode"]);
                             cnf07.cnf0702_bname = Convert.ToString(sqlReader["cnf0702_bname"]);
                             cnf07.cnf0703_bfname = Convert.ToString(sqlReader["cnf0703_bfname"]);
+                            cnf07.cnf0751_tax_headoffice = Convert.ToString(sqlReader["cnf0751_tax_headoffice"]);
 
                             cnf07List.Add(cnf07);
                         }

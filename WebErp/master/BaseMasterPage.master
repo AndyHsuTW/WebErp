@@ -76,7 +76,7 @@
                     css: '<%=rootUrl%>public/scripts/requirejs/css.min.js'
                 }
             },
-            urlArgs: "appVersion=20180304" //reload all dependencies
+            urlArgs: "appVersion=20180310" //reload all dependencies
         });
 
         requirejs.onError = function (err) {
