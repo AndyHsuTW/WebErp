@@ -76,15 +76,13 @@
                     css: '<%=rootUrl%>public/scripts/requirejs/css.min.js'
                 }
             },
-            urlArgs: "appVersion=20180310" //reload all dependencies
+            urlArgs: "appVersion=20180325" //reload all dependencies
         });
 
-        requirejs.onError = function (err) {
-    console.log(err.requireType);
-        console.log('modules: ' + err.requireModules);
-        console.err(err);
-        debugger;
-};
+        requirejs.onError = function(err) {
+            console.log(err.requireType);
+            console.log('modules: ' + err.requireModules);
+        };
     </script>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
