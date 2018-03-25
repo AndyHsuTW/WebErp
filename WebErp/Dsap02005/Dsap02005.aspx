@@ -120,7 +120,7 @@
                     <table class="table table-bordered sortable" style="width: 100%">
                         <thead>
                             <tr class="bg-primary text-light">
-                                <th class="col-xs-1" style="text-align: center"></th>
+                                <th style="text-align: center"></th>
 
                                 <th class="sort-item" v-on:click="OnTableSorting('Email',$event)">訂單來源<i class="fa fa-fw fa-sort"></i></th>
                                 <th class="sort-item" v-on:click="OnTableSorting('Email',$event)">發票號碼<i class="fa fa-fw fa-sort"></i></th>
@@ -144,7 +144,7 @@
                         </thead>
                         <tbody>
                             <tr v-for="User in UserInfoList">
-                                <td class="col-xs-1" style="text-align: center">
+                                <td  style="text-align: center">
                                     <input type="checkbox" v-model="User.checked">
                                 </td>
 
@@ -153,47 +153,15 @@
 
                     </table>
                 </div>
-            </div>
-            <div class="modal fade" id="myModal" role="dialog">
-                <div class="modal-dialog">
-
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">使用者資訊
-                            </h4>
-                        </div>
-                        <div class="modal-body">
-                            <table class="padding-table">
-                                <tr>
-                                    <td>使用者名稱</td>
-                                    <td>
-                                        <input type="text" v-model="UserInfo.Name" /></td>
-                                </tr>
-                                <tr>
-                                    <td>使用者密碼</td>
-                                    <td>
-                                        <input type="text" v-model="UserInfo.PassWord" /></td>
-                                </tr>
-                                <tr>
-                                    <td>使用者信箱</td>
-                                    <td>
-                                        <input type="text" v-model="UserInfo.Email" /></td>
-                                </tr>
-
-                            </table>
-
-
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" v-on:click="OnSubmit()">送出</button>
-                            <button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
-                        </div>
-                    </div>
+                <div>
+                    <button type="button"  class="btn btn-default">全選
+                </button> <button type="button"  class="btn btn-default">全不選
+                </button>
 
                 </div>
+
             </div>
+           
 
 
 
