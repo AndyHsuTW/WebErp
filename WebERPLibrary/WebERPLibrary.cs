@@ -211,7 +211,7 @@ namespace WebERPLibrary
                 DECLARE @pdeptcode nvarchar(60) = (select top 1 cnf1003_char01 from dbo.cnf10 where cnf1001_filetype='012')
                 DECLARE @pcatcode nvarchar(60) = (select top 1 cnf1003_char01 from dbo.cnf10 where cnf1001_filetype='014')
 
-                select top 50 * from(
+                select * from(
                 SELECT ROW_NUMBER() OVER(ORDER BY inf01.ID) AS RowId
                 ,inf01.status
                 ,inf0102_pcode
@@ -281,8 +281,8 @@ namespace WebERPLibrary
                     GetKeyWordStr(FilterOption.Keyword, cmd);
 
                 }
-                cmd.CommandText += " ) Main Where Main.RowId>@StartRow";
-                cmd.Parameters.AddWithValue("@StartRow", StartRow);
+                cmd.CommandText += " ) Main";
+                //cmd.Parameters.AddWithValue("@StartRow", StartRow);
                 using (var rd = cmd.ExecuteReader())
                 {
 
