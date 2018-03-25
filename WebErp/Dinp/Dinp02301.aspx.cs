@@ -12,7 +12,7 @@ using iTextSharp.text.pdf;
 
 public partial class Dinp_Dinp02301 : System.Web.UI.Page
 {
-    public string AppVersion = "v18.03.04";
+    public string AppVersion = "v18.03.25";
 
     /// <summary>
     /// 公司代號下拉選單來源
