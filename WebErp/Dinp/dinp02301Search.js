@@ -43,7 +43,8 @@
         userLog, 
         printJs, 
         vueMultiselect) {
-        if(vueMultiselect==null){
+        if (vueMultiselect == null) {
+            console.error("vueMultiselect fallback");
             vueMultiselect = window.VueMultiselect;
         }
         window.dinp02301Search = new Vue({

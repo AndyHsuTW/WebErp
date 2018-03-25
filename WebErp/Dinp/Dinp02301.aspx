@@ -162,6 +162,13 @@
         tr.selected-row{
             background:#AAE;
         }
+        #dpCodeWindow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
@@ -708,7 +715,7 @@
             <li>{{"庫存異動資料維護 <%=this.AppVersion %>"}}
             </li>
         </ul>
-        <div class="app-body">
+        <div class="app-body" v-show="IsAppBodyDisplay">
             <div class="common-button-div">
                 <function-button id="Function-button3"
                     hot-key="f1"
@@ -893,7 +900,7 @@
                                 <span class="key-value-inputs">
                                     <input type="text" v-model="Inf29aItem.inf29a05_pcode" v-on:change="OnPcodeChange(Inf29aItem.inf29a05_pcode)"/>
                                     <input type="text" v-model="Inf29aItem.inf29a33_product_name" disabled="disabled"/>
-                                    <button type="button" class="btn btn-default btn-xs" role='button' data-toggle="modal" href='#DPcodeDialog'>
+                                    <button type="button" class="btn btn-default btn-xs" v-on:click="ShowDpCodeWindow">
                                         <i class="fa fa-search"></i>
                                     </button>
                                 </span>
@@ -1135,25 +1142,6 @@
                     <input type="text" class="small-field" v-model="TotalPrice" disabled="disabled"/>
                 </div>
             </div>
-            <div class="modal fade" id="DPcodeDialog" ref="DPcodeDialog" v-modal-show-focus="$refs.DPcodeFrame">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title">商品資料查詢</h4>
-                        </div>
-                        <div class="modal-body">
-                            <iframe src="../D_pcode/D_pcode.aspx" style="width:100%;height: 500px;"  >
-                            </iframe>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">
-                                離開
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="modal fade" id="HelpDialog" ref="HelpDialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -1174,7 +1162,15 @@
                     </div>
                 </div>
             </div>
+            
         </div>
+        <div>
+            
+        </div>
+        <d_pcode_component 
+            id="dpCodeWindow" v-show="IsDpCodeDisplay"
+            v-bind:callback="OnDPCodeResult">
+        </d_pcode_component>
     </div>
 
 

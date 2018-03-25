@@ -9,7 +9,7 @@
             "jquery.datetimepicker": "public/scripts/jquery.datetimepicker/jquery.datetimepicker.full",
             "jqueryDatetimepicker-css": "public/scripts/jquery.datetimepicker/jquery.datetimepicker",
             "jquery.mousewheel": "public/scripts/jquery.mousewheel.min",
-            "d_pcode_component": "D_pcode/D_pcode",
+            "d_pcode": "D_pcode/D_pcode",
             "d_pcode-css": "D_pcode/D_pcodeCss",
         },
         shim: {
@@ -19,7 +19,7 @@
             "vue-jQuerydatetimepicker": {
                 "deps": ['jquery.datetimepicker']
             },
-            "d_pcode_component": {
+            "d_pcode": {
                 "deps": ["css!d_pcode-css"]
             },
         },
@@ -38,7 +38,8 @@
         "LoadingHelper",
         "jquery.mousewheel",
         "vue-multiselect",
-        "print-js"
+        "print-js",
+        "d_pcode"
     ];
 
     function onLoaded(bootstrap, 
@@ -47,14 +48,18 @@
         loadingHelper, 
         jqueryMousewheel,
          vueMultiselect, 
-         printJs) {
-        if(vueMultiselect==null){
+         printJs,
+        dPcode) {
+        if (vueMultiselect == null) {
+            console.error("vueMultiselect fallback");
             vueMultiselect = window.VueMultiselect;
         }
         window.dinp02301Edit = new Vue({
             el: "#Dinp02301Edit",
             data: {
                 Display: false,
+                IsAppBodyDisplay:true,
+                IsDpCodeDisplay:false,
                 Inf29Item: {
                     id:null,//儲存成功後從伺服器返回
                     BCodeInfo: null, //公司代號相關資料
@@ -439,12 +444,45 @@
                         cnf0505_fieldname_en: true
                     };
                 },
-                OnDpcodeLoad:function(){
-                    alert("frame load");
+                ShowDpCodeWindow: function () {
+                    this.IsAppBodyDisplay = false;
+                    this.IsDpCodeDisplay = true;
+                },
+                OnDPCodeResult: function (productInfo) {
+                    this.IsAppBodyDisplay = true;
+                    this.IsDpCodeDisplay = false;
+                    var vueObj = this;
+                    vueObj.Inf29aItem.inf29a05_pcode = productInfo.pcode;
+                    vueObj.Inf29aItem.inf29a05_shoes_code = productInfo.pclass;
+                    vueObj.Inf29aItem.inf29a10_ocost_one = parseFloat(productInfo.cost).toFixed(2);
+                    vueObj.Inf29aItem.inf29a39_price = parseFloat(productInfo.retail).toFixed(2);
+                    vueObj.Inf29aItem.inf29a09_oretail_one = vueObj.Inf29aItem.inf29a39_price;
+                    vueObj.Inf29aItem.inf29a17_runit = productInfo.runit;
+                    vueObj.Inf29aItem.inf29a26_box_qty = productInfo.pqty_o;
+                    vueObj.Inf29aItem.inf29a33_product_name = productInfo.psname;
+                    vueObj.Inf29aItem.inf29a40_tax = productInfo.tax;
+                    vueObj.Inf29aItem.inf29a41_pcat = productInfo.pcat;
+                    vueObj.Inf29aItem.inf29a04_sizeno = productInfo.size;
+
+                    if (parseFloat(productInfo.cost) == 0) {
+                        if (confirm("您確定進價 = 0，回是(Y)繼續作業，回否(N)請修正進價")) {
+                        }
+                    }
+                    //TODO also on currency change
+                    if (vueObj.Inf29aItem.SelectedCurrencyInfo == null) {
+                        vueObj.Inf29aItem.inf29a10_cost_one = vueObj.Inf29aItem.inf29a10_ocost_one;
+                        vueObj.Inf29aItem.inf29a09_oretail_one = vueObj.Inf29aItem.inf29a39_price;
+                    } else {
+                        vueObj.Inf29aItem.inf29a10_cost_one =
+                            (vueObj.Inf29aItem.inf29a10_ocost_one * vueObj.Inf29aItem.inf29a32_exchange_rate).toFixed(2);
+                        vueObj.Inf29aItem.inf29a09_retail_one =
+                            (vueObj.Inf29aItem.inf29a09_oretail_one * vueObj.Inf29aItem.inf29a32_exchange_rate).toFixed(2);
+
+                    }
                 },
                 OnExit: function () {
-                    if($(this.$refs.DPcodeDialog).hasClass('in')
-                    || $(this.$refs.HelpDialog).hasClass('in')){
+                    if (this.IsDpCodeDisplay
+                        || $(this.$refs.HelpDialog).hasClass('in')) {
                         return;
                     }
                     this.Display = false;

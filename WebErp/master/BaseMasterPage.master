@@ -79,7 +79,8 @@
             urlArgs: "appVersion=20180325" //reload all dependencies
         });
 
-        requirejs.onError = function(err) {
+        requirejs.onError = function (err) {
+            console.log(err);
             console.log(err.requireType);
             console.log('modules: ' + err.requireModules);
         };
