@@ -176,6 +176,9 @@
 
                 },
                 OnAdd: function () {
+                    if (this.IsDpCodeDisplay) {
+                        return;
+                    }
                     console.log("OnAdd");
                     this.Reset();
                 },
@@ -451,6 +454,9 @@
                 OnDPCodeResult: function (productInfo) {
                     this.IsAppBodyDisplay = true;
                     this.IsDpCodeDisplay = false;
+                    if (productInfo == null) {
+                        return;
+                    }
                     var vueObj = this;
                     vueObj.Inf29aItem.inf29a05_pcode = productInfo.pcode;
                     vueObj.Inf29aItem.inf29a05_shoes_code = productInfo.pclass;
