@@ -59,11 +59,11 @@
                                         </table>\
                                     </div>\
                                     <div class="result-div" >\
-                                        <div class="">\
-                                            <table class="table table-bordered table-fixed">\
+                                        <div class="scroll-table">\
+                                            <table class="table table-bordered ">\
                                                 <thead>\
-                                                    <tr class="bg-primary text-light header">\
-                                                        <th class="col-xs-1" v-if="typeof callback == \'function\'"></th>\
+                                                    <tr class="bg-primary text-light">\
+                                                        <th class="" v-if="typeof callback == \'function\'"></th>\
                                                         <th class="col-xs-1">商品條碼</th>\
                                                         <th class="col-xs-1">商品名稱</th>\
                                                         <th class="col-xs-1">品名規格</th>\
@@ -78,9 +78,9 @@
                                                         <th class="col-xs-1">詳細資料</th>\
                                                     </tr>\
                                                 </thead>\
-                                                <tbody v-on:scroll="OnScroll" id="table-content" v-bind:style={width:tbodywidth}>\
+                                                <tbody  id="table-content" v-bind:style={width:tbodywidth}>\
                                                     <tr class="rowclass" v-for="D_pcodeData in D_pcodeList" >\
-                                                        <td class="col-xs-1" v-if="typeof callback == \'function\'">\
+                                                        <td class="" v-if="typeof callback == \'function\'">\
                                                         <button type="button" role="button" class="btn btn-default" @click="callback(D_pcodeData)">送出</button>\
                                                         </td>\
                                                         <td class="col-xs-1">{{D_pcodeData.pcode}}</td>\
