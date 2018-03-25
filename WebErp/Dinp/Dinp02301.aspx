@@ -1164,9 +1164,6 @@
             </div>
             
         </div>
-        <div>
-            
-        </div>
         <d_pcode_component 
             id="dpCodeWindow" v-show="IsDpCodeDisplay"
             v-bind:callback="OnDPCodeResult"
@@ -1174,7 +1171,6 @@
             >
         </d_pcode_component>
     </div>
-
 
     <script>
         (function () {
