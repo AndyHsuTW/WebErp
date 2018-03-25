@@ -32,6 +32,8 @@
                             this.Dpcode_pcode = data.pcode;
 
 
+                        }, leaveDpcode: function () {
+
                         }
 
                     }
@@ -60,7 +62,7 @@
     <div id="d_pcode" v-cloak>
 
         <%--<input type="text" v-model="Dpcode_pcode"/>--%>
-       <d_pcode_component :callback="getDpcode"></d_pcode_component>
+       <d_pcode_component :callback="getDpcode" :leavefunction="leaveDpcode"></d_pcode_component>
         <%--<d_pcode_component ></d_pcode_component>--%>
     </div>
 
