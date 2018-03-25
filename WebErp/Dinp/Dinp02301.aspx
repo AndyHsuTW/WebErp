@@ -162,12 +162,15 @@
         tr.selected-row{
             background:#AAE;
         }
-        #dpCodeWindow {
+        #dpCodeWindow
+        {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
+            overflow: auto;
+            background: #fff;
         }
     </style>
 </asp:Content>
