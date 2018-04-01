@@ -27,45 +27,60 @@
             el: "#content",
             data: {
                 IsCheckAll: false,
-                Filter: {
-                    Name: "",
-                    DateStart: "",
-                    DateEnd: ""
+                Filters:{
+                    cuscode_start: "",
+                    cuscode_end: "",
+                    deli_date_start: "",
+                    deli_date_end: "",
+                    serial_start: "",
+                    serial_end: "",
+
+                    inv_date_start: "",
+                    inv_date_end: "",
+
+                    inv_no_start: "",
+                    inv_no_end: "",
+
+                    inv_no_y: "",
+                    inv_no_n: "",
 
                 },
-                IsAddUser: false,
-                UserInfo: {},
-                UserInfoList: [],
+                
+                
+                OrderList: [],
                 SortColumn: "",
                 SortOrder: "",
             },
             methods: {
                 Init: function () {
-
+                    var today = new Date().getFullYear() + '/' + ('0' + (new Date().getMonth() + 1)).slice(-2) + '/' + ('0' + new Date().getDate()).slice(-2);
+                    this.Filters.deli_date_start = today;
+                    this.Filters.deli_date_end = today;
+                    this.Filters.inv_no_n = true;
                 },
                 OnTableSorting: function (column, $event) {
                     var vueObj = this;
-                    $($event.target).parents("tr:first").find("i").each(function () {
+                    $($event.currentTarget).parents("tr:first").find("i").each(function () {
                         $(this).attr("class", "fa fa-fw fa-sort")
                     })
                     if (vueObj.SortColumn == column) {
                         if (vueObj.SortOrder == "asc") {
                             vueObj.SortOrder = "desc";
-                            $($event.target).find("i").attr("class", "fa fa-fw fa-sort-down")
+                            $($event.currentTarget).find("i").attr("class", "fa fa-fw fa-sort-down")
                         } else {
                             vueObj.SortOrder = "asc";
-                            $($event.target).find("i").attr("class", "fa fa-fw fa-sort-up")
+                            $($event.currentTarget).find("i").attr("class", "fa fa-fw fa-sort-up")
                         }
                     } else {
                         vueObj.SortOrder = "asc";
-                        $($event.target).find("i").attr("class", "fa fa-fw fa-sort-up")
+                        $($event.currentTarget).find("i").attr("class", "fa fa-fw fa-sort-up")
                     }
 
 
 
                     this.SortColumn = column;
 
-                    vueObj.UserInfoList.sort(function (a, b) {
+                    vueObj.OrderList.sort(function (a, b) {
 
                         if (a[vueObj.SortColumn] < b[vueObj.SortColumn]) {
                             return vueObj.SortOrder == 'asc' ? -1 : 1;
@@ -89,15 +104,16 @@
                     })
 
                     return $.ajax({
-                        url: rootUrl + "Example/Ajax/GetData.ashx",
+                        url: rootUrl + "Dsap02005/Ajax/GetData.ashx",
                         type: 'POST',
                         cache: false,
                         data: {
-                            data: JSON.stringify(vueObj.Filter)
+                            Filters: JSON.stringify(vueObj.Filters)
                         }, success: function (result) {
                             LoadingHelper.hideLoading();
-                            vueObj.UserInfoList = JSON.parse(result);
-                            if (vueObj.UserInfoList.length == 0) {
+
+                            vueObj.OrderList = JSON.parse(result);
+                            if (vueObj.OrderList.length == 0) {
                                 alert("查無資料");
                             }
 

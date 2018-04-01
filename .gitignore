@@ -18,3 +18,4 @@ WebErp/website.publishproj
 WebERPLibrary/bin/Release/*
 WebERPLibrary/obj/Release/*
 WebErp.sln.DotSettings.user
+WebErp/Bin/WebERPLibrary.dll
