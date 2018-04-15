@@ -80,9 +80,12 @@
         });
 
         requirejs.onError = function (err) {
-            console.log(err);
-            console.log(err.requireType);
-            console.log('modules: ' + err.requireModules);
+            console.error(err);
+            if (confirm("套件傳輸失敗, 請確認網路狀況後, 按是重新載入.")) {
+                setTimeout(function() {
+                    location.reload();
+                }, 500);
+            }
         };
     </script>
     <asp:ContentPlaceHolder ID="head" runat="server">

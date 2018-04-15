@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/master/BaseMasterPage.master" AutoEventWireup="true" CodeFile="Dinp02301.aspx.cs" Inherits="Dinp_Dinp02301" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/master/BaseMasterPage.master" AutoEventWireup="true" CodeFile="Dinp02101.aspx.cs" Inherits="Dinp_Dinp02101" %>
 
 <%@ Import Namespace="System.Web.Hosting" %>
 <%@ Import Namespace="Newtonsoft.Json" %>
@@ -177,7 +177,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <% string rootUrl = HostingEnvironment.ApplicationVirtualPath.Length > 1 ? HostingEnvironment.ApplicationVirtualPath + "/" : HostingEnvironment.ApplicationVirtualPath; %>
 
-    <div id="Dinp02301Search" v-if="Display" v-cloak>
+    <div id="Dinp02101Search" v-if="Display" v-cloak>
         <ul class="app-title">
             <li>{{"庫存異動資料查詢 <%=this.AppVersion %>"}}
             </li>
@@ -713,7 +713,7 @@
         </div>
     </div>
 
-    <div id="Dinp02301Edit" v-if="Display" v-cloak>
+    <div id="Dinp02101Edit" v-if="Display" v-cloak>
         <ul class="app-title">
             <li>{{"庫存異動資料維護 <%=this.AppVersion %>"}}
             </li>
@@ -1193,21 +1193,21 @@
 
             requirejs.config({
                 paths: {
-                    "dinp02301Search": "Dinp/dinp02301Search",
-                    "dinp02301Edit": "Dinp/dinp02301Edit",
+                    "dinp02101Search": "Dinp/dinp02101Search",
+                    "dinp02101Edit": "Dinp/dinp02101Edit",
                 },
                 shim: {}
             });
 
-            var requiredFiles = ["dinp02301Search", "dinp02301Edit"];
+            var requiredFiles = ["dinp02101Search", "dinp02101Edit"];
 
-            function onLoaded(dinp02301Search, dinp02301Edit) {
-                window.dinp02301Search.BcodeList = BcodeList;
-                window.dinp02301Edit.BcodeList = BcodeList;
-                window.dinp02301Search.WherehouseList = WherehouseList;
-                window.dinp02301Edit.WherehouseList = WherehouseList;
-                window.dinp02301Edit.InReasonList = InReasonList;
-                window.dinp02301Edit.CurrencyList = CurrencyList;
+            function onLoaded(dinp02101Search, dinp02101Edit) {
+                window.dinp02101Search.BcodeList = BcodeList;
+                window.dinp02101Edit.BcodeList = BcodeList;
+                window.dinp02101Search.WherehouseList = WherehouseList;
+                window.dinp02101Edit.WherehouseList = WherehouseList;
+                window.dinp02101Edit.InReasonList = InReasonList;
+                window.dinp02101Edit.CurrencyList = CurrencyList;
             }
 
             function onError(error) {

@@ -52,6 +52,10 @@ namespace Dinp02301
         
         public string inf2952_project_no { get; set; }
 
+        public string inf2928_currency { get; set; }
+
+        public double inf2929_exchange_rate { get; set; }
+
         public string remark { get; set; }
 
         public string adduser { get; set; }
@@ -590,6 +594,8 @@ namespace Dinp02301
               ,inf29.[inf2916_apr_empid]
         ,cnf10.[cnf1003_char01] as Inf2910InReasonName
               ,inf29.[inf2952_project_no]
+              ,inf2928_currency
+              ,inf2929_exchange_rate
               ,(
 				  SELECT SUM([inf29a13_sold_qty]) FROM [inf29a]
 				  WHERE inf29a.inf29a01_docno = inf29.inf2901_docno
@@ -653,6 +659,8 @@ namespace Dinp02301
                             inf29.inf2910_in_reason = Convert.ToString(sqlReader["inf2910_in_reason"]);
                             inf29.inf2916_apr_empid = Convert.ToString(sqlReader["inf2916_apr_empid"]);
                             inf29.inf2952_project_no = Convert.ToString(sqlReader["inf2952_project_no"]);
+                            inf29.inf2928_currency = Convert.ToString(sqlReader["inf2928_currency"]);
+                            inf29.inf2929_exchange_rate = Convert.ToDouble(sqlReader["inf2929_exchange_rate"]);
                             inf29.adduser = Convert.ToString(sqlReader["adduser"]);
                             inf29.adddate = DBNull.Value == sqlReader["adddate"]
                                                 ? (DateTime?)null
@@ -803,6 +811,8 @@ namespace Dinp02301
                ,[inf2914_inv_eff]
                ,[inf2916_apr_empid]
                ,[inf2952_project_no]
+               ,[inf2928_currency]
+               ,[inf2929_exchange_rate]
                ,[remark]
                ,[adduser]
                ,[adddate])
@@ -824,6 +834,8 @@ namespace Dinp02301
                ,@inf2914_inv_eff
                ,@inf2916_apr_empid
                ,@inf2952_project_no
+               ,@inf2928_currency
+               ,@inf2929_exchange_rate
                ,@remark
                ,@adduser
                ,@adddate    ) ";
@@ -844,6 +856,8 @@ namespace Dinp02301
                 sqlCmd.Parameters.AddWithValueSafe("@inf2914_inv_eff", inf29.inf2914_inv_eff);
                 sqlCmd.Parameters.AddWithValueSafe("@inf2916_apr_empid", inf29.inf2916_apr_empid);
                 sqlCmd.Parameters.AddWithValueSafe("@inf2952_project_no", inf29.inf2952_project_no);
+                sqlCmd.Parameters.AddWithValue("@inf2928_currency", inf29.inf2928_currency);
+                sqlCmd.Parameters.AddWithValue("@inf2929_exchange_rate", inf29.inf2929_exchange_rate);
                 sqlCmd.Parameters.AddWithValueSafe("@remark", inf29.remark);
                 sqlCmd.Parameters.AddWithValue("@adduser", inf29.adduser);
                 sqlCmd.Parameters.AddWithValue("@adddate", inf29.adddate);

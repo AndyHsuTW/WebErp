@@ -54,8 +54,8 @@
             console.error("vueMultiselect fallback");
             vueMultiselect = window.VueMultiselect;
         }
-        window.dinp02301Edit = new Vue({
-            el: "#Dinp02301Edit",
+        window.dinp02101Edit = new Vue({
+            el: "#Dinp02101Edit",
             data: {
                 Display: false,
                 IsAppBodyDisplay:true,
@@ -496,7 +496,7 @@
                         return;
                     }
                     this.Display = false;
-                    window.dinp02301Search.Display = true;
+                    window.dinp02101Search.Display = true;
                 },
                 AutoFillFilter: function (field, value, type) {
                     this.Filter[field] = value;

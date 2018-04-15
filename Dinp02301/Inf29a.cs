@@ -51,9 +51,9 @@ namespace Dinp02301
 
         public double inf29a26_box_qty { get; set; }
 
-        public string inf29a31_currency { get; set; }
+        //public string inf29a31_currency { get; set; }
 
-        public double inf29a32_exchange_rate { get; set; }
+        //public double inf29a32_exchange_rate { get; set; }
 
         public string inf29a33_product_name { get; set; }
 
@@ -110,8 +110,6 @@ namespace Dinp02301
                ,[inf29a14_trn_type]
                ,[inf29a17_runit]
                ,[inf29a26_box_qty]
-               ,[inf29a31_currency]
-               ,[inf29a32_exchange_rate]
                ,[inf29a33_product_name]
                ,[inf29a36_odds_amt]
                ,[inf29a38_one_amt]
@@ -139,8 +137,6 @@ namespace Dinp02301
                ,@inf29a14_trn_type
                ,@inf29a17_runit
                ,@inf29a26_box_qty
-               ,@inf29a31_currency
-               ,@inf29a32_exchange_rate
                ,@inf29a33_product_name
                ,@inf29a36_odds_amt
                ,@inf29a38_one_amt
@@ -170,8 +166,8 @@ namespace Dinp02301
                     sqlCmd.Parameters.AddWithValueSafe("@inf29a14_trn_type", inf29a.inf29a14_trn_type);
                     sqlCmd.Parameters.AddWithValueSafe("@inf29a17_runit", inf29a.inf29a17_runit);
                     sqlCmd.Parameters.AddWithValueSafe("@inf29a26_box_qty", inf29a.inf29a26_box_qty);
-                    sqlCmd.Parameters.AddWithValueSafe("@inf29a31_currency", inf29a.inf29a31_currency);
-                    sqlCmd.Parameters.AddWithValueSafe("@inf29a32_exchange_rate", inf29a.inf29a32_exchange_rate);
+//                    sqlCmd.Parameters.AddWithValueSafe("@inf29a31_currency", inf29a.inf29a31_currency);
+//                    sqlCmd.Parameters.AddWithValueSafe("@inf29a32_exchange_rate", inf29a.inf29a32_exchange_rate);
                     sqlCmd.Parameters.AddWithValueSafe("@inf29a33_product_name", inf29a.inf29a33_product_name);
                     sqlCmd.Parameters.AddWithValueSafe("@inf29a36_odds_amt", inf29a.inf29a36_odds_amt);
                     sqlCmd.Parameters.AddWithValueSafe("@inf29a38_one_amt", inf29a.inf29a38_one_amt);
@@ -341,8 +337,8 @@ namespace Dinp02301
                             inf29a.inf29a14_trn_type = Convert.ToString(sqlReader["inf29a14_trn_type"]);
                             inf29a.inf29a17_runit = Convert.ToString(sqlReader["inf29a17_runit"]);
                             inf29a.inf29a26_box_qty = Convert.ToDouble(sqlReader["inf29a26_box_qty"]);
-                            inf29a.inf29a31_currency = Convert.ToString(sqlReader["inf29a31_currency"]);
-                            inf29a.inf29a32_exchange_rate = Convert.ToDouble(sqlReader["inf29a32_exchange_rate"]);
+//                            inf29a.inf29a31_currency = Convert.ToString(sqlReader["inf29a31_currency"]);
+//                            inf29a.inf29a32_exchange_rate = Convert.ToDouble(sqlReader["inf29a32_exchange_rate"]);
                             inf29a.inf29a33_product_name = Convert.ToString(sqlReader["inf29a33_product_name"]);
                             inf29a.inf29a36_odds_amt = Convert.ToDouble(sqlReader["inf29a36_odds_amt"]);
                             inf29a.inf29a38_one_amt = Convert.ToDouble(sqlReader["inf29a38_one_amt"]);

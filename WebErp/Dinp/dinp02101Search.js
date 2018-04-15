@@ -47,8 +47,8 @@
             console.error("vueMultiselect fallback");
             vueMultiselect = window.VueMultiselect;
         }
-        window.dinp02301Search = new Vue({
-            el: "#Dinp02301Search",
+        window.dinp02101Search = new Vue({
+            el: "#Dinp02101Search",
             data: {
                 Display: true,
                 Filter: {
@@ -199,8 +199,8 @@
                 OnAdd: function () {
                     console.log("OnAdd");
                     this.Display = false;
-                    window.dinp02301Edit.Display = true;
-                    window.dinp02301Edit.Reset();
+                    window.dinp02101Edit.Display = true;
+                    window.dinp02101Edit.Reset();
                 },
                 OnDelete: function () {
                     if (this.SelectedInf29Item == null) {
@@ -363,12 +363,12 @@
                         return;
                     }
                     var vueObj = this;
-                    var resetTask = window.dinp02301Edit.Reset();
-                    window.dinp02301Edit.Display = true;
-                    window.dinp02301Search.Display = false;
+                    var resetTask = window.dinp02101Edit.Reset();
+                    window.dinp02101Edit.Display = true;
+                    window.dinp02101Search.Display = false;
                     // send selected inf29 to dinpEdit object
                     resetTask.done(function() {
-                        window.dinp02301Edit.SetCopy(vueObj.SelectedInf29Item);
+                        window.dinp02101Edit.SetCopy(vueObj.SelectedInf29Item);
                     });
                     // get inf29alist from server, remove id...
 
@@ -607,7 +607,7 @@
 
             },
             mounted: function () {
-                SaveEnterPageLog(rootUrl, loginUserName, "Dinp02301");
+                SaveEnterPageLog(rootUrl, loginUserName, "Dinp02101");
                 this.GetExportFields();
             }
         });
