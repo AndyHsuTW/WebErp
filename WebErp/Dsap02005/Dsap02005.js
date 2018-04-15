@@ -27,7 +27,7 @@
             el: "#content",
             data: {
                 IsCheckAll: false,
-                Filters:{
+                Filters: {
                     cuscode_start: "",
                     cuscode_end: "",
                     deli_date_start: "",
@@ -45,18 +45,119 @@
                     inv_no_n: "",
 
                 },
-                
-                
+
+
                 OrderList: [],
                 SortColumn: "",
                 SortOrder: "",
             },
             methods: {
+                InvoicePrint: function () {
+                    var vueObj = this;
+                    
+                    var OrderList = [];
+                    var no_inv_no = false;
+                    var Isprint = false;
+                    for (var i in vueObj.OrderList) {
+                        if (vueObj.OrderList[i].checked == true) {
+                            if (vueObj.OrderList[i].saf20110_printmark == "Y") {
+                                Isprint = true;
+
+                            }
+                            for (var j in vueObj.OrderList[i].OrderbodyDataList) {
+                                if (vueObj.OrderList[i].OrderbodyDataList[j].saf20a38_inv_no == "") {
+                                    no_inv_no = true;
+                                    break;
+                                } 
+                            }
+                            if (Isprint || no_inv_no) {
+                                break;
+                            }
+                            OrderList.push(vueObj.OrderList[i]);
+
+                        }
+                    }
+                    var alertmsg = "";
+                    if (no_inv_no) {
+                        alertmsg += "有選擇沒有開立發票\n"
+                      
+                    }
+                    if (Isprint) {
+                        alertmsg += "有選擇以印出發票，請重新選擇\n"
+
+                    }
+                    if (OrderList.length == 0) {
+                        alertmsg += "至少選一項\n"
+                    }
+                    if (alertmsg != "") {
+                        alert(alertmsg);
+                        return;
+                    }
+
+                    var excelform = $('<form/>').attr('method', 'post').attr('action', rootUrl + 'Dsap02005/Ajax/InvoicePrint.ashx?v=' + i).appendTo($('body'));
+                    $('<input/>').attr('type', 'hidden').attr('name', 'datalist').val(encodeURIComponent(JSON.stringify(OrderList))).appendTo(excelform);
+                    $('<input/>').attr('type', 'hidden').attr('name', 'loginUserName').val(encodeURIComponent(loginUserName)).appendTo(excelform);
+                    excelform.submit();
+
+                   
+
+
+
+                },
                 Init: function () {
+                    SaveEnterPageLog(rootUrl, loginUserName, "Dsap02005");
+
                     var today = new Date().getFullYear() + '/' + ('0' + (new Date().getMonth() + 1)).slice(-2) + '/' + ('0' + new Date().getDate()).slice(-2);
                     this.Filters.deli_date_start = today;
                     this.Filters.deli_date_end = today;
                     this.Filters.inv_no_n = true;
+                }, InvoiceOpening: function () {
+                    var vueObj = this;
+                    if (vueObj.inv_no_y) {
+                        alert("發票已經開立，不可以再開，請重新選擇，謝謝");
+                        return;
+                    }
+                    
+                    var OrderList = [];
+
+                    for (var i in vueObj.OrderList) {
+                        if (vueObj.OrderList[i].checked == true) {
+                            OrderList.push(vueObj.OrderList[i]);
+                        }
+
+                    }
+                    if (OrderList.length == 0) {
+                        alert("至少選一項\n")
+                    }
+                    LoadingHelper.showLoading();
+                    return $.ajax({
+                        url: rootUrl + "Dsap02005/Ajax/InvoiceOpening.ashx",
+                        type: 'POST',
+                        cache: false,
+                        data: {
+                            datalist: JSON.stringify(OrderList),
+                            loginUserName: loginUserName
+                        }, success: function (result) {
+                            LoadingHelper.hideLoading();
+                            if (result == "Success") {
+                                alert("開立成功")
+                                vueObj.OnSearch();
+                            } else {
+                                alert(result)
+                            }
+
+
+                        }, error: function (jqXhr, textStatus, errorThrown) {
+                            if (jqXhr.status == 0) {
+                                return;
+                            }
+                            LoadingHelper.hideLoading();
+                            console.error(errorThrown);
+                            alert("開立出現錯誤");
+                        }
+                    })
+
+
                 },
                 OnTableSorting: function (column, $event) {
                     var vueObj = this;
@@ -116,7 +217,7 @@
                             if (vueObj.OrderList.length == 0) {
                                 alert("查無資料");
                             }
-
+                            vueObj.OnCheckAll(true);
 
                         }, error: function (jqXhr, textStatus, errorThrown) {
                             if (jqXhr.status == 0) {
@@ -129,111 +230,12 @@
                     })
 
                 },
-                OpenModal: function (User) {
-                    var vueObj = this;
-                    if (vueObj.IsAddUser) {
-
-                        vueObj.UserInfo = User;
-                    } else {
-                        vueObj.UserInfo = {
-                            Id: User.Id,
-                            Name: User.Name,
-                            PassWord: User.PassWord,
-                            Email: User.Email,
-                            UpdateTime: User.UpdateTime,
-                        }
-
-                    }
-                    $("#myModal").modal("show");
-
-                }, OnSubmit: function () {
-                    var vueObj = this;
-
-                    if (!confirm("確定送出資料?")) {
-                        return;
-                    }
-                    return $.ajax({
-                        url: rootUrl + "Example/Ajax/SubmitData.ashx",
-                        type: 'POST',
-                        cache: false,
-                        data: {
-                            act: (vueObj.IsAddUser ? "Add" : "Edit"),
-                            data: JSON.stringify(vueObj.UserInfo),
-                            loginUserName: loginUserName,
-                        },
-                        success: function (result) {
-                            if (result == "ok") {
-                                alert("成功");
-
-                                vueObj.OnSearch();
 
 
-                                $("#myModal").modal("hide");
-                            } else {
-                                console.log(result);
-                                alert("失敗");
-                            }
-
-                        },
-                        error: function (jqXhr, textStatus, errorThrown) {
-                            if (jqXhr.status == 0) {
-                                return;
-                            }
-                            console.error(errorThrown);
-                            alert("失敗");
-                        }
-                    });
-
-                    $("#myModal").modal();
-                },
-                OnDelete: function () {
-                    var vueObj = this;
-                    var datalist = [];
-
-                    for (var i in vueObj.UserInfoList) {
-                        if (vueObj.UserInfoList[i].checked) {
-                            datalist.push(vueObj.UserInfoList[i]);
-                        }
-                    }
-                    if (datalist.length == 0) {
-                        alert("沒有選擇要刪除的資料");
-                    }
-
-                    if (!confirm("確定刪除所選資料?")) {
-                        return;
-                    }
-                    return $.ajax({
-                        url: rootUrl + "Example/Ajax/DeleteData.ashx",
-                        type: 'POST',
-                        cache: false,
-                        data: {
-                            datalist: JSON.stringify(datalist),
-                            loginUserName: loginUserName,
-                        },
-                        success: function (result) {
-                            if (result == "ok") {
-                                alert("成功");
-                                vueObj.OnSearch();
-                            } else {
-                                console.log(result);
-                                alert("失敗");
-                            }
-
-                        },
-                        error: function (jqXhr, textStatus, errorThrown) {
-                            if (jqXhr.status == 0) {
-                                return;
-                            }
-                            console.error(errorThrown);
-                            alert("失敗");
-                        }
-                    });
-
-
-                }, OnCheckAll: function () {
+                OnCheckAll: function (b) {
                     Vue.nextTick(function () {
-                        for (var i in ExampleJs.UserInfoList) {
-                            ExampleJs.UserInfoList[i].checked = ExampleJs.IsCheckAll;
+                        for (var i in Dsap02005.OrderList) {
+                            Dsap02005.OrderList[i].checked = b;
                         }
                     });
                 }

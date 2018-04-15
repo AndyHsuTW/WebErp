@@ -61,8 +61,8 @@
             <div class="app-body">
                 <div class="common-button-div">
                     <function-button hot-key="f1" v-on:click.native="OnSearch()">出貨查詢</function-button>
-                    <function-button hot-key="f2" v-on:click.native="">發票開立</function-button>
-                    <function-button hot-key="f3" v-on:click.native="">發票列印</function-button>
+                    <function-button hot-key="f2" v-on:click.native="InvoiceOpening()">發票開立</function-button>
+                    <function-button hot-key="f3" v-on:click.native="InvoicePrint()">發票列印</function-button>
                     <function-button hot-key="f4" v-on:click.native="">檢貨明細及簡表列印</function-button>
                     <function-button hot-key="f5" v-on:click.native="">發票明細查詢</function-button>
                 </div>
@@ -77,9 +77,9 @@
 
                             <td>出貨日期</td>
                             <td>起
-                                <vue-datetimepicker placeholder="" v-model="Filters.deli_date_start" :value="Filters.deli_date_start"></vue-datetimepicker>
+                                <vue-datetimepicker placeholder="" v-model="Filters.deli_date_start" v-bind:value="Filters.deli_date_start"></vue-datetimepicker>
                                 迄
-                                <vue-datetimepicker placeholder="" v-model="Filters.deli_date_end" :value="Filters.deli_date_end"></vue-datetimepicker>
+                                <vue-datetimepicker placeholder="" v-model="Filters.deli_date_end" v-bind:value="Filters.deli_date_end"></vue-datetimepicker>
                             </td>
 
                             <td>交易序號</td>
@@ -91,9 +91,9 @@
                         <tr>
                             <td>發票日期</td>
                             <td>起
-                                <vue-datetimepicker placeholder="" v-model="Filters.inv_date_start" :value="Filters.inv_date_start"></vue-datetimepicker>
+                                <vue-datetimepicker placeholder="" v-model="Filters.inv_date_start" v-bind:value="Filters.inv_date_start"></vue-datetimepicker>
                                 迄
-                                <vue-datetimepicker placeholder="" v-model="Filters.inv_date_end" :value="Filters.inv_date_end"></vue-datetimepicker>
+                                <vue-datetimepicker placeholder="" v-model="Filters.inv_date_end" v-bind:value="Filters.inv_date_end"></vue-datetimepicker>
                             </td>
                             </td>
 
@@ -124,10 +124,7 @@
                                     <th class="sort-item" v-on:click="OnTableSorting('saf2001_cuscode',$event)">訂單來源
                                         <i class="fa fa-fw fa-sort"></i>
                                     </th>
-                                    <th class="sort-item" v-on:click="OnTableSorting('saf2038a_inv_no',$event)">發票號碼
-                                        <i class="fa fa-fw fa-sort"></i>
-                                    </th>
-                                    <th class="sort-item" v-on:click="OnTableSorting('saf2039a_inv_date',$event)">發票日期
+                                    <th class="sort-item" v-on:click="OnTableSorting('saf2002_serial',$event)">交易序號
                                         <i class="fa fa-fw fa-sort"></i>
                                     </th>
                                     <th class="sort-item" v-on:click="OnTableSorting('saf20103_sales_amt',$event)">銷售額
@@ -145,24 +142,6 @@
                                     <th class="sort-item" v-on:click="OnTableSorting('saf20107_tax_id',$event)">統一編號
                                         <i class="fa fa-fw fa-sort"></i>
                                     </th>
-                                    <th class="sort-item" v-on:click="OnTableSorting('saf20a37_pcode',$event)">商品編號
-                                        <i class="fa fa-fw fa-sort"></i>
-                                    </th>
-                                    <th class="sort-item" v-on:click="OnTableSorting('saf20a31_psname',$event)">商品名稱
-                                        <i class="fa fa-fw fa-sort"></i>
-                                    </th>
-                                    <th class="sort-item" v-on:click="OnTableSorting('saf20a34_ship_pname',$event)">規格
-                                        <i class="fa fa-fw fa-sort"></i>
-                                    </th>
-                                    <th class="sort-item" v-on:click="OnTableSorting('saf20a34_ship_pname',$event)">顏色
-                                        <i class="fa fa-fw fa-sort"></i>
-                                    </th>
-                                    <th class="sort-item" v-on:click="OnTableSorting('saf2002_serial',$event)">交易序號
-                                        <i class="fa fa-fw fa-sort"></i>
-                                    </th>
-                                    <th class="sort-item" v-on:click="OnTableSorting('saf20a03_ord_no',$event)">訂單編號
-                                        <i class="fa fa-fw fa-sort"></i>
-                                    </th>
                                     <th class="sort-item" v-on:click="OnTableSorting('saf2014_rec_name',$event)">收件人
                                         <i class="fa fa-fw fa-sort"></i>
                                     </th>
@@ -172,42 +151,72 @@
                                     <th class="sort-item" v-on:click="OnTableSorting('saf20110_printmark',$event)">印
                                         <i class="fa fa-fw fa-sort"></i>
                                     </th>
+                                    <th>發票號碼
+                                        
+                                    </th>
+                                    <th >發票日期
+                                        
+                                    </th>
+
+
+                                    <th>商品編號
+                                      
+                                    </th>
+                                    <th>商品名稱
+                                        
+                                    </th>
+                                    <th >規格
+                                       
+                                    </th>
+                                    <th >顏色
+                                       
+                                    </th>
+
+                                    <th >訂單編號
+                                      
+                                    </th>
+
                                 </tr>
 
                             </thead>
                             <tbody>
-                                <tr v-for="Order in OrderList">
-                                    <td>
-                                        <input type="checkbox" v-model="Order.checked">
-                                    </td>
-                                    <td>{{Order.saf2001_cuscode}}</td>
-                                    <td>{{Order.saf2038a_inv_no}}</td>
-                                    <td>{{Order.saf2039a_inv_date}}</td>
-                                    <td>{{Order. saf20103_sales_amt}}</td>
-                                    <td>{{Order.saf20105_tax}}</td>
-                                    <td>{{Order.af20106_total_amt}}</td>
-                                    <td>{{Order.saf2046_mana_fee}}</td>
-                                    <td>{{Order.saf20107_tax_id}}</td>
-                                    <td>{{Order.saf20a37_pcode}}</td>
-                                    <td>{{Order.saf20a31_psname}}</td>
-                                    <td>{{Order.saf20a32_pname}}</td>
-                                    <td>{{Order.saf20a34_ship_pname}}</td>
-                                    <td>{{Order. saf2002_serial}}</td>
-                                    <td>{{Order.saf20a03_ord_no}}</td>
-                                    <td>{{Order.saf2014_rec_name}}</td>
-                                    <td>{{Order.saf2015_rec_cell}}</td>
-                                    <td>{{Order.saf20110_printmark}}</td>
+                                <template v-for="Order in OrderList">
+                                    <tr>
+                                        <td v-bind:rowspan="Order.OrderbodyDataList.length">
+                                            <input type="checkbox" v-model="Order.checked">
+                                        </td>
+                                        <td v-bind:rowspan="Order.OrderbodyDataList.length">{{Order.saf2001_cuscode}}</td>
+                                        <td v-bind:rowspan="Order.OrderbodyDataList.length">{{Order.saf2002_serial}}</td>
+                                        <td v-bind:rowspan="Order.OrderbodyDataList.length">{{Order. saf20103_sales_amt}}</td>
+                                        <td v-bind:rowspan="Order.OrderbodyDataList.length">{{Order.saf20105_tax}}</td>
+                                        <td v-bind:rowspan="Order.OrderbodyDataList.length">{{Order.af20106_total_amt}}</td>
+                                        <td v-bind:rowspan="Order.OrderbodyDataList.length">{{Order.saf2046_mana_fee}}</td>
+                                        <td v-bind:rowspan="Order.OrderbodyDataList.length">{{Order.saf20107_tax_id}}</td>
+                                        <td v-bind:rowspan="Order.OrderbodyDataList.length">{{Order.saf2014_rec_name}}</td>
+                                        <td v-bind:rowspan="Order.OrderbodyDataList.length">{{Order.saf2015_rec_cell}}</td>
+                                        <td v-bind:rowspan="Order.OrderbodyDataList.length">{{Order.saf20110_printmark}}</td>
+                                    </tr>
+                                    <tr v-for="Orderbody in Order.OrderbodyDataList">
+                                        <td>{{Orderbody.saf20a38_inv_no}}</td>
+                                        <td>{{Orderbody.saf20a39_inv_date}}</td>
+                                        <td>{{Orderbody.saf20a37_pcode}}</td>
+                                        <td>{{Orderbody.saf20a31_psname}}</td>
+                                        <td>{{Orderbody.saf20a32_pname}}</td>
+                                        <td>{{Orderbody.saf20a34_ship_pname}}</td>
+                                        <td>{{Orderbody.saf20a03_ord_no}}</td>
 
-                                </tr>
+                                    </tr>
+                                </template>
+
                             </tbody>
 
                         </table>
                     </div>
                     <div>
-                        <button type="button" class="btn btn-default">
+                        <button type="button" class="btn btn-default" v-on:click="OnCheckAll(true)" >
                             全選
                         </button>
-                        <button type="button" class="btn btn-default">
+                        <button type="button" class="btn btn-default" v-on:click="OnCheckAll(false)">
                             全不選
                         </button>
 
