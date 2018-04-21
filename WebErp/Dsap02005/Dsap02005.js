@@ -128,6 +128,7 @@
                     }
                     if (OrderList.length == 0) {
                         alert("至少選一項\n")
+                        return;
                     }
                     LoadingHelper.showLoading();
                     return $.ajax({

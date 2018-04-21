@@ -33,7 +33,7 @@ namespace LogHelper
 	                    ,[moduser]
 	                    ,[moddate])
                     VALUES
-	                    ((SELECT top 1 cnf0701_bcode  FROM [dbo].[cnf07] where cnf0751_tax_headoffice='0')
+	                    (ISNULL((SELECT top 1 cnf0701_bcode  FROM [dbo].[cnf07] where cnf0751_tax_headoffice='0'),'Not Found bcode')
 	                    ,GETDATE()
 	                    ,@user
 	                    ,@programno
