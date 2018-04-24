@@ -602,6 +602,17 @@
                 WherehouseSelectLabel: function (wherehouse) {
                     return wherehouse.cnf1002_fileorder + "-" + wherehouse.cnf1003_char01;
                 },
+                SetBCodeList: function(bcodeList) {
+                    this.BcodeList = bcodeList;
+                    //預設公司代號
+                    var defaultBCodeInfo = this.BcodeList.filter(function (item, index, array) {
+                        return item.cnf0751_tax_headoffice == "0";
+                    }).shift();
+                    if (defaultBCodeInfo) {
+                        this.Filter.BcodeStart = defaultBCodeInfo;
+                        this.Filter.BcodeEnd = defaultBCodeInfo;
+                    }
+                },
             },
             directives: {
 

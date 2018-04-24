@@ -487,7 +487,6 @@
                             (vueObj.Inf29aItem.inf29a10_ocost_one * vueObj.Inf29Item.inf2929_exchange_rate).toFixed(2);
                         vueObj.Inf29aItem.inf29a09_retail_one =
                             (vueObj.Inf29aItem.inf29a09_oretail_one * vueObj.Inf29Item.inf2929_exchange_rate).toFixed(2);
-
                     }
                 },
                 OnExit: function () {
@@ -898,6 +897,9 @@
                         LoadingHelper.hideLoading();
                         vueObj.Inf29Copy = JSON.stringify(vueObj.Inf29Item) + JSON.stringify(vueObj.Inf29aList);
                     });
+                },
+                SetBCodeList: function (bcodeList) {
+                    this.BcodeList = bcodeList;
                 },
                 Reset: function () {
                     var asyncTasks = [];

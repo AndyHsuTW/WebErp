@@ -179,7 +179,7 @@
 
     <div id="Dinp02301Search" v-if="Display" v-cloak>
         <ul class="app-title">
-            <li>{{"庫存異動資料查詢 <%=this.AppVersion %>"}}
+            <li>{{"Dinp02301 庫存異動資料查詢 <%=this.AppVersion %>"}}
             </li>
         </ul>
         <div class="app-body">
@@ -715,7 +715,7 @@
 
     <div id="Dinp02301Edit" v-if="Display" v-cloak>
         <ul class="app-title">
-            <li>{{"庫存異動資料維護 <%=this.AppVersion %>"}}
+            <li>{{"Dinp02301 庫存異動資料維護 <%=this.AppVersion %>"}}
             </li>
         </ul>
         <div class="app-body" v-show="IsAppBodyDisplay">
@@ -1202,8 +1202,8 @@
             var requiredFiles = ["dinp02301Search", "dinp02301Edit"];
 
             function onLoaded(dinp02301Search, dinp02301Edit) {
-                window.dinp02301Search.BcodeList = BcodeList;
-                window.dinp02301Edit.BcodeList = BcodeList;
+                window.dinp02301Search.SetBCodeList(BcodeList);
+                window.dinp02301Edit.SetBCodeList(BcodeList);
                 window.dinp02301Search.WherehouseList = WherehouseList;
                 window.dinp02301Edit.WherehouseList = WherehouseList;
                 window.dinp02301Edit.InReasonList = InReasonList;
