@@ -1633,11 +1633,12 @@ end
                     else if (k == 7)
                     {
                         saf25.saf2532_pname = column;
+                        saf25.saf2534_ship_pname = column;
                     }
                     //I
                     else if (k == 8)
                     {
-                        //saf25.saf2522_dis_demand = column;
+                        saf25.saf2536_pcode_v = column;
                     }
                     //J
                     else if (k == 9)
