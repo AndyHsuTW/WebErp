@@ -140,7 +140,7 @@
 
             <div class="filter-div">
                 <table>
-                    
+
 
                     <tr>
                         <td style="padding: 3px">步驟1：選擇訂單日期
@@ -225,50 +225,53 @@
                                     <tr class="bg-primary text-light">
                                         <th v-on:click="sortBy(one7P,'saf2502_seq',$event)">檔號</th>
                                         <th v-on:click="sortBy(one7P,'saf2503_ord_no',$event)">訂單標號</th>
-                                        <th v-on:click="sortBy(one7P,'saf2506_ord_status',$event)">購買日期</th>
-                                        <th v-on:click="sortBy(one7P,'saf2505_ord_remark',$event)">收件人</th>
-                                        <th v-on:click="sortBy(one7P,'saf2520_dis_date',$event)">收件人電</th>
-                                        <th v-on:click="sortBy(one7P,'saf2529_logis_no',$event)">配送地址</th>
-                                        <th v-on:click="sortBy(one7P,'saf2528_fre_no',$event)">方案名稱</th>
-                                        <th v-on:click="sortBy(one7P,'saf2507_ord_class',$event)">應出貨品項規格</th>
-                                        <th v-on:click="sortBy(one7P,'saf2522_dis_demand',$event)">數量．應出貨數</th>
-                                        <th v-on:click="sortBy(one7P,'saf2504_ord_date',$event)">售價</th>
-                                        <th v-on:click="sortBy(one7P,'saf2523_ship_date',$event)">進貨價</th>
-                                        <th v-on:click="sortBy(one7P,'saf2514_rec_name',$event)">運費</th>
-                                        <th v-on:click="sortBy(one7P,'saf2516_rec_tel01',$event)">訂單備註</th>
-                                        <th v-on:click="sortBy(one7P,'saf2515_rec_cell',$event)">訂單狀態</th>
-                                        <th v-on:click="sortBy(one7P,'saf2519_rec_address',$event)">出貨日期</th>
-                                        <th v-on:click="sortBy(one7P,'saf2536_pcode_v',$event)">物流代號</th>
-                                        <th v-on:click="sortBy(one7P,'saf2533_pspec',$event)">物流公司名稱</th>
-                                        <th v-on:click="sortBy(one7P,'saf2531_psname',$event)">貨運單號</th>
-                                        <th v-on:click="sortBy(one7P,'saf2537_pcode',$event)">出貨備註</th>
-                                        <th v-on:click="sortBy(one7P,'saf2532_pname',$event)">出貨條件</th>
-                                    
+                                        <th v-on:click="sortBy(one7P,'saf2504_ord_date',$event)">購買日期</th>
+                                        <th v-on:click="sortBy(one7P,'saf2513_rec_name',$event)">收件人</th>
+                                        <th v-on:click="sortBy(one7P,'saf2515_rec_cell',$event)">收件人電話</th>
+                                        <th v-on:click="sortBy(one7P,'saf2519_rec_address',$event)">配送地址</th>
+                                        <th v-on:click="sortBy(one7P,'saf2531_psname',$event)">方案名稱</th>
+                                        <th v-on:click="sortBy(one7P,'saf2532_pname',$event)">應出貨品項規格</th>
+                                        <th v-on:click="sortBy(one7P,'saf2536_pcode_v',$event)">貨號</th>
+                                        <th v-on:click="sortBy(one7P,'saf2541_ord_qty',$event)">數量．應出貨數</th>
+                                        <th v-on:click="sortBy(one7P,'saf2547_price',$event)">售價</th>
+                                        <th v-on:click="sortBy(one7P,'saf2544_cost',$event)">進貨價</th>
+                                        <th v-on:click="sortBy(one7P,'saf2546_mana_fee',$event)">運費</th>
+                                        <th v-on:click="sortBy(one7P,'saf2505_ord_remark',$event)">訂單備註</th>
+                                        <th v-on:click="sortBy(one7P,'saf2506_ord_status',$event)">訂單狀態</th>
+                                        <th v-on:click="sortBy(one7P,'saf2552_return',$event)">退貨管理</th>
+                                        <th v-on:click="sortBy(one7P,'saf2523_ship_date',$event)">出貨日期</th>
+                                        <th v-on:click="sortBy(one7P,'saf2529_logis_no',$event)">物流代號</th>
+                                        <th v-on:click="sortBy(one7P,'saf2530_logis_comp',$event)">物流公司名稱</th>
+                                        <th v-on:click="sortBy(one7P,'saf2528_fre_no',$event)">貨運單號</th>
+                                        <th v-on:click="sortBy(one7P,'saf2524_ship_remark',$event)">出貨備註</th>
+                                        <th v-on:click="sortBy(one7P,'saf2525_ship_condi',$event)">出貨條件</th>
+
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr v-for="saf25 in one7P.saf25FileInfo.saf25List">
-                                        <td>{{saf25.saf2502_seq}}</td>
-                                        <td>{{saf25.saf2503_ord_no}}</td>
-                                        <td>{{saf25.saf2504_ord_date}}</td>
-                                        <td>{{saf25.saf2514_rec_name}}</td>
-                                        <td>{{saf25.saf2515_rec_cell}}</td>
-                                        <td>{{saf25.saf2519_rec_address}}</td>
-                                        <td>{{saf25.saf2531_psname}}</td>
-                                        <td>{{saf25.saf2532_pname}}</td>
-                                        <td>{{saf25.saf2541_ord_qty}}</td>
-                                        <td>{{saf25.saf2547_price}}</td>
-                                        <td>{{saf25.saf2544_cost}}</td>
-                                        <td>{{saf25.saf2546_mana_fee}}</td>
-                                        <td>{{saf25.saf2505_ord_remark}}</td>
-                                        <td>{{saf25.saf2506_ord_status}}</td>
-                                        <td>{{saf25.saf2552_return}}</td>
-                                        <td>{{saf25.saf2523_ship_date}}</td>
-                                        <td>{{saf25.saf2529_logis_no}}</td>
-                                        <td>{{saf25.saf2530_logis_comp}}</td>
-                                        <td>{{saf25.saf2528_fre_no}}</td>
-                                        <td>{{saf25.saf2524_ship_remark}}</td>
-                                        <td>{{saf25.saf2525_ship_condi}}</td>
+                                        <%--檔號--%><td>{{saf25.saf2502_seq}}</td>
+                                        <%--訂單標號--%><td>{{saf25.saf2503_ord_no}}</td>
+                                        <%--購買日期--%><td>{{saf25.saf2504_ord_date}}</td>
+                                        <%--收件人--%><td>{{saf25.saf2513_rec_name}}</td>
+                                        <%--收件人電話--%><td>{{saf25.saf2515_rec_cell}}</td>
+                                        <%--配送地址--%><td>{{saf25.saf2519_rec_address}}</td>
+                                        <%--方案名稱--%><td>{{saf25.saf2531_psname}}</td>
+                                        <%-- 應出貨品項規格 --%><td>{{saf25.saf2532_pname}}</td>
+                                        <%--貨號--%><td>{{saf25.saf2536_pcode_v}}</td>
+                                        <%--數量．應出貨數--%><td>{{saf25.saf2541_ord_qty}}</td>
+                                        <%--  售價--%><td>{{saf25.saf2547_price}}</td>
+                                        <%--  進貨價--%><td>{{saf25.saf2544_cost}}</td>
+                                        <%--  運費--%><td>{{saf25.saf2546_mana_fee}}</td>
+                                        <%--  訂單備註--%><td>{{saf25.saf2505_ord_remark}}</td>
+                                        <%--  訂單狀態--%><td>{{saf25.saf2506_ord_status}}</td>
+                                        <%-- 退貨管理 --%><td>{{saf25.saf2552_return}}</td>
+                                        <%--  出貨日期--%><td>{{saf25.saf2523_ship_date}}</td>
+                                        <%--  物流代號--%><td>{{saf25.saf2529_logis_no}}</td>
+                                        <%--  物流公司名稱--%><td>{{saf25.saf2530_logis_comp}}</td>
+                                        <%--  貨運單號---%><td>{{saf25.saf2528_fre_no}}</td>
+                                        <%--  出貨備註--%><td>{{saf25.saf2524_ship_remark}}</td>
+                                        <%--出貨條件  --%><td>{{saf25.saf2525_ship_condi}}</td>
                                     </tr>
                                 </tbody>
                             </table>
