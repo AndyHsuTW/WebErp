@@ -140,7 +140,7 @@
 
             <div class="filter-div">
                 <table>
-
+                    
 
                     <tr>
                         <td style="padding: 3px">步驟1：選擇訂單日期
@@ -164,6 +164,9 @@
                         </td>
                         <td style="padding: 3px">
                             <function-button hot-key="f9" v-on:click.native="ImportAll()" style="background-color: rgba(171, 255, 169, 0.51);">檔案匯入資料庫</function-button>
+                        </td>
+                        <td style="padding: 3px">
+                            <function-button hot-key="f12" v-on:click.native="OnExit()">離開</function-button>
                         </td>
                     </tr>
                 </table>

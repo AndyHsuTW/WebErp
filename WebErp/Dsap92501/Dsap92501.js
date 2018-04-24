@@ -191,13 +191,20 @@
                 ImportDBLoadding:false
             },
             methods: {
+                OnExit: function() {
+
+                    window.close();
+                    setTimeout(function () {
+                        window.location.href = "about:blank";
+                    }, 500);
+                },
                 sortBy: function (Object, column, $event) {
                     
                     $($event.target).parents("tr:first").find("th").each(function () {
                         $(this).attr("class", "")
 
                     })
-                    $($event.target).attr("class", "orderby")
+                    $($event.target).attr("class", "orderby");
                    
                     if (Object.SortColumn == column) {
                         if (Object.SortOrder == "asc") {
