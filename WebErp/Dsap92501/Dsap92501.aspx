@@ -241,7 +241,7 @@
                                         <th v-on:click="sortBy(one7P,'saf2536_pcode_v',$event)">物流代號</th>
                                         <th v-on:click="sortBy(one7P,'saf2533_pspec',$event)">物流公司名稱</th>
                                         <th v-on:click="sortBy(one7P,'saf2531_psname',$event)">貨運單號</th>
-                                        <th v-on:click="sortBy(one7P,'saf2537_pcode',$event)">出貨條件
+                                        <th v-on:click="sortBy(one7P,'saf2537_pcode',$event)">出貨備註</th>
                                         <th v-on:click="sortBy(one7P,'saf2532_pname',$event)">出貨條件</th>
                                     
                                     </tr>
