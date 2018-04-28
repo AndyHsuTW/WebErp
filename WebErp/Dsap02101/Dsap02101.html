@@ -1,0 +1,280 @@
+﻿<div id="Dinp02001Search" v-if="Display" v-cloak>
+    <ul class="app-title">
+        <li>
+            客戶訂單資料維護{{AppVersion}}
+        </li>
+    </ul>
+    <div class="app-body">
+        <div class="common-button-div">
+            <function-button id="SearchBtn"
+                             hot-key="f1"
+                             v-on:click.native="OnSearch()">
+                查詢
+            </function-button>
+            <function-button id="AddBtn"
+                             hot-key="f2"
+                             v-on:click.native="OnAdd()">
+                新增
+            </function-button>
+            <function-button id="DeleteBtn"
+                             hot-key="f3"
+                             v-on:click.native="OnDelete()">
+                刪除
+            </function-button>
+            <function-button id="CopyBtn"
+                             hot-key="f4"
+                             v-on:click.native="OnCopy()">
+                複製
+            </function-button>
+            <function-button id="PrintBtn"
+                             hot-key="f6"
+                             v-on:click.native="OnPrint()">
+                印表
+            </function-button>
+            <function-button id="ExportBtn" data-toggle="modal" href='#ExportDialog'
+                             hot-key="f7"
+                             v-on:click.native="OnExport()">
+                匯出
+            </function-button>
+            <function-button id="ImportBtn" data-toggle="modal" href='#ImportExcelDialog'
+                             hot-key="f8"
+                             v-on:click.native="OnImport()">
+                匯入Excel
+            </function-button>
+            <function-button id="HelpBtn" data-toggle="modal" href='#HelpDialog'
+                             hot-key="f11">
+                求助
+            </function-button>
+            <function-button id="Function-button1"
+                             hot-key="f12"
+                             v-on:click.native="OnExit()">
+                離開
+            </function-button>
+        </div>
+        <div class="filter-div">
+            <table class="">
+                <tr>
+                    <td>
+                        訂單日期
+                        <span>起~</span>
+                    </td>
+                    <td>
+                        <input type="date" />
+                        <!--<vue-datetimepicker placeholder="" v-model="Filter.OrderDate_Start" v-bind:value="Filter.OrderDate_Start"></vue-datetimepicker> -->
+                        迄~
+                        <input type="date" />
+                        <!--<vue-datetimepicker placeholder="" v-model="Filter.OrderDate_End" v-bind:value="Filter.OrderDate_End"></vue-datetimepicker> -->
+                    </td>
+                    <td>
+                        商品編號
+                        <span>起~</span>
+                    </td>
+                    <td>
+                        <input type="text" v-model="Filter.Pcode_Start" />
+                        迄~
+                        <input type="text" v-model="Filter.Pcode_End" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        產品貨號
+                        <span>起~</span>
+                    </td>
+                    <td>
+                        <input type="text" v-model="Filter.Pclass_Start" />
+                        迄~
+                        <input type="text" v-model="Filter.Pclass_End" />
+                    </td>
+                    <td>
+                        客戶代號
+                        <span>起~</span>
+                    </td>
+                    <td>
+                        <input type="text" v-model="Filter.Mcode_Start" />
+                        迄~
+                        <input type="text" v-model="Filter.Mcode_End" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        新增日期
+                        <span>起~</span>
+                    </td>
+                    <td>
+                        <vue-datetimepicker placeholder="" v-model="Filter.AddDate_Start" v-bind:value="Filter.AddDate_Start"></vue-datetimepicker>
+                        迄~
+                        <vue-datetimepicker placeholder="" v-model="Filter.AddDate_End" v-bind:value="Filter.AddDate_End"></vue-datetimepicker>
+                    </td>
+                    <td>
+                        訂單單號
+                        <span>起~</span>
+                    </td>
+                    <td>
+                        <span class="ref-inputs">
+                            <input type="text" v-model="Filter.Docno_Type_Start" />
+                            <input type="text" v-model="Filter.Docno_Date_Start" />
+                            <input type="text" v-model="Filter.Docno_seq_Start" />
+                        </span>
+
+                        迄~
+                        <span class="ref-inputs">
+                            <input type="text" v-model="Filter.Docno_Type_End" />
+                            <input type="text" v-model="Filter.Docno_Date_End" />
+                            <input type="text" v-model="Filter.Docno_seq_End" />
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        公司代號
+                        <span>起~</span>
+                    </td>
+                    <td>
+                        <input type="text" v-model="Filter.Bcode_Start" />
+                        迄~
+                        <input type="text" v-model="Filter.Bcode_End" />
+                    </td>
+                    <td>
+                        關鍵字
+
+                    </td>
+                    <td>
+                        <input type="text" v-model="Filter.KeyWord" />
+
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        數量(等)大於<input type="text" v-model="Filter.Qty" />才顯示
+                    </td>
+
+                    <td></td>
+                    <td></td>
+                </tr>
+
+            </table>
+
+        </div>
+        <div class="main-result-div" style="height: 270px">
+            <div class="">
+                <table class="table table-bordered sortable">
+                    <thead>
+                        <tr class="bg-primary text-light">
+                            <th class="sort-item">
+                                序號
+                                <i class="fa fa-fw fa-sort"></i>
+                            </th>
+                            <th class="sort-item">
+                                訂單編號
+                                <i class="fa fa-fw fa-sort"></i>
+                            </th>
+                            <th class="sort-item">
+                                訂單日期
+                                <i class="fa fa-fw fa-sort"></i>
+                            </th>
+                            <th class="sort-item">
+                                金額總計
+                                <i class="fa fa-fw fa-sort"></i>
+                            </th>
+                            <th class="sort-item">
+                                客戶編號
+                                <i class="fa fa-fw fa-sort"></i>
+                            </th>
+                            <th class="sort-item">
+                                客戶名稱
+                                <i class="fa fa-fw fa-sort"></i>
+                            </th>
+                            <th class="sort-item">
+                                聯絡人
+                                <i class="fa fa-fw fa-sort"></i>
+                            </th>
+                            <th class="sort-item">
+                                連絡電話
+                                <i class="fa fa-fw fa-sort"></i>
+                            </th>
+                            <th class="sort-item">
+                                備註
+                                <i class="fa fa-fw fa-sort"></i>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+        </div>
+        <div class="sub-result-div" style="height: 200px">
+            <div class="">
+                <table class="table table-bordered sortable">
+                    <thead>
+                        <tr class="bg-primary text-light">
+                            <th class="sort-item">
+                                序號
+                                <i class="fa fa-fw fa-sort"></i>
+                            </th>
+                            <th class="sort-item">
+                                商品編號
+                                <i class="fa fa-fw fa-sort"></i>
+                            </th>
+                            <th class="sort-item">
+                                貨號
+                                <i class="fa fa-fw fa-sort"></i>
+                            </th>
+                            <th class="sort-item">
+                                商品名稱
+                                <i class="fa fa-fw fa-sort"></i>
+                            </th>
+                            <th class="sort-item">
+                                單位
+                                <i class="fa fa-fw fa-sort"></i>
+                            </th>
+                            <th class="sort-item">
+                                訂單數量
+                                <i class="fa fa-fw fa-sort"></i>
+                            </th>
+                            <th class="sort-item">
+                                贈品數量
+                                <i class="fa fa-fw fa-sort"></i>
+                            </th>
+                            <th class="sort-item">
+                                大單位數量
+                                <i class="fa fa-fw fa-sort"></i>
+                            </th>
+                            <th class="sort-item">
+                                大單位換算值
+                                <i class="fa fa-fw fa-sort"></i>
+                            </th>
+                            <th class="sort-item">
+                                小單位數量
+                                <i class="fa fa-fw fa-sort"></i>
+                            </th>
+                            <th class="sort-item">
+                                未稅單價
+                                <i class="fa fa-fw fa-sort"></i>
+                            </th>
+                            <th class="sort-item">
+                                營業稅
+                                <i class="fa fa-fw fa-sort"></i>
+                            </th>
+                            <th class="sort-item">
+                                含稅單價
+                                <i class="fa fa-fw fa-sort"></i>
+                            </th>
+                            <th class="sort-item">
+                                金額小計
+                                <i class="fa fa-fw fa-sort"></i>
+                            </th>
+                            <th class="sort-item">
+                                備註
+                                <i class="fa fa-fw fa-sort"></i>
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
