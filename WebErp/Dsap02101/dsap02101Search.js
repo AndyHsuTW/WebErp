@@ -35,20 +35,20 @@
         "vue-multiselect"
     ];
 
-    function onLoaded(bootstrap, 
-        functionButton, 
-        vueDatetimepicker, 
-        loadingHelper, 
+    function onLoaded(bootstrap,
+        functionButton,
+        vueDatetimepicker,
+        loadingHelper,
         jqMousewheel,
-        userLog, 
-        printJs, 
+        userLog,
+        printJs,
         vueMultiselect) {
         if (vueMultiselect == null) {
             console.error("vueMultiselect fallback");
             vueMultiselect = window.VueMultiselect;
         }
-        window.dinp02301Search = new Vue({
-            el: "#Dinp02301Search",
+        window.dsap02101Search = new Vue({
+            el: "#Dsap02101Search",
             data: {
                 Display: true,
                 Filter: {
@@ -75,25 +75,31 @@
                     DocnoOrderNoStart: null,
                     DocnoOrderNoEnd: null,
                     Keyword: null,
-                    GreaterOrEqual:null
+                    GreaterOrEqual: null,
                 },
                 BcodeList: [], //公司代號下拉選單資料
                 WherehouseList: [], //倉庫代號下拉選單資料
-                Saf21List: [], // source data from server
-                Saf21aList: [], // source data from server
+                Saf21List: [],
+                Saf21aList: [],
+                Inf29List: [], // source data from server
+                Inf29aList: [], // source data from server
                 Export: {
                     Saf21List: [],
                     Saf21aList: [],
                     SelectedSaf21List: [],
-                    SelectedSaf21aList: []
+                    SelectedSaf21aList: [],
+                    Inf29List: [],
+                    Inf29aList: [],
+                    SelectedInf29List: [],
+                    SelectedInf29aList: []
                 },
-                SelectedSaf21Item: null,
-                SelectedSaf21aItem: null,
+                SelectedInf29Item: null,
+                SelectedInf29aItem: null,
                 UiDateFormat: "Y/m/d",
-                Saf21SortColumn:null,
-                Saf21SortOrder:null,
-                Saf21aSortColumn:null,
-                Saf21aSortOrder:null,
+                Inf29SortColumn: null,
+                Inf29SortOrder: null,
+                Inf29aSortColumn: null,
+                Inf29aSortOrder: null,
             },
             components: {
                 Multiselect: vueMultiselect.default
@@ -104,34 +110,34 @@
             methods: {
                 OnSearch: function () {
                     console.log("OnSearch");
-                    this.SelectedSaf21Item = null;
-                    this.SelectedSaf21aItem = null;
-                    this.Saf21aList = [];
+                    this.SelectedInf29Item = null;
+                    this.SelectedInf29aItem = null;
+                    this.Inf29aList = [];
 
                     var filterOption = {
                         keyword: this.Filter.Keyword,
-                        inf2904_pro_date_start:this.Filter.ProDateStart,
-                        inf2904_pro_date_end:this.Filter.ProDateEnd,
-                        inf29a05_pcode_start:this.Filter.PcodeStart,
-                        inf29a05_pcode_end:this.Filter.PcodeEnd,
-                        inf29a05_shoes_code_start:this.Filter.ShoesCodeStart,
-                        inf29a05_shoes_code_end:this.Filter.ShoesCodeEnd,
-                        inf2952_project_no_start:this.Filter.ProjectNoStart,
-                        inf2952_project_no_end:this.Filter.ProjectNoEnd,
-                        inf2906_wherehouse_start:(this.Filter.WherehouseStart||{}).cnf1002_fileorder,
-                        inf2906_wherehouse_end:(this.Filter.WherehouseEnd||{}).cnf1002_fileorder,
-                        inf2910_in_reason_start:this.Filter.InReasonStart,
-                        inf2910_in_reason_end:this.Filter.InReasonEnd,
-                        inf2903_customer_code_start:this.Filter.CustomerCodeStart,
-                        inf2903_customer_code_end:this.Filter.CustomerCodeEnd,
-                        inf2901_bcode_start:(this.Filter.BcodeStart||{}).cnf0701_bcode,
-                        inf2901_bcode_end:(this.Filter.BcodeEnd||{}).cnf0701_bcode,
-                        inf2906_ref_no_type_start:this.Filter.RefNoTypeStart,
-                        inf2906_ref_no_type_end:this.Filter.RefNoTypeEnd,
-                        inf2906_ref_no_date_start:this.Filter.RefNoDateStart,
-                        inf2906_ref_no_date_end:this.Filter.RefNoDateEnd,
-                        adddate_start:this.Filter.AddDateStart,
-                        adddate_end:this.Filter.AddDateEnd,
+                        inf2904_pro_date_start: this.Filter.ProDateStart,
+                        inf2904_pro_date_end: this.Filter.ProDateEnd,
+                        inf29a05_pcode_start: this.Filter.PcodeStart,
+                        inf29a05_pcode_end: this.Filter.PcodeEnd,
+                        inf29a05_shoes_code_start: this.Filter.ShoesCodeStart,
+                        inf29a05_shoes_code_end: this.Filter.ShoesCodeEnd,
+                        inf2952_project_no_start: this.Filter.ProjectNoStart,
+                        inf2952_project_no_end: this.Filter.ProjectNoEnd,
+                        inf2906_wherehouse_start: (this.Filter.WherehouseStart || {}).cnf1002_fileorder,
+                        inf2906_wherehouse_end: (this.Filter.WherehouseEnd || {}).cnf1002_fileorder,
+                        inf2910_in_reason_start: this.Filter.InReasonStart,
+                        inf2910_in_reason_end: this.Filter.InReasonEnd,
+                        inf2903_customer_code_start: this.Filter.CustomerCodeStart,
+                        inf2903_customer_code_end: this.Filter.CustomerCodeEnd,
+                        inf2901_bcode_start: (this.Filter.BcodeStart || {}).cnf0701_bcode,
+                        inf2901_bcode_end: (this.Filter.BcodeEnd || {}).cnf0701_bcode,
+                        inf2906_ref_no_type_start: this.Filter.RefNoTypeStart,
+                        inf2906_ref_no_type_end: this.Filter.RefNoTypeEnd,
+                        inf2906_ref_no_date_start: this.Filter.RefNoDateStart,
+                        inf2906_ref_no_date_end: this.Filter.RefNoDateEnd,
+                        adddate_start: this.Filter.AddDateStart,
+                        adddate_end: this.Filter.AddDateEnd,
                     };
                     LoadingHelper.showLoading();
                     var vueObj = this;
@@ -144,25 +150,25 @@
                             data: JSON.stringify(filterOption)
                         },
                         dataType: 'text',
-                        success: function (saf21ListJson) {
+                        success: function (inf29ListJson) {
                             LoadingHelper.hideLoading();
-                            var saf21List = JSON.parse(saf21ListJson);
-                            vueObj.Saf21List = saf21List;
+                            var inf29List = JSON.parse(inf29ListJson);
+                            vueObj.Inf29List = inf29List;
                             if (vueObj.SortColumn != null) {
                                 console.warn("todo sort");
                                 // inf29List.sort(vueObj.SortCnf05List);
                             }
-                            for (var i in saf21List) {
-                                saf21List[i].adddate = new Date(saf21List[i].adddate).dateFormat('Y/m/d');
-                                if (saf21List[i].moddate) {
-                                    saf21List[i].moddate = new Date(saf21List[i].moddate).dateFormat('Y/m/d');
+                            for (var i in inf29List) {
+                                inf29List[i].adddate = new Date(inf29List[i].adddate).dateFormat('Y/m/d');
+                                if (inf29List[i].moddate) {
+                                    inf29List[i].moddate = new Date(inf29List[i].moddate).dateFormat('Y/m/d');
                                 }
-                                if (saf21List[i].inf2904_pro_date) {
-                                    saf21List[i].inf2904_pro_date = new Date(saf21List[i].inf2904_pro_date).dateFormat('Ymd');
+                                if (inf29List[i].inf2904_pro_date) {
+                                    inf29List[i].inf2904_pro_date = new Date(inf29List[i].inf2904_pro_date).dateFormat('Ymd');
                                 }
 
                             }
-                            if (saf21List.length == 0) {
+                            if (inf29List.length == 0) {
                                 alert("查無資料");
                             }
                         },
@@ -178,7 +184,7 @@
 
                 },
                 OnMainRowClick: function (inf29Item) {
-                    if(this.SelectedInf29Item==inf29Item){
+                    if (this.SelectedInf29Item == inf29Item) {
                         this.SelectedInf29Item = null;
                         this.SelectedInf29aItem = null;
                         this.Inf29aList = [];
@@ -186,10 +192,10 @@
                         this.SelectedInf29Item = inf29Item;
                         this.GetInf29aList(inf29Item.inf2901_docno);
                     }
-                    
+
                 },
                 OnSubRowClick: function (inf29aItem) {
-                    if(this.SelectedInf29aItem==inf29aItem){
+                    if (this.SelectedInf29aItem == inf29aItem) {
                         this.SelectedInf29aItem = null;
                     } else {
                         this.SelectedInf29aItem = inf29aItem;
@@ -249,7 +255,7 @@
                                 var field = this.Export.Inf29aList[i];
                                 this.Export.SelectedInf29aList.push(field.cnf0502_field);
                             }
-                        } 
+                        }
                     } else {
                         this.Export.SelectedInf29List = [];
                         if (checkAllInf29) {
@@ -257,7 +263,7 @@
                                 var field = this.Export.Inf29List[i];
                                 this.Export.SelectedInf29List.push(field.cnf0502_field);
                             }
-                        } 
+                        }
                     }
                 },
                 OnExportSubmit: function () {
@@ -273,11 +279,11 @@
                         return $.when(null);
                     }
 
-                    var inf29fields = this.Export.Inf29List.filter(function(item, index, array){
-                        return vueObj.Export.SelectedInf29List.indexOf(item.cnf0502_field)>=0;
+                    var inf29fields = this.Export.Inf29List.filter(function (item, index, array) {
+                        return vueObj.Export.SelectedInf29List.indexOf(item.cnf0502_field) >= 0;
                     });
-                    var inf29afields = this.Export.Inf29aList.filter(function(item, index, array){
-                        return vueObj.Export.SelectedInf29aList.indexOf(item.cnf0502_field)>=0;
+                    var inf29afields = this.Export.Inf29aList.filter(function (item, index, array) {
+                        return vueObj.Export.SelectedInf29aList.indexOf(item.cnf0502_field) >= 0;
                     });
 
                     LoadingHelper.showLoading();
@@ -289,7 +295,7 @@
                             act: "export",
                             inf29fields: JSON.stringify(inf29fields),
                             inf29afields: JSON.stringify(inf29afields),
-                            data:JSON.stringify(inf29idList)
+                            data: JSON.stringify(inf29idList)
                         },
                         dataType: 'text',
                         success: function (result) {
@@ -316,7 +322,7 @@
                     var formData = new FormData();
                     // 取得UploadFile元件的檔案
                     var files = this.$refs.ImportExcelInput.files;
-                    if(files.length==0){
+                    if (files.length == 0) {
                         alert("請先選擇檔案");
                         return;
                     }
@@ -358,7 +364,7 @@
 
                 },
                 OnCopy: function () {
-                    if(this.SelectedInf29Item==null){
+                    if (this.SelectedInf29Item == null) {
                         return;
                     }
                     var vueObj = this;
@@ -366,18 +372,18 @@
                     window.dinp02301Edit.Display = true;
                     window.dinp02301Search.Display = false;
                     // send selected inf29 to dinpEdit object
-                    resetTask.done(function() {
+                    resetTask.done(function () {
                         window.dinp02301Edit.SetCopy(vueObj.SelectedInf29Item);
                     });
                     // get inf29alist from server, remove id...
 
                     var inf29Item = {
-                        id:null,//儲存成功後從伺服器返回
+                        id: null,//儲存成功後從伺服器返回
                         BCodeInfo: null, //公司代號相關資料
                         inf2902_docno_type: "XC", //單據分類編號. 組成異動單號
                         inf2902_docno_date: null, //異動單號_日期. 組成異動單號
                         inf2904_pro_date: null, //異動日期
-                        inf2902_docno_seq:null,//異動單號_流水號, 儲存成功後從伺服器返回
+                        inf2902_docno_seq: null,//異動單號_流水號, 儲存成功後從伺服器返回
                         SelectedWherehouse: null, //選中的倉庫代號
                         inf2952_project_no: null, //專案代號
                         ProjectFullname: null, //專案全名
@@ -400,7 +406,7 @@
                 OnPrint: function () {
                     var vueObj = this;
                     var bcodeInfo = null;
-                    if(this.Filter.BcodeStart==this.Filter.BcodeEnd){
+                    if (this.Filter.BcodeStart == this.Filter.BcodeEnd) {
                         bcodeInfo = this.Filter.BcodeStart;
                     }
                     var inf29idList = [];
@@ -408,7 +414,7 @@
                         var inf29Item = this.Inf29List[i];
                         inf29idList.push(inf29Item.id);
                     }
-                    if(inf29idList.length==0){
+                    if (inf29idList.length == 0) {
                         alert("無查詢資料");
                         return;
                     }
@@ -419,16 +425,18 @@
                         cache: false,
                         data: {
                             act: "print",
-                            data:JSON.stringify(inf29idList),
-                            printBcode:JSON.stringify(bcodeInfo),
+                            data: JSON.stringify(inf29idList),
+                            printBcode: JSON.stringify(bcodeInfo),
                         },
                         dataType: 'text',
                         success: function (result) {
                             if (result != "") {
-                                printJS({printable: rootUrl + "Dinp/Ajax/Inf29Print.ashx?session="+result,
+                                printJS({
+                                    printable: rootUrl + "Dinp/Ajax/Inf29Print.ashx?session=" + result,
                                     type: 'pdf',
-                                    onLoadingStart:null,
-                                    onLoadingEnd:LoadingHelper.hideLoading});
+                                    onLoadingStart: null,
+                                    onLoadingEnd: LoadingHelper.hideLoading
+                                });
                             } else {
                                 alert("匯出失敗");
                             }
@@ -446,25 +454,24 @@
                 OnExport: function () {
                     // reset dialog
                 },
-                OnImport:function(){
+                OnImport: function () {
                     // reset dialog
                     this.$refs.ImportExcelInput.value = null
                 },
-                OnExit:function(){
+                OnExit: function () {
                     //igonre if other exit event triggered
-                    if($(this.$refs.ExportDialog).hasClass('in')
+                    if ($(this.$refs.ExportDialog).hasClass('in')
                         || $(this.$refs.ImportExcelDialog).hasClass('in')
-                        || $(this.$refs.HelpDialog).hasClass('in') ){
+                        || $(this.$refs.HelpDialog).hasClass('in')) {
                         return;
                     }
                     window.close();
-                    setTimeout(function(){
-                        window.location.href="about:blank";
-                    },500);
+                    setTimeout(function () {
+                        window.location.href = "about:blank";
+                    }, 500);
                 },
                 AutoFillFilter: function (field, value, type) {
                     this.Filter[field] = value;
-                    console.log(field+"="+value);
                     if (type == "datetime") {
                         this.$refs["Filter" + field].setValue(value);
                     }
@@ -497,7 +504,7 @@
 
                     this.Inf29aList.sort(this.SortInf29aList);
                 },
-                SortInf29List:function(a, b){
+                SortInf29List: function (a, b) {
                     var paramA = a[this.Inf29SortColumn] || "";
                     var paramB = b[this.Inf29SortColumn] || "";
                     if (paramA < paramB) {
@@ -515,7 +522,7 @@
                     }
                     return 0;
                 },
-                SortInf29aList:function(a, b){
+                SortInf29aList: function (a, b) {
                     var paramA = a[this.Inf29aSortColumn] || "";
                     var paramB = b[this.Inf29aSortColumn] || "";
                     if (paramA < paramB) {
@@ -534,8 +541,8 @@
                     return 0;
                 },
                 GetWherehouseName: function (wherehouse) {
-                    var wherehouseInfo = this.WherehouseList.filter(function(item, index, array){
-                        return item.cnf1002_fileorder==wherehouse;
+                    var wherehouseInfo = this.WherehouseList.filter(function (item, index, array) {
+                        return item.cnf1002_fileorder == wherehouse;
                     }).shift();
                     return (wherehouseInfo || {}).cnf1003_char01;
                 },
@@ -602,7 +609,7 @@
                 WherehouseSelectLabel: function (wherehouse) {
                     return wherehouse.cnf1002_fileorder + "-" + wherehouse.cnf1003_char01;
                 },
-                SetBCodeList: function(bcodeList) {
+                SetBCodeList: function (bcodeList) {
                     this.BcodeList = bcodeList;
                     //預設公司代號
                     var defaultBCodeInfo = this.BcodeList.filter(function (item, index, array) {
@@ -618,7 +625,7 @@
 
             },
             mounted: function () {
-                SaveEnterPageLog(rootUrl, loginUserName, "Dinp02101");
+                SaveEnterPageLog(rootUrl, loginUserName, "Dinp02301");
                 this.GetExportFields();
             }
         });

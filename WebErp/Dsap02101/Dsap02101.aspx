@@ -177,9 +177,9 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <% string rootUrl = HostingEnvironment.ApplicationVirtualPath.Length > 1 ? HostingEnvironment.ApplicationVirtualPath + "/" : HostingEnvironment.ApplicationVirtualPath; %>
 
-    <div id="Dinp02301Search" v-if="Display" v-cloak>
+    <div id="Dsap02101Search" v-if="Display" v-cloak>
         <ul class="app-title">
-            <li>{{"Dinp02301 庫存異動資料查詢 <%=this.AppVersion %>"}}
+            <li>{{"Dsap02101 庫存異動資料查詢 <%=this.AppVersion %>"}}
             </li>
         </ul>
         <div class="app-body">
@@ -359,10 +359,10 @@
                     <table class="table table-bordered sortable">
                         <thead>
                             <tr class="bg-primary text-light">
-                                <th v-on:click="OnInf29TableSorting('Inf2902DocNoShort')">
+                                <th v-on:click="OnInf29TableSorting('Saf21DocNoShort')">
                                     異動單號
                                     <span class="sort-item glyphicon" 
-                                        v-bind:class="{'glyphicon-sort':Inf29SortColumn!='Inf2902DocNoShort', 
+                                        v-bind:class="{'glyphicon-sort':Inf29SortColumn!='Saf21DocNoShort', 
                                         'glyphicon-chevron-up': Inf29SortColumn=='Inf2902DocNoShort' && Inf29SortOrder=='asc',
                                         'glyphicon-chevron-down': Inf29SortColumn=='Inf2902DocNoShort' && Inf29SortOrder=='desc'}">
                                     </span>
@@ -1153,16 +1153,16 @@
 
             requirejs.config({
                 paths: {
-                    "dinp02301Search": "Dinp/dinp02301Search",
+                    "dsap02101Search": "Dsap02101/dsap02101Search",
                     "dinp02301Edit": "Dinp/dinp02301Edit",
                 },
                 shim: {}
             });
 
-            var requiredFiles = ["dinp02301Search", "dinp02301Edit"];
+            var requiredFiles = ["dsap02101Search", "dinp02301Edit"];
 
-            function onLoaded(dinp02301Search, dinp02301Edit) {
-                window.dinp02301Search.SetBCodeList(BcodeList);
+            function onLoaded(dsap02101Search, dinp02301Edit) {
+                window.dsap02101Search.SetBCodeList(BcodeList);
                 window.dinp02301Edit.SetBCodeList(BcodeList);
                 //window.dinp02301Search.WherehouseList = WherehouseList;
                 //window.dinp02301Edit.WherehouseList = WherehouseList;
