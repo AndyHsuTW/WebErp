@@ -5,7 +5,7 @@
     <script>
         (function () {
             requirejs.config({
-                urlArgs: "NoCach=" + (new Date()).getTime(),
+                //urlArgs: "NoCach=" + (new Date()).getTime(),
                 paths: {
                     "d_pcode": "D_pcode/D_pcode",
                     "d_pcode-css": "D_pcode/D_pcodeCss",
@@ -22,7 +22,7 @@
             function onLoaded(d_pcode) {
 
 
-                new Vue({
+                window.Dpcode = new Vue({
                     el: '#d_pcode',
                     data: {
                         Dpcode_pcode: ""

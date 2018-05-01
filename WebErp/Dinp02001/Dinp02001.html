@@ -5,48 +5,31 @@
     </ul>
     <div class="app-body">
         <div class="common-button-div">
-            <function-button id="SearchBtn"
-                hot-key="f1"
-                v-on:click.native="OnSearch()">
+            <function-button hot-key="f1" v-on:click.native="OnSearch()">
                 查詢
             </function-button>
-            <function-button id="AddBtn"
-                hot-key="f2"
-                v-on:click.native="OnAdd()">
+            <function-button hot-key="f2" v-on:click.native="OnAdd()">
                 新增
             </function-button>
-            <function-button id="DeleteBtn"
-                hot-key="f3"
-                v-on:click.native="OnDelete()">
+            <function-button hot-key="f3" v-on:click.native="OnDelete()">
                 刪除
             </function-button>
-            <function-button id="CopyBtn"
-                hot-key="f4"
-                v-on:click.native="OnCopy()">
+            <function-button hot-key="f4" v-on:click.native="OnCopy()">
                 複製
             </function-button>
-            <function-button id="PrintBtn"
-                hot-key="f6"
-                v-on:click.native="OnPrint()">
+            <function-button hot-key="f6" v-on:click.native="OnPrint()">
                 印表
             </function-button>
-            <function-button id="ExportBtn" data-toggle="modal" href='#ExportDialog'
-                hot-key="f7"
-                v-on:click.native="OnExport()">
+            <function-button data-toggle="modal" href='#ExportDialog' hot-key="f7" v-on:click.native="OnExport()">
                 匯出
             </function-button>
-            <function-button id="ImportBtn" data-toggle="modal" href='#ImportExcelDialog'
-                hot-key="f8"
-                v-on:click.native="OnImport()">
+            <function-button data-toggle="modal" href='#ImportExcelDialog' hot-key="f8" v-on:click.native="OnImport()">
                 匯入Excel
             </function-button>
-            <function-button id="HelpBtn" data-toggle="modal" href='#HelpDialog'
-                hot-key="f11">
+            <function-button data-toggle="modal" href='#HelpDialog' hot-key="f11">
                 求助
             </function-button>
-            <function-button id="Function-button1"
-                hot-key="f12"
-                v-on:click.native="OnExit()">
+            <function-button hot-key="f12" v-on:click.native="OnExit()">
                 離開
             </function-button>
         </div>
@@ -57,16 +40,15 @@
                         <span>起~</span>
                     </td>
                     <td>
-                        <vue-datetimepicker placeholder="" v-model="Filter.OrderDate_Start" v-bind:value="Filter.OrderDate_Start"></vue-datetimepicker>
+                        <vue-datetimepicker placeholder="" v-model="Filter.OrderDate_Start" v-bind:value="Filter.OrderDate_Start" class="medium-field"></vue-datetimepicker>
                         迄~
-                        <vue-datetimepicker placeholder="" v-model="Filter.OrderDate_End" v-bind:value="Filter.OrderDate_End"></vue-datetimepicker>
+                        <vue-datetimepicker placeholder="" v-model="Filter.OrderDate_End" v-bind:value="Filter.OrderDate_End" class="medium-field"></vue-datetimepicker>
                     </td>
                     <td>商品編號
                         <span>起~</span>
                     </td>
                     <td>
-                        <input type="text" v-model="Filter.Pcode_Start"/>
-                        迄~
+                        <input type="text" v-model="Filter.Pcode_Start" /> 迄~
                         <input type="text" v-model="Filter.Pcode_End" />
                     </td>
                 </tr>
@@ -75,16 +57,14 @@
                         <span>起~</span>
                     </td>
                     <td>
-                        <input type="text" v-model="Filter.Pclass_Start"/>
-                        迄~
-                        <input type="text" v-model="Filter.Pclass_End"/>
+                        <input type="text" v-model="Filter.Pclass_Start" /> 迄~
+                        <input type="text" v-model="Filter.Pclass_End" />
                     </td>
                     <td>廠商代號
                         <span>起~</span>
                     </td>
                     <td>
-                        <input type="text" v-model="Filter.Mcode_Start"/>
-                        迄~
+                        <input type="text" v-model="Filter.Mcode_Start" /> 迄~
                         <input type="text" v-model="Filter.Mcode_End" />
                     </td>
                 </tr>
@@ -93,25 +73,25 @@
                         <span>起~</span>
                     </td>
                     <td>
-                        <vue-datetimepicker placeholder=""  v-model="Filter.AddDate_Start" v-bind:value="Filter.AddDate_Start"></vue-datetimepicker>
+                        <vue-datetimepicker placeholder="" v-model="Filter.AddDate_Start" v-bind:value="Filter.AddDate_Start"></vue-datetimepicker>
                         迄~
-                        <vue-datetimepicker placeholder=""  v-model="Filter.AddDate_End" v-bind:value="Filter.AddDate_End"></vue-datetimepicker>
+                        <vue-datetimepicker placeholder="" v-model="Filter.AddDate_End" v-bind:value="Filter.AddDate_End"></vue-datetimepicker>
                     </td>
                     <td>採購單號
                         <span>起~</span>
                     </td>
                     <td>
                         <span class="ref-inputs">
-                            <input type="text" v-model="Filter.Docno_Type_Start"/>
-                            <input type="text" v-model="Filter.Docno_Date_Start"/>
-                            <input type="text" v-model="Filter.Docno_seq_Start"/>
+                            <input type="text" v-model="Filter.Docno_Type_Start" />
+                            <input type="text" v-model="Filter.Docno_Date_Start" />
+                            <input type="text" v-model="Filter.Docno_seq_Start" />
                         </span>
 
                         迄~
                         <span class="ref-inputs">
-                            <input type="text" v-model="Filter.Docno_Type_End"/>
-                            <input type="text" v-model="Filter.Docno_Date_End"/>
-                            <input type="text" v-model="Filter.Docno_seq_End"/>
+                            <input type="text" v-model="Filter.Docno_Type_End" />
+                            <input type="text" v-model="Filter.Docno_Date_End" />
+                            <input type="text" v-model="Filter.Docno_seq_End" />
                         </span>
                     </td>
                 </tr>
@@ -120,12 +100,23 @@
                         <span>起~</span>
                     </td>
                     <td>
-                        <input type="text" v-model="Filter.Bcode_Start"/>
+
+
+                        <multiselect class="medium-field" v-model="Filter.Bcode_Start" v-bind:options="BcodeList" v-bind:close-on-select="true" v-bind:placeholder="''"
+                            v-bind:show-labels="false" v-bind:custom-label="BcodeSelectLabel" track-by="cnf0701_bcode" label="cnf0703_bfname">
+                        </multiselect>
                         迄~
-                        <input type="text" v-model="Filter.Bcode_End"/>
+                        <multiselect class="medium-field" v-model="Filter.Bcode_End" v-bind:options="BcodeList" v-bind:close-on-select="true" v-bind:placeholder="''"
+                            v-bind:show-labels="false" v-bind:custom-label="BcodeSelectLabel" track-by="cnf0701_bcode" label="cnf0703_bfname">
+                        </multiselect>
+
+
+                        <!--  <input type="text" v-model="Filter.Bcode_Start"/>
+                        迄~
+                        <input type="text" v-model="Filter.Bcode_End"/>-->
                     </td>
-                    <td>關鍵字 
-                        
+                    <td>關鍵字
+
                     </td>
                     <td>
                         <input type="text" v-model="Filter.KeyWord" />
@@ -133,7 +124,8 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2">數量(等)大於<input type="text" v-model="Filter.Qty" />才顯示
+                    <td colspan="2">數量(等)大於
+                        <input type="text" v-model="Filter.Qty" />才顯示
                     </td>
 
                     <td></td>
@@ -149,32 +141,45 @@
                     <thead>
                         <tr class="bg-primary text-light">
                             <th class="sort-item">採購單號
-                            <i class="fa fa-fw fa-sort"></i>
+                                <i class="fa fa-fw fa-sort"></i>
                             </th>
                             <th class="sort-item">採購日期
-                            <i class="fa fa-fw fa-sort"></i>
+                                <i class="fa fa-fw fa-sort"></i>
                             </th>
                             <th class="sort-item">廠商編號
-                            <i class="fa fa-fw fa-sort"></i>
+                                <i class="fa fa-fw fa-sort"></i>
                             </th>
                             <th class="sort-item">廠商名稱
-                            <i class="fa fa-fw fa-sort"></i>
-                            </th>
-                            <th class="sort-item">廠商名稱
-                            <i class="fa fa-fw fa-sort"></i>
+                                <i class="fa fa-fw fa-sort"></i>
                             </th>
                             <th class="sort-item">聯絡人
-                            <i class="fa fa-fw fa-sort"></i>
+                                <i class="fa fa-fw fa-sort"></i>
                             </th>
                             <th class="sort-item">金額總計
-                            <i class="fa fa-fw fa-sort"></i>
+                                <i class="fa fa-fw fa-sort"></i>
                             </th>
                             <th class="sort-item">採購人員
-                            <i class="fa fa-fw fa-sort"></i>
+                                <i class="fa fa-fw fa-sort"></i>
                             </th>
                         </tr>
                     </thead>
                     <tbody>
+                        <tr v-for="Inf20Item in Inf20List" v-on:click="OnMainRowClick(Inf20Item)" v-bind:class="{'selected-row':Inf20Item==SelectedInf20Item}">
+                            <td>{{Inf20Item.inf2001_docno}}
+                            </td>
+                            <td>{{Inf20Item.inf2002_docno_date}}
+                            </td>
+                            <td>{{Inf20Item.inf2006_mcode}}
+                            </td>
+                            <td>{{Inf20Item.inf2006_bname}}
+                            </td>
+                            <td>{{Inf20Item.inf2044_bname}}
+                            </td>
+                            <td>{{Inf20Item.inf2039_one_amt}}
+                            </td>
+                            <td></td>
+                        </tr>
+
                     </tbody>
                 </table>
             </div>
@@ -188,16 +193,13 @@
                             <th class="sort-item">序號
                                 <i class="fa fa-fw fa-sort"></i>
                             </th>
-                            <th class="sort-item">商品編號 
+                            <th class="sort-item">商品編號
                                 <i class="fa fa-fw fa-sort"></i>
                             </th>
                             <th class="sort-item">貨號
                                 <i class="fa fa-fw fa-sort"></i>
                             </th>
                             <th class="sort-item">商品名稱
-                                <i class="fa fa-fw fa-sort"></i>
-                            </th>
-                            <th class="sort-item">單位
                                 <i class="fa fa-fw fa-sort"></i>
                             </th>
                             <th class="sort-item">單位
@@ -227,11 +229,425 @@
                             </th>
                         </tr>
                     </thead>
+                    <tbody>
+                        <tr v-for="(inf20aItem) in Inf20aList" v-on:click="OnSubRowClick(inf20aItem)" v-bind:class="{'selected-row':inf20aItem==SelectedInf20aItem}">
+                            <!--序號-->
+                            <td>{{inf20aItem.inf20a02_seq}}</td>
+                            <!--商品編號-->
+                            <td>{{inf20aItem.inf20a04_pcode}}</td>
+                            <!--貨號-->
+                            <td>{{inf20aItem.inf20a57_pclass}}</td>
+                            <!--商品名稱-->
+                            <td>{{inf20aItem.inf20a38_product_name}}</td>
+                            <!--單位-->
+                            <td>{{inf20aItem.inf20a16_punit}}</td>
+                            <!--採購數量-->
+                            <td>{{inf20aItem.inf20a06_qty}}</td>
+                            <!--贈送數量-->
+                            <td></td>
+                            <!--未稅單價-->
+                            <td></td>
+                            <!--營業稅-->
+                            <td></td>
+                            <!--含稅單價-->
+                            <td></td>
+                            <!--金額小計-->
+                            <td>{{inf20aItem.inf20a40_one_amt}}</td>
+                            <!--備註-->
+                            <td>{{inf20aItem.remark}}</td>
+                        </tr>
+                    </tbody>
                 </table>
+            </div>
+            <div class="modal fade" id="ExportDialog" ref="ExportDialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">選擇匯出欄位</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row scroll-div">
+                                <div class="col-xs-6">
+                                    <h4>Inf20</h4>
+                                    <button type="button" class="btn btn-default" v-on:click="OnExportAllFieldClick(true)">
+                                        全選
+                                    </button>
+                                    <button type="button" class="btn btn-default" v-on:click="OnExportAllFieldClick(false)">
+                                        全不選
+                                    </button>
+                                    <div class="checkbox" v-for="inf20Field in Export.Inf20List">
+                                        <label>
+                                            <input type="checkbox" v-bind:value="inf20Field.cnf0502_field" v-model="Export.SelectedInf20List"> {{inf20Field.cnf0503_fieldname_tw}}
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6">
+                                    <h4>Inf20a</h4>
+                                    <button type="button" class="btn btn-default" v-on:click="OnExportAllFieldClick(null,true)">
+                                        全選
+                                    </button>
+                                    <button type="button" class="btn btn-default" v-on:click="OnExportAllFieldClick(null,false)">
+                                        全不選
+                                    </button>
+                                    <div class="checkbox" v-for="inf20aField in Export.Inf20aList">
+                                        <label>
+                                            <input type="checkbox" v-bind:value="inf20aField.cnf0502_field" v-model="Export.SelectedInf20aList"> {{inf20aField.cnf0503_fieldname_tw}}
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <function-button data-dismiss="modal" hot-key="f12">
+                                離開
+                            </function-button>
+                            <button type="button" class="btn btn-primary" v-on:click="OnExportSubmit()">
+                                開始匯出</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="HelpDialog" ref="HelpDialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">求助</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div style="padding: 100px;">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <function-button data-dismiss="modal" hot-key="f12">
+                                離開
+                            </function-button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="ImportExcelDialog" ref="ImportExcelDialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title"></h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="ImportExcelInput">匯入Excel</label>
+                                <input type="file" id="ImportExcelInput" ref="ImportExcelInput" accept=".xls,.xlsx">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <function-button data-dismiss="modal" hot-key="f12">
+                                離開
+                            </function-button>
+                            <button type="button" class="btn btn-primary" v-on:click="OnImportSubmit()">
+                                開始匯入</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
 
+    </div>
+
+</div>
+
+
+
+
+<div id="Dinp02001Edit" v-cloak>
+    <d_pcode_component id="dpCodeWindow" v-show="IsDpCodeDisplay" v-bind:callback="OnDPCodeResult" v-bind:leavefunction="OnDPCodeResult"></d_pcode_component>
+    <div v-if="Display">
+
+        <ul class="app-title">
+            <li>採購單維護{{AppVersion}}
+            </li>
+        </ul>
+        <div class="app-body">
+            <div class="common-button-div">
+
+                <function-button hot-key="f2" v-on:click.native="OnAdd()">
+                    新增
+                </function-button>
+                <function-button hot-key="f3" v-on:click.native="OnDelete()">
+                    刪除
+                </function-button>
+                <function-button hot-key="f5" v-on:click.native="OnSave()">
+                    存檔
+                </function-button>
+                <function-button hot-key="f6" v-on:click.native="OnPrint()">
+                    印表
+                </function-button>
+                <function-button data-toggle="modal" href='#HelpDialog' hot-key="f11">
+                    求助
+                </function-button>
+                <function-button hot-key="f12" v-on:click.native="OnExit()">
+                    離開
+                </function-button>
+            </div>
+            <div class="editParam-div">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>公司代號
+                            </td>
+                            <td>
+                                <multiselect v-model="Inf20Item.BCodeInfo" v-bind:options="BcodeList" v-bind:close-on-select="true" v-bind:placeholder="''"
+                                    v-bind:show-labels="false" v-bind:custom-label="BcodeSelectLabel" track-by="cnf0701_bcode"
+                                    label="cnf0703_bfname"></multiselect>
+                            </td>
+                            <td>採購單號
+                            </td>
+                            <td>
+                                <input type="text" v-model="Inf20Item_Inf2001DocNo" disabled="disabled" />
+                            </td>
+                            <td>採購日期
+                            </td>
+                            <td>
+                                <vue-datetimepicker placeholder="" v-model="Inf20Item.inf2009_order_date"></vue-datetimepicker>
+
+                            </td>
+                            <td>採購人員
+                            </td>
+                            <td>
+
+                                <multiselect v-model="Inf20Item.EmpInfo" v-bind:options="EmpList" v-bind:close-on-select="true" v-bind:placeholder="''" v-bind:show-labels="false"
+                                    v-bind:custom-label="EmpSelectLabel" track-by="taf1001_empid" label="taf1004_cname"></multiselect>
+
+                            </td>
+                            <td colspan="4"></td>
+                        </tr>
+                        <tr>
+                            <td>廠商編號
+                            </td>
+                            <td>
+                                <multiselect 
+                                    v-model="Inf20Item.ManufacturerInfo" 
+                                    v-bind:options="ManufacturerList" 
+                                    v-bind:close-on-select="true" v-bind:placeholder="''" 
+                                    v-bind:show-labels="false" v-bind:custom-label="ManufacturerSelectLabel" 
+                                    v-on:input="getthisManufacturerEmpList()"
+                                    track-by="inf0302_mcode"
+                                    label="inf0302_bname"></multiselect>
+                            </td>
+
+                            <td>廠商聯絡人
+                            </td>
+                            <td>
+                               
+                                <multiselect
+                                    v-model="Inf20Item.ManufacturerEmpInfo"
+                                    v-bind:options="thisManufacturerEmpList"
+                                    v-bind:close-on-select="true" v-bind:placeholder="''"
+                                    v-bind:show-labels="false" v-bind:custom-label="ManufacturerEmpSelectLabel"
+                                    v-on:input="getthisManufacturerEmpTel()"
+                                    track-by="inf03a03_rec_id"
+                                    label="inf03a06_fname">
+                                </multiselect>
+
+                            </td>
+                            <td>連絡電話
+                            </td>
+                            <td>
+                                <input type="text" v-model="Inf20Item.inf03a18_tel01" disabled="disabled"/>
+                            </td>
+                            <td>手機
+                            </td>
+                            <td>
+                                <input type="text" v-model="Inf20Item.inf03a24_cellphone" disabled="disabled"/>
+                            </td>
+                            <td>幣值別
+                            </td>
+                            <td>
+                                <multiselect class="small-field" v-bind:options="CurrencyList" v-bind:close-on-select="true" v-bind:placeholder="''" v-bind:show-labels="false"
+                                    v-on:select="GetExchangeInfo" track-by="cnf1003_char01" label="cnf1003_char01">
+                                </multiselect>
+                            </td>
+                            <td>匯率
+                            </td>
+                            <td>
+                                <input type="text" class="small-field" disabled="disabled" v-model="Inf20Item.inf2025_exchnge_rate"/>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>付款方式
+                            </td>
+                            <td>
+                                <multiselect v-model="Inf20Item.PayInfo" v-bind:options="PayList" v-bind:close-on-select="true" v-bind:placeholder="''" v-bind:show-labels="false"
+                                    v-bind:custom-label="PaySelectLabel" track-by="cnf1002_fileorder" label="cnf1003_char01"></multiselect>
+                            </td>
+                            <td>收貨地址
+                            </td>
+                            <td colspan="9">
+                                <input type="text" style="width: 99%;" v-model="Inf20Item.inf2033_delivery_place"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>備註
+                            </td>
+                            <td colspan="11">
+                                <input type="text" style="width: 99%;" v-model="Inf20Item.remark"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>新增者
+                            </td>
+                            <td>
+                                <input type="text" class="small-field" disabled="disabled" v-model="Inf20Item.adduser"/>
+                            </td>
+                            <td>新增日期
+                            </td>
+                            <td>
+                                <input type="text" class="small-field" disabled="disabled" v-model="Inf20Item.adddate"/>
+                            </td>
+                            <td>修改者
+                            </td>
+                            <td>
+                                <input type="text" class="small-field" disabled="disabled" v-model="Inf20Item.moduser"/>
+                            </td>
+                            <td>修改日期
+                            </td>
+                            <td>
+                                <input type="text" class="small-field" disabled="disabled" v-model="Inf20Item.moddate"/>
+                            </td>
+                            <td>總金額
+                            </td>
+                            <td colspan="3">
+                                <input type="text" class="small-field" disabled="disabled" />
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+
+                <hr />
+
+                <table>
+                    <tr>
+                        <td>產品編號
+                        </td>
+                        <td colspan="9">
+                            <span class="key-value-inputs">
+                                <input type="text" v-on:change="OnPcodeChange(Inf20aItem.inf20a04_pcode)" v-model="Inf20aItem.inf20a04_pcode"/>
+                                <input type="text" disabled="disabled" v-model="Inf20aItem.inf20a38_product_name"/>
+                                <button type="button" class="btn btn-default btn-xs" v-on:click="ShowDpCodeWindow">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                            <span>貨號
+                            </span>
+                            <span>
+                                <input type="text" class="small-field" disabled="disabled" v-model="Inf20aItem.inf20a57_pclass"/>
+                            </span>
+                            <span>單位</span>
+                            <span>
+                                <input type="text" class="x-small-field" disabled="disabled" v-model="Inf20aItem.inf20a16_punit"/>
+                            </span>
+                        </td>
+
+
+
+
+                        <td>未稅單價
+                        </td>
+                        <td>
+                            <input type="text" class="small-field" disabled="disabled" v-model="Inf20aItem.inf20a58_cost_notax"/>
+                        </td>
+                        <td>營業稅
+                        </td>
+                        <td>
+                            <input type="text" class="small-field" disabled="disabled" />
+                        </td>
+                        <td>含稅單價
+                        </td>
+                        <td>
+                            <input type="text" class="small-field" v-model="Inf20aItem.inf20a07_ocost"/>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>採購數量
+                        </td>
+                        <td>
+                            <input type="text" class="small-field"  v-model="Inf20aItem.inf20a06_qty "/>
+                        </td>
+                        <td>贈品數量
+                        </td>
+                        <td>
+                            <input type="text" class="small-field" v-model="Inf20aItem.inf20a12_dis_qty"/>
+                        </td>
+                        <td>大單位數量
+                        </td>
+                        <td>
+                            <input type="text" class="small-field" v-model="Inf20aItem.inf20a23_box_qty"/>
+                        </td>
+                        <td>換算值
+                        </td>
+                        <td>
+                            <input type="text" class="small-field" v-model="Inf20aItem.inf0164_dividend"/>
+                        </td>
+                        <td>小單位數量
+                        </td>
+                        <td>
+                            <input type="text" class="small-field" v-model="Inf20aItem.inf20a23_qty"/>
+                        </td>
+                        <td>金額小計
+                        </td>
+                        <td>
+                            <input type="text" class="small-field" v-model="Inf20aItem.inf20a09_sub_amt"/>
+                        </td>
+                        <td>備註
+                        </td>
+                        <td>
+                            <input type="text" class="small-field" v-model="Inf20aItem.remark"/>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-default" role='button' v-on:click="OnAddInf29aItem()">
+                                輸入明細
+                            </button>
+
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-default" role='button' v-on:click="OnDeleteInf20aItem">
+                                刪除明細
+                            </button>
+                        </td>
+                    </tr>
+
+
+                </table>
+
+
+
+            </div>
+            <div class="result-div">
+                <div class="scroll-table">
+                    <table class="table table-bordered sortable">
+                        <thead>
+                            <tr class="bg-primary text-light">
+                                <th>項次</th>
+                                <th>產品編號</th>
+                                <th>產品名稱</th>
+                                <th>單位</th>
+                                <th>大單位數量</th>
+                                <th>換算值</th>
+                                <th>小單位數量</th>
+                                <th>小計數量</th>
+                                <th>單價</th>
+                                <th>小計</th>
+                                <th>備註</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 
 </div>
