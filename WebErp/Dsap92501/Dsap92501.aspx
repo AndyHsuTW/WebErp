@@ -2239,7 +2239,8 @@
                         <h4 class="modal-title">求助</h4>
                     </div>
                     <div class="modal-body">
-                        <div style="padding: 100px;">
+                        <div style="padding: 30px;">
+                            <a href="../operation/dsap92501.pdf" target="_blank" style="font-size:30px">各平台訂單轉入操作手冊.pdf</a>
                         </div>
                     </div>
                     <div class="modal-footer">

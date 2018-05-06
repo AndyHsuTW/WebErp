@@ -376,7 +376,7 @@
                         if (vueobj.Lutian.checked) {
                             List.push(vueobj.Lutian.saf25FileInfo)
                         }
-                        
+
                         //23
                         if (vueobj.Yahoo.checked) {
                             List.push(vueobj.Yahoo.saf25FileInfo)
@@ -395,56 +395,56 @@
                         //27
                         if (vueobj.Shopee.checked) {
                             List.push(vueobj.Shopee.saf25FileInfo)
-                        //28
-                        if (vueobj.Yahoo_MartDelivery.checked) {
-                            List.push(vueobj.Yahoo_MartDelivery.saf25FileInfo)
-                        }
-                       
-                 
-                  
-                  
-                        
-                   
-                    LoadingHelper.showLoading();
-                    $.ajax({
-                        url: rootUrl + "Dsap92501/Ajax/Import_saf25.ashx",
-                        type: 'POST',
-                        cache: false,
-                        async: true,
-                        data:{
-                            List: JSON.stringify(List),
-                            Loginuser:localStorage.getItem("USER_ID")
-                        },
-                        success: function (result) {
-                            LoadingHelper.hideLoading();
-                            vueobj.ImportDBLoadding = false;
-                            var List = JSON.parse(result);
-                            if (List.length > 0) {
-                                var Msg = "";
-                                for (var i = 0; i < List.length; i++) {
-                                    Msg += List[i] + "有錯誤\n";
-
-                                }
-                                alert(Msg);
-
-
-                            } else {
-                                alert("匯入成功");
+                            //28
+                            if (vueobj.Yahoo_MartDelivery.checked) {
+                                List.push(vueobj.Yahoo_MartDelivery.saf25FileInfo)
                             }
 
-                        },
-                        error: function (jqXhr, textStatus, errorThrown) {
-                            LoadingHelper.hideLoading();
-                            vueobj.ImportDBLoadding = false;
-                            console.error(errorThrown);
+
+
+
+
+
+                            LoadingHelper.showLoading();
+                            $.ajax({
+                                url: rootUrl + "Dsap92501/Ajax/Import_saf25.ashx",
+                                type: 'POST',
+                                cache: false,
+                                async: true,
+                                data: {
+                                    List: JSON.stringify(List),
+                                    Loginuser: localStorage.getItem("USER_ID")
+                                },
+                                success: function (result) {
+                                    LoadingHelper.hideLoading();
+                                    vueobj.ImportDBLoadding = false;
+                                    var List = JSON.parse(result);
+                                    if (List.length > 0) {
+                                        var Msg = "";
+                                        for (var i = 0; i < List.length; i++) {
+                                            Msg += List[i] + "有錯誤\n";
+
+                                        }
+                                        alert(Msg);
+
+
+                                    } else {
+                                        alert("匯入成功");
+                                    }
+
+                                },
+                                error: function (jqXhr, textStatus, errorThrown) {
+                                    LoadingHelper.hideLoading();
+                                    vueobj.ImportDBLoadding = false;
+                                    console.error(errorThrown);
+                                }
+                            });
+
+
+
                         }
-                    });
 
-
-
-                }
-
-
+                    }
             },
             guid: function () {
                 function s4() {
