@@ -660,7 +660,7 @@ end
                 else if (filenumber == "21" && FileName.ToUpper().Contains(".CSV"))
                 {
 
-                    var rowList = setExcelPreWork(uploadsPath, FileName, "138", ref saf25FileInfo);
+                    var rowList = setPreWork(uploadsPath, FileName, "138", ref saf25FileInfo);
                     PC_tosaf25(rowList, saf25FileInfo, OrderTime);
                 }
             }
