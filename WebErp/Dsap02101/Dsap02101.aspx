@@ -346,7 +346,7 @@
                                 <span>數量大(等)於</span>
                             </td>
                             <td>
-                                <input type="text" class="medium-field" v-model="Filter.GreaterOrEqual">
+                                <input type="text" class="medium-field" v-model="Filter.Qty">
                             </td>
                             </td>
                         </tr>
@@ -359,85 +359,102 @@
                     <table class="table table-bordered sortable">
                         <thead>
                             <tr class="bg-primary text-light">
-                                <th v-on:click="OnInf29TableSorting('Saf21DocNoShort')">
-                                    異動單號
+                                <th v-on:click="OnSaf21TableSorting('saf2133_seq2')">
+                                    序號
                                     <span class="sort-item glyphicon" 
-                                        v-bind:class="{'glyphicon-sort':Inf29SortColumn!='Saf21DocNoShort', 
-                                        'glyphicon-chevron-up': Inf29SortColumn=='Inf2902DocNoShort' && Inf29SortOrder=='asc',
-                                        'glyphicon-chevron-down': Inf29SortColumn=='Inf2902DocNoShort' && Inf29SortOrder=='desc'}">
-                                    </span>
-                                </th>
-                                <th v-on:click="OnInf29TableSorting('inf2904_pro_date')">
-                                    異動日期
-                                    <span class="sort-item glyphicon" 
-                                        v-bind:class="{'glyphicon-sort':Inf29SortColumn!='inf2904_pro_date', 
-                                        'glyphicon-chevron-up': Inf29SortColumn=='inf2904_pro_date' && Inf29SortOrder=='asc',
-                                        'glyphicon-chevron-down': Inf29SortColumn=='inf2904_pro_date' && Inf29SortOrder=='desc'}">
-                                    </span>
-                                </th>
-                                <th v-on:click="OnInf29TableSorting('inf2906_wherehouse')">
-                                    倉庫
-                                    <span class="sort-item glyphicon" 
-                                        v-bind:class="{'glyphicon-sort':Inf29SortColumn!='inf2906_wherehouse', 
-                                        'glyphicon-chevron-up': Inf29SortColumn=='inf2906_wherehouse' && Inf29SortOrder=='asc',
-                                        'glyphicon-chevron-down': Inf29SortColumn=='inf2906_wherehouse' && Inf29SortOrder=='desc'}">
-                                    </span>
-                                </th>
-                                <th v-on:click="OnInf29TableSorting('Qty')">
-                                    數量
-                                    <span class="sort-item glyphicon" 
-                                        v-bind:class="{'glyphicon-sort':Inf29SortColumn!='Qty', 
-                                        'glyphicon-chevron-up': Inf29SortColumn=='Qty' && Inf29SortOrder=='asc',
-                                        'glyphicon-chevron-down': Inf29SortColumn=='Qty' && Inf29SortOrder=='desc'}">
-                                    </span>
-                                </th>
-                                <th v-on:click="OnInf29TableSorting('inf2952_project_no')">
-                                    專案代號
-                                    <span class="sort-item glyphicon" 
-                                    v-bind:class="{'glyphicon-sort':Inf29SortColumn!='inf2952_project_no', 
-                                    'glyphicon-chevron-up': Inf29SortColumn=='inf2952_project_no' && Inf29SortOrder=='asc',
-                                    'glyphicon-chevron-down': Inf29SortColumn=='inf2952_project_no' && Inf29SortOrder=='desc'}">
+                                    v-bind:class="{'glyphicon-sort':Saf21SortColumn!='saf2133_seq2', 
+                                    'glyphicon-chevron-up': Saf21SortColumn=='saf2133_seq2' && Saf21SortOrder=='asc',
+                                    'glyphicon-chevron-down': Saf21SortColumn=='saf2133_seq2' && Saf21SortOrder=='desc'}">
                                 </span>
-                                </th>
-                                <th v-on:click="OnInf29TableSorting('inf2910_in_reason')">
-                                    異動代號及中文
+                                <th v-on:click="OnSaf21TableSorting('Saf2101DocNoShort')">
+                                    訂單單號
                                     <span class="sort-item glyphicon" 
-                                        v-bind:class="{'glyphicon-sort':Inf29SortColumn!='inf2910_in_reason', 
-                                        'glyphicon-chevron-up': Inf29SortColumn=='inf2910_in_reason' && Inf29SortOrder=='asc',
-                                        'glyphicon-chevron-down': Inf29SortColumn=='inf2910_in_reason' && Inf29SortOrder=='desc'}">
+                                        v-bind:class="{'glyphicon-sort':Saf21SortColumn!='Saf2101DocNoShort', 
+                                        'glyphicon-chevron-up': Saf21SortColumn=='Saf2101DocNoShort' && Saf21SortOrder=='asc',
+                                        'glyphicon-chevron-down': Saf21SortColumn=='Saf2101DocNoShort' && Saf21SortOrder=='desc'}">
                                     </span>
                                 </th>
-                                <th v-on:click="OnInf29TableSorting('Inf2906RefNo')">
-                                    來源單號
+                                <th v-on:click="OnSaf21TableSorting('saf2106_order_date')">
+                                    訂單日期
                                     <span class="sort-item glyphicon" 
-                                        v-bind:class="{'glyphicon-sort':Inf29SortColumn!='Inf2906RefNo', 
-                                        'glyphicon-chevron-up': Inf29SortColumn=='Inf2906RefNo' && Inf29SortOrder=='asc',
-                                        'glyphicon-chevron-down': Inf29SortColumn=='Inf2906RefNo' && Inf29SortOrder=='desc'}">
+                                        v-bind:class="{'glyphicon-sort':Saf21SortColumn!='saf2106_order_date', 
+                                        'glyphicon-chevron-up': Saf21SortColumn=='saf2106_order_date' && Saf21SortOrder=='asc',
+                                        'glyphicon-chevron-down': Saf21SortColumn=='saf2106_order_date' && Saf21SortOrder=='desc'}">
                                     </span>
                                 </th>
-                                <th v-on:click="OnInf29TableSorting('inf2903_customer_code')">
-                                    客戶代號/名稱
+                                <th v-on:click="OnSaf21TableSorting('saf2139_total_price')">
+                                    金額總計
                                     <span class="sort-item glyphicon" 
-                                        v-bind:class="{'glyphicon-sort':Inf29SortColumn!='inf2903_customer_code', 
-                                        'glyphicon-chevron-up': Inf29SortColumn=='inf2903_customer_code' && Inf29SortOrder=='asc',
-                                        'glyphicon-chevron-down': Inf29SortColumn=='inf2903_customer_code' && Inf29SortOrder=='desc'}">
+                                        v-bind:class="{'glyphicon-sort':Saf21SortColumn!='saf2139_total_price', 
+                                        'glyphicon-chevron-up': Saf21SortColumn=='saf2139_total_price' && Saf21SortOrder=='asc',
+                                        'glyphicon-chevron-down': Saf21SortColumn=='saf2139_total_price' && Saf21SortOrder=='desc'}">
+                                    </span>
+                                </th>
+                                <th v-on:click="OnSaf21TableSorting('saf2108_customer_code')">
+                                    客戶編號
+                                    <span class="sort-item glyphicon" 
+                                        v-bind:class="{'glyphicon-sort':Saf21SortColumn!='saf2108_customer_code', 
+                                        'glyphicon-chevron-up': Saf21SortColumn=='saf2108_customer_code' && Saf21SortOrder=='asc',
+                                        'glyphicon-chevron-down': Saf21SortColumn=='saf2108_customer_code' && Saf21SortOrder=='desc'}">
+                                    </span>
+                                </th>
+                                <th v-on:click="OnSaf21TableSorting('cnf0702_bname')">
+                                    客戶名稱
+                                    <span class="sort-item glyphicon" 
+                                        v-bind:class="{'glyphicon-sort':Saf21SortColumn!='saf2108_customer_code&bname', 
+                                        'glyphicon-chevron-up': Saf21SortColumn=='cnf0702_bname' && Saf21SortOrder=='asc',
+                                        'glyphicon-chevron-down': Saf21SortColumn=='cnf0702_bname' && Saf21SortOrder=='desc'}">
+                                    </span>
+                                </th>
+                                </th>
+                                <th v-on:click="OnSaf21TableSorting('saf2147_recid')">
+                                    聯絡人
+                                    <span class="sort-item glyphicon" 
+                                        v-bind:class="{'glyphicon-sort':Saf21SortColumn!='saf2147_recid', 
+                                        'glyphicon-chevron-up': Saf21SortColumn=='saf2147_recid' && Saf21SortOrder=='asc',
+                                        'glyphicon-chevron-down': Saf21SortColumn=='saf2147_recid' && Saf21SortOrder=='desc'}">
+                                    </span>
+                                </th>
+                                <th v-on:click="OnSaf21TableSorting('taf1019_tel1')">
+                                    連絡電話
+                                    <span class="sort-item glyphicon" 
+                                        v-bind:class="{'glyphicon-sort':Saf21SortColumn!='taf1019_tel1', 
+                                        'glyphicon-chevron-up': Saf21SortColumn=='taf1019_tel1' && Saf21SortOrder=='asc',
+                                        'glyphicon-chevron-down': Saf21SortColumn=='taf1019_tel1' && Saf21SortOrder=='desc'}">
+                                    </span>
+                                </th>
+                                <th v-on:click="OnSaf21TableSorting('taf1031_cellphone')">
+                                    手機
+                                    <span class="sort-item glyphicon" 
+                                        v-bind:class="{'glyphicon-sort':Saf21SortColumn!='taf1031_cellphone', 
+                                        'glyphicon-chevron-up': Saf21SortColumn=='taf1031_cellphone' && Saf21SortOrder=='asc',
+                                        'glyphicon-chevron-down': Saf21SortColumn=='taf1031_cellphone' && Saf21SortOrder=='desc'}">
+                                    </span>
+                                </th>
+                                <th v-on:click="OnSaf21TableSorting('remark')">
+                                    備註
+                                    <span class="sort-item glyphicon" 
+                                        v-bind:class="{'glyphicon-sort':Saf21SortColumn!='remark', 
+                                        'glyphicon-chevron-up': Saf21SortColumn=='remark' && Saf21SortOrder=='asc',
+                                        'glyphicon-chevron-down': Saf21SortColumn=='remark' && Saf21SortOrder=='desc'}">
                                     </span>
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="inf29Item in Inf29List" 
-                                v-on:click="OnMainRowClick(inf29Item)"
-                                v-bind:class="{'selected-row':inf29Item==SelectedInf29Item}">
-                                <td>{{inf29Item.Inf2902DocNoShort }}</td>
-                                <td>{{inf29Item.inf2904_pro_date}}</td>
-                                <td>{{ GetWherehouseName(inf29Item.inf2906_wherehouse)}}</td>
-                                <td>{{inf29Item.Qty}}</td>
-                                <td>{{inf29Item.inf2952_project_no}}</td>
-                                <td>{{inf29Item.inf2910_in_reason }}/{{inf29Item.Inf2910InReasonName}}</td>
-                                <td>{{inf29Item.Inf2906RefNo}}
-                                </td>
-                                <td>{{inf29Item.inf2903_customer_code}}/{{inf29Item.Inf2903CustomerCodeName}}</td>
+                            <tr v-for="saf21Item in Saf21List" 
+                                v-on:click="OnMainRowClick(saf21Item)"
+                                v-bind:class="{'selected-row':saf21Item==SelectedSaf21Item}">
+                                <td>{{saf21Item.saf2133_seq2 }}</td>
+                                <td>{{saf21Item.saf2101_docno}}</td>
+                                <td>{{saf21Item.saf2106_order_date}}</td>
+                                <td>{{saf21Item.saf2139_total_price}}</td>
+                                <td>{{saf21Item.saf2108_customer_code}}</td>
+                                <td>{{saf21Item.cmf0103_bname }}</td>
+                                <td>{{saf21Item.taf1002_firstname}}</td>
+                                <td>{{saf21Item.taf1019_tel1}}</td>
+                                <td>{{saf21Item.taf1031_cellphone}}</td>
+                                <td>{{saf21Item.remark}}</td>
 
                             </tr>
                         </tbody>
@@ -449,123 +466,149 @@
                     <table class="table table-bordered sortable">
                         <thead>
                             <tr class="bg-primary text-light">
-                                <th v-on:click="OnInf29aTableSorting('inf29a02_seq')">
+                                <th v-on:click="OnSaf21aTableSorting('saf21a02_seq')">
                                     序號
                                     <span class="sort-item glyphicon" 
-                                        v-bind:class="{'glyphicon-sort':Inf29aSortColumn!='inf29a02_seq', 
-                                        'glyphicon-chevron-up': Inf29aSortColumn=='inf29a02_seq' && Inf29aSortOrder=='asc',
-                                        'glyphicon-chevron-down': Inf29aSortColumn=='inf29a02_seq' && Inf29aSortOrder=='desc'}">
+                                        v-bind:class="{'glyphicon-sort':Saf21aSortColumn!='saf21a02_seq', 
+                                        'glyphicon-chevron-up': Saf21aSortColumn=='saf21a02_seq' && Saf21aSortOrder=='asc',
+                                        'glyphicon-chevron-down': Saf21aSortColumn=='saf21a02_seq' && Saf21aSortOrder=='desc'}">
                                     </span>
                                 </th>
-                                <th v-on:click="OnInf29aTableSorting('inf29a05_pcode')">
-                                    產品編號
+                                <th v-on:click="OnSaf21aTableSorting('saf21a02_pcode')">
+                                    商品編號
                                     <span class="sort-item glyphicon" 
-                                        v-bind:class="{'glyphicon-sort':Inf29aSortColumn!='inf29a05_pcode', 
-                                        'glyphicon-chevron-up': Inf29aSortColumn=='inf29a05_pcode' && Inf29aSortOrder=='asc',
-                                        'glyphicon-chevron-down': Inf29aSortColumn=='inf29a05_pcode' && Inf29aSortOrder=='desc'}">
+                                        v-bind:class="{'glyphicon-sort':Saf21aSortColumn!='saf21a02_pcode', 
+                                        'glyphicon-chevron-up': Saf21aSortColumn=='saf21a02_pcode' && Saf21aSortOrder=='asc',
+                                        'glyphicon-chevron-down': Saf21aSortColumn=='saf21a02_pcode' && Saf21aSortOrder=='desc'}">
                                     </span>
                                 </th>
-                                <th v-on:click="OnInf29aTableSorting('inf29a05_shoes_code')">
+                                <th v-on:click="OnSaf21aTableSorting('saf21a03_relative_no')">
                                     貨號
                                     <span class="sort-item glyphicon" 
-                                        v-bind:class="{'glyphicon-sort':Inf29aSortColumn!='inf29a05_shoes_code', 
-                                        'glyphicon-chevron-up': Inf29aSortColumn=='inf29a05_shoes_code' && Inf29aSortOrder=='asc',
-                                        'glyphicon-chevron-down': Inf29aSortColumn=='inf29a05_shoes_code' && Inf29aSortOrder=='desc'}">
+                                        v-bind:class="{'glyphicon-sort':Saf21aSortColumn!='saf21a03_relative_no', 
+                                        'glyphicon-chevron-up': Saf21aSortColumn=='saf21a03_relative_no' && Saf21aSortOrder=='asc',
+                                        'glyphicon-chevron-down': Saf21aSortColumn=='saf21a03_relative_no' && Saf21aSortOrder=='desc'}">
                                     </span>
                                 </th>
-                                <th v-on:click="OnInf29aTableSorting('inf29a33_product_name')">
+                                <th v-on:click="OnSaf21aTableSorting('saf21a41_product_name')">
                                     產品簡稱
                                     <span class="sort-item glyphicon" 
-                                        v-bind:class="{'glyphicon-sort':Inf29aSortColumn!='inf29a33_product_name', 
-                                        'glyphicon-chevron-up': Inf29aSortColumn=='inf29a33_product_name' && Inf29aSortOrder=='asc',
-                                        'glyphicon-chevron-down': Inf29aSortColumn=='inf29a33_product_name' && Inf29aSortOrder=='desc'}">
+                                        v-bind:class="{'glyphicon-sort':Saf21aSortColumn!='saf21a41_product_name', 
+                                        'glyphicon-chevron-up': Saf21aSortColumn=='saf21a41_product_name' && Saf21aSortOrder=='asc',
+                                        'glyphicon-chevron-down': Saf21aSortColumn=='saf21a41_product_name' && Saf21aSortOrder=='desc'}">
                                     </span>
                                 </th>
-                                <th v-on:click="OnInf29aTableSorting('inf29a17_runit')">
+                                <th v-on:click="OnSaf21aTableSorting('saf21a43_runit')">
                                     單位
                                     <span class="sort-item glyphicon" 
-                                        v-bind:class="{'glyphicon-sort':Inf29aSortColumn!='inf29a17_runit', 
-                                        'glyphicon-chevron-up': Inf29aSortColumn=='inf29a17_runit' && Inf29aSortOrder=='asc',
-                                        'glyphicon-chevron-down': Inf29aSortColumn=='inf29a17_runit' && Inf29aSortOrder=='desc'}">
+                                        v-bind:class="{'glyphicon-sort':Saf21aSortColumn!='saf21a43_runit', 
+                                        'glyphicon-chevron-up': Saf21aSortColumn=='saf21a43_runit' && Saf21aSortOrder=='asc',
+                                        'glyphicon-chevron-down': Saf21aSortColumn=='saf21a43_runit' && Saf21aSortOrder=='desc'}">
                                     </span>
                                 </th>
-                                <th v-on:click="OnInf29aTableSorting('inf29a13_sold_qty')">
+                                <th v-on:click="OnSaf21aTableSorting('saf21a16_total_qty')">
                                     數量
                                     <span class="sort-item glyphicon" 
-                                        v-bind:class="{'glyphicon-sort':Inf29aSortColumn!='inf29a13_sold_qty', 
-                                        'glyphicon-chevron-up': Inf29aSortColumn=='inf29a13_sold_qty' && Inf29aSortOrder=='asc',
-                                        'glyphicon-chevron-down': Inf29aSortColumn=='inf29a13_sold_qty' && Inf29aSortOrder=='desc'}">
+                                        v-bind:class="{'glyphicon-sort':Saf21aSortColumn!='saf21a16_total_qty', 
+                                        'glyphicon-chevron-up': Saf21aSortColumn=='saf21a16_total_qty' && Saf21aSortOrder=='asc',
+                                        'glyphicon-chevron-down': Saf21aSortColumn=='saf21a16_total_qty' && Saf21aSortOrder=='desc'}">
                                     </span>
                                 </th>
-                                <th v-on:click="OnInf29aTableSorting('inf29a11_dis_rate')">
-                                    折扣
+                                <th v-on:click="OnSaf21aTableSorting('saf21a51_gift_qty')">
+                                    贈品數量
                                     <span class="sort-item glyphicon" 
-                                        v-bind:class="{'glyphicon-sort':Inf29aSortColumn!='inf29a11_dis_rate', 
-                                        'glyphicon-chevron-up': Inf29aSortColumn=='inf29a11_dis_rate' && Inf29aSortOrder=='asc',
-                                        'glyphicon-chevron-down': Inf29aSortColumn=='inf29a11_dis_rate' && Inf29aSortOrder=='desc'}">
+                                        v-bind:class="{'glyphicon-sort':Saf21aSortColumn!='saf21a51_gift_qty', 
+                                        'glyphicon-chevron-up': Saf21aSortColumn=='saf21a51_gift_qty' && Saf21aSortOrder=='asc',
+                                        'glyphicon-chevron-down': Saf21aSortColumn=='saf21a51_gift_qty' && Saf21aSortOrder=='desc'}">
                                     </span>
                                 </th>
-                                <th v-on:click="OnInf29aTableSorting('inf29a10_ocost_one')">
-                                    原價
+                                <th v-on:click="OnSaf21aTableSorting('saf21a56_box_qty')">
+                                    大單位數量
                                     <span class="sort-item glyphicon" 
-                                        v-bind:class="{'glyphicon-sort':Inf29aSortColumn!='inf29a10_ocost_one', 
-                                        'glyphicon-chevron-up': Inf29aSortColumn=='inf29a10_ocost_one' && Inf29aSortOrder=='asc',
-                                        'glyphicon-chevron-down': Inf29aSortColumn=='inf29a10_ocost_one' && Inf29aSortOrder=='desc'}">
+                                        v-bind:class="{'glyphicon-sort':Saf21aSortColumn!='saf21a56_box_qty', 
+                                        'glyphicon-chevron-up': Saf21aSortColumn=='saf21a56_box_qty' && Saf21aSortOrder=='asc',
+                                        'glyphicon-chevron-down': Saf21aSortColumn=='saf21a56_box_qty' && Saf21aSortOrder=='desc'}">
                                     </span>
                                 </th>
-                                <th v-on:click="OnInf29aTableSorting('inf29a10_cost_one')">
-                                    進價
+                                <th v-on:click="OnSaf21aTableSorting('inf0164_dividend')">
+                                    大單位換算值
                                     <span class="sort-item glyphicon" 
-                                        v-bind:class="{'glyphicon-sort':Inf29aSortColumn!='inf29a10_cost_one', 
-                                        'glyphicon-chevron-up': Inf29aSortColumn=='inf29a10_cost_one' && Inf29aSortOrder=='asc',
-                                        'glyphicon-chevron-down': Inf29aSortColumn=='inf29a10_cost_one' && Inf29aSortOrder=='desc'}">
+                                        v-bind:class="{'glyphicon-sort':Saf21aSortColumn!='inf0164_dividend', 
+                                        'glyphicon-chevron-up': Saf21aSortColumn=='inf0164_dividend' && Saf21aSortOrder=='asc',
+                                        'glyphicon-chevron-down': Saf21aSortColumn=='inf0164_dividend' && Saf21aSortOrder=='desc'}">
                                     </span>
                                 </th>
-                                <th v-on:click="OnInf29aTableSorting('inf29a38_one_amt')">
+                                <th v-on:click="OnSaf21aTableSorting('saf21a57_qty')">
+                                    小單位
+                                    <span class="sort-item glyphicon" 
+                                        v-bind:class="{'glyphicon-sort':Saf21aSortColumn!='saf21a57_qty', 
+                                        'glyphicon-chevron-up': Saf21aSortColumn=='saf21a57_qty' && Saf21aSortOrder=='asc',
+                                        'glyphicon-chevron-down': Saf21aSortColumn=='saf21a57_qty' && Saf21aSortOrder=='desc'}">
+                                    </span>
+                                </th>
+                                <th v-on:click="OnSaf21aTableSorting('saf21a37_utax_price')">
+                                    未稅單價
+                                    <span class="sort-item glyphicon" 
+                                        v-bind:class="{'glyphicon-sort':Saf21aSortColumn!='saf21a37_utax_price', 
+                                        'glyphicon-chevron-up': Saf21aSortColumn=='saf21a37_utax_price' && Saf21aSortOrder=='asc',
+                                        'glyphicon-chevron-down': Saf21aSortColumn=='saf21a37_utax_price' && Saf21aSortOrder=='desc'}">
+                                    </span>
+                                </th>
+                                <th v-on:click="OnSaf21aTableSorting('saf21a13_tax')">
+                                    營業稅
+                                    <span class="sort-item glyphicon" 
+                                        v-bind:class="{'glyphicon-sort':Saf21aSortColumn!='saf21a13_tax', 
+                                        'glyphicon-chevron-up': Saf21aSortColumn=='saf21a13_tax' && Saf21aSortOrder=='asc',
+                                        'glyphicon-chevron-down': Saf21aSortColumn=='saf21a13_tax' && Saf21aSortOrder=='desc'}">
+                                    </span>
+                                </th>
+                                <th v-on:click="OnSaf21aTableSorting('saf21a11_unit_price')">
+                                    含稅單價
+                                    <span class="sort-item glyphicon" 
+                                        v-bind:class="{'glyphicon-sort':Saf21aSortColumn!='saf21a11_unit_price', 
+                                        'glyphicon-chevron-up': Saf21aSortColumn=='saf21a11_unit_price' && Saf21aSortOrder=='asc',
+                                        'glyphicon-chevron-down': Saf21aSortColumn=='saf21a11_unit_price' && Saf21aSortOrder=='desc'}">
+                                    </span>
+                                </th>
+                                <th v-on:click="OnSaf21aTableSorting('saf21a50_one_amt')">
                                     金額小計
                                     <span class="sort-item glyphicon" 
-                                        v-bind:class="{'glyphicon-sort':Inf29aSortColumn!='inf29a38_one_amt', 
-                                        'glyphicon-chevron-up': Inf29aSortColumn=='inf29a38_one_amt' && Inf29aSortOrder=='asc',
-                                        'glyphicon-chevron-down': Inf29aSortColumn=='inf29a38_one_amt' && Inf29aSortOrder=='desc'}">
+                                        v-bind:class="{'glyphicon-sort':Saf21aSortColumn!='saf21a50_one_amt', 
+                                        'glyphicon-chevron-up': Saf21aSortColumn=='saf21a50_one_amt' && Saf21aSortOrder=='asc',
+                                        'glyphicon-chevron-down': Saf21aSortColumn=='saf21a50_one_amt' && Saf21aSortOrder=='desc'}">
                                     </span>
                                 </th>
-                                <th v-on:click="OnInf29aTableSorting('remark')">
+                                <th v-on:click="OnSaf21aTableSorting('remark')">
                                     備註
                                     <span class="sort-item glyphicon" 
-                                        v-bind:class="{'glyphicon-sort':Inf29aSortColumn!='remark', 
-                                        'glyphicon-chevron-up': Inf29aSortColumn=='remark' && Inf29aSortOrder=='asc',
-                                        'glyphicon-chevron-down': Inf29aSortColumn=='remark' && Inf29aSortOrder=='desc'}">
+                                        v-bind:class="{'glyphicon-sort':Saf21aSortColumn!='remark', 
+                                        'glyphicon-chevron-up': Saf21aSortColumn=='remark' && Saf21aSortOrder=='asc',
+                                        'glyphicon-chevron-down': Saf21aSortColumn=='remark' && Saf21aSortOrder=='desc'}">
                                     </span>
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="inf29aItem in Inf29aList" 
-                                v-on:click="OnSubRowClick(inf29aItem)"
-                                v-bind:class="{'selected-row':inf29aItem==SelectedInf29aItem}"
+                            <tr v-for="saf21aItem in Saf21aList" 
+                                v-on:click="OnSubRowClick(saf21aItem)"
+                                v-bind:class="{'selected-row':saf21aItem==SelectedSaf21aItem}"
                                 >
-                                <!-- 項次 -->
-                                <td>{{inf29aItem.inf29a02_seq}}</td>
-                                <!-- 產品編號 -->
-                                <td>{{inf29aItem.inf29a05_pcode}}</td>
-                                <!-- 貨號 -->
-                                <td>{{inf29aItem.inf29a05_shoes_code}}</td>
-                                <!-- 產品簡稱 -->
-                                <td>{{inf29aItem.inf29a33_product_name }}</td>
-                                <!-- 單位 -->
-                                <td>{{inf29aItem.inf29a17_runit }}</td>
-                                <!-- 數量 -->
-                                <td>{{inf29aItem.inf29a13_sold_qty }}</td>
-                                <!-- 折扣 -->
-                                <td>{{inf29aItem.inf29a11_dis_rate }}%</td>
-                                <!-- 原價 -->
-                                <td>{{inf29aItem.inf29a10_ocost_one }}</td>
-                                <!-- 進價 -->
-                                <td>{{inf29aItem.inf29a10_cost_one }}</td>
-                                <!-- 金額小計 -->
-                                <td>{{inf29aItem.inf29a38_one_amt }}</td>
-                                <!-- 備註 -->
-                                <td>{{inf29aItem.remark }}</td>
+                                <td>{{saf21aItem.id}}</td>
+                                <td>{{saf21aItem.saf21a01_seq_seq}}</td>
+                                <td>{{saf21aItem.saf21a02_pcode}}</td>
+                                <td>{{saf21aItem.saf21a03_relative_no }}</td>
+                                <td>{{saf21aItem.saf21a41_product_name }}</td>
+                                <td>{{saf21aItem.saf21a43_runit }}</td>
+                                <td>{{saf21aItem.saf21a16_total_qty }}%</td>
+                                <td>{{saf21aItem.saf21a51_gift_qty }}</td>
+                                <td>{{saf21aItem.saf21a56_box_qty }}</td>
+                                <td>{{saf21aItem.inf0164_dividend }}</td>
+                                <td>{{saf21aItem.saf21a57_qty }}</td>
+                                <td>{{saf21aItem.saf21a37_utax_price }}</td>
+                                <td>{{saf21aItem.saf21a13_tax }}</td>
+                                <td>{{saf21aItem.saf21a11_unit_price }}</td>
+                                <td>{{saf21aItem.saf21a50_one_amt }}</td>
+                                <td>{{saf21aItem.remark }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -1148,8 +1191,8 @@
     <script>
         (function () {
             var BcodeList = JSON.parse("<%=HttpUtility.JavaScriptStringEncode(JsonConvert.SerializeObject(BcodeList),false)%>");
-            var InReasonList = JSON.parse("<%=HttpUtility.JavaScriptStringEncode(JsonConvert.SerializeObject(InReasonList),false)%>");
-            var CurrencyList = JSON.parse("<%=HttpUtility.JavaScriptStringEncode(JsonConvert.SerializeObject(CurrencyList),false)%>");
+            <%--var InReasonList = JSON.parse("<%=HttpUtility.JavaScriptStringEncode(JsonConvert.SerializeObject(InReasonList),false)%>");--%>
+            <%--var CurrencyList = JSON.parse("<%=HttpUtility.JavaScriptStringEncode(JsonConvert.SerializeObject(CurrencyList),false)%>");--%>
 
             requirejs.config({
                 paths: {
@@ -1166,8 +1209,8 @@
                 window.dinp02301Edit.SetBCodeList(BcodeList);
                 //window.dinp02301Search.WherehouseList = WherehouseList;
                 //window.dinp02301Edit.WherehouseList = WherehouseList;
-                window.dinp02301Edit.InReasonList = InReasonList;
-                window.dinp02301Edit.CurrencyList = CurrencyList;
+                //window.dinp02301Edit.InReasonList = InReasonList;
+                //window.dinp02301Edit.CurrencyList = CurrencyList;
             }
 
             function onError(error) {
