@@ -44,7 +44,7 @@ namespace Dsap02101
 
                 sqlCmd.CommandText = String.Format(@"
                     select saf21a.id,
-                    saf21a.[saf21a01_seq_seq],
+                    saf21a.[saf21a02_seq],
                     saf21a.[saf21a02_pcode],
                     saf21a.[saf21a03_relative_no],
                     saf21a.saf21a41_product_name,
