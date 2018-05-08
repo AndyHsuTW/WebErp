@@ -342,55 +342,55 @@
 
                         </div>
                         <%--03. LetianHOME.CSV--%>
-                        <div class="scroll-table" v-if="Letianhome.open">
+                        <div class="scroll-table" v-if="PChome.open">
                             <div>
                                 <table>
                                     <tr>
                                         <td style="padding: 3px">
-                                            <input type="checkbox" v-model="Letianhome.checked" v-if="Letianhome.saf25FileInfo.cnf1004_char02!=''" /></td>
-                                        <td style="padding: 3px">{{Letianhome.saf25FileInfo.FileName}}</td>
+                                            <input type="checkbox" v-model="PChome.checked" v-if="PChome.saf25FileInfo.cnf1004_char02!=''" /></td>
+                                        <td style="padding: 3px">{{PChome.saf25FileInfo.FileName}}</td>
                                         <td style="padding: 3px">
-                                            <label class="btn btn-default" v-if="Letianhome.saf25FileInfo.cnf1004_char02!=''" style="background-color: rgba(247, 255, 101, 0.67);">
+                                            <label class="btn btn-default" v-if="PChome.saf25FileInfo.cnf1004_char02!=''" style="background-color: rgba(247, 255, 101, 0.67);">
                                                 <input style="display: none;" type="file" accept=".csv" v-on:change="onFileChange('03', $event)">
                                                 重新送出檔案比對
                                             </label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
-                                            <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="Letianhome.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Letianhome.saf25FileInfo.ErrorMsg">
+                                            <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="PChome.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=PChome.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
                                             </label>
                                         </td>
                                     </tr>
                                 </table>
                             </div>
-                            <table class="table table-bordered" style="width: calc(100% - 18px)" v-if="Letianhome.saf25FileInfo.cnf1004_char02!=''">
+                            <table class="table table-bordered" style="width: calc(100% - 18px)" v-if="PChome.saf25FileInfo.cnf1004_char02!=''">
                                 <thead>
 
                                     <tr class="bg-primary text-light">
-                                        <th v-on:click="sortBy(Letianhome,'saf2503_ord_no',$event)">訂單編號</th>
-                                        <th v-on:click="sortBy(Letianhome,'saf2502_seq',$event)">NO</th>
-                                        <th v-on:click="sortBy(Letianhome,'saf2527_ship_no',$event)">出貨單號</th>
-                                        <th v-on:click="sortBy(Letianhome,'saf2506_ord_status',$event)">確認</th>
-                                        <th v-on:click="sortBy(Letianhome,'saf2523_ship_date',$event)">出貨日期</th>
-                                        <th v-on:click="sortBy(Letianhome,'saf2504_ord_date',$event)">轉單日期</th>
-                                        <th v-on:click="sortBy(Letianhome,'saf2520_dis_date',$event)">預購日/指定配達日</th>
-                                        <th v-on:click="sortBy(Letianhome,'saf2514_rec_name',$event)">收貨人</th>
-                                        <th v-on:click="sortBy(Letianhome,'saf2518_rec_zip',$event)">ZIP</th>
-                                        <th v-on:click="sortBy(Letianhome,'saf2519_rec_address',$event)">收貨地址(訂單編號)</th>
-                                        <th v-on:click="sortBy(Letianhome,'saf2515_rec_cell',$event)">收貨人電話</th>
-                                        <th v-on:click="sortBy(Letianhome,'saf2531_psname',$event)">商品名稱</th>
-                                        <th v-on:click="sortBy(Letianhome,'saf2541_ord_qty',$event)">下定時數量</th>
-                                        <th v-on:click="sortBy(Letianhome,'saf2543_cancel_qty',$event)">取消數量</th>
-                                        <th v-on:click="sortBy(Letianhome,'saf2540_ship_qty',$event)">應出貨數量</th>
-                                        <th v-on:click="sortBy(Letianhome,'saf2544_cost',$event)">單位成本</th>
-                                        <th v-on:click="sortBy(Letianhome,'saf2545_cost_sub',$event)">成本小計</th>
-                                        <th v-on:click="sortBy(Letianhome,'saf2532_pname',$event)">商品規格</th>
-                                        <th v-on:click="sortBy(Letianhome,'saf2536_Letianode_v',$event)">廠商料號</th>
-                                        <th v-on:click="sortBy(Letianhome,'saf2505_ord_remark',$event)">備註</th>
-                                        <th v-on:click="sortBy(Letianhome,'saf2556_leave_msg',$event)">客戶留言</th>
+                                        <th v-on:click="sortBy(PChome,'saf2503_ord_no',$event)">訂單編號</th>
+                                        <th v-on:click="sortBy(PChome,'saf2502_seq',$event)">NO</th>
+                                        <th v-on:click="sortBy(PChome,'saf2527_ship_no',$event)">出貨單號</th>
+                                        <th v-on:click="sortBy(PChome,'saf2506_ord_status',$event)">確認</th>
+                                        <th v-on:click="sortBy(PChome,'saf2523_ship_date',$event)">出貨日期</th>
+                                        <th v-on:click="sortBy(PChome,'saf2504_ord_date',$event)">轉單日期</th>
+                                        <th v-on:click="sortBy(PChome,'saf2520_dis_date',$event)">預購日/指定配達日</th>
+                                        <th v-on:click="sortBy(PChome,'saf2514_rec_name',$event)">收貨人</th>
+                                        <th v-on:click="sortBy(PChome,'saf2518_rec_zip',$event)">ZIP</th>
+                                        <th v-on:click="sortBy(PChome,'saf2519_rec_address',$event)">收貨地址(訂單編號)</th>
+                                        <th v-on:click="sortBy(PChome,'saf2515_rec_cell',$event)">收貨人電話</th>
+                                        <th v-on:click="sortBy(PChome,'saf2531_psname',$event)">商品名稱</th>
+                                        <th v-on:click="sortBy(PChome,'saf2541_ord_qty',$event)">下定時數量</th>
+                                        <th v-on:click="sortBy(PChome,'saf2543_cancel_qty',$event)">取消數量</th>
+                                        <th v-on:click="sortBy(PChome,'saf2540_ship_qty',$event)">應出貨數量</th>
+                                        <th v-on:click="sortBy(PChome,'saf2544_cost',$event)">單位成本</th>
+                                        <th v-on:click="sortBy(PChome,'saf2545_cost_sub',$event)">成本小計</th>
+                                        <th v-on:click="sortBy(PChome,'saf2532_pname',$event)">商品規格</th>
+                                        <th v-on:click="sortBy(PChome,'saf2536_Letianode_v',$event)">廠商料號</th>
+                                        <th v-on:click="sortBy(PChome,'saf2505_ord_remark',$event)">備註</th>
+                                        <th v-on:click="sortBy(PChome,'saf2556_leave_msg',$event)">客戶留言</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="saf25 in Letianhome.saf25FileInfo.saf25List">
+                                    <tr v-for="saf25 in PChome.saf25FileInfo.saf25List">
                                         <td>{{saf25.saf2503_ord_no}}</td>
                                         <td>{{saf25.saf2502_seq}}</td>
                                         <td>{{saf25.saf2527_ship_no}}</td>
