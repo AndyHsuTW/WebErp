@@ -97,8 +97,6 @@
     <div id="Dspa92501" v-cloak>
 
 
-
-
         <ul class="app-title">
             <li><%=Page.Title %></li>
         </ul>
@@ -809,76 +807,76 @@
                             </table>
                         </div>
                         <%--08.松果--%>
-                        <th v-on:click="sortBy(Letianone,'"></th>
-                        <div class="scroll-table" v-if="Letianone.open">
+
+                        <div class="scroll-table" v-if="Pcone.open">
                             <div>
                                 <table>
                                     <tr>
                                         <td style="padding: 3px">
-                                            <input type="checkbox" v-model="Letianone.checked" v-if="Letianone.saf25FileInfo.cnf1004_char02!=''" /></td>
-                                        <td style="padding: 3px">{{Letianone.saf25FileInfo.FileName}}</td>
+                                            <input type="checkbox" v-model="Pcone.checked" v-if="Pcone.saf25FileInfo.cnf1004_char02!=''" /></td>
+                                        <td style="padding: 3px">{{Pcone.saf25FileInfo.FileName}}</td>
                                         <td style="padding: 3px">
-                                            <label class="btn btn-default" v-if="Letianone.saf25FileInfo.cnf1004_char02!=''" style="background-color: rgba(247, 255, 101, 0.67);">
+                                            <label class="btn btn-default" v-if="Pcone.saf25FileInfo.cnf1004_char02!=''" style="background-color: rgba(247, 255, 101, 0.67);">
                                                 <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('08', $event)">
                                                 重新送出檔案比對
                                             </label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
-                                            <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="Letianone.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Letianone.saf25FileInfo.ErrorMsg">
+                                            <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="Pcone.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Pcone.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
                                             </label>
                                         </td>
                                     </tr>
                                 </table>
                             </div>
-                            <table class="table table-bordered" style="width: calc(100% - 18px)" v-if="Letianone.saf25FileInfo.cnf1004_char02!=''">
+                            <table class="table table-bordered" style="width: calc(100% - 18px)" v-if="Pcone.saf25FileInfo.cnf1004_char02!=''">
                                 <thead>
 
                                     <tr class="bg-primary text-light">
                                         <%--a--%>
-                                        <th v-on:click="sortBy(Letianone,'saf2503_ord_no',$event)">訂單編號</th>
+                                        <th v-on:click="sortBy(Pcone,'saf2503_ord_no',$event)">訂單編號</th>
                                         <%--b--%>
-                                        <th v-on:click="sortBy(Letianone,'saf2549_paymt_date',$event)">付款時間</th>
+                                        <th v-on:click="sortBy(Pcone,'saf2549_paymt_date',$event)">付款時間</th>
                                         <%--c--%>
-                                        <th v-on:click="sortBy(Letianone,'saf2510_ord_name',$event)">訂購人</th>
+                                        <th v-on:click="sortBy(Pcone,'saf2510_ord_name',$event)">訂購人</th>
                                         <%--d--%>
-                                        <th v-on:click="sortBy(Letianone,'saf2511_ord_cell',$event)">訂購人電話</th>
+                                        <th v-on:click="sortBy(Pcone,'saf2511_ord_cell',$event)">訂購人電話</th>
                                         <%--e--%>
-                                        <th v-on:click="sortBy(Letianone,'saf2550_paymt_way',$event)">付款方式</th>
+                                        <th v-on:click="sortBy(Pcone,'saf2550_paymt_way',$event)">付款方式</th>
                                         <%--f--%>
-                                        <th v-on:click="sortBy(Letianone,'saf2524_ship_remark',$event)">發票</th>
+                                        <th v-on:click="sortBy(Pcone,'saf2524_ship_remark',$event)">發票</th>
                                         <%--g--%>
-                                        <th v-on:click="sortBy(Letianone,'saf2502_seq ',$event)">信用卡後4碼</th>
+                                        <th v-on:click="sortBy(Pcone,'saf2502_seq ',$event)">信用卡後4碼</th>
                                         <%--h--%>
-                                        <th v-on:click="sortBy(Letianone,'saf2548_price_sub',$event)">訂單金額</th>
+                                        <th v-on:click="sortBy(Pcone,'saf2548_price_sub',$event)">訂單金額</th>
                                         <%--i--%>
-                                        <th v-on:click="sortBy(Letianone,'saf2514_rec_name',$event)">收件人</th>
+                                        <th v-on:click="sortBy(Pcone,'saf2514_rec_name',$event)">收件人</th>
                                         <%--j--%>
-                                        <th v-on:click="sortBy(Letianone,'saf2515_rec_cell',$event)">電話</th>
+                                        <th v-on:click="sortBy(Pcone,'saf2515_rec_cell',$event)">電話</th>
                                         <%--k--%>
-                                        <th v-on:click="sortBy(Letianone,'saf2509_ord_shop',$event)">收件地址</th>
+                                        <th v-on:click="sortBy(Pcone,'saf2509_ord_shop',$event)">收件地址</th>
                                         <%--l--%>
-                                        <th v-on:click="sortBy(Letianone,'saf2531_psname',$event)">商品</th>
+                                        <th v-on:click="sortBy(Pcone,'saf2531_psname',$event)">商品</th>
                                         <%--m--%>
-                                        <th v-on:click="sortBy(Letianone,'saf2537_Letianode',$event)">商品編號</th>
+                                        <th v-on:click="sortBy(Pcone,'saf2537_Letianode',$event)">商品編號</th>
                                         <%--n--%>
-                                        <th v-on:click="sortBy(Letianone,'saf2536_Letianode_v',$event)">主料號</th>
+                                        <th v-on:click="sortBy(Pcone,'saf2536_Letianode_v',$event)">主料號</th>
                                         <%--o--%>
-                                        <th v-on:click="sortBy(Letianone,'saf2542_groups',$event)">方案入數</th>
+                                        <th v-on:click="sortBy(Pcone,'saf2542_groups',$event)">方案入數</th>
                                         <%--p--%>
-                                        <th v-on:click="sortBy(Letianone,'saf2547_price',$event)">方案價格</th>
+                                        <th v-on:click="sortBy(Pcone,'saf2547_price',$event)">方案價格</th>
                                         <%--q--%>
-                                        <th v-on:click="sortBy(Letianone,'',$event)">方案數量</th>
+                                        <th v-on:click="sortBy(Pcone,'',$event)">方案數量</th>
                                         <%--r--%>
-                                        <th v-on:click="sortBy(Letianone,'saf2561_option',$event)">選項</th>
+                                        <th v-on:click="sortBy(Pcone,'saf2561_option',$event)">選項</th>
                                         <%--s--%>
-                                        <th v-on:click="sortBy(Letianone,'saf2533_pspec',$event)">料號</th>
+                                        <th v-on:click="sortBy(Pcone,'saf2533_pspec',$event)">料號</th>
                                         <%--t--%>
-                                        <th v-on:click="sortBy(Letianone,'saf2541_ord_qty',$event)">數量</th>
+                                        <th v-on:click="sortBy(Pcone,'saf2541_ord_qty',$event)">數量</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="saf25 in Letianone.saf25FileInfo.saf25List">
-                                        <td>{{saf25.saf2503_ord_no}}</td>
+                                    <tr v-for="saf25 in Pcone.saf25FileInfo.saf25List">
+                                       
                                         <%--a--%>
                                         <td>{{saf25.saf2503_ord_no}}</td>
                                         <%--b--%>
@@ -1668,7 +1666,7 @@
                                 </thead>
                                 <tbody>
                                     <tr v-for="saf25 in YahooMart.saf25FileInfo.saf25List">
-                                        <td>{{saf25.saf2582_serial}}</td>
+                                       
                                         <%--a--%>
                                         <td>{{saf25.saf2510_ord_name}}</td>
                                         <%--b--%>
@@ -2061,7 +2059,7 @@
                                 </thead>
                                 <tbody>
                                     <tr v-for="saf25 in Lutian.saf25FileInfo.saf25List">
-                                        <td>{{saf25.saf2504_ord_date}}</td>
+                                        
                                         <td>{{saf25.saf2504_ord_date}}</td>
                                         <td>{{saf25.saf2503_ord_no}}</td>
                                         <td>{{saf25.saf2549_paymt_date}}</td>
@@ -2173,74 +2171,74 @@
                             </table>
                         </div>
                         <%--24.松果超取--%>
-                        <div class="scroll-table" v-if="LetianoneMart.open">
+                        <div class="scroll-table" v-if="PconeMart.open">
                             <div>
                                 <table>
                                     <tr>
                                         <td style="padding: 3px">
-                                            <input type="checkbox" v-model="LetianoneMart.checked" v-if="LetianoneMart.saf25FileInfo.cnf1004_char02!=''" /></td>
-                                        <td style="padding: 3px">{{LetianoneMart.saf25FileInfo.FileName}}</td>
+                                            <input type="checkbox" v-model="PconeMart.checked" v-if="PconeMart.saf25FileInfo.cnf1004_char02!=''" /></td>
+                                        <td style="padding: 3px">{{PconeMart.saf25FileInfo.FileName}}</td>
                                         <td style="padding: 3px">
-                                            <label class="btn btn-default" v-if="LetianoneMart.saf25FileInfo.cnf1004_char02!=''" style="background-color: rgba(247, 255, 101, 0.67);">
+                                            <label class="btn btn-default" v-if="PconeMart.saf25FileInfo.cnf1004_char02!=''" style="background-color: rgba(247, 255, 101, 0.67);">
                                                 <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('24', $event)">
                                                 重新送出檔案比對
                                             </label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
-                                            <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="LetianoneMart.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=LetianoneMart.saf25FileInfo.ErrorMsg">
+                                            <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="PconeMart.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=PconeMart.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
                                             </label>
                                         </td>
                                     </tr>
                                 </table>
                             </div>
-                            <table class="table table-bordered" style="width: calc(100% - 18px)" v-if="LetianoneMart.saf25FileInfo.cnf1004_char02!=''">
+                            <table class="table table-bordered" style="width: calc(100% - 18px)" v-if="PconeMart.saf25FileInfo.cnf1004_char02!=''">
                                 <thead>
 
                                     <tr class="bg-primary text-light">
                                         <%--a--%>
-                                        <th v-on:click="sortBy(LetianoneMart,'saf2502_seq',$event)">訂單編號</th>
+                                        <th v-on:click="sortBy(PconeMart,'saf2502_seq',$event)">訂單編號</th>
                                         <%--b--%>
-                                        <th v-on:click="sortBy(LetianoneMart,'saf2549_paymt_date',$event)">付款時間</th>
+                                        <th v-on:click="sortBy(PconeMart,'saf2549_paymt_date',$event)">付款時間</th>
                                         <%--c--%>
-                                        <th v-on:click="sortBy(LetianoneMart,'saf2510_ord_name',$event)">訂購人</th>
+                                        <th v-on:click="sortBy(PconeMart,'saf2510_ord_name',$event)">訂購人</th>
                                         <%--d--%>
-                                        <th v-on:click="sortBy(LetianoneMart,'saf2511_ord_cell',$event)">訂購人電話</th>
+                                        <th v-on:click="sortBy(PconeMart,'saf2511_ord_cell',$event)">訂購人電話</th>
                                         <%--e--%>
-                                        <th v-on:click="sortBy(LetianoneMart,'saf2550_paymt_way',$event)">付款方式</th>
+                                        <th v-on:click="sortBy(PconeMart,'saf2550_paymt_way',$event)">付款方式</th>
                                         <%--f--%>
-                                        <th v-on:click="sortBy(LetianoneMart,'saf2538_inv_no',$event)">發票</th>
+                                        <th v-on:click="sortBy(PconeMart,'saf2538_inv_no',$event)">發票</th>
                                         <%--g--%>
-                                        <th v-on:click="sortBy(LetianoneMart,'saf2502_seq',$event)">信用卡後四碼</th>
+                                        <th v-on:click="sortBy(PconeMart,'saf2502_seq',$event)">信用卡後四碼</th>
                                         <%--h--%>
-                                        <th v-on:click="sortBy(LetianoneMart,'saf2548_price_sub',$event)">訂單金額</th>
+                                        <th v-on:click="sortBy(PconeMart,'saf2548_price_sub',$event)">訂單金額</th>
                                         <%--i--%>
-                                        <th v-on:click="sortBy(LetianoneMart,'saf2514_rec_name',$event)">收件人</th>
+                                        <th v-on:click="sortBy(PconeMart,'saf2514_rec_name',$event)">收件人</th>
                                         <%--j--%>
-                                        <th v-on:click="sortBy(LetianoneMart,'saf2515_rec_cell',$event)">電話</th>
+                                        <th v-on:click="sortBy(PconeMart,'saf2515_rec_cell',$event)">電話</th>
                                         <%--k--%>
-                                        <th v-on:click="sortBy(LetianoneMart,'saf2509_ord_shop',$event)">取貨門市</th>
+                                        <th v-on:click="sortBy(PconeMart,'saf2509_ord_shop',$event)">取貨門市</th>
                                         <%--l--%>
-                                        <th v-on:click="sortBy(LetianoneMart,'saf2531_psname',$event)">商品</th>
+                                        <th v-on:click="sortBy(PconeMart,'saf2531_psname',$event)">商品</th>
                                         <%--m--%>
-                                        <th v-on:click="sortBy(LetianoneMart,'saf2537_Letianode',$event)">商品編號</th>
+                                        <th v-on:click="sortBy(PconeMart,'saf2537_Letianode',$event)">商品編號</th>
                                         <%--n--%>
-                                        <th v-on:click="sortBy(LetianoneMart,'saf2536_Letianode_v',$event)">主料號</th>
+                                        <th v-on:click="sortBy(PconeMart,'saf2536_Letianode_v',$event)">主料號</th>
                                         <%--o--%>
-                                        <th v-on:click="sortBy(LetianoneMart,'saf2542_groups',$event)">方案入數</th>
+                                        <th v-on:click="sortBy(PconeMart,'saf2542_groups',$event)">方案入數</th>
                                         <%--p--%>
-                                        <th v-on:click="sortBy(LetianoneMart,'saf2547_price',$event)">方案價格</th>
+                                        <th v-on:click="sortBy(PconeMart,'saf2547_price',$event)">方案價格</th>
                                         <%--q--%>
-                                        <th v-on:click="sortBy(LetianoneMart,'saf2540_ship_qty',$event)">方案數量</th>
+                                        <th v-on:click="sortBy(PconeMart,'saf2540_ship_qty',$event)">方案數量</th>
                                         <%--r--%>
-                                        <th v-on:click="sortBy(LetianoneMart,'saf2561_option',$event)">選項</th>
+                                        <th v-on:click="sortBy(PconeMart,'saf2561_option',$event)">選項</th>
                                         <%--s--%>
-                                        <th v-on:click="sortBy(LetianoneMart,'saf2533_pspec',$event)">料號</th>
+                                        <th v-on:click="sortBy(PconeMart,'saf2533_pspec',$event)">料號</th>
                                         <%--t--%>
-                                        <th v-on:click="sortBy(LetianoneMart,'saf2541_ord_qty',$event)">數量</th>
+                                        <th v-on:click="sortBy(PconeMart,'saf2541_ord_qty',$event)">數量</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="saf25 in LetianoneMart.saf25FileInfo.saf25List">
+                                    <tr v-for="saf25 in PconeMart.saf25FileInfo.saf25List">
 
                                         <td>{{saf25.saf2502_seq}}</td>
                                         <td>{{saf25.saf2549_paymt_date}}</td>
