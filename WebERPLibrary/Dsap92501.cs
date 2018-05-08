@@ -4959,14 +4959,14 @@ end
                 for (var k = 0; k < row.Count; k++)
                 {
                     var column = row[k];
-                    if (column.Substring(0, 1) == "'")
-                    {
-                        column = column.Substring(1, column.Length - 1);
-                    }
-                    if (column.Substring(column.Length - 1, 1) == "'")
-                    {
-                        column = column.Substring(0, column.Length - 1);
-                    }
+                    //if (column.Substring(0, 1) == "'")
+                    //{
+                    //    column = column.Substring(1, column.Length - 1);
+                    //}
+                    //if (column.Substring(column.Length - 1, 1) == "'")
+                    //{
+                    //    column = column.Substring(0, column.Length - 1);
+                    //}
                     //A
                     if (k == 0)
                     {
@@ -5289,6 +5289,10 @@ end
                 while (sr.Peek() >= 0)
                 {
                     var ch = (char)sr.Read();
+                    if (ch == ']')
+                    {
+                        var a = 1;
+                    }
                     if (quotMarkMode)
                     {
                         //雙引號包含區段內遇到雙引號有兩種情境
@@ -5315,6 +5319,10 @@ end
                         }
                         //雙引號內遇到換行符號\n
                         else if (ch == '\n')
+                        {
+                            sb.Append(" ");
+                        }//雙引號內遇到換行符號\r
+                        else if (ch == '\r')
                         {
                             sb.Append(" ");
                         }
