@@ -5187,6 +5187,21 @@ end
             }
         }
 
+
+        private static string cellParse(string Num)
+        {
+
+            //手機格式補0
+            if (Num.IndexOf("(") < 0 && Num.IndexOf(")") < 0 && Num.IndexOf("9") == 0 && Num.Trim().Length==9)
+            {
+
+                Num = "0" + Num.Trim();
+
+            }
+
+            return Num;
+        
+        }
         private static string IntTryParse(string Num, saf25FileInfo saf25FileInfo, int row, int column, bool allowEmpty)
         {
             int Value;
