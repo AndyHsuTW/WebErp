@@ -223,6 +223,12 @@
                     File: [],
                     FileName: "",
                     saf25FileInfo: {}
+                }, YahooMart_MartDelivery: {// 蝦皮
+                    checked: true,
+                    open: false,
+                    File: [],
+                    FileName: "",
+                    saf25FileInfo: {}
                 },
 
 
@@ -289,107 +295,110 @@
                         var List = [];
                         //01
                         if (vueobj.one7P.checked && vueobj.one7P.open) {
-                            List.push(vueobj.one7P.saf25FileInfo)
+                            List.push(vueobj.one7P.saf25FileInfo);
                         }
                         //02
                         if (vueobj.MOMO.checked && vueobj.MOMO.open) {
-                            List.push(vueobj.MOMO.saf25FileInfo)
+                            List.push(vueobj.MOMO.saf25FileInfo);
                         }
                         //03
                         if (vueobj.PChome.checked && vueobj.PChome.open) {
-                            List.push(vueobj.PChome.saf25FileInfo)
+                            List.push(vueobj.PChome.saf25FileInfo);
                         }
 
                         //04
                         if (vueobj.Formosa_Plastics.checked && vueobj.Formosa_Plastics.open) {
-                            List.push(vueobj.Formosa_Plastics.saf25FileInfo)
+                            List.push(vueobj.Formosa_Plastics.saf25FileInfo);
                         }
                         //05
                         if (vueobj.Taiwan_Mobile.checked && vueobj.Taiwan_Mobile.open) {
-                            List.push(vueobj.Taiwan_Mobile.saf25FileInfo)
+                            List.push(vueobj.Taiwan_Mobile.saf25FileInfo);
                         }
                         //06
                         if (vueobj.Buy123.checked && vueobj.Buy123.open) {
-                            List.push(vueobj.Buy123.saf25FileInfo)
+                            List.push(vueobj.Buy123.saf25FileInfo);
                         }
                         //07
                         if (vueobj.Eastern.checked && vueobj.Eastern.open) {
-                            List.push(vueobj.Eastern.saf25FileInfo)
+                            List.push(vueobj.Eastern.saf25FileInfo);
                         }
 
                         //08
                         if (vueobj.Pcone.checked && vueobj.Pcone.open) {
-                            List.push(vueobj.Pcone.saf25FileInfo)
+                            List.push(vueobj.Pcone.saf25FileInfo);
                         }
                         //09
                         if (vueobj.Symphox.checked && vueobj.Symphox.open) {
-                            List.push(vueobj.Symphox.saf25FileInfo)
+                            List.push(vueobj.Symphox.saf25FileInfo);
                         }
                         //10
                         if (vueobj.Gomaji.checked && vueobj.Gomaji.open) {
-                            List.push(vueobj.Gomaji.saf25FileInfo)
+                            List.push(vueobj.Gomaji.saf25FileInfo);
                         }
                         //11
                         if (vueobj.PayEasy.checked && vueobj.PayEasy.open) {
-                            List.push(vueobj.PayEasy.saf25FileInfo)
+                            List.push(vueobj.PayEasy.saf25FileInfo);
                         }
 
                         //12
                         if (vueobj.UniPresiden.checked && vueobj.UniPresiden.open) {
-                            List.push(vueobj.UniPresiden.saf25FileInfo)
+                            List.push(vueobj.UniPresiden.saf25FileInfo);
                         }
                         //13
                         if (vueobj.Dingding.checked && vueobj.Dingding.open) {
-                            List.push(vueobj.Dingding.saf25FileInfo)
+                            List.push(vueobj.Dingding.saf25FileInfo);
                         }
                         //14
                         if (vueobj.Crazymike.checked && vueobj.Crazymike.open) {
-                            List.push(vueobj.Crazymike.saf25FileInfo)
+                            List.push(vueobj.Crazymike.saf25FileInfo);
                         }
                         //15
                         if (vueobj.Xingqi.checked && vueobj.Xingqi.open) {
-                            List.push(vueobj.Xingqi.saf25FileInfo)
+                            List.push(vueobj.Xingqi.saf25FileInfo);
                         }
                         //16
                         if (vueobj.Lianhebao.checked && vueobj.Lianhebao.open) {
-                            List.push(vueobj.Lianhebao.saf25FileInfo)
+                            List.push(vueobj.Lianhebao.saf25FileInfo);
                         }
                         //17
                         if (vueobj.MOMO_Specified.checked && vueobj.MOMO_Specified.open) {
-                            List.push(vueobj.MOMO_Specified.saf25FileInfo)
+                            List.push(vueobj.MOMO_Specified.saf25FileInfo);
                         }
                         //18
                         if (vueobj.YahooMart.checked && vueobj.YahooMart.open) {
-                            List.push(vueobj.YahooMart.saf25FileInfo)
+                            List.push(vueobj.YahooMart.saf25FileInfo);
                         }
                         //19
                         if (vueobj.Motian.checked && vueobj.Motian.open) {
-                            List.push(vueobj.Motian.saf25FileInfo)
+                            List.push(vueobj.Motian.saf25FileInfo);
                         }
                         //20
                         if (vueobj.Letian.checked && vueobj.Letian.open) {
-                            List.push(vueobj.Letian.saf25FileInfo)
+                            List.push(vueobj.Letian.saf25FileInfo);
                         }
                         
 
                         //21
                         if (vueobj.Pc.checked && vueobj.checked.open) {
-                            List.push(vueobj.Pc.saf25FileInfo)
+                            List.push(vueobj.Pc.saf25FileInfo);
                         }
                         //22
                         if (vueobj.Lutian.checked && vueobj.Lutian.open) {
-                            List.push(vueobj.Lutian.saf25FileInfo)
+                            List.push(vueobj.Lutian.saf25FileInfo);
                         }
 
                         //23
                         if (vueobj.Yahoo.checked && vueobj.Yahoo.open) {
-                            List.push(vueobj.Yahoo.saf25FileInfo)
+                            List.push(vueobj.Yahoo.saf25FileInfo);
                         }
                         //24
                         if (vueobj.PconeMart.checked && vueobj.PconeMart.open) {
-                            List.push(vueobj.PconeMart.saf25FileInfo)
+                            List.push(vueobj.PconeMart.saf25FileInfo);
                         }
-
+                        //25
+                        if (vueobj.YahooMart_MartDelivery.checked && vueobj.YahooMart_MartDelivery.open) {
+                            List.push(vueobj.YahooMart_MartDelivery.saf25FileInfo);
+                        }
                         //缺25
 
                         //26
@@ -399,56 +408,57 @@
                         //27
                         if (vueobj.Shopee.checked && vueobj.Shopee.open) {
                             List.push(vueobj.Shopee.saf25FileInfo)
-                            //28
-                            if (vueobj.Yahoo_MartDelivery.checked) {
-                                List.push(vueobj.Yahoo_MartDelivery.saf25FileInfo)
-                            }
-
-
-
-
-
-
-                            LoadingHelper.showLoading();
-                            $.ajax({
-                                url: rootUrl + "Dsap92501/Ajax/Import_saf25.ashx",
-                                type: 'POST',
-                                cache: false,
-                                async: true,
-                                data: {
-                                    List: JSON.stringify(List),
-                                    Loginuser: localStorage.getItem("USER_ID")
-                                },
-                                success: function (result) {
-                                    LoadingHelper.hideLoading();
-                                    vueobj.ImportDBLoadding = false;
-                                    var List = JSON.parse(result);
-                                    if (List.length > 0) {
-                                        var Msg = "";
-                                        for (var i = 0; i < List.length; i++) {
-                                            Msg += List[i] + "有錯誤\n";
-
-                                        }
-                                        alert(Msg);
-
-
-                                    } else {
-                                        alert("匯入成功");
-                                    }
-
-                                },
-                                error: function (jqXhr, textStatus, errorThrown) {
-                                    LoadingHelper.hideLoading();
-                                    vueobj.ImportDBLoadding = false;
-                                    console.error(errorThrown);
-                                }
-                            });
-
-
-
+                        }
+                        //28
+                        if (vueobj.Yahoo_MartDelivery.checked) {
+                            List.push(vueobj.Yahoo_MartDelivery.saf25FileInfo);
                         }
 
+
+
+
+
+
+                        LoadingHelper.showLoading();
+                        $.ajax({
+                            url: rootUrl + "Dsap92501/Ajax/Import_saf25.ashx",
+                            type: 'POST',
+                            cache: false,
+                            async: true,
+                            data: {
+                                List: JSON.stringify(List),
+                                Loginuser: localStorage.getItem("USER_ID")
+                            },
+                            success: function (result) {
+                                LoadingHelper.hideLoading();
+                                vueobj.ImportDBLoadding = false;
+                                var List = JSON.parse(result);
+                                if (List.length > 0) {
+                                    var Msg = "";
+                                    for (var i = 0; i < List.length; i++) {
+                                        Msg += List[i] + "有錯誤\n";
+
+                                    }
+                                    alert(Msg);
+
+
+                                } else {
+                                    alert("匯入成功");
+                                }
+
+                            },
+                            error: function (jqXhr, textStatus, errorThrown) {
+                                LoadingHelper.hideLoading();
+                                vueobj.ImportDBLoadding = false;
+                                console.error(errorThrown);
+                            }
+                        });
+
+
+
                     }
+
+                }
             },
             guid: function () {
                 function s4() {
@@ -463,7 +473,7 @@
 
 
                 if (this.DateTime.trim() == "") {
-                    alert("未填日期")
+                    alert("未填日期");
                     return;
                 }
                 var vueobj = this;
@@ -485,7 +495,7 @@
 
                 setTimeout(function () {
                     if (vueobj.requests.length < 6) {
-                        vueobj.companiestojudge(File)
+                        vueobj.companiestojudge(File);
                     } else {
                         vueobj.checkAjax(File);
 
@@ -497,7 +507,7 @@
             },
             companiestojudge: function (File) {
                 var formData = new FormData();
-                formData.append("file", File)
+                formData.append("file", File);
                    
                 var vueobj = this;
                     
@@ -654,6 +664,12 @@
                     vueobj.ImportExcelsAjax(formData, function (result) {
                         vueobj.PconeMart.open = true;
                         vueobj.PconeMart.saf25FileInfo = JSON.parse(result);
+                    })
+                }  else if (filenumber == "25") {
+                    vueobj.YahooMart_MartDelivery.FileName = File.name;
+                    vueobj.ImportExcelsAjax(formData, function (result) {
+                        vueobj.YahooMart_MartDelivery.open = true;
+                        vueobj.YahooMart_MartDelivery.saf25FileInfo = JSON.parse(result);
                     })
                 } else if (filenumber == "26") {
                     vueobj.PcHome_Delivery.FileName = File.name;
