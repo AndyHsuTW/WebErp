@@ -285,7 +285,7 @@ namespace Dsap02101
                             )");
                         sqlCmd.Parameters.AddWithValue("@saf2101DocnoOrdernoStart", filterOption.saf2101_docno_orderno_start);
                         sqlCmd.Parameters.AddWithValue("@saf2101DocnoOrdernoEnd",
-                                                      filterOption.saf2101_docno_orderno_end < 0
+                                                      filterOption.saf2101_docno_orderno_end < 0 || filterOption.saf2101_docno_orderno_end == null
                                                            ? filterOption.saf2101_docno_orderno_start
                                                            : filterOption.saf2101_docno_orderno_end);
                     }
@@ -339,12 +339,15 @@ namespace Dsap02101
               ,taf10.[taf1019_tel1]
               ,taf10.[taf1031_cellphone]
 			  ,saf21aa.qty
-              
+			  ,saf21a.remark
+
           FROM [dbo].[saf21] 
         LEFT JOIN dbo.cmf01
             ON cmf01.cmf0102_cuscode = saf21.saf2108_customer_code
 		LEFT JOIN dbo.taf10
 			on taf10.taf1001_empid = saf21.saf2147_recid
+        left join dbo.saf21a
+            on saf21a.saf21a01_docno = saf21.saf2101_docno
 		left join (select max(saf21a.saf21a16_total_qty) as qty, saf21a.saf21a01_docno from dbo.saf21a  GROUP  BY  saf21a.saf21a01_docno) as saf21aa
 			on saf21aa.saf21a01_docno = saf21.saf2101_docno
         WHERE 1=1
@@ -389,12 +392,15 @@ namespace Dsap02101
                             //try { saf21.saf2101_docno_orderno = Convert.ToInt32(sqlReader["saf2101_docno_orderno"]); }catch(Exception e) { var a = e.Message; }
                             saf21.saf2101_docno_type = Convert.ToString(sqlReader["saf2101_docno_type"]);
                             saf21.saf2106_order_date = Convert.ToDateTime(sqlReader["saf2106_order_date"]);
+                            saf21.saf2139_total_price = Convert.ToInt32(sqlReader["saf2139_total_price"]);
                             saf21.saf2108_customer_code = Convert.ToString(sqlReader["saf2108_customer_code"]);
                             saf21.cmf0103_bname = Convert.ToString(sqlReader["cmf0103_bname"]);
                             saf21.taf1002_firstname = Convert.ToString(sqlReader["taf1002_firstname"]);
                             saf21.taf1019_tel1 = Convert.ToInt32(sqlReader["taf1019_tel1"]);
                             saf21.taf1031_cellphone = Convert.ToInt32(sqlReader["taf1031_cellphone"]);
-                            
+                            saf21.remark = Convert.ToString(sqlReader["remark"]);
+
+
 
 
                             saf21List.Add(saf21);

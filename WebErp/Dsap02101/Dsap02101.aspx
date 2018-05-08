@@ -293,8 +293,9 @@
                                 <span class="ref-inputs">
                                     <input type="text" v-model="Filter.DocnoTypeStart"
                                         v-on:change="AutoFillFilter('DocnoTypeEnd',Filter.DocnoTypeStart)" />
-                                    <input type="text" v-model="Filter.DocnoDateStart"
-                                        v-on:change="AutoFillFilter('RefNoDateEnd',Filter.DocnoDateStart)" />
+                                    <vue-datetimepicker class="medium-field" placeholder=""
+                                    v-model="Filter.DocnoDateStart"
+                                    v-on:change="AutoFillFilter('DocnoDateEnd',Filter.DocnoDateStart,'datetime')"></vue-datetimepicker>
                                     <input type="text" v-model="Filter.DocnoOrderNoStart"
                                         v-on:change="AutoFillFilter('DocnoOrderNoEnd',Filter.DocnoOrderNoStart)" />
                                 </span>
@@ -302,7 +303,8 @@
                                 迄~
                                 <span class="ref-inputs">
                                     <input type="text" v-model="Filter.DocnoTypeEnd" />
-                                    <input type="text" v-model="Filter.RefNoDateEnd" />
+                                    <vue-datetimepicker id="DocnoDateEnd" class="medium-field" ref="FilterDocnoDateEnd" placeholder=""
+                                    v-model="Filter.DocnoDateEnd"></vue-datetimepicker>
                                     <input type="text" v-model="Filter.DocnoOrderNoEnd" />
                                 </span>
                             </td>
