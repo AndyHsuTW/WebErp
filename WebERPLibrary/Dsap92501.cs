@@ -863,10 +863,10 @@ end
             for (var j = 0; j < rowList.Count; j++)
             {
                 var saf25 = new saf25();
-                if (j <= 5) continue;//跳過標題
+                if (j ==0) continue;//跳過標題
 
                 var row = rowList[j];
-                if (row.Count != 11) continue;
+                //if (row.Count != 11) continue;
                 if (string.IsNullOrEmpty(row[0]) || string.IsNullOrEmpty(row[3])) continue;
 
 
@@ -2369,7 +2369,7 @@ end
                 if (j == 0) continue;//跳過標題
 
                 var row = rowList[j];
-                if (row.Count != 32) continue;
+                //if (row.Count != 32) continue;
 
                 if (string.IsNullOrEmpty(row[2].ToString())) continue;
                 saf25.saf2504_ord_date = OrderTime;
