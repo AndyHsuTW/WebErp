@@ -288,112 +288,116 @@
                         vueobj.ImportDBLoadding = true;
                         var List = [];
                         //01
-                        if (vueobj.one7P.checked) {
+                        if (vueobj.one7P.checked && vueobj.one7P.open) {
                             List.push(vueobj.one7P.saf25FileInfo)
                         }
                         //02
-                        if (vueobj.MOMO.checked) {
+                        if (vueobj.MOMO.checked && vueobj.MOMO.open) {
                             List.push(vueobj.MOMO.saf25FileInfo)
                         }
                         //03
-                        if (vueobj.PChome.checked) {
+                        if (vueobj.PChome.checked && vueobj.PChome.open) {
                             List.push(vueobj.PChome.saf25FileInfo)
                         }
 
                         //04
-                        if (vueobj.Formosa_Plastics.checked) {
+                        if (vueobj.Formosa_Plastics.checked && vueobj.Formosa_Plastics.open) {
                             List.push(vueobj.Formosa_Plastics.saf25FileInfo)
                         }
                         //05
-                        if (vueobj.Taiwan_Mobile.checked) {
+                        if (vueobj.Taiwan_Mobile.checked && vueobj.Taiwan_Mobile.open) {
                             List.push(vueobj.Taiwan_Mobile.saf25FileInfo)
                         }
                         //06
-                        if (vueobj.Buy123.checked) {
+                        if (vueobj.Buy123.checked && vueobj.Buy123.open) {
                             List.push(vueobj.Buy123.saf25FileInfo)
                         }
                         //07
-                        if (vueobj.Eastern.checked) {
+                        if (vueobj.Eastern.checked && vueobj.Eastern.open) {
                             List.push(vueobj.Eastern.saf25FileInfo)
                         }
 
                         //08
-                        if (vueobj.Pcone.checked) {
+                        if (vueobj.Pcone.checked && vueobj.Pcone.open) {
                             List.push(vueobj.Pcone.saf25FileInfo)
                         }
                         //09
-                        if (vueobj.Symphox.checked) {
+                        if (vueobj.Symphox.checked && vueobj.Symphox.open) {
                             List.push(vueobj.Symphox.saf25FileInfo)
                         }
                         //10
-                        if (vueobj.Gomaji.checked) {
+                        if (vueobj.Gomaji.checked && vueobj.Gomaji.open) {
                             List.push(vueobj.Gomaji.saf25FileInfo)
                         }
                         //11
-                        if (vueobj.PayEasy.checked) {
+                        if (vueobj.PayEasy.checked && vueobj.PayEasy.open) {
                             List.push(vueobj.PayEasy.saf25FileInfo)
                         }
 
                         //12
-                        if (vueobj.UniPresiden.checked) {
+                        if (vueobj.UniPresiden.checked && vueobj.UniPresiden.open) {
                             List.push(vueobj.UniPresiden.saf25FileInfo)
                         }
                         //13
-                        if (vueobj.Dingding.checked) {
+                        if (vueobj.Dingding.checked && vueobj.Dingding.open) {
                             List.push(vueobj.Dingding.saf25FileInfo)
                         }
                         //14
-                        if (vueobj.Crazymike.checked) {
+                        if (vueobj.Crazymike.checked && vueobj.Crazymike.open) {
                             List.push(vueobj.Crazymike.saf25FileInfo)
                         }
                         //15
-                        if (vueobj.Xingqi.checked) {
+                        if (vueobj.Xingqi.checked && vueobj.Xingqi.open) {
                             List.push(vueobj.Xingqi.saf25FileInfo)
                         }
                         //16
-                        if (vueobj.Lianhebao.checked) {
+                        if (vueobj.Lianhebao.checked && vueobj.Lianhebao.open) {
                             List.push(vueobj.Lianhebao.saf25FileInfo)
                         }
                         //17
-                        if (vueobj.MOMO_Specified.checked) {
+                        if (vueobj.MOMO_Specified.checked && vueobj.MOMO_Specified.open) {
                             List.push(vueobj.MOMO_Specified.saf25FileInfo)
                         }
                         //18
-                        if (vueobj.YahooMart.checked) {
+                        if (vueobj.YahooMart.checked && vueobj.YahooMart.open) {
                             List.push(vueobj.YahooMart.saf25FileInfo)
                         }
                         //19
-                        if (vueobj.Motian.checked) {
+                        if (vueobj.Motian.checked && vueobj.Motian.open) {
                             List.push(vueobj.Motian.saf25FileInfo)
                         }
-
+                        //20
+                        if (vueobj.Letian.checked && vueobj.Letian.open) {
+                            List.push(vueobj.Letian.saf25FileInfo)
+                        }
+                        
 
                         //21
-                        if (vueobj.Pc.checked) {
+                        if (vueobj.Pc.checked && vueobj.checked.open) {
                             List.push(vueobj.Pc.saf25FileInfo)
                         }
                         //22
-                        if (vueobj.Lutian.checked) {
+                        if (vueobj.Lutian.checked && vueobj.Lutian.open) {
                             List.push(vueobj.Lutian.saf25FileInfo)
                         }
 
                         //23
-                        if (vueobj.Yahoo.checked) {
+                        if (vueobj.Yahoo.checked && vueobj.Yahoo.open) {
                             List.push(vueobj.Yahoo.saf25FileInfo)
                         }
                         //24
-                        if (vueobj.PconeMart.checked) {
+                        if (vueobj.PconeMart.checked && vueobj.PconeMart.open) {
                             List.push(vueobj.PconeMart.saf25FileInfo)
                         }
 
                         //缺25
 
                         //26
-                        if (vueobj.PcHome_Delivery.checked) {
+                        if (vueobj.PcHome_Delivery.checked && vueobj.PcHome_Delivery.open) {
                             List.push(vueobj.PcHome_Delivery.saf25FileInfo)
                         }
                         //27
-                        if (vueobj.Shopee.checked) {
+                        if (vueobj.Shopee.checked && vueobj.Shopee.open) {
                             List.push(vueobj.Shopee.saf25FileInfo)
                             //28
                             if (vueobj.Yahoo_MartDelivery.checked) {
