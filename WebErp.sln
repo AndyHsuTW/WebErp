@@ -1,9 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2026
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "WebErp", "WebErp\", "{2B7DC195-24C2-43C7-8047-45BEE3368847}"
 	ProjectSection(WebsiteProperties) = preProject
-		Frontpage = "false"
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.6"
 		ProjectReferences = "{247de293-e3c1-4bb9-b693-7d5289fb146d}|ErpBaseLibrary.dll;{aef3318b-87ba-46bf-b529-736e8c37528b}|DCNP005.dll;{ea8a2535-7a6b-4937-a8e9-095acc3e8340}|WebERPLibrary.dll;{5155db8b-a863-4b9d-82c1-1beddcd4de81}|Dinp02301.dll;"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_53423"
@@ -21,6 +22,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "WebErp", "WebErp\", "{2B7DC
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "58900"
+		SlnRelativePath = "WebErp\"
 		DefaultWebSiteLanguage = "Visual C#"
 	EndProjectSection
 EndProject
@@ -31,6 +33,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebERPLibrary", "WebERPLibrary\WebERPLibrary.csproj", "{EA8A2535-7A6B-4937-A8E9-095ACC3E8340}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dinp02301", "Dinp02301\Dinp02301.csproj", "{5155DB8B-A863-4B9D-82C1-1BEDDCD4DE81}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dsap02101", "Dasp02101\Dsap02101.csproj", "{71C99D1F-52B9-4426-9242-B4821202985E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -58,8 +62,15 @@ Global
 		{5155DB8B-A863-4B9D-82C1-1BEDDCD4DE81}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5155DB8B-A863-4B9D-82C1-1BEDDCD4DE81}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5155DB8B-A863-4B9D-82C1-1BEDDCD4DE81}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71C99D1F-52B9-4426-9242-B4821202985E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71C99D1F-52B9-4426-9242-B4821202985E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71C99D1F-52B9-4426-9242-B4821202985E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71C99D1F-52B9-4426-9242-B4821202985E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {32849F29-F2F6-4C15-98E5-48B81375A63F}
 	EndGlobalSection
 EndGlobal
