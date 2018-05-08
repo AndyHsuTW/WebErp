@@ -2389,7 +2389,7 @@ end
                     //B
                     else if (k == 1)
                     {
-                        //saf25.saf2503_ord_no = column;
+                        saf25.saf2587_gift_pnt = column;
                     }
                     //C
                     else if (k == 2)
