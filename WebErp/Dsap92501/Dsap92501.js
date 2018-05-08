@@ -392,7 +392,7 @@
 
 
                         //21
-                        if (vueobj.Pc.checked && vueobj.checked.open) {
+                        if (vueobj.Pc.checked && vueobj.Pc.open) {
                             List.push(vueobj.Pc.saf25FileInfo);
                         }
                         //22

@@ -866,6 +866,8 @@ end
                 if (j ==0) continue;//跳過標題
 
                 var row = rowList[j];
+
+                
                 //if (row.Count != 11) continue;
                 if (string.IsNullOrEmpty(row[0]) || string.IsNullOrEmpty(row[3])) continue;
 
@@ -873,6 +875,7 @@ end
                 for (var k = 0; k < row.Count; k++)
                 {
                     var column = row[k];
+                    column=Regex.Replace(column.Replace("<br>", "，"), @"<[^>]*>", String.Empty);
                     //A
                     if (k == 0)
                     {
@@ -3929,7 +3932,7 @@ end
                 for (var k = 0; k < row.Count; k++)
                 {
                     var column = row[k];
-
+                    
                     //A
                     if (k == 0)
                     {
@@ -4023,7 +4026,7 @@ end
                     //Q
                     else if (k == 16)
                     {
-                        saf25.saf2506_ord_status = column;
+                        saf25.saf2506_ord_status = Regex.Replace(column.Replace("<br>", "，"), @"<[^>]*>", String.Empty); ;
                     }
                     //R
                     else if (k == 17)
