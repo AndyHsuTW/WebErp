@@ -2019,60 +2019,56 @@
                             </table>
                         </div>
 
-
-
-
-
-                        <%--21. Letian--%>
-                        <div class="scroll-table" v-if="Letian.open">
+                        <%--21. Pc--%>
+                        <div class="scroll-table" v-if="Pc.open">
                             <div>
                                 <table>
                                     <tr>
                                         <td style="padding: 3px">
-                                            <input type="checkbox" v-model="Letian.checked" v-if="Letian.saf25FileInfo.cnf1004_char02!=''" /></td>
-                                        <td style="padding: 3px">{{Letian.saf25FileInfo.FileName}}</td>
+                                            <input type="checkbox" v-model="Pc.checked" v-if="Pc.saf25FileInfo.cnf1004_char02!=''" /></td>
+                                        <td style="padding: 3px">{{Pc.saf25FileInfo.FileName}}</td>
                                         <td style="padding: 3px">
-                                            <label class="btn btn-default" v-if="Letian.saf25FileInfo.cnf1004_char02!=''" style="background-color: rgba(247, 255, 101, 0.67);">
+                                            <label class="btn btn-default" v-if="Pc.saf25FileInfo.cnf1004_char02!=''" style="background-color: rgba(247, 255, 101, 0.67);">
                                                 <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('21', $event)">
                                                 重新送出檔案比對
                                             </label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
-                                            <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="Letian.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Letian.saf25FileInfo.ErrorMsg">
+                                            <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="Pc.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Pc.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
                                             </label>
                                         </td>
                                     </tr>
                                 </table>
                             </div>
-                            <table class="table table-bordered" style="width: calc(100% - 18px)" v-if="Letian.saf25FileInfo.cnf1004_char02!=''">
+                            <table class="table table-bordered" style="width: calc(100% - 18px)" v-if="Pc.saf25FileInfo.cnf1004_char02!=''">
                                 <thead>
                                     <tr class="bg-primary text-light">
-                                        <th v-on:click="sortBy(Letian,'saf2503_ord_no',$event)">訂單編號</th>
-                                        <th v-on:click="sortBy(Letian,'saf2504_ord_date',$event)">訂購日期
+                                        <th v-on:click="sortBy(Pc,'saf2503_ord_no',$event)">訂單編號</th>
+                                        <th v-on:click="sortBy(Pc,'saf2504_ord_date',$event)">訂購日期
                                         </th>
-                                        <th v-on:click="sortBy(Letian,'saf2510_ord_name',$event)">訂購人
+                                        <th v-on:click="sortBy(Pc,'saf2510_ord_name',$event)">訂購人
                                         </th>
-                                        <th v-on:click="sortBy(Letian,'saf2514_rec_name',$event)">收貨人
+                                        <th v-on:click="sortBy(Pc,'saf2514_rec_name',$event)">收貨人
                                         </th>
-                                        <th v-on:click="sortBy(Letian,'saf2515_rec_cell',$event)">收貨人電話
+                                        <th v-on:click="sortBy(Pc,'saf2515_rec_cell',$event)">收貨人電話
                                         </th>
-                                        <th v-on:click="sortBy(Letian,'saf2531_psname',$event)">商品名稱
+                                        <th v-on:click="sortBy(Pc,'saf2531_psname',$event)">商品名稱
                                         </th>
-                                        <th v-on:click="sortBy(Letian,'saf2541_ord_qty',$event)">數量
+                                        <th v-on:click="sortBy(Pc,'saf2541_ord_qty',$event)">數量
                                         </th>
-                                        <th v-on:click="sortBy(Letian,'saf2548_price_sub',$event)">金額
+                                        <th v-on:click="sortBy(Pc,'saf2548_price_sub',$event)">金額
                                         </th>
-                                        <th v-on:click="sortBy(Letian,'saf2532_pname',$event)">商品規格
+                                        <th v-on:click="sortBy(Pc,'saf2532_pname',$event)">商品規格
                                         </th>
-                                        <th v-on:click="sortBy(Letian,'saf2505_ord_remark',$event)">顧客特殊需求／統編
+                                        <th v-on:click="sortBy(Pc,'saf2505_ord_remark',$event)">顧客特殊需求／統編
                                         </th>
-                                        <th v-on:click="sortBy(Letian,'saf2538_inv_no',$event)">店家料號
+                                        <th v-on:click="sortBy(Pc,'saf2538_inv_no',$event)">店家料號
                                         </th>
 
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="saf25 in Letian.saf25FileInfo.saf25List">
+                                    <tr v-for="saf25 in Pc.saf25FileInfo.saf25List">
                                         <td>{{saf25.saf2503_ord_no}}</td>
                                         <td>{{saf25.saf2504_ord_date}}</td>
                                         <td>{{saf25.saf2510_ord_name}}</td>
