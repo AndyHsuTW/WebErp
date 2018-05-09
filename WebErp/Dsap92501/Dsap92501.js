@@ -242,7 +242,13 @@
                     FileName: "",
                     saf25FileInfo: {}
                 },
-
+                Buy123CS: { //生活市集-超取
+                    checked: true,
+                    open: false,
+                    File: [],
+                    FileName: "",
+                    saf25FileInfo: {}
+                },
 
                 requests: [],
                 ImportDBLoadding: false
@@ -425,6 +431,10 @@
                         //28
                         if (vueobj.Yahoo_MartDelivery.checked) {
                             list.push(vueobj.Yahoo_MartDelivery.saf25FileInfo);
+                        }
+                        //29
+                        if (vueobj.Buy123CS.checked && vueobj.Buy123CS.open) {
+                            list.push(vueobj.Buy123CS.saf25FileInfo);
                         }
 
 
@@ -729,6 +739,13 @@
                             function (result) {
                                 vueobj.Yahoo_MartDelivery.open = true;
                                 vueobj.Yahoo_MartDelivery.saf25FileInfo = JSON.parse(result);
+                            });
+                    } else if (filenumber == "29") {
+                        vueobj.Buy123CS.FileName = File.name;
+                        vueobj.ImportExcelsAjax(formData,
+                            function (result) {
+                                vueobj.Buy123CS.open = true;
+                                vueobj.Buy123CS.saf25FileInfo = JSON.parse(result);
                             });
                     }
 

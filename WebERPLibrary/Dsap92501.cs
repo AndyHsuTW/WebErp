@@ -2307,16 +2307,21 @@ end
             p_saf25_old2.saf2503_ord_no = p_saf25_old.saf2503_ord_no;
             p_saf25_old2.saf2504_ord_date = p_saf25_old.saf2504_ord_date;
             p_saf25_old2.saf2505_ord_remark = p_saf25_old.saf2505_ord_remark;
-            p_saf25_old2.saf2514_rec_name = p_saf25_old.saf2501_cuscode;
-            p_saf25_old2.saf2515_rec_cell = p_saf25_old.saf2501_cuscode;
-            p_saf25_old2.saf2519_rec_address = p_saf25_old.saf2501_cuscode;
-            p_saf25_old2.saf2531_psname = p_saf25_old.saf2501_cuscode;
-            p_saf25_old2.saf2522_dis_demand = p_saf25_old.saf2501_cuscode;
-            p_saf25_old2.saf2508_ord_plan = p_saf25_old.saf2501_cuscode;
-            p_saf25_old2.saf2501_cuscode = p_saf25_old.saf2501_cuscode;
-            p_saf25_old2.saf2501_cuscode = p_saf25_old.saf2501_cuscode;
-            p_saf25_old2.saf2501_cuscode = p_saf25_old.saf2501_cuscode;
-            p_saf25_old2.saf2501_cuscode = p_saf25_old.saf2501_cuscode;
+            p_saf25_old2.saf2508_ord_plan = p_saf25_old.saf2508_ord_plan;
+            p_saf25_old2.saf2509_ord_shop = p_saf25_old.saf2509_ord_shop;
+            p_saf25_old2.saf2514_rec_name = p_saf25_old.saf2514_rec_name;
+            p_saf25_old2.saf2515_rec_cell = p_saf25_old.saf2515_rec_cell;
+            p_saf25_old2.saf2519_rec_address = p_saf25_old.saf2519_rec_address;
+            p_saf25_old2.saf2522_dis_demand = p_saf25_old.saf2522_dis_demand;
+
+            p_saf25_old2.saf2528_fre_no = p_saf25_old.saf2528_fre_no;
+            p_saf25_old2.saf2531_psname = p_saf25_old.saf2531_psname;
+            p_saf25_old2.saf2532_pname = p_saf25_old.saf2532_pname;
+
+
+            p_saf25_old2.saf2549_paymt_date = p_saf25_old.saf2549_paymt_date;
+            p_saf25_old2.saf2552_return = p_saf25_old.saf2552_return;
+            p_saf25_old2.saf2590_col_money = p_saf25_old.saf2590_col_money;
         }
 
         private static void LifeMarket_csvtosaf25(List<List<string>> rowList, saf25FileInfo saf25FileInfo, string OrderTime)
@@ -2336,6 +2341,7 @@ end
                         var saf25_old2 = new saf25();
                         syncSaf25oldAndSaf25old2(saf25_old, ref saf25_old2);
                         saf25_old2.saf2508_ord_plan = row[7].ToString();
+                        saf25_old2.saf2532_pname = row[7].ToString();
                         saf25FileInfo.saf25List.Add(saf25_old2);
                         continue;
                     }
@@ -2384,8 +2390,8 @@ end
                     //E
                     else if (k == 4)
                     {
-                        saf25.saf2515_rec_cell = column;
-                        saf25_old.saf2515_rec_cell = column;
+                        saf25.saf2515_rec_cell = cellParse(column);
+                        saf25_old.saf2515_rec_cell = cellParse(column);
                     }
                     //F
                     else if (k == 5)
@@ -2404,6 +2410,8 @@ end
                     {
                         saf25.saf2508_ord_plan = column;
                         saf25_old.saf2508_ord_plan = column;
+                        saf25.saf2532_pname = column;
+                        saf25_old.saf2532_pname = column;
                     }
                     //I
                     else if (k == 8)
@@ -2442,10 +2450,12 @@ end
                 {
                     try
                     {
-                        saf25_old.saf2508_ord_plan = row[6];
-                        saf25_old.saf2590_col_money = DoubleTryParse(row[7], saf25FileInfo, j, 7, false);
-                        saf25FileInfo.saf25List.Add(saf25_old);
-                        //saf25_old = new saf25();
+                        var saf25_old2 = new saf25();
+                        syncSaf25oldAndSaf25old2(saf25_old, ref saf25_old2);
+                        saf25_old2.saf2508_ord_plan = row[6];
+                        saf25_old2.saf2532_pname = row[6];
+                        saf25_old2.saf2590_col_money = DoubleTryParse(row[7], saf25FileInfo, j, 7, false);
+                        saf25FileInfo.saf25List.Add(saf25_old2);
                         continue;
                     }
                     catch (Exception ex)
@@ -2453,6 +2463,7 @@ end
                         continue;
                     }
                 }
+                saf25_old = new saf25();
 
                 saf25.saf2504_ord_date = OrderTime;
                 for (var k = 0; k < row.Count; k++)
@@ -2497,6 +2508,7 @@ end
                     else if (k == 6)
                     {
                         saf25.saf2508_ord_plan = column;
+                        saf25.saf2532_pname = column;
                     }
                     //H
                     else if (k == 7)
@@ -2520,7 +2532,7 @@ end
                     //}
                 }
                 saf25FileInfo.saf25List.Add(saf25);
-                saf25_old = saf25;
+                syncSaf25oldAndSaf25old2(saf25, ref saf25_old);
             }
         }
 
