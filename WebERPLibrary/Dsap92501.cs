@@ -17,7 +17,7 @@ namespace WebERPLibrary
 {
     public class Dsap92501
     {
-        public static List<string> Import_saf25(List<saf25FileInfo> List, string user)
+        public static List<string> Import_saf25(List<saf25FileInfo> List, string DateTime, string user)
         {
             var msg = new List<string>();
             using (var conn = new SqlConnection(MyConnStringList.AzureGoodeasy))
@@ -34,6 +34,12 @@ namespace WebERPLibrary
                         {
                             try
                             {
+
+                                if (string.IsNullOrEmpty(saf25.saf2504_ord_date))
+                                {
+                                    saf25.saf2504_ord_date = DateTime;
+                                }
+
                                 //30170806481078-003
                                 Insertsaf25(cmd, saf25, data.cnf1004_char02, user);
                             }
@@ -63,7 +69,7 @@ namespace WebERPLibrary
             cmd.Parameters.AddWithValue("@saf2501_cuscode", cnf1004_char02);
             cmd.Parameters.AddWithValue("@saf2502_seq", saf25.saf2502_seq ?? "");
             cmd.Parameters.AddWithValue("@saf2503_ord_no", saf25.saf2503_ord_no??"");
-            cmd.Parameters.AddWithValue("@saf2504_ord_date", saf25.saf2504_ord_date);
+            cmd.Parameters.AddWithValue("@saf2504_ord_date", Convert.ToDateTime(saf25.saf2504_ord_date));
             cmd.Parameters.AddWithValue("@saf2505_ord_remark", saf25.saf2505_ord_remark ?? "");
             cmd.Parameters.AddWithValue("@saf2506_ord_status", saf25.saf2506_ord_status ?? "");
             cmd.Parameters.AddWithValue("@saf2507_ord_class", saf25.saf2507_ord_class ?? "");
@@ -83,7 +89,7 @@ namespace WebERPLibrary
             if (!String.IsNullOrEmpty(saf25.saf2520_dis_date))
             {
 
-                cmd.Parameters.AddWithValue("@saf2520_dis_date", saf25.saf2520_dis_date);
+                cmd.Parameters.AddWithValue("@saf2520_dis_date", Convert.ToDateTime(saf25.saf2520_dis_date));
             }
             else
             {
@@ -96,7 +102,7 @@ namespace WebERPLibrary
             if (!String.IsNullOrEmpty(saf25.saf2523_ship_date))
             {
 
-                cmd.Parameters.AddWithValue("@saf2523_ship_date", saf25.saf2523_ship_date);
+                cmd.Parameters.AddWithValue("@saf2523_ship_date", Convert.ToDateTime(saf25.saf2523_ship_date));
             }
             else
             {
@@ -143,7 +149,7 @@ namespace WebERPLibrary
             if (!String.IsNullOrEmpty(saf25.saf2549_paymt_date))
             {
 
-                cmd.Parameters.AddWithValue("@saf2549_paymt_date", saf25.saf2549_paymt_date);
+                cmd.Parameters.AddWithValue("@saf2549_paymt_date", Convert.ToDateTime(saf25.saf2549_paymt_date));
             }
             else
             {
@@ -169,7 +175,7 @@ namespace WebERPLibrary
             if (!String.IsNullOrEmpty(saf25.saf2562_warehs_date))
             {
 
-                cmd.Parameters.AddWithValue("@saf2562_warehs_date", saf25.saf2562_warehs_date);
+                cmd.Parameters.AddWithValue("@saf2562_warehs_date", Convert.ToDateTime(saf25.saf2562_warehs_date));
             }
             else
             {
@@ -230,23 +236,26 @@ namespace WebERPLibrary
             cmd.Parameters.AddWithValue("@saf2588_gift_amt", String.IsNullOrEmpty(saf25.saf2588_gift_amt) ? "0" : saf25.saf2588_gift_amt);
             cmd.Parameters.AddWithValue("@saf2589_order_amt", String.IsNullOrEmpty(saf25.saf2589_order_amt) ? "0" : saf25.saf2589_order_amt);
 
-            var filter = "saf2503_ord_no=@saf2503_ord_no and saf2501_cuscode=@saf2501_cuscode";
+            var filter = "saf2503_ord_no=@saf2503_ord_no and saf2504_ord_date=@saf2504_ord_date and saf2514_rec_name=@saf2514_rec_name and saf2531_psname=@saf2531_psname and saf2532_pname =@saf2532_pname";
 
-            if (cnf1004_char02 == "140")
-            {
-                filter = "saf2504_ord_date=@saf2504_ord_date and saf2536_pcode_v=@saf2536_pcode_v and saf2578_get_acc=@saf2578_get_acc";
-            }
+            
            
             
 
 
             cmd.CommandText = String.Format(@"
 DECLARE @Exist int
+DECLARE @Shipping int
+
 
 SELECT @Exist=1
   FROM [dbo].[saf25] where {0}
 
-if(@Exist=1)
+
+SELECT @Shipping=1
+  FROM [dbo].[saf25] where {0} and saf2592_serial in ('0','')
+
+if(@Exist=1 and @Shipping=1)
 begin
 update [dbo].[saf25]
  set
@@ -817,7 +826,7 @@ end
                     //E
                     else if (k == 4)
                     {
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2515_rec_cell = cellParse(column);
                     }
                     //F
                     else if (k == 5)
@@ -926,7 +935,7 @@ end
                     //H
                     else if (k == 7)
                     {
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2515_rec_cell = cellParse(column);
                     }
                     //I
                     else if (k == 8)
@@ -1114,23 +1123,23 @@ end
                     //Y
                     else if (k == 24)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     } //Z
                     else if (k == 25)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     } //AA
                     else if (k == 26)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     } //AB
                     else if (k == 27)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     } //AC
                     else if (k == 28)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//AD
                     else if (k == 29)
                     {
@@ -1138,7 +1147,7 @@ end
                     }//AE
                     else if (k == 30)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//AF
                     else if (k == 31)
                     {
@@ -1146,23 +1155,23 @@ end
                     }//AG
                     else if (k == 32)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//AH
                     else if (k == 33)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//AI
                     else if (k == 34)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//AJ
                     else if (k == 35)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//AK
                     else if (k == 36)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//AL
                     else if (k == 37)
                     {
@@ -1170,11 +1179,11 @@ end
                     }//AM
                     else if (k == 38)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//AN
                     else if (k == 39)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//AO
                     else if (k == 40)
                     {
@@ -1182,11 +1191,11 @@ end
                     }//AP
                     else if (k == 41)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//AQ
                     else if (k == 42)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//AR
                     else if (k == 43)
                     {
@@ -1194,7 +1203,7 @@ end
                     }//AS
                     else if (k == 44)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//AT
                     else if (k == 45)
                     {
@@ -1206,11 +1215,11 @@ end
                     }//AV
                     else if (k == 47)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//AW
                     else if (k == 48)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//AX
                     else if (k == 49)
                     {
@@ -1218,19 +1227,19 @@ end
                     }//AY
                     else if (k == 50)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//AZ
                     else if (k == 51)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//BA
                     else if (k == 52)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//BB
                     else if (k == 53)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//BC
                     else if (k == 54)
                     {
@@ -1238,11 +1247,11 @@ end
                     }//BD
                     else if (k == 55)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//BE
                     else if (k == 56)
                     {
-                        saf25.saf2511_ord_cell = column;
+                        saf25.saf2511_ord_cell = cellParse(column);
                     }//BF
                     else if (k == 57)
                     {
@@ -1250,11 +1259,11 @@ end
                     }//BG
                     else if (k == 58)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//BH
                     else if (k == 59)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//BI
                     else if (k == 60)
                     {
@@ -1262,23 +1271,23 @@ end
                     }//BJ
                     else if (k == 61)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//BK
                     else if (k == 62)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//BL
                     else if (k == 63)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//BM
                     else if (k == 64)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//BN
                     else if (k == 65)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//BO
                     else if (k == 66)
                     {
@@ -1286,7 +1295,7 @@ end
                     }//BP
                     else if (k == 67)
                     {
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2515_rec_cell = cellParse(column);
                     }//BQ
                     else if (k == 68)
                     {
@@ -1298,80 +1307,80 @@ end
                     }//BS
                     else if (k == 70)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//BT
                     else if (k == 71)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//BU
                     else if (k == 72)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//BV
                     else if (k == 73)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//BW
                     else if (k == 74)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//BX
                     else if (k == 75)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//BY
                     else if (k == 76)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//BZ
                     else if (k == 77)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//CA
                     else if (k == 78)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//CB
                     else if (k == 79)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//CC
                     else if (k == 80)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//CD
                     else if (k == 81)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//CE
                     else if (k == 82)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//CF
                     else if (k == 83)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//CG
                     else if (k == 84)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//CH
                     else if (k == 85)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//CI
                     else if (k == 86)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//CJ
                     else if (k == 87)
                     {
-                        // saf25.saf2511_ord_cell = column;
+                        // saf25.saf2511_ord_cell = cellParse(column);
                     }
                     //Ck
                     else if (k == 88)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }
 
                 }
@@ -1458,7 +1467,7 @@ end
                     //L  
                     else if (k == 11)
                     {
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2515_rec_cell = cellParse(column);
                     }
                     //M
                     else if (k == 12)
@@ -1523,7 +1532,7 @@ end
                     //Y
                     else if (k == 24)
                     {
-                        saf25.saf2511_ord_cell = column;
+                        saf25.saf2511_ord_cell = cellParse(column);
                     }
 
                 }
@@ -1565,7 +1574,7 @@ end
                         //{
                         //    saf25FileInfo.ErrorMsg.Add(CreatErrorMsg(j, k, "沒有訂單編號"));
                         //}
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2515_rec_cell = cellParse(column);
                     }
                     //E
                     else if (k == 4)
@@ -1681,7 +1690,7 @@ end
                     //Y
                     else if (k == 24)
                     {
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2515_rec_cell = cellParse(column);
                     }
                     //Z
                     else if (k == 25)
@@ -1733,7 +1742,7 @@ end
                     //C
                     else if (k == 2)
                     {
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2515_rec_cell = cellParse(column);
                     }
                     //D
                     else if (k == 3)
@@ -1849,7 +1858,7 @@ end
                     //E
                     else if (k == 4)
                     {
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2515_rec_cell = cellParse(column);
                     }
                     //F
                     else if (k == 5)
@@ -2053,7 +2062,7 @@ end
                     //Q
                     else if (k == 16)
                     {
-                        saf25.saf2511_ord_cell = column;
+                        saf25.saf2511_ord_cell = cellParse(column);
                     }
                     //R
                     else if (k == 17)
@@ -2073,7 +2082,7 @@ end
                     //U
                     else if (k == 20)
                     {
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2515_rec_cell = cellParse(column);
                     }
                     //V
                     else if (k == 21)
@@ -2263,7 +2272,7 @@ end
                     //Q
                     else if (k == 16)
                     {
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2515_rec_cell = cellParse(column);
                     }
                     //R
                     else if (k == 17)
@@ -2322,7 +2331,7 @@ end
                     //D
                     else if (k == 3)
                     {
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2515_rec_cell = cellParse(column);
                     }
                     //E
                     else if (k == 4)
@@ -2457,7 +2466,7 @@ end
                     //O
                     else if (k == 14)
                     {
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2515_rec_cell = cellParse(column);
                     }
                     //P
                     else if (k == 15)
@@ -2571,7 +2580,7 @@ end
                     //D
                     else if (k == 3)
                     {
-                        saf25.saf2511_ord_cell = column;
+                        saf25.saf2511_ord_cell = cellParse(column);
                     }
                     //E
                     else if (k == 4)
@@ -2601,7 +2610,7 @@ end
                     //J
                     else if (k == 9)
                     {
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2515_rec_cell = cellParse(column);
                     }
                     //K
                     else if (k == 10)
@@ -2696,7 +2705,7 @@ end
                     //D
                     else if (k == 3)
                     {
-                        saf25.saf2511_ord_cell = column;
+                        saf25.saf2511_ord_cell = cellParse(column);
                     }
                     //E
                     else if (k == 4)
@@ -2726,7 +2735,7 @@ end
                     //J
                     else if (k == 9)
                     {
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2515_rec_cell = cellParse(column);
                     }
                     //K
                     else if (k == 10)
@@ -2873,7 +2882,7 @@ end
                     //M
                     else if (k == 12)
                     {
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2515_rec_cell = cellParse(column);
                     }
                     //N
                     else if (k == 13)
@@ -2964,12 +2973,12 @@ end
                     //H
                     else if (k == 7)
                     {
-                        saf25.saf2511_ord_cell = column;
+                        saf25.saf2511_ord_cell = cellParse(column);
                     }
                     //I
                     else if (k == 8)
                     {
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2515_rec_cell = cellParse(column);
                     }
                     //J
                     else if (k == 9)
@@ -3180,7 +3189,7 @@ end
                     //U
                     else if (k == 20)
                     {
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2515_rec_cell = cellParse(column);
                     }
                     //V
                     else if (k == 21)
@@ -3272,7 +3281,7 @@ end
                     //I
                     else if (k == 8)
                     {
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2515_rec_cell = cellParse(column);
                     }
                     //J
                     else if (k == 9)
@@ -3513,7 +3522,7 @@ end
                     //W
                     else if (k == 22)
                     {
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2515_rec_cell = cellParse(column);
                     }
                     //X
                     else if (k == 23)
@@ -3682,7 +3691,7 @@ end
                     //D
                     else if (k == 3)
                     {
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2515_rec_cell = cellParse(column);
                     }
                     //E
                     else if (k == 4)
@@ -3805,7 +3814,7 @@ end
                     //I
                     else if (k == 8)
                     {
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2515_rec_cell = cellParse(column);
                     }
                     //J
                     else if (k == 9)
@@ -4045,7 +4054,7 @@ end
                     //U
                     else if (k == 20)
                     {
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2515_rec_cell = cellParse(column);
                     }
                     //V
                     else if (k == 21)
@@ -4126,13 +4135,13 @@ end
                     //I
                     else if (k == 8)
                     {
-                        //saf25.saf2522_dis_demand = column;
+                        saf25.saf2536_pcode_v = column;
                     }
                     //J
                     else if (k == 9)
                     {
 
-                        saf25.saf2536_pcode_v = column;
+                        saf25.saf2532_pname = column;
                     }
                     //K
                     else if (k == 10)
@@ -4212,7 +4221,7 @@ end
                     //Z
                     else if (k == 25)
                     {
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2515_rec_cell = cellParse(column);
                     }
                     //AA
                     else if (k == 26)
@@ -4374,7 +4383,7 @@ end
                     //K
                     else if (k == 10)
                     {
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2515_rec_cell = cellParse(column);
                     }
                     //L  
                     else if (k == 11)
@@ -4474,7 +4483,7 @@ end
                     else if (k == 4)
                     {
                         
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2515_rec_cell = cellParse(column);
                     }
                     //F
                     else if (k == 5)
@@ -4528,7 +4537,7 @@ end
                     //N
                     else if (k == 13)
                     {
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2515_rec_cell = cellParse(column);
                     }
                     //O
                     else if (k == 14)
@@ -4698,7 +4707,7 @@ end
                     //N
                     else if (k == 13)
                     {
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2515_rec_cell = cellParse(column);
                     }
                     //O
                     else if (k == 14)
@@ -5069,7 +5078,7 @@ end
                     //Q
                     else if (k == 16)
                     {
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2515_rec_cell = cellParse(column);
                     }
                     //R
                     else if (k == 17)
