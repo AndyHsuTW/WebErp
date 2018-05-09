@@ -1665,7 +1665,6 @@
                                 </thead>
                                 <tbody>
                                     <tr v-for="saf25 in MOMO_Specified.saf25FileInfo.saf25List">
-                                        <td>{{saf25.saf2523_ship_date}}</td>
                                         <td>{{saf25.saf2502_seq}}</td>
                                         <td>{{saf25.saf2506_ord_status}}</td>
                                         <td>{{saf25.saf2505_ord_remark}}</td>
@@ -2437,7 +2436,7 @@
 
                                     <tr class="bg-primary text-light">
                                         <%--a--%>
-                                        <th v-on:click="sortBy(PconeMart,'saf2502_seq',$event)">訂單編號</th>
+                                        <th v-on:click="sortBy(PconeMart,'saf2503_ord_no',$event)">訂單編號</th>
                                         <%--b--%>
                                         <th v-on:click="sortBy(PconeMart,'saf2549_paymt_date',$event)">付款時間</th>
                                         <%--c--%>
@@ -2481,7 +2480,7 @@
                                 <tbody>
                                     <tr v-for="saf25 in PconeMart.saf25FileInfo.saf25List">
 
-                                        <td>{{saf25.saf2502_seq}}</td>
+                                        <td>{{saf25.saf2503_ord_no}}</td>
                                         <td>{{saf25.saf2549_paymt_date}}</td>
                                         <td>{{saf25.saf2510_ord_name}}</td>
 
@@ -2594,8 +2593,6 @@
                                 </tbody>
                             </table>
                         </div>
-
-
 
                         <%--26.Letianhome宅配--%>
                         <div class="scroll-table" v-if="PcHome_Delivery.open">
