@@ -3202,9 +3202,9 @@ end
 
                 var row = rowList[j];
 
-                if (row.Count != 28) continue;
+                //if (row.Count != 28) continue;
                 if (string.IsNullOrEmpty(row[1].ToString())) continue;
-                if (row[17].ToString().Contains("運費")) continue;
+                //if (row[17].ToString().Contains("運費")) continue;
 
                 for (var k = 0; k < row.Count; k++)
                 {
@@ -3357,7 +3357,7 @@ end
                     //Z
                     else if (k == 25)
                     {
-                        //saf25.saf2570_activity = column;
+                        saf25.saf2523_ship_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
                     }
                     //AA
                     else if (k == 26)
@@ -3751,7 +3751,7 @@ end
                     //A
                     if (k == 0)
                     {
-                        //saf25.saf2504_ord_date = column;
+                        saf25.saf2562_warehs_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
                     }
                     //B
                     else if (k == 1)
@@ -3770,7 +3770,7 @@ end
                     //D
                     else if (k == 3)
                     {
-                        //saf25.saf2527_ship_no = column;
+                        saf25.saf2502_seq = column;
                     }
                     //E
                     else if (k == 4)
@@ -3866,12 +3866,12 @@ end
                     //U
                     else if (k == 20)
                     {
-                        //saf25.saf2556_leave_msg = column;
+                        saf25.saf2587_gift_pnt = DoubleTryParse(column, saf25FileInfo, j, k, false);
                     }
                     //V
                     else if (k == 21)
                     {
-                        //saf25.saf2587_gift_pnt = IntTryParse(column, saf25FileInfo, j, k, false);
+                        saf25.saf2588_gift_amt = DoubleTryParse(column, saf25FileInfo, j, k, false);
                     }
                     //W
                     else if (k == 22)
@@ -4087,7 +4087,7 @@ end
                     //B
                     else if (k == 1)
                     {
-                        //saf25.saf2502_seq = column;
+                        saf25.saf2549_paymt_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
                     }
                     //C
                     else if (k == 2)
@@ -4101,12 +4101,12 @@ end
                     //D
                     else if (k == 3)
                     {
-                        saf25.saf2527_ship_no = column;
+                        saf25.saf2578_get_acc = column;
                     }
                     //E
                     else if (k == 4)
                     {
-                        saf25.saf2536_pcode_v = column;
+                        saf25.saf2537_pcode = column;
                     }
                     //F
                     else if (k == 5)
@@ -4116,12 +4116,12 @@ end
                     //G
                     else if (k == 6)
                     {
-                        saf25.saf2537_pcode = column;
+                        saf25.saf2507_ord_class = column;
                     }
                     //H
                     else if (k == 7)
                     {
-                        //saf25.saf2514_rec_name = column;
+                        saf25.saf2508_ord_plan = column;
                     }
                     //I
                     else if (k == 8)
@@ -4132,12 +4132,12 @@ end
                     else if (k == 9)
                     {
 
-                        saf25.saf2532_pname = column;
+                        saf25.saf2536_pcode_v = column;
                     }
                     //K
                     else if (k == 10)
                     {
-                        //saf25.saf2515_rec_cell = column;
+                        saf25.saf2521_dis_time = column;
                     }
                     //L  
                     else if (k == 11)
@@ -4147,7 +4147,7 @@ end
                     //M
                     else if (k == 12)
                     {
-                        //saf25.saf2541_ord_qty = IntTryParse(column, saf25FileInfo, j, k, false);
+                        saf25.saf2505_ord_remark = column;
                     }
                     //N
                     else if (k == 13)
@@ -4167,7 +4167,7 @@ end
                     //Q
                     else if (k == 16)
                     {
-                        //saf25.saf2545_cost_sub = DoubleTryParse(column, saf25FileInfo, j, k, false);
+                        saf25.saf2545_cost_sub = DoubleTryParse(column, saf25FileInfo, j, k, false);
                     }
                     //R
                     else if (k == 17)
@@ -4177,7 +4177,7 @@ end
                     //S
                     else if (k == 18)
                     {
-                        //saf25.saf2536_pcode_v = column;
+                        saf25.saf2544_cost = DoubleTryParse(column, saf25FileInfo, j, k, false);
                     }
                     //T
                     else if (k == 19)
@@ -4187,7 +4187,7 @@ end
                     //U
                     else if (k == 20)
                     {
-                        //saf25.saf2556_leave_msg = column;
+                        saf25.saf2588_gift_amt = DoubleTryParse(column, saf25FileInfo, j, k, false);
                     }
                     //V
                     else if (k == 21)
@@ -4197,7 +4197,7 @@ end
                     //W
                     else if (k == 22)
                     {
-                        //saf25.saf2556_leave_msg = column;
+                        saf25.saf2590_col_money = DoubleTryParse(column, saf25FileInfo, j, k, false);
                     }
                     //X
                     else if (k == 23)
@@ -4227,17 +4227,17 @@ end
                     //AC
                     else if (k == 28)
                     {
-                        //saf25.saf2556_leave_msg = column;
+                        saf25.saf2528_fre_no = column;
                     }
                     //AD
                     else if (k == 29)
                     {
-                        //saf25.saf2556_leave_msg = column;
+                        saf25.saf2533_pspec = column;
                     }
                     //AE
                     else if (k == 30)
                     {
-                        //saf25.saf2556_leave_msg = column;
+                        saf25.saf2591_rec_email = column;
                     }
                     //AF
                     else if (k == 31)
@@ -4257,17 +4257,17 @@ end
                     //AI
                     else if (k == 34)
                     {
-                        //saf25.saf2556_leave_msg = column;
+                        saf25.saf2502_seq = column;
                     }
                     //AJ
                     else if (k == 35)
                     {
-                        //saf25.saf2556_leave_msg = column;
+                        saf25.saf2583_store_remark = column;
                     }
                     //AK
                     else if (k == 36)
                     {
-                        //saf25.saf2556_leave_msg = column;
+                        saf25.saf2509_ord_shop = column;
                     }
                     //AL
                     else if (k == 37)
@@ -4282,7 +4282,7 @@ end
                     //AN
                     else if (k == 39)
                     {
-                        //saf25.saf2556_leave_msg = column;
+                        saf25.saf2543_cancel_qty = IntTryParse(column, saf25FileInfo, j, k, true);
                     }
                     //AO
                     else if (k == 40)
