@@ -536,6 +536,12 @@
                         if (productInfo == null) {
                             return;
                         }
+
+                        var vueObj = this;
+                        vueObj.Inf20aItem.inf20a57_pclass = productInfo.pclass;
+                        vueObj.Inf20aItem.inf20a16_punit = productInfo.runit;
+                        vueObj.Inf20aItem.inf20a58_cost_notax = productInfo.runit;
+
                     },
                     OnAdd: function () {
                         if (this.IsDpCodeDisplay) {
@@ -650,7 +656,8 @@
                     },
                     EmpSelectLabel: function (emp) {
                         return emp.taf1001_empid + "-" + emp.taf1004_cname;
-                    }, getthisManufacturerEmpList: function () {
+                    },
+                    getthisManufacturerEmpList: function () {
                         var vueobj = this;
                         vueobj.thisManufacturerEmpList = [];
                         vueobj.Inf20Item.ManufacturerEmpInfo = null;
@@ -668,7 +675,8 @@
 
                        
 
-                    }, getthisManufacturerEmpTel: function () {
+                    },
+                    getthisManufacturerEmpTel: function () {
                         this.Inf20Item.inf03a18_tel01 = null;
                         this.Inf20Item.inf03a24_cellphone = null;
                         if (this.Inf20Item.ManufacturerEmpInfo) {

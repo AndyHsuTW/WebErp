@@ -105,7 +105,7 @@ public class Inf20Print : IHttpHandler
             PdfPCell inf20a31_true_date = new PdfPCell(new Phrase(Convert.ToDateTime(printRow.inf20a31_true_date).ToString("yyyy/MM/dd"), contentFont));
             inf20a31_true_date.Border = Rectangle.NO_BORDER;
             contentTable.AddCell(inf20a31_true_date);
-            PdfPCell inf20a04_pcode = new PdfPCell(new Phrase((printRow.inf20a04_pcode == "" ? printRow.inf20a04_shoes_code), contentFont));
+            PdfPCell inf20a04_pcode = new PdfPCell(new Phrase((printRow.inf20a04_pcode == "" ? printRow.inf20a04_shoes_code : printRow.inf20a04_pcode), contentFont));
             inf20a04_pcode.Border = Rectangle.NO_BORDER;
             contentTable.AddCell(inf20a04_pcode);
             PdfPCell inf20a38_product_name = new PdfPCell(new Phrase(printRow.inf20a38_product_name, contentFont));
