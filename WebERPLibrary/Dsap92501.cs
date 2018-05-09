@@ -2793,8 +2793,8 @@ end
                 if (j == 0) continue;//跳過標題
 
                 var row = rowList[j];
-                if (row.Count != 17) continue;
-                if (string.IsNullOrEmpty(row[1].ToString()) || string.IsNullOrEmpty(row[6].ToString())) continue;
+                //if (row.Count != 17) continue;
+                //if (string.IsNullOrEmpty(row[1].ToString()) || string.IsNullOrEmpty(row[6].ToString())) continue;
 
                 for (var k = 0; k < row.Count; k++)
                 {
@@ -2802,16 +2802,16 @@ end
                     //A
                     if (k == 0)
                     {
-                        saf25.saf2510_ord_name = column;
-                    }
-                    //B
-                    else if (k == 1)
-                    {
                         if (column.Trim() == "")
                         {
                             saf25FileInfo.ErrorMsg.Add(CreatErrorMsg(j, k, "沒有訂單編號"));
                         }
                         saf25.saf2503_ord_no = column;
+                    }
+                    //B
+                    else if (k == 1)
+                    {
+                        saf25.saf2562_warehs_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
                     }
                     //C
                     else if (k == 2)
@@ -2819,7 +2819,6 @@ end
                         if (column.Trim() == "")
                         {
                             saf25.saf2504_ord_date = OrderTime;
-
                         }
                         else
                         {
@@ -2834,7 +2833,7 @@ end
                     //E
                     else if (k == 4)
                     {
-                        //saf25.saf2523_ship_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
+                        saf25.saf2533_pspec = column;
                     }
                     //F
                     else if (k == 5)
