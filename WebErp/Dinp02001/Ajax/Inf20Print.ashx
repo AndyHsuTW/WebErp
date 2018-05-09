@@ -105,7 +105,7 @@ public class Inf20Print : IHttpHandler
             PdfPCell inf20a31_true_date = new PdfPCell(new Phrase(Convert.ToDateTime(printRow.inf20a31_true_date).ToString("yyyy/MM/dd"), contentFont));
             inf20a31_true_date.Border = Rectangle.NO_BORDER;
             contentTable.AddCell(inf20a31_true_date);
-            PdfPCell inf20a04_pcode = new PdfPCell(new Phrase((printRow.inf20a04_pcode == "" ? printRow.inf20a04_shoes_code), contentFont));
+            PdfPCell inf20a04_pcode = new PdfPCell(new Phrase((printRow.inf20a04_pcode == "" ? printRow.inf20a04_shoes_code:printRow.inf20a04_pcode) ,contentFont));
             inf20a04_pcode.Border = Rectangle.NO_BORDER;
             contentTable.AddCell(inf20a04_pcode);
             PdfPCell inf20a38_product_name = new PdfPCell(new Phrase(printRow.inf20a38_product_name, contentFont));
@@ -133,67 +133,67 @@ public class Inf20Print : IHttpHandler
             PdfPCell inf20a58_cost_notax = new PdfPCell(new Phrase(printRow.inf20a58_cost_notax, contentFont));
             inf20a58_cost_notax.Border = Rectangle.NO_BORDER;
             inf20a58_cost_notax.HorizontalAlignment = Element.ALIGN_RIGHT;
-            
+
             PdfPCell inf20a40_one_amt = new PdfPCell(new Phrase(printRow.inf20a40_one_amt, contentFont));
             inf20a40_one_amt.Border = Rectangle.NO_BORDER;
             inf20a40_one_amt.HorizontalAlignment = Element.ALIGN_RIGHT;
-            
+
             contentTable.AddCell(inf20a40_one_amt);
         }
-        
-            doc.Add(contentTable);
 
-            //DottedLineSeparator separator = new DottedLineSeparator();
-            //separator.Gap = 2f;
-            //doc.Add(separator);
+        doc.Add(contentTable);
 
-            //PdfPTable summaryTable = new PdfPTable(8);
-            //summaryTable.WidthPercentage = 100;
+        //DottedLineSeparator separator = new DottedLineSeparator();
+        //separator.Gap = 2f;
+        //doc.Add(separator);
 
-            //PdfPCell costSumTitleCell = new PdfPCell(new Phrase("進價總額:", contentFont));
-            //costSumTitleCell.Border = Rectangle.NO_BORDER;
-            //costSumTitleCell.HorizontalAlignment = Element.ALIGN_LEFT;
-            //summaryTable.AddCell(costSumTitleCell);
-            //PdfPCell costSumCell = new PdfPCell(new Phrase(printRows.Sum(o=>o.inf20a07_ocost).ToString("0"), contentFont));
-            //costSumCell.Border = Rectangle.NO_BORDER;
-            //costSumCell.HorizontalAlignment = Element.ALIGN_CENTER;
-            //summaryTable.AddCell(costSumCell);
-            //PdfPCell retailSumTitleCell = new PdfPCell(new Phrase("售價總額:", contentFont));
-            //retailSumTitleCell.Border = Rectangle.NO_BORDER;
-            //retailSumTitleCell.HorizontalAlignment = Element.ALIGN_CENTER;
-            //summaryTable.AddCell(retailSumTitleCell);
-            //PdfPCell retailSumCell = new PdfPCell(new Phrase(printRows.Sum(o => o.inf29a09_oretail_one).ToString("0"), contentFont));
-            //retailSumCell.Border = Rectangle.NO_BORDER;
-            //retailSumCell.HorizontalAlignment = Element.ALIGN_CENTER;
-            //summaryTable.AddCell(retailSumCell);
-            //PdfPCell priceSumTitleCell = new PdfPCell(new Phrase("單價總額:", contentFont));
-            //priceSumTitleCell.Border = Rectangle.NO_BORDER;
-            //priceSumTitleCell.HorizontalAlignment = Element.ALIGN_CENTER;
-            //summaryTable.AddCell(priceSumTitleCell);
-            //PdfPCell priceSumCell =
-            //    new PdfPCell(
-            //        new Phrase(
-            //            printRows.Sum(o => Convert.ToDouble(o.inf29a39_price == "" ? "0" : o.inf29a39_price))
-            //                     .ToString("0"), contentFont));
-            //priceSumCell.Border = Rectangle.NO_BORDER;
-            //priceSumCell.HorizontalAlignment = Element.ALIGN_CENTER;
-            //summaryTable.AddCell(priceSumCell);
-            //PdfPCell qtySumTitleCell = new PdfPCell(new Phrase("筆數:", contentFont));
-            //qtySumTitleCell.Border = Rectangle.NO_BORDER;
-            //qtySumTitleCell.HorizontalAlignment = Element.ALIGN_CENTER;
-            //summaryTable.AddCell(qtySumTitleCell);
-            //PdfPCell qtySumCell =
-            //    new PdfPCell(new Phrase(Convert.ToString(printRows.Sum(o => (int) o.inf29a13_sold_qty)), contentFont));
-            //qtySumCell.Border = Rectangle.NO_BORDER;
-            //qtySumCell.HorizontalAlignment = Element.ALIGN_CENTER;
-            //summaryTable.AddCell(qtySumCell);
-            //doc.Add(summaryTable);
-            
-            doc.Close();
-        
+        //PdfPTable summaryTable = new PdfPTable(8);
+        //summaryTable.WidthPercentage = 100;
+
+        //PdfPCell costSumTitleCell = new PdfPCell(new Phrase("進價總額:", contentFont));
+        //costSumTitleCell.Border = Rectangle.NO_BORDER;
+        //costSumTitleCell.HorizontalAlignment = Element.ALIGN_LEFT;
+        //summaryTable.AddCell(costSumTitleCell);
+        //PdfPCell costSumCell = new PdfPCell(new Phrase(printRows.Sum(o=>o.inf20a07_ocost).ToString("0"), contentFont));
+        //costSumCell.Border = Rectangle.NO_BORDER;
+        //costSumCell.HorizontalAlignment = Element.ALIGN_CENTER;
+        //summaryTable.AddCell(costSumCell);
+        //PdfPCell retailSumTitleCell = new PdfPCell(new Phrase("售價總額:", contentFont));
+        //retailSumTitleCell.Border = Rectangle.NO_BORDER;
+        //retailSumTitleCell.HorizontalAlignment = Element.ALIGN_CENTER;
+        //summaryTable.AddCell(retailSumTitleCell);
+        //PdfPCell retailSumCell = new PdfPCell(new Phrase(printRows.Sum(o => o.inf29a09_oretail_one).ToString("0"), contentFont));
+        //retailSumCell.Border = Rectangle.NO_BORDER;
+        //retailSumCell.HorizontalAlignment = Element.ALIGN_CENTER;
+        //summaryTable.AddCell(retailSumCell);
+        //PdfPCell priceSumTitleCell = new PdfPCell(new Phrase("單價總額:", contentFont));
+        //priceSumTitleCell.Border = Rectangle.NO_BORDER;
+        //priceSumTitleCell.HorizontalAlignment = Element.ALIGN_CENTER;
+        //summaryTable.AddCell(priceSumTitleCell);
+        //PdfPCell priceSumCell =
+        //    new PdfPCell(
+        //        new Phrase(
+        //            printRows.Sum(o => Convert.ToDouble(o.inf29a39_price == "" ? "0" : o.inf29a39_price))
+        //                     .ToString("0"), contentFont));
+        //priceSumCell.Border = Rectangle.NO_BORDER;
+        //priceSumCell.HorizontalAlignment = Element.ALIGN_CENTER;
+        //summaryTable.AddCell(priceSumCell);
+        //PdfPCell qtySumTitleCell = new PdfPCell(new Phrase("筆數:", contentFont));
+        //qtySumTitleCell.Border = Rectangle.NO_BORDER;
+        //qtySumTitleCell.HorizontalAlignment = Element.ALIGN_CENTER;
+        //summaryTable.AddCell(qtySumTitleCell);
+        //PdfPCell qtySumCell =
+        //    new PdfPCell(new Phrase(Convert.ToString(printRows.Sum(o => (int) o.inf29a13_sold_qty)), contentFont));
+        //qtySumCell.Border = Rectangle.NO_BORDER;
+        //qtySumCell.HorizontalAlignment = Element.ALIGN_CENTER;
+        //summaryTable.AddCell(qtySumCell);
+        //doc.Add(summaryTable);
+
+        doc.Close();
+
     }
-    
-    
+
+
     private class PrintHeaderFooter : PdfPageEventHelper
     {
         public string Title { get; set; }

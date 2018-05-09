@@ -3,3 +3,9 @@ C:\Users\hamow\OneDrive\Documents\case\GA_System\VS_Project\ErpBaseLibrary\bin\D
 C:\Users\hamow\OneDrive\Documents\case\GA_System\VS_Project\ErpBaseLibrary\obj\Debug\ErpBaseLibrary.dll
 C:\Users\hamow\OneDrive\Documents\case\GA_System\VS_Project\ErpBaseLibrary\obj\Debug\ErpBaseLibrary.pdb
 C:\Users\hamow\OneDrive\Documents\case\GA_System\VS_Project\ErpBaseLibrary\obj\Debug\ErpBaseLibrary.csprojResolveAssemblyReference.cache
+D:\WebErp\ErpBaseLibrary\bin\Debug\ErpBaseLibrary.dll
+D:\WebErp\ErpBaseLibrary\bin\Debug\ErpBaseLibrary.pdb
+D:\WebErp\ErpBaseLibrary\obj\Debug\ErpBaseLibrary.csprojAssemblyReference.cache
+D:\WebErp\ErpBaseLibrary\obj\Debug\ErpBaseLibrary.csproj.CoreCompileInputs.cache
+D:\WebErp\ErpBaseLibrary\obj\Debug\ErpBaseLibrary.dll
+D:\WebErp\ErpBaseLibrary\obj\Debug\ErpBaseLibrary.pdb
