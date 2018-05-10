@@ -143,6 +143,7 @@
                                                 <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('01', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{one7P.saf25FileInfo.cnf1004_char02}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
 
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="one7P.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=one7P.saf25FileInfo.ErrorMsg">
@@ -226,6 +227,7 @@
                                                 <input style="display: none;" type="file" accept=".csv" v-on:change="onFileChange('02', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{MOMO.saf25FileInfo.cnf1004_char02}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
 
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="MOMO.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=MOMO.saf25FileInfo.ErrorMsg">
@@ -400,6 +402,7 @@
                                                 <input style="display: none;" type="file" accept=".csv" v-on:change="onFileChange('03', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{PChome.saf25FileInfo.cnf1004_char02}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="PChome.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=PChome.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
@@ -475,6 +478,7 @@
                                                 <input style="display: none;" type="file" accept=".csv" v-on:change="onFileChange('04', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{Formosa_Plastics.saf25FileInfo.cnf1004_char02}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="Formosa_Plastics.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Formosa_Plastics.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
@@ -584,6 +588,7 @@
                                                 <input style="display: none;" type="file" accept=".csv" v-on:change="onFileChange('05', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{Taiwan_Mobile.saf25FileInfo.cnf1004_char02}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="Taiwan_Mobile.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Taiwan_Mobile.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
@@ -659,6 +664,7 @@
                                                 <input style="display: none;" type="file" accept=".csv" v-on:change="onFileChange('06', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{Buy123.saf25FileInfo.cnf1004_char02}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="Buy123.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Buy123.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
@@ -716,6 +722,7 @@
                                                 <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('07', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{Eastern.saf25FileInfo.cnf1004_char02}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="Eastern.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Eastern.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
@@ -867,6 +874,7 @@
                                                 <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('08', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{Pcone.saf25FileInfo.cnf1004_char02}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="Pcone.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Pcone.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
@@ -982,6 +990,7 @@
                                                 <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('09', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{Symphox.saf25FileInfo.cnf1004_char02}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="Symphox.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Symphox.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
@@ -1063,6 +1072,7 @@
                                                 <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('10', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{Gomaji.saf25FileInfo.cnf1004_char02}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="Gomaji.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Gomaji.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
@@ -1139,6 +1149,7 @@
                                                 <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('11', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{PayEasy.saf25FileInfo.cnf1004_char02}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="PayEasy.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=PayEasy.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
@@ -1217,6 +1228,7 @@
                                                 <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('12', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{UniPresiden.saf25FileInfo.cnf1004_char02}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="UniPresiden.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=UniPresiden.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
@@ -1309,6 +1321,7 @@
                                                 <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('13', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{Dingding.saf25FileInfo.cnf1004_char02}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="Dingding.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Dingding.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
@@ -1400,6 +1413,7 @@
                                                 <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('14', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{Crazymike.saf25FileInfo.cnf1004_char02}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="Crazymike.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Crazymike.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
@@ -1459,6 +1473,7 @@
                                                 <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('15', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{Xingqi.saf25FileInfo.cnf1004_char02}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="Xingqi.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Xingqi.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
@@ -1520,6 +1535,7 @@
                                                 <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('16', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{Lianhebao.saf25FileInfo.cnf1004_char02}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="Lianhebao.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Lianhebao.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
@@ -1619,6 +1635,7 @@
                                                 <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('17', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{MOMO_Specified.saf25FileInfo.cnf1004_char02}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="MOMO_Specified.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=MOMO_Specified.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
@@ -1710,6 +1727,7 @@
                                                 <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('18', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{YahooMart.saf25FileInfo.cnf1004_char02}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="YahooMart.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=YahooMart.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
@@ -1787,6 +1805,7 @@
                                                 <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('19', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{Motian.saf25FileInfo.cnf1004_char02}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="Motian.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Motian.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
@@ -1872,6 +1891,7 @@
                                                 <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('20', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{Letian.saf25FileInfo.cnf1004_char02}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="Letian.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Letian.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
@@ -2030,6 +2050,7 @@
                                                 <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('21', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{Pc.saf25FileInfo.cnf1004_char02}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="Pc.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Pc.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
@@ -2097,6 +2118,7 @@
                                                 <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('22', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{Lutian.saf25FileInfo.cnf1004_char02}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="Lutian.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Lutian.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
@@ -2176,6 +2198,7 @@
                                                 <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('23', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{Yahoo.saf25FileInfo.cnf1004_char02}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="Yahoo.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Yahoo.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
@@ -2422,6 +2445,7 @@
                                                 <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('24', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{PconeMart.saf25FileInfo.cnf1004_char02}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="PconeMart.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=PconeMart.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
@@ -2519,6 +2543,7 @@
                                                 <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('25', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{YahooMart_MartDelivery.saf25FileInfo.cnf1004_char02}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="YahooMart_MartDelivery.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=YahooMart_MartDelivery.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
@@ -2606,6 +2631,7 @@
                                                 <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('26', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{PcHome_Delivery.saf25FileInfo.cnf1004_char02}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="PcHome_Delivery.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=PcHome_Delivery.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
@@ -2685,6 +2711,7 @@
                                                 <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('27', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{Shopee.saf25FileInfo.cnf1004_char02}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="Shopee.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Shopee.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
@@ -2779,6 +2806,7 @@
                                                 <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('28', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{Yahoo_MartDelivery.saf25FileInfo.cnf1004_char02}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="Yahoo_MartDelivery.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Yahoo_MartDelivery.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
@@ -2863,6 +2891,7 @@
                                                 <input style="display: none;" type="file" accept=".csv" v-on:change="onFileChange('06', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{Buy123CS.saf25FileInfo.cnf1004_char02}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="Buy123CS.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Buy123CS.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   

@@ -64,6 +64,48 @@ namespace WebERPLibrary
         }
         public static void Insertsaf25(SqlCommand cmd, saf25 saf25, string cnf1004_char02, string LoginUser)
         {
+            /*
+             * 假如saf2545_cost_sub	成本小計 = 0, 
+             * saf2545_cost_sub	 = saf2541_ord_qty訂單數量 * saf2544_cost進價(含稅)
+             */
+             if(string.IsNullOrEmpty(saf25.saf2545_cost_sub))
+            {
+                try {
+                    var qty = int.Parse(saf25.saf2541_ord_qty);
+                    var cost = double.Parse(saf25.saf2544_cost);
+                    var cost_sub = qty * cost;
+                    saf25.saf2545_cost_sub = cost_sub.ToString();
+                }
+                catch
+                {
+                    saf25.saf2545_cost_sub = "";
+                }
+            }
+            else
+            {
+                try
+                {
+                    var cost_sub_ori = double.Parse(saf25.saf2545_cost_sub);
+                    if (cost_sub_ori == 0)
+                    {
+                        try
+                        {
+                            var qty = int.Parse(saf25.saf2541_ord_qty);
+                            var cost = double.Parse(saf25.saf2544_cost);
+                            var cost_sub = qty * cost;
+                            saf25.saf2545_cost_sub = cost_sub.ToString();
+                        }
+                        catch
+                        {
+                            saf25.saf2545_cost_sub = "";
+                        }
+                    }
+                }
+                catch
+                {
+                    saf25.saf2545_cost_sub = "";
+                }
+            }
             cmd.Parameters.Clear();
             cmd.Parameters.AddWithValue("@LoginUser", LoginUser);
             cmd.Parameters.AddWithValue("@saf2501_cuscode", cnf1004_char02);
@@ -3749,7 +3791,10 @@ end
                     //B
                     else if (k == 1)
                     {
-                        saf25.saf2523_ship_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
+                        if (column.Trim() != "")
+                        {
+                            saf25.saf2523_ship_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
+                        }
                     }
                     //C
                     else if (k == 2)
@@ -3784,13 +3829,12 @@ end
                     //I
                     else if (k == 8)
                     {
-                        saf25.saf2514_rec_name = column;
+                        saf25.saf2545_cost_sub = DoubleTryParse(column, saf25FileInfo, j, k, false);
                     }
                     //J
                     else if (k == 9)
                     {
-
-                        saf25.saf2528_fre_no = column;
+                        saf25.saf2514_rec_name = column;
                     }
                     //K
                     else if (k == 10)
@@ -3800,7 +3844,7 @@ end
                     //L  
                     else if (k == 11)
                     {
-                        saf25.saf2515_rec_cell = column.Replace("'", ""); ;
+                        saf25.saf2515_rec_cell = cellParse(column.Replace("'", ""));
                     }
                     //M
                     else if (k == 12)
