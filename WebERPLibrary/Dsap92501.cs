@@ -3868,7 +3868,7 @@ end
 
                 if (j == 1 && row[0].ToString().Equals("序號")) continue;//跳過標題
 
-                if (row.Count != 13) continue;
+                //if (row.Count != 13) continue;
 
                 if (string.IsNullOrEmpty(row[3].ToString())) continue;
                 saf25.saf2504_ord_date = OrderTime;
