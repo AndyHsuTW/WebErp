@@ -45,6 +45,16 @@
                     FileName: "",
                     saf25FileInfo: {}
                 },
+                one7P2: {
+                    SortColumn: "",
+                    SortOrder: "",
+                    reverse: false,
+                    checked: true,
+                    open: false,
+                    File: [],
+                    FileName: "",
+                    saf25FileInfo: {}
+                },
                 MOMO: {
                     SortColumn: "",
                     SortOrder: "",
@@ -235,6 +245,13 @@
                     FileName: "",
                     saf25FileInfo: {}
                 },
+                Shopee2: { // 蝦皮商城
+                    checked: true,
+                    open: false,
+                    File: [],
+                    FileName: "",
+                    saf25FileInfo: {}
+                },
                 YahooMart_MartDelivery: { // 蝦皮
                     checked: true,
                     open: false,
@@ -418,8 +435,6 @@
                         if (vueobj.YahooMart_MartDelivery.checked && vueobj.YahooMart_MartDelivery.open) {
                             list.push(vueobj.YahooMart_MartDelivery.saf25FileInfo);
                         }
-                        //缺25
-
                         //26
                         if (vueobj.PcHome_Delivery.checked && vueobj.PcHome_Delivery.open) {
                             list.push(vueobj.PcHome_Delivery.saf25FileInfo);
@@ -436,7 +451,19 @@
                         if (vueobj.Buy123CS.checked && vueobj.Buy123CS.open) {
                             list.push(vueobj.Buy123CS.saf25FileInfo);
                         }
-
+                        //30
+                        if (vueobj.Shopee2.checked && vueobj.Shopee2.open) {
+                            list.push(vueobj.Shopee2.saf25FileInfo);
+                        }
+                        //31
+                        if (vueobj.one7P2.checked && vueobj.one7P2.open) {
+                            list.push(vueobj.one7P2.saf25FileInfo);
+                        }
+                        
+                        if (list.length == 1) {
+                            alert("沒有任何檔案比對成功，請重新選擇檔案");
+                            return;
+                        }
 
                         LoadingHelper.showLoading();
                         $.ajax({
@@ -508,16 +535,31 @@
                     }
                     var vueobj = this;
 
-                    for (var i = 0; i < vueobj.MultipleFile.length; i++) {
-                        LoadingHelper.showLoading();
-
-
-                        this.checkAjax(vueobj.MultipleFile[i]);
-
-                        //vueobj.companiestojudge(vueobj.MultipleFile[i])
+                    //check file name
+                    var checkOK = true;
+                    var errorNameList = "";
+                    var fileNumArray = new Array( "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30","31");
+                    for (var j = 0; j < vueobj.MultipleFile.length; j++) {
+                        var filenumber = vueobj.MultipleFile[j].name.substring(0, 2);
+                        var flag = fileNumArray.some(function (value, index, array) {
+                            return value == filenumber ? true : false;
+                        });
+                        if (!flag) {
+                            checkOK = false;
+                            errorNameList += vueobj.MultipleFile[j].name + " , ";
+                        }
                     }
 
-
+                    if (checkOK) {
+                        for (var i = 0; i < vueobj.MultipleFile.length; i++) {
+                            LoadingHelper.showLoading();
+                            this.checkAjax(vueobj.MultipleFile[i]);
+                        }
+                    } else {
+                        var alertMsg = "下列檔案名稱錯誤，檔名前二碼應是數字，例如17MOMO-宅配，請重新選擇訂單檔案。\r\n";
+                        alertMsg += errorNameList;
+                        alert(alertMsg);
+                    }
                 },
                 checkAjax: function (File) {
                     var vueobj = this;
@@ -747,6 +789,20 @@
                                 vueobj.Buy123CS.open = true;
                                 vueobj.Buy123CS.saf25FileInfo = JSON.parse(result);
                             });
+                    } else if (filenumber == "30") {
+                        vueobj.Shopee2.FileName = File.name;
+                        vueobj.ImportExcelsAjax(formData,
+                            function (result) {
+                                vueobj.Shopee2.open = true;
+                                vueobj.Shopee2.saf25FileInfo = JSON.parse(result);
+                            });
+                    } else if (filenumber == "31") {
+                        vueobj.one7P2.FileName = File.name;
+                        vueobj.ImportExcelsAjax(formData,
+                            function (result) {
+                                vueobj.one7P2.open = true;
+                                vueobj.one7P2.saf25FileInfo = JSON.parse(result);
+                            });
                     }
 
                     if (vueobj.requests.length == 0) {
@@ -833,13 +889,13 @@
                     var files = e.target.files || e.dataTransfer.files;
                     if (files.length == 0) return;
                     var filenumber = files[0].name.substring(0, 2);
-
-
+                    
                     if (filenumber.indexOf(type) > -1) {
                         LoadingHelper.showLoading();
                         vueobj.companiestojudge(files[0]);
                     } else {
-
+                        var alertMsg = "檔案名稱錯誤，檔名前二碼應是"+type+"，請重新選擇訂單檔案。";
+                        alert(alertMsg);
                     }
 
 
