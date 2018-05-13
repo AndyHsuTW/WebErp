@@ -1,4 +1,4 @@
-﻿<%@ WebHandler Language="C#" Class="Inf29Handler" %>
+﻿<%@ WebHandler Language="C#" Class="Saf20Handler" %>
 
 using System;
 using System.Collections.Generic;
@@ -6,11 +6,11 @@ using System.IO;
 using System.Web;
 using System.Linq;
 using System.Web.SessionState;
-using Dinp02301;
+using Dinp02401;
 using DCNP005;
 using Newtonsoft.Json;
 
-public class Inf29Handler : IHttpHandler, IRequiresSessionState
+public class Saf20Handler : IHttpHandler, IRequiresSessionState
 {
 
     /// <summary>
@@ -22,13 +22,13 @@ public class Inf29Handler : IHttpHandler, IRequiresSessionState
     /// </summary>
     public string Data { get; set; }
     /// <summary>
-    /// Request.Form["inf29fields"]
+    /// Request.Form["Saf20fields"]
     /// </summary>
-    public string Inf29Fields { get; set; }
+    public string Saf20Fields { get; set; }
     /// <summary>
-    /// Request.Form["inf29afields"]
+    /// Request.Form["Saf20afields"]
     /// </summary>
-    public string Inf29aFields { get; set; }
+    public string Saf20aFields { get; set; }
 
     /// <summary>
     /// Request.Form["printBcode"]
@@ -43,8 +43,8 @@ public class Inf29Handler : IHttpHandler, IRequiresSessionState
     public void ProcessRequest (HttpContext context) {
         this.Action = context.Request.Form["act"];
         this.Data = context.Request.Form["data"];
-        this.Inf29Fields = context.Request.Form["inf29fields"];
-        this.Inf29aFields = context.Request.Form["inf29afields"];
+        this.Saf20Fields = context.Request.Form["Saf20fields"];
+        this.Saf20aFields = context.Request.Form["Saf20afields"];
         this.PrintBcode = context.Request.Form["printBcode"];
         this.User = context.Request.Form["user"];
         
@@ -53,38 +53,38 @@ public class Inf29Handler : IHttpHandler, IRequiresSessionState
         {
             case "save":
                 {
-                    Inf29 inf29Item = JsonConvert.DeserializeObject<Inf29>(this.Data);
+                    Saf20 Saf20Item = JsonConvert.DeserializeObject<Saf20>(this.Data);
 
-                    Inf29.AddItem(inf29Item);
-                    Inf29a.AddItem(inf29Item, inf29Item.Inf29aList);
-                    inf29Item.Inf29aList = null;
+                    Saf20.AddItem(Saf20Item);
+                    Saf20a.AddItem(Saf20Item, Saf20Item.Saf20aList);
+                    Saf20Item.Saf20aList = null;
                     context.Response.ContentType = "text/plain";
-                    context.Response.Write(JsonConvert.SerializeObject(inf29Item));
+                    context.Response.Write(JsonConvert.SerializeObject(Saf20Item));
                     return;
                 }
                 break;
             case "get":
                 {
-                    Inf29.FilterOption filterOption = JsonConvert.DeserializeObject<Inf29.FilterOption>(this.Data);
-                    var inf29List = Inf29.Search(filterOption);
+                    Saf20.FilterOption filterOption = JsonConvert.DeserializeObject<Saf20.FilterOption>(this.Data);
+                    var Saf20List = Saf20.Search(filterOption);
                     context.Response.ContentType = "text/plain";
-                    context.Response.Write(JsonConvert.SerializeObject(inf29List));
+                    context.Response.Write(JsonConvert.SerializeObject(Saf20List));
                     return;
                 }
                 break;
             case "getdetail":
                 {
-                    var inf29aList = Inf29a.GetList(this.Data);
+                    var Saf20aList = Saf20a.GetList(this.Data);
                     context.Response.ContentType = "text/plain";
-                    context.Response.Write(JsonConvert.SerializeObject(inf29aList));
+                    context.Response.Write(JsonConvert.SerializeObject(Saf20aList));
                     return;
                 }
                 break;
             case "del":
                 {
                     bool success = false;
-                    Inf29a.Delete(this.Data);
-                    Inf29.Delete(this.Data);
+                    Saf20a.Delete(this.Data);
+                    Saf20.Delete(this.Data);
                     
                     context.Response.ContentType = "text/plain";
                     context.Response.Write("ok");
@@ -93,21 +93,21 @@ public class Inf29Handler : IHttpHandler, IRequiresSessionState
                 break;
             case "export":
                 {
-                    var inf29FieldNameList = JsonConvert.DeserializeObject<Cnf05[]>(this.Inf29Fields);
-                    var inf29aFieldNameList = JsonConvert.DeserializeObject<Cnf05[]>(this.Inf29aFields);
+                    var Saf20FieldNameList = JsonConvert.DeserializeObject<Cnf05[]>(this.Saf20Fields);
+                    var Saf20aFieldNameList = JsonConvert.DeserializeObject<Cnf05[]>(this.Saf20aFields);
 
-                    List<int> inf29IdList = JsonConvert.DeserializeObject<List<int>>(this.Data);
+                    List<int> Saf20IdList = JsonConvert.DeserializeObject<List<int>>(this.Data);
 
-                    context.Session["in29ExportFields"] = inf29FieldNameList;
-                    context.Session["in29aExportFields"] = inf29aFieldNameList;
-                    context.Session["exportItems"] = inf29IdList;
+                    context.Session["in29ExportFields"] = Saf20FieldNameList;
+                    context.Session["in29aExportFields"] = Saf20aFieldNameList;
+                    context.Session["exportItems"] = Saf20IdList;
                     context.Session["exportExcelVersion"] = 2003;
                 }
                 break;
             case "print":
                 {
-                    List<int> inf29IdList = JsonConvert.DeserializeObject<List<int>>(this.Data);
-                    context.Session["printItems"] = inf29IdList;
+                    List<int> Saf20IdList = JsonConvert.DeserializeObject<List<int>>(this.Data);
+                    context.Session["printItems"] = Saf20IdList;
                     if (this.PrintBcode != null)
                     {
                         context.Session["printBcode"] = JsonConvert.DeserializeObject<Cnf07>(this.PrintBcode);
@@ -127,53 +127,53 @@ public class Inf29Handler : IHttpHandler, IRequiresSessionState
                         throw new Exception("File can not be empty");
                     }
                     context.Request.Files[0].InputStream.Read(b, 0, b.Length);
-                    List<Inf29.ImportItemRow> inf29List = null;
+                    List<Saf20.ImportItemRow> Saf20List = null;
                     using (MemoryStream stream = new MemoryStream(b))
                     {
-                        inf29List = Inf29.ParseFromExcelNpoi(stream, name.EndsWith("xlsx") ? 2007 : 2003);
+                        Saf20List = Saf20.ParseFromExcelNpoi(stream, name.EndsWith("xlsx") ? 2007 : 2003);
                     }
-                    if (inf29List != null && inf29List.Count > 0)
+                    if (Saf20List != null && Saf20List.Count > 0)
                     {
                         var lastRowId = -1;
-                        Inf29 currentInf29 = null;
-                        for (var i = 0; i < inf29List.Count; i++)
+                        Saf20 currentSaf20 = null;
+                        for (var i = 0; i < Saf20List.Count; i++)
                         {
-                            var inf29Row = inf29List[i];
-                            var currentRowId = inf29Row.GetMasterRowId();
+                            var Saf20Row = Saf20List[i];
+                            var currentRowId = Saf20Row.GetMasterRowId();
                             try
                             {
                                 if (currentRowId != lastRowId)
                                 {
                                     lastRowId = currentRowId;
-                                    // get only inf29 fields
-                                    var inf29 = new Inf29.ImportItemRow(inf29Row.Where(
+                                    // get only Saf20 fields
+                                    var Saf20 = new Saf20.ImportItemRow(Saf20Row.Where(
                                         o =>
-                                        o.Key.StartsWith("inf29", StringComparison.OrdinalIgnoreCase) &&
-                                        !o.Key.StartsWith("inf29a", StringComparison.OrdinalIgnoreCase))
+                                        o.Key.StartsWith("Saf20", StringComparison.OrdinalIgnoreCase) &&
+                                        !o.Key.StartsWith("Saf20a", StringComparison.OrdinalIgnoreCase))
                                                                                 .ToDictionary(o => o.Key, o => o.Value));
-                                    inf29.adduser = this.User;
-                                    inf29.adddate = now;
+                                    Saf20.adduser = this.User;
+                                    Saf20.adddate = now;
                                         
-                                    int inf29Id = Inf29.AddItem(inf29);
-                                    if (inf29Id < 0)
+                                    int Saf20Id = Saf20.AddItem(Saf20);
+                                    if (Saf20Id < 0)
                                     {
                                         throw new Exception("Import fail");
                                     }
-                                    currentInf29 = Inf29.Search(new Inf29.FilterOption
+                                    currentSaf20 = Saf20.Search(new Saf20.FilterOption
                                         {
-                                            id = inf29Id
+                                            id = Saf20Id
                                         }).FirstOrDefault();
                                 }
-                                // get only inf29a fields
+                                // get only Saf20a fields
                                 {
-                                    var inf29a = new Inf29.ImportItemRow(inf29Row.Where(
+                                    var Saf20a = new Saf20.ImportItemRow(Saf20Row.Where(
                                         o =>
-                                        o.Key.StartsWith("inf29a", StringComparison.OrdinalIgnoreCase))
+                                        o.Key.StartsWith("Saf20a", StringComparison.OrdinalIgnoreCase))
                                                                                  .ToDictionary(o => o.Key, o => o.Value));
-                                    inf29a.adduser = this.User;
-                                    inf29a.adddate = now;
+                                    Saf20a.adduser = this.User;
+                                    Saf20a.adddate = now;
                                     
-                                    int id = Inf29a.AddItem(currentInf29, inf29a);
+                                    int id = Saf20a.AddItem(currentSaf20, Saf20a);
                                 }
 
                             }
