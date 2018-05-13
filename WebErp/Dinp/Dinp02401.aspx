@@ -1,10 +1,9 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/master/BaseMasterPage.master" AutoEventWireup="true" CodeFile="Dinp02401.aspx.cs" Inherits="Dinp_Dinp02301" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/master/BaseMasterPage.master" AutoEventWireup="true" CodeFile="Dinp02401.aspx.cs" Inherits="Dinp_Dinp02401" %>
 
 <%@ Import Namespace="System.Web.Hosting" %>
 <%@ Import Namespace="Newtonsoft.Json" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
-
     <style>
         /* override multiselect default*/
         .app-body .multiselect__option--highlight
@@ -177,9 +176,9 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <% string rootUrl = HostingEnvironment.ApplicationVirtualPath.Length > 1 ? HostingEnvironment.ApplicationVirtualPath + "/" : HostingEnvironment.ApplicationVirtualPath; %>
 
-    <div id="Dinp02301Search" v-if="Display" v-cloak>
+    <div id="Dinp02401Search" v-if="Display" v-cloak>
         <ul class="app-title">
-            <li>{{"Dinp02401 出貨資料查詢 <%=this.AppVersion %>"}}
+            <li>{{"Dinp02401 銷貨資料查詢 <%=this.AppVersion %>"}}
             </li>
         </ul>
         <div class="app-body">
@@ -233,7 +232,7 @@
                 <table class="">
                     <tbody>
                         <tr>
-                            <td>異動日期
+                            <td>銷貨日期
                                 <span>起~</span>
                             </td>
                             <td>
@@ -302,7 +301,7 @@
                                     label="cnf1003_char01">
                                 </multiselect>
                             </td>
-                            <td>異動代碼
+                            <td>銷貨代碼
                                 <span>起~</span>
                             </td>
                             <td>
@@ -313,7 +312,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>異動單位
+                            <td>銷貨單位
                                 <span>起~</span>
                             </td>
                             <td>
@@ -362,7 +361,7 @@
                                     label="cnf0703_bfname">
                                 </multiselect>
                             </td>
-                            <td>來源單據
+                            <td>銷貨單號
                                 <span>起~</span>
                             </td>
                             <td>
@@ -713,9 +712,9 @@
         </div>
     </div>
 
-    <div id="Dinp02301Edit" v-if="Display" v-cloak>
+    <div id="Dinp02401Edit" v-if="Display" v-cloak>
         <ul class="app-title">
-            <li>{{"Dinp02301 庫存異動資料維護 <%=this.AppVersion %>"}}
+            <li>{{"Dinp02401 銷貨資料維護 <%=this.AppVersion %>"}}
             </li>
         </ul>
         <div class="app-body" v-show="IsAppBodyDisplay">
@@ -1193,21 +1192,21 @@
 
             requirejs.config({
                 paths: {
-                    "dinp02301Search": "Dinp/dinp02301Search",
-                    "dinp02301Edit": "Dinp/dinp02301Edit",
+                    "dinp02401Search": "Dinp/dinp02401Search",
+                    "dinp02401Edit": "Dinp/dinp02401Edit",
                 },
                 shim: {}
             });
 
-            var requiredFiles = ["dinp02301Search", "dinp02301Edit"];
+            var requiredFiles = ["dinp02401Search", "dinp02401Edit"];
 
-            function onLoaded(dinp02301Search, dinp02301Edit) {
-                window.dinp02301Search.SetBCodeList(BcodeList);
-                window.dinp02301Edit.SetBCodeList(BcodeList);
-                window.dinp02301Search.WherehouseList = WherehouseList;
-                window.dinp02301Edit.WherehouseList = WherehouseList;
-                window.dinp02301Edit.InReasonList = InReasonList;
-                window.dinp02301Edit.CurrencyList = CurrencyList;
+            function onLoaded(dinp02401Search, dinp02401Edit) {
+                window.dinp02401Search.SetBCodeList(BcodeList);
+                window.dinp02401Edit.SetBCodeList(BcodeList);
+                window.dinp02401Search.WherehouseList = WherehouseList;
+                window.dinp02401Edit.WherehouseList = WherehouseList;
+                window.dinp02401Edit.InReasonList = InReasonList;
+                window.dinp02401Edit.CurrencyList = CurrencyList;
             }
 
             function onError(error) {
@@ -1217,6 +1216,5 @@
             require(requiredFiles, onLoaded, onError);
         })();
     </script>
-
 </asp:Content>
 

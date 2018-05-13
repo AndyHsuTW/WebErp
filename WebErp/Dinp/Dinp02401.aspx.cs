@@ -6,11 +6,11 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using DCNP005;
-using Dinp02301;
+using Dinp02401;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 
-public partial class Dinp_Dinp02301 : System.Web.UI.Page
+public partial class Dinp_Dinp02401 : System.Web.UI.Page
 {
     public string AppVersion = "v18.03.25";
 
@@ -42,7 +42,7 @@ public partial class Dinp_Dinp02301 : System.Web.UI.Page
         InReasonList = Cnf10.GetList("S15");
         CurrencyList = Cnf10.GetList("073");
 
-        Inf29.CreateKeywordSP();
+        //Inf29.CreateKeywordSP();
     }
 
 }
