@@ -5,7 +5,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "WebErp", "WebErp\", "{2B7DC
 	ProjectSection(WebsiteProperties) = preProject
 		Frontpage = "false"
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.6"
-		ProjectReferences = "{247de293-e3c1-4bb9-b693-7d5289fb146d}|ErpBaseLibrary.dll;{aef3318b-87ba-46bf-b529-736e8c37528b}|DCNP005.dll;{ea8a2535-7a6b-4937-a8e9-095acc3e8340}|WebERPLibrary.dll;{5155db8b-a863-4b9d-82c1-1beddcd4de81}|Dinp02301.dll;"
+		ProjectReferences = "{247de293-e3c1-4bb9-b693-7d5289fb146d}|ErpBaseLibrary.dll;{aef3318b-87ba-46bf-b529-736e8c37528b}|DCNP005.dll;{ea8a2535-7a6b-4937-a8e9-095acc3e8340}|WebERPLibrary.dll;{5155db8b-a863-4b9d-82c1-1beddcd4de81}|Dinp02301.dll;{4f692953-7e64-4682-a19f-04f53ce6205b}|Dinp02101.dll;"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_53423"
 		Debug.AspNetCompiler.PhysicalPath = "WebErp\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_53423\"
@@ -31,6 +31,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebERPLibrary", "WebERPLibrary\WebERPLibrary.csproj", "{EA8A2535-7A6B-4937-A8E9-095ACC3E8340}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dinp02301", "Dinp02301\Dinp02301.csproj", "{5155DB8B-A863-4B9D-82C1-1BEDDCD4DE81}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dinp02101", "Dinp02101\Dinp02101.csproj", "{4F692953-7E64-4682-A19F-04F53CE6205B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -58,6 +60,10 @@ Global
 		{5155DB8B-A863-4B9D-82C1-1BEDDCD4DE81}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5155DB8B-A863-4B9D-82C1-1BEDDCD4DE81}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5155DB8B-A863-4B9D-82C1-1BEDDCD4DE81}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F692953-7E64-4682-A19F-04F53CE6205B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F692953-7E64-4682-A19F-04F53CE6205B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F692953-7E64-4682-A19F-04F53CE6205B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F692953-7E64-4682-A19F-04F53CE6205B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

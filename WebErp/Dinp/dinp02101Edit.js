@@ -63,12 +63,13 @@
                 Inf29Item: {
                     id:null,//儲存成功後從伺服器返回
                     BCodeInfo: null, //公司代號相關資料
-                    inf2902_docno_type: "XC", //單據分類編號. 組成異動單號
+                    inf2902_docno_type: "SI", //單據分類編號. 組成異動單號
                     inf2902_docno_date: null, //異動單號_日期. 組成異動單號
                     inf2904_pro_date: null, //異動日期
                     inf2902_docno_seq:null,//異動單號_流水號, 儲存成功後從伺服器返回
                     SelectedWherehouse: null, //選中的倉庫代號
-                    inf2952_project_no: null, //專案代號
+                    inf2909_vcode: null, //專案代號
+                    inf0303_fname:null, //廠商全名
                     ProjectFullname: null, //專案全名
                     inf2916_apr_empid: null, //員工ID
                     EmpCname: null, //員工Name
@@ -94,7 +95,8 @@
                     inf29a05_shoes_code: null, //貨號
                     inf29a09_retail_one:null,//換算後幣值售價
                     inf29a09_oretail_one:null, //售價
-                    inf29a10_ocost_one: 0, //原進價
+                    inf29a10_ocost_one: 0, //含稅單價
+                    inf29a10_cost_one0: 0, //未稅單價
                     inf29a10_cost_one: 0, //換算後幣值進價
                     inf29a17_runit: null, //單位
                     inf29a26_box_qty:null,//箱入量
@@ -351,7 +353,7 @@
                         inf2910_in_reason: this.Inf29Item.SelectedInReason.cnf1002_fileorder, //異動代號
                         inf2914_inv_eff: this.Inf29Item.SelectedInReason.cnf1008_dec01, //庫存影響方向
                         inf2916_apr_empid: this.Inf29Item.inf2916_apr_empid || "", //員工ID
-                        inf2952_project_no: this.Inf29Item.inf2952_project_no || "", //專案代號
+                        inf2909_vcode: this.Inf29Item.inf2909_vcode || "", //代送商
                         inf2928_currency: this.Inf29Item.SelectedCurrencyInfo == null ? "" : this.Inf29Item.SelectedCurrencyInfo.cnf1003_char01, //幣別
                         inf2929_exchange_rate: this.Inf29Item.inf2929_exchange_rate || 0,
                         remark: this.Inf29Item.remark || "",
@@ -683,6 +685,38 @@
                 GetCustomerName: function (customerCode) {
                     return "customerCode";
                 },
+                GetVenderInfo:function(vCode) {
+                    if (vCode == null || vCode == "") {
+                        return;
+                    }
+                    var vueObj = this;
+                    return $.ajax({
+                        type: 'GET',
+                        url: rootUrl + "Dinp/Ajax/GetVendorInfo.ashx",
+                        cache: false,
+                        data: {
+                            vCode: vCode,
+                        },
+                        dataType: 'text',
+                        success: function (venderInfoJson) {
+                            if (venderInfoJson == null || venderInfoJson == "") {
+                                vueObj.Inf29Item.inf0303_fname = null;
+                                alert("廠商代號不存在於廠商基本資料檔中，請重新輸入");
+                            } else {
+                                var venderInfo = JSON.parse(venderInfoJson);
+                                vueObj.Inf29Item.inf0303_fname = venderInfo.inf0303_fname;
+                            }
+                        },
+                        error: function (jqXhr, textStatus, errorThrown) {
+                            if (jqXhr.status == 0) {
+                                return;
+                            }
+                            LoadingHelper.hideLoading();
+                            console.error(errorThrown);
+                            alert("查詢廠商代號失敗");
+                        }
+                    });
+                },
                 GetProjectFullname: function (projectNo, bcodeInfo) {
                     if (bcodeInfo == null) {
                         alert("請選擇公司代號");
@@ -825,7 +859,7 @@
                         inf2904_pro_date: now.dateFormat(this.UiDateFormat), //異動日期
                         inf2902_docno_seq:null,//異動單號_流水號, 儲存成功後從伺服器返回
                         SelectedWherehouse: null, //選中的倉庫代號
-                        inf2952_project_no: inf29.inf2952_project_no, //專案代號
+                        inf2909_vcode: inf29.inf2909_vcode, //代送商
                         ProjectFullname: null, //專案全名
                         inf2916_apr_empid: inf29.inf2916_apr_empid, //員工ID
                         EmpCname: null, //員工Name
@@ -852,9 +886,7 @@
                     this.Inf29Item.SelectedInReason = this.InReasonList.filter(function(item, index, array){
                         return item.cnf1002_fileorder == inf29.inf2910_in_reason;
                     }).shift();
-                    if(inf29.inf2952_project_no!= null && inf29.inf2952_project_no!=''){
-                        this.GetProjectFullname(inf29.inf2952_project_no, this.Inf29Item.BCodeInfo);
-                    }
+                    
                     if(inf29.inf2916_apr_empid!= null && inf29.inf2916_apr_empid!=''){
                         this.GetEmpCname(inf29.inf2916_apr_empid);
                     }
@@ -910,12 +942,13 @@
                     this.Inf29Item = {
                         id:null,//儲存成功後從伺服器返回
                         BCodeInfo: defaultBCodeInfo, //公司代號相關資料
-                        inf2902_docno_type: "XC", //單據分類編號. 組成異動單號
+                        inf2902_docno_type: "SI", //單據分類編號. 組成異動單號
                         inf2902_docno_date: null, //異動單號_日期. 組成異動單號
                         inf2904_pro_date: null, //異動日期
                         inf2902_docno_seq:null,//異動單號_流水號, 儲存成功後從伺服器返回
                         SelectedWherehouse: null, //選中的倉庫代號
-                        inf2952_project_no: null, //專案代號
+                        inf2909_vcode: null, //代送商
+                        inf0303_fname: null, //廠商全名
                         ProjectFullname: null, //專案全名
                         inf2916_apr_empid: null, //員工ID
                         EmpCname: null, //員工Name
@@ -938,6 +971,7 @@
                         asyncTasks.push(this.GetExchangeInfo(defaultCurrency));
                     }
                     this.Inf29Item.adduser = loginUserName;
+                    this.Inf29Item.inf2916_apr_empid = loginUserName;
                     this.Inf29Copy = null;
 
                     var now = new Date();
@@ -985,6 +1019,12 @@
                     var now = new Date();
                     this.Inf29aItem.adddate = now.dateFormat(this.UiDateFormat);
                 },
+                OnInputPo:function() {
+                    alert("not implement");
+                },
+                OnSearchPo:function() {
+                    alert("not implement");
+                }
             },
             directives: {
                 "modal-show-focus":{
