@@ -22,3 +22,4 @@ C:\Users\hamow\OneDrive\Documents\case\GA_System\VS_Project\WebERPLibrary\bin\De
 C:\Users\hamow\OneDrive\Documents\case\GA_System\VS_Project\WebERPLibrary\bin\Debug\ExcelDataReader.xml
 C:\Users\hamow\OneDrive\Documents\case\GA_System\VS_Project\WebERPLibrary\bin\Debug\ExcelDataReader.DataSet.xml
 C:\Users\hamow\OneDrive\Documents\case\GA_System\VS_Project\WebERPLibrary\bin\Debug\Newtonsoft.Json.xml
+C:\Users\hamow\OneDrive\Documents\case\GA_System\VS_Project\WebERPLibrary\bin\Debug\ICSharpCode.SharpZipLib.dll

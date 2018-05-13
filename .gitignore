@@ -24,3 +24,7 @@ WebErp/Bin/WebERPLibrary.dll
 *.ide
 *.ide-shm
 *.ide-wal
+*.CodeAnalysisLog.xml
+*.FileListAbsolute.txt
+*.lastcodeanalysissucceeded
+*.csproj.user
