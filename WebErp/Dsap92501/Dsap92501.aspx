@@ -55,48 +55,13 @@
             background-color: #bde7ff;
         }
 
-
-
-
-
-
-
-        /*head*/
-        /*.table-fixed {
-            table-layout: fixed;
-            margin: auto;
+        .scroll-table {
+            padding: 18px;
         }
-
-            .table-fixed > thead > th, .table-fixed > tbody > td {
-                padding: 5px 10px;
-                border: 1px solid #000;
-            }
-
-            .table-fixed > thead, .table-fixed > tfoot {
-                display: table;
-                width: 100%;
-                width: calc(100% - 18px);
-            }
-
-            .table-fixed > tbody {
-                height: 400px;
-                overflow: auto;
-                overflow-x: hidden;
-                display: block;
-                width: 100%;
-            }
-
-                .table-fixed > tbody > tr {
-                    display: table;
-                    width: 100%;
-                    table-layout: fixed;
-                }*/
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <div id="Dspa92501" v-cloak>
-
-
 
 
         <ul class="app-title">
@@ -106,8 +71,6 @@
 
             <div class="filter-div">
                 <table>
-
-
                     <tr>
                         <td style="padding: 3px">步驟1：選擇訂單日期
                         </td>
@@ -180,8 +143,9 @@
                                                 <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('01', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{one7P.saf25FileInfo.cnf1004_char02}}</label>
+                                            &nbsp;/&nbsp;<label>筆數 : {{one7P.saf25FileInfo.saf25List.length}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
-
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="one7P.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=one7P.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
                                             </label>
@@ -189,6 +153,7 @@
                                     </tr>
                                 </table>
                             </div>
+
                             <table class="table table-bordered" style="width: calc(100% - 18px)" v-if="one7P.saf25FileInfo.cnf1004_char02!=''">
                                 <thead>
 
@@ -196,7 +161,7 @@
                                         <th v-on:click="sortBy(one7P,'saf2502_seq',$event)">檔號</th>
                                         <th v-on:click="sortBy(one7P,'saf2503_ord_no',$event)">訂單標號</th>
                                         <th v-on:click="sortBy(one7P,'saf2504_ord_date',$event)">購買日期</th>
-                                        <th v-on:click="sortBy(one7P,'saf2513_rec_name',$event)">收件人</th>
+                                        <th v-on:click="sortBy(one7P,'saf2514_rec_name',$event)">收件人</th>
                                         <th v-on:click="sortBy(one7P,'saf2515_rec_cell',$event)">收件人電話</th>
                                         <th v-on:click="sortBy(one7P,'saf2519_rec_address',$event)">配送地址</th>
                                         <th v-on:click="sortBy(one7P,'saf2531_psname',$event)">方案名稱</th>
@@ -223,7 +188,7 @@
                                         <%--檔號--%><td>{{saf25.saf2502_seq}}</td>
                                         <%--訂單標號--%><td>{{saf25.saf2503_ord_no}}</td>
                                         <%--購買日期--%><td>{{saf25.saf2504_ord_date}}</td>
-                                        <%--收件人--%><td>{{saf25.saf2513_rec_name}}</td>
+                                        <%--收件人--%><td>{{saf25.saf2514_rec_name}}</td>
                                         <%--收件人電話--%><td>{{saf25.saf2515_rec_cell}}</td>
                                         <%--配送地址--%><td>{{saf25.saf2519_rec_address}}</td>
                                         <%--方案名稱--%><td>{{saf25.saf2531_psname}}</td>
@@ -262,8 +227,9 @@
                                                 <input style="display: none;" type="file" accept=".csv" v-on:change="onFileChange('02', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{MOMO.saf25FileInfo.cnf1004_char02}}</label>
+                                            &nbsp;/&nbsp;<label>筆數 : {{MOMO.saf25FileInfo.saf25List.length}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
-
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="MOMO.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=MOMO.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
                                             </label>
@@ -275,65 +241,147 @@
                                 <thead>
 
                                     <tr class="bg-primary text-light">
+                                        <%--a--%>
                                         <th v-on:click="sortBy(MOMO,'saf2502_seq',$event)">項次+燈號</th>
-                                        <th v-on:click="sortBy(MOMO,'saf2503_ord_no',$event)">訂單編號</th>
+                                        <%--b--%>
+                                        <th v-on:click="sortBy(MOMO,'saf2503_ord_no',$event)">訂單編號
+                                        </th>
+                                        <%--c--%>
                                         <th v-on:click="sortBy(MOMO,'saf2506_ord_status',$event)">配送狀態</th>
-                                        <th v-on:click="sortBy(MOMO,'saf2505_ord_remark',$event)">配送訊息</th>
-                                        <th v-on:click="sortBy(MOMO,'saf2520_dis_date',$event)">約定配送日</th>
+                                        <%--d--%>
+                                        <th v-on:click="sortBy(MOMO,'saf2505_ord_remark',$event)">配送訊息
+                                        </th>
+                                        <%--e--%>
+                                        <th v-on:click="sortBy(MOMO,'saf2520_dis_date',$event)">約定配送日
+                                        </th>
+                                        <%--f--%>
                                         <th v-on:click="sortBy(MOMO,'saf2529_logis_no',$event)">物流公司</th>
-                                        <th v-on:click="sortBy(MOMO,'saf2528_fre_no',$event)">配送單號</th>
-                                        <th v-on:click="sortBy(MOMO,'saf2507_ord_class',$event)">訂單類別</th>
-                                        <th v-on:click="sortBy(MOMO,'saf2522_dis_demand',$event)">客戶配送需求</th>
-                                        <th v-on:click="sortBy(MOMO,'saf2504_ord_date',$event)">轉單日</th>
-                                        <th v-on:click="sortBy(MOMO,'saf2523_ship_date',$event)">預計出貨日</th>
-                                        <th v-on:click="sortBy(MOMO,'saf2514_rec_name',$event)">收件人姓名</th>
-                                        <th v-on:click="sortBy(MOMO,'saf2516_rec_tel01',$event)">收件人行動電話</th>
-                                        <th v-on:click="sortBy(MOMO,'saf2515_rec_cell',$event)">收件人地址</th>
-                                        <th v-on:click="sortBy(MOMO,'saf2519_rec_address',$event)">商品原廠編號</th>
-                                        <th v-on:click="sortBy(MOMO,'saf2536_pcode_v',$event)">品號</th>
-                                        <th v-on:click="sortBy(MOMO,'saf2533_pspec',$event)">品名</th>
-                                        <th v-on:click="sortBy(MOMO,'saf2531_psname',$event)">單名編號</th>
-                                        <th v-on:click="sortBy(MOMO,'saf2537_pcode',$event)">單名編號</th>
-                                        <th v-on:click="sortBy(MOMO,'saf2532_pname',$event)">單品詳細</th>
-                                        <th v-on:click="sortBy(MOMO,'saf2541_ord_qty',$event)">數量</th>
-                                        <th v-on:click="sortBy(MOMO,'saf2544_cost',$event)">進價(含稅)</th>
-                                        <th v-on:click="sortBy(MOMO,'saf2553_gifts',$event)">贈品</th>
-                                        <th v-on:click="sortBy(MOMO,'saf2510_ord_name',$event)">訂購人姓名</th>
-                                        <th v-on:click="sortBy(MOMO,'saf2538_inv_no',$event)">發票號碼</th>
-                                        <th v-on:click="sortBy(MOMO,'saf2539_inv_date',$event)">發票日期</th>
-                                        <th v-on:click="sortBy(MOMO,'saf2554_identifier',$event)">個人識別碼</th>
-                                        <th v-on:click="sortBy(MOMO,'saf2555_chg_price',$event)">群組變價商品</th>
+                                        <%--g--%>
+                                        <th v-on:click="sortBy(MOMO,'saf2528_fre_no',$event)">配送單號
+                                        </th>
+                                        <%--h--%>
+                                        <th v-on:click="sortBy(MOMO,'saf2507_ord_class',$event)">訂單類別
+                                        </th>
+                                        <%--i--%>
+                                        <th v-on:click="sortBy(MOMO,'saf2522_dis_demand',$event)">客戶配送需求
+                                        </th>
+                                        <%--j--%>
+                                        <th v-on:click="sortBy(MOMO,'saf2504_ord_date',$event)">轉單日
+                                        </th>
+                                        <%--k--%>
+                                        <th v-on:click="sortBy(MOMO,'saf2523_ship_date',$event)">預計出貨日
+                                        </th>
+                                        <%--l--%>
+                                        <th v-on:click="sortBy(MOMO,'saf2514_rec_name',$event)">收件人姓名
+                                        </th>
+                                        <%--m--%>
+                                        <th v-on:click="sortBy(MOMO,'saf2516_rec_tel01',$event)">收件人電話
+                                        </th>
+                                        <%--n--%>
+                                        <th v-on:click="sortBy(MOMO,'saf2515_rec_cell',$event)">收件人行動電話
+                                        </th>
+                                        <%--o--%>
+                                        <th v-on:click="sortBy(MOMO,'saf2519_rec_address',$event)">收件人地址
+                                        </th>
+                                        <%--p--%>
+                                        <th v-on:click="sortBy(MOMO,'saf2536_pcode_v',$event)">商品原廠編號
+                                        </th>
+                                        <%--q--%>
+                                        <th v-on:click="sortBy(MOMO,'saf2533_pspec',$event)">品號
+                                        </th>
+                                        <%--r--%>
+                                        <th v-on:click="sortBy(MOMO,'saf2531_psname',$event)">品名
+                                        </th>
+                                        <%--s--%>
+                                        <th v-on:click="sortBy(MOMO,'saf2537_pcode',$event)">單名編號
+                                        </th>
+                                        <%--t--%>
+                                        <th v-on:click="sortBy(MOMO,'saf2532_pname',$event)">單品詳細
+                                        </th>
+                                        <%--u--%>
+                                        <th v-on:click="sortBy(MOMO,'saf2541_ord_qty',$event)">數量
+                                        </th>
+                                        <%--v--%>
+                                        <th v-on:click="sortBy(MOMO,'saf2544_cost',$event)">進價(含稅)
+                                        </th>
+                                        <%--w--%>
+                                        <th v-on:click="sortBy(MOMO,'saf2553_gifts',$event)">贈品
+                                        </th>
+                                        <%--x--%>
+                                        <th v-on:click="sortBy(MOMO,'saf2510_ord_name',$event)">訂購人姓名
+                                        </th>
+                                        <%--y--%>
+                                        <th v-on:click="sortBy(MOMO,'saf2538_inv_no',$event)">發票號碼
+                                        </th>
+                                        <%--z--%>
+                                        <th v-on:click="sortBy(MOMO,'saf2539_inv_date',$event)">發票日期
+                                        </th>
+                                        <%--@--%>
+                                        <th v-on:click="sortBy(MOMO,'saf2554_identifier',$event)">個人識別碼
+                                        </th>
+                                        <%--#--%>
+                                        <th v-on:click="sortBy(MOMO,'saf2555_chg_price',$event)">群組變價商品
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr v-for="saf25 in MOMO.saf25FileInfo.saf25List">
+
+                                        <%--a--%>
                                         <td>{{saf25.saf2502_seq}}</td>
+                                        <%--b--%>
                                         <td>{{saf25.saf2503_ord_no}}</td>
+                                        <%--c--%>
                                         <td>{{saf25.saf2506_ord_status}}</td>
+                                        <%--d--%>
                                         <td>{{saf25.saf2505_ord_remark}}</td>
+                                        <%--e--%>
                                         <td>{{saf25.saf2520_dis_date}}</td>
+                                        <%--f--%>
                                         <td>{{saf25.saf2529_logis_no}}</td>
+                                        <%--g--%>
                                         <td>{{saf25.saf2528_fre_no}}</td>
+                                        <%--h--%>
                                         <td>{{saf25.saf2507_ord_class}}</td>
+                                        <%--i--%>
                                         <td>{{saf25.saf2522_dis_demand}}</td>
+                                        <%--j--%>
                                         <td>{{saf25.saf2504_ord_date}}</td>
+                                        <%--k--%>
                                         <td>{{saf25.saf2523_ship_date}}</td>
+                                        <%--l--%>
                                         <td>{{saf25.saf2514_rec_name}}</td>
+                                        <%--m--%>
                                         <td>{{saf25.saf2516_rec_tel01}}</td>
+                                        <%--n--%>
                                         <td>{{saf25.saf2515_rec_cell}}</td>
+                                        <%--o--%>
                                         <td>{{saf25.saf2519_rec_address}}</td>
+                                        <%--p--%>
                                         <td>{{saf25.saf2536_pcode_v}}</td>
+                                        <%--q--%>
                                         <td>{{saf25.saf2533_pspec}}</td>
+                                        <%--r--%>
                                         <td>{{saf25.saf2531_psname}}</td>
+                                        <%--s--%>
                                         <td>{{saf25.saf2537_pcode}}</td>
+                                        <%--t--%>
                                         <td>{{saf25.saf2532_pname}}</td>
+                                        <%--u--%>
                                         <td>{{saf25.saf2541_ord_qty}}</td>
+                                        <%--v--%>
                                         <td>{{saf25.saf2544_cost}}</td>
+                                        <%--w--%>
                                         <td>{{saf25.saf2553_gifts}}</td>
+                                        <%--x--%>
                                         <td>{{saf25.saf2510_ord_name}}</td>
+                                        <%--y--%>
                                         <td>{{saf25.saf2538_inv_no}}</td>
+                                        <%--z--%>
                                         <td>{{saf25.saf2539_inv_date}}</td>
+                                        <%--@--%>
                                         <td>{{saf25.saf2554_identifier}}</td>
+                                        <%--#--%>
                                         <td>{{saf25.saf2555_chg_price}}</td>
 
                                     </tr>
@@ -341,7 +389,7 @@
                             </table>
 
                         </div>
-                        <%--03. PCHOME.CSV--%>
+                        <%--03. LetianHOME.CSV--%>
                         <div class="scroll-table" v-if="PChome.open">
                             <div>
                                 <table>
@@ -354,6 +402,8 @@
                                                 <input style="display: none;" type="file" accept=".csv" v-on:change="onFileChange('03', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{PChome.saf25FileInfo.cnf1004_char02}}</label>
+                                            &nbsp;/&nbsp;<label>筆數 : {{PChome.saf25FileInfo.saf25List.length}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="PChome.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=PChome.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
@@ -429,6 +479,8 @@
                                                 <input style="display: none;" type="file" accept=".csv" v-on:change="onFileChange('04', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{Formosa_Plastics.saf25FileInfo.cnf1004_char02}}</label>
+                                            &nbsp;/&nbsp;<label>筆數 : {{Formosa_Plastics.saf25FileInfo.saf25List.length}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="Formosa_Plastics.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Formosa_Plastics.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
@@ -470,7 +522,7 @@
                                         <th v-on:click="sortBy(Formosa_Plastics,'saf2505_ord_remark',$event)">備註/卡片內容</th>
                                         <th v-on:click="sortBy(Formosa_Plastics,'saf2559_option_case',$event)">任選案件</th>
                                         <th v-on:click="sortBy(Formosa_Plastics,'saf2542_groups',$event)">商品項次</th>
-                                        <th v-on:click="sortBy(Formosa_Plastics,'saf2537_pcode',$event)">商品編號</th>
+                                        <th v-on:click="sortBy(Formosa_Plastics,'saf2537_Letianode',$event)">商品編號</th>
                                         <th v-on:click="sortBy(Formosa_Plastics,'saf2531_psname',$event)">商品名稱</th>
                                         <th v-on:click="sortBy(Formosa_Plastics,'saf2532_pname',$event)">商品規格</th>
                                         <th v-on:click="sortBy(Formosa_Plastics,'saf2536_pcode_v',$event)">廠商料號</th>
@@ -510,7 +562,7 @@
                                         <td>{{saf25.saf2505_ord_remark}}</td>
                                         <td>{{saf25.saf2559_option_case}}</td>
                                         <td>{{saf25.saf2542_groups}}</td>
-                                        <td>{{saf25.saf2537_pcode}}</td>
+                                        <td>{{saf25.saf2537_Letianode}}</td>
                                         <td>{{saf25.saf2531_psname}}</td>
                                         <td>{{saf25.saf2532_pname}}</td>
                                         <td>{{saf25.saf2536_pcode_v}}</td>
@@ -538,6 +590,8 @@
                                                 <input style="display: none;" type="file" accept=".csv" v-on:change="onFileChange('05', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{Taiwan_Mobile.saf25FileInfo.cnf1004_char02}}</label>
+                                            &nbsp;/&nbsp;<label>筆數 : {{Taiwan_Mobile.saf25FileInfo.saf25List.length}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="Taiwan_Mobile.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Taiwan_Mobile.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
@@ -556,7 +610,7 @@
                                         <th v-on:click="sortBy(Taiwan_Mobile,'saf2522_dis_demand',$event)">運送方式</th>
                                         <th v-on:click="sortBy(Taiwan_Mobile,'saf2529_logis_no',$event)">物流代碼</th>
                                         <th v-on:click="sortBy(Taiwan_Mobile,'saf2528_fre_no',$event)">配送單號</th>
-                                        <th v-on:click="sortBy(Taiwan_Mobile,'saf2537_pcode',$event)">商品貨號</th>
+                                        <th v-on:click="sortBy(Taiwan_Mobile,'saf2537_Letianode',$event)">商品貨號</th>
                                         <th v-on:click="sortBy(Taiwan_Mobile,'saf2536_pcode_v',$event)">供應商料號</th>
                                         <th v-on:click="sortBy(Taiwan_Mobile,'saf2531_psname',$event)">商品名稱</th>
                                         <th v-on:click="sortBy(Taiwan_Mobile,'saf2532_pname',$event)">樣式/規格</th>
@@ -581,7 +635,7 @@
                                         <td>{{saf25.saf2522_dis_demand}}</td>
                                         <td>{{saf25.saf2529_logis_no}}</td>
                                         <td>{{saf25.saf2528_fre_no}}</td>
-                                        <td>{{saf25.saf2537_pcode}}</td>
+                                        <td>{{saf25.saf2537_Letianode}}</td>
                                         <td>{{saf25.saf2536_pcode_v}}</td>
                                         <td>{{saf25.saf2531_psname}}</td>
                                         <td>{{saf25.saf2532_pname}}</td>
@@ -600,7 +654,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <%--06.生活市集--%>
+                        <%--06.生活市集-宅配--%>
                         <div class="scroll-table" v-if="Buy123.open">
                             <div>
                                 <table>
@@ -613,6 +667,8 @@
                                                 <input style="display: none;" type="file" accept=".csv" v-on:change="onFileChange('06', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{Buy123.saf25FileInfo.cnf1004_char02}}</label>
+                                            &nbsp;/&nbsp;<label>筆數 : {{Buy123.saf25FileInfo.saf25List.length}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="Buy123.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Buy123.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
@@ -625,34 +681,34 @@
                                 <thead>
 
                                     <tr class="bg-primary text-light">
+                                        <th v-on:click="sortBy(Buy123,'saf2502_seq',$event)">檔次編號</th>
                                         <th v-on:click="sortBy(Buy123,'saf2503_ord_no',$event)">訂單編號</th>
                                         <th v-on:click="sortBy(Buy123,'saf2514_rec_name',$event)">收件人</th>
                                         <th v-on:click="sortBy(Buy123,'saf2519_rec_address',$event)">收件地址</th>
-                                        <th v-on:click="sortBy(Buy123,'saf2515_rec_cell',$event)">電話</th>
-                                        <th v-on:click="sortBy(Buy123,'saf2521_dis_time',$event)">配送時段</th>
+                                        <th v-on:click="sortBy(Buy123,'saf2515_rec_cell',$event)">電話/手機</th>
+                                        <%--<th v-on:click="sortBy(Buy123,'saf2521_dis_time',$event)">配送時段</th>--%>
                                         <th v-on:click="sortBy(Buy123,'saf2531_psname',$event)">檔次名稱</th>
-                                        <th v-on:click="sortBy(Buy123,'saf2508_ord_plan',$event)">訂購方案</th>
-                                        <th v-on:click="sortBy(Buy123,'saf2532_pname',$event)">品項 * 總數</th>
+                                        <th v-on:click="sortBy(Buy123,'saf2522_dis_demand',$event)">方案 * 組數</th>
+                                        <th v-on:click="sortBy(Buy123,'saf2508_ord_plan',$event)">品項/方案*數量</th>
                                         <th v-on:click="sortBy(Buy123,'saf2505_ord_remark',$event)">備註(購買人資料)</th>
                                         <th v-on:click="sortBy(Buy123,'saf2549_paymt_date',$event)">付款時間</th>
-                                        <th v-on:click="sortBy(Buy123,'saf2552_return',$event)">退貨狀態</th>
+                                        <th v-on:click="sortBy(Buy123,'saf2552_return',$event)">退貨或重複訂單</th>
 
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr v-for="saf25 in Buy123.saf25FileInfo.saf25List">
+                                        <td>{{saf25.saf2502_seq}}</td>
                                         <td>{{saf25.saf2503_ord_no}}</td>
                                         <td>{{saf25.saf2514_rec_name}}</td>
                                         <td>{{saf25.saf2519_rec_address}}</td>
                                         <td>{{saf25.saf2515_rec_cell}}</td>
-                                        <td>{{saf25.saf2521_dis_time}}</td>
                                         <td>{{saf25.saf2531_psname}}</td>
+                                        <td>{{saf25.saf2522_dis_demand}}</td>
                                         <td>{{saf25.saf2508_ord_plan}}</td>
-                                        <td>{{saf25.saf2532_pname}}</td>
                                         <td>{{saf25.saf2505_ord_remark}}</td>
                                         <td>{{saf25.saf2549_paymt_date}}</td>
                                         <td>{{saf25.saf2552_return}}</td>
-
                                     </tr>
                                 </tbody>
                             </table>
@@ -670,6 +726,8 @@
                                                 <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('07', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{Eastern.saf25FileInfo.cnf1004_char02}}</label>
+                                            &nbsp;/&nbsp;<label>筆數 : {{Eastern.saf25FileInfo.saf25List.length}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="Eastern.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Eastern.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
@@ -682,69 +740,127 @@
                                 <thead>
 
                                     <tr class="bg-primary text-light">
-                                        <th v-on:click="sortBy(Eastern,'saf2502_seq',$event)"></th>
+                                        <%-- a --%>
                                         <th v-on:click="sortBy(Eastern,'saf2503_ord_no',$event)">訂單號碼</th>
-                                        <th v-on:click="sortBy(Eastern,'saf2506_ord_status',$event)">通路別</th>
-                                        <th v-on:click="sortBy(Eastern,'saf2527_ship_no',$event)">銷售編號</th>
+                                        <%-- b --%>
+                                        <th v-on:click="sortBy(Eastern,'saf2587_gift_pnt',$event)">併單序號</th>
+                                        <%-- c --%>
+                                        <th v-on:click="sortBy(Eastern,'saf2527_ship_no',$event)">送貨單號</th>
+                                        <%-- d --%>
+                                        <th v-on:click="sortBy(Eastern,'saf2578_get_acc',$event)">銷售編號</th>
+                                        <%-- e --%>
                                         <th v-on:click="sortBy(Eastern,'saf2537_pcode',$event)">商品編號</th>
+                                        <%-- f --%>
                                         <th v-on:click="sortBy(Eastern,'saf2531_psname',$event)">商品名稱</th>
-                                        <th v-on:click="sortBy(Eastern,'saf2534_ship_pname',$event)">顏色</th>
-                                        <th v-on:click="sortBy(Eastern,'saf2533_pspec',$event)">款式</th>
-                                        <th v-on:click="sortBy(Eastern,'saf2536_pcode_v',$event)">廠商料號</th>
+                                        <%-- g --%>
+                                        <th v-on:click="sortBy(Eastern,'saf2532_pname',$event)">顏色</th>
+                                        <%-- h --%>
+                                        <th v-on:click="sortBy(Eastern,'saf2534_ship_pname',$event)">款式</th>
+                                        <%-- i --%>
+                                        <th v-on:click="sortBy(Eastern,'saf2536_pcode_v',$event)">廠商商品號碼</th>
+                                        <%-- j --%>
                                         <th v-on:click="sortBy(Eastern,'saf2507_ord_class',$event)">訂單類別</th>
+                                        <%-- k --%>
                                         <th v-on:click="sortBy(Eastern,'saf2541_ord_qty',$event)">數量</th>
+                                        <%-- l --%>
                                         <th v-on:click="sortBy(Eastern,'saf2547_price',$event)">售價</th>
+                                        <%-- m --%>
                                         <th v-on:click="sortBy(Eastern,'saf2544_cost',$event)">成本</th>
+                                        <%-- n --%>
                                         <th v-on:click="sortBy(Eastern,'saf2514_rec_name',$event)">客戶名稱</th>
+                                        <%-- o --%>
                                         <th v-on:click="sortBy(Eastern,'saf2515_rec_cell',$event)">客戶電話</th>
+                                        <%-- p --%>
                                         <th v-on:click="sortBy(Eastern,'saf2516_rec_tel01',$event)">室內電話</th>
+                                        <%-- q --%>
                                         <th v-on:click="sortBy(Eastern,'saf2519_rec_address',$event)">配送地址</th>
+                                        <%-- r --%>
                                         <th v-on:click="sortBy(Eastern,'saf2530_logis_comp',$event)">貨運公司</th>
+                                        <%-- s --%>
                                         <th v-on:click="sortBy(Eastern,'saf2528_fre_no',$event)">配送單號</th>
+                                        <%-- t --%>
                                         <th v-on:click="sortBy(Eastern,'saf2523_ship_date',$event)">出貨指示日</th>
+                                        <%-- u --%>
                                         <th v-on:click="sortBy(Eastern,'saf2520_dis_date',$event)">要求配送日</th>
+                                        <%-- v --%>
                                         <th v-on:click="sortBy(Eastern,'saf2521_dis_time',$event)">要求配送時間</th>
+                                        <%-- w --%>
                                         <th v-on:click="sortBy(Eastern,'saf2505_ord_remark',$event)">備註</th>
-                                        <th v-on:click="sortBy(Eastern,'saf2538_inv_no',$event)">電子發票號碼</th>
-                                        <th v-on:click="sortBy(Eastern,'saf2554_identifier',$event)">識別碼</th>
-                                        <th v-on:click="sortBy(Eastern,'saf2539_inv_date',$event)">電子發票日期</th>
+                                        <%-- x --%>
                                         <th v-on:click="sortBy(Eastern,'saf2553_gifts',$event)">贈品</th>
+                                        <%-- y --%>
                                         <th v-on:click="sortBy(Eastern,'saf2522_dis_demand',$event)">廠商配送訊息</th>
-                                        <th v-on:click="sortBy(Eastern,'saf2562_warehs_date',$event)">預計入庫日期</th>
-
+                                        <%-- z --%>
+                                        <th v-on:click="sortBy(Eastern,'saf2562_warehs_date',$event)">預計入庫日</th>
+                                        <%-- aa --%>
+                                        <th v-on:click="sortBy(Eastern,'saf2562_warehs_date',$event)">通路別</th>
+                                        <%-- ab --%>
+                                        <th v-on:click="sortBy(Eastern,'saf2557_open_no',$event)">併單訂單項次</th>
+                                        <%-- ac --%>
+                                        <th v-on:click="sortBy(Eastern,'saf2508_ord_plan',$event)">訂單類別代號</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr v-for="saf25 in Eastern.saf25FileInfo.saf25List">
-                                        <td>{{saf25.saf2502_seq}}</td>
+
+                                        <%-- a --%>
                                         <td>{{saf25.saf2503_ord_no}}</td>
-                                        <td>{{saf25.saf2506_ord_status}}</td>
+                                        <%-- b --%>
+                                        <td>{{saf25.saf2587_gift_pnt}}</td>
+                                        <%-- c --%>
                                         <td>{{saf25.saf2527_ship_no}}</td>
+                                        <%-- d --%>
+                                        <td>{{saf25.saf2578_get_acc}}</td>
+                                        <%-- e --%>
                                         <td>{{saf25.saf2537_pcode}}</td>
+                                        <%-- f --%>
                                         <td>{{saf25.saf2531_psname}}</td>
+                                        <%-- g --%>
+                                        <td>{{saf25.saf2532_pname}}</td>
+                                        <%-- h --%>
                                         <td>{{saf25.saf2534_ship_pname}}</td>
-                                        <td>{{saf25.saf2533_pspec}}</td>
+                                        <%-- i --%>
                                         <td>{{saf25.saf2536_pcode_v}}</td>
+                                        <%-- j --%>
                                         <td>{{saf25.saf2507_ord_class}}</td>
+                                        <%-- k --%>
                                         <td>{{saf25.saf2541_ord_qty}}</td>
+                                        <%-- l --%>
                                         <td>{{saf25.saf2547_price}}</td>
+                                        <%-- m --%>
                                         <td>{{saf25.saf2544_cost}}</td>
+                                        <%-- n --%>
                                         <td>{{saf25.saf2514_rec_name}}</td>
+                                        <%-- o --%>
                                         <td>{{saf25.saf2515_rec_cell}}</td>
+                                        <%-- p --%>
                                         <td>{{saf25.saf2516_rec_tel01}}</td>
+                                        <%-- q --%>
                                         <td>{{saf25.saf2519_rec_address}}</td>
+                                        <%-- r --%>
                                         <td>{{saf25.saf2530_logis_comp}}</td>
+                                        <%-- s --%>
                                         <td>{{saf25.saf2528_fre_no}}</td>
+                                        <%-- t --%>
                                         <td>{{saf25.saf2523_ship_date}}</td>
+                                        <%-- u --%>
                                         <td>{{saf25.saf2520_dis_date}}</td>
+                                        <%-- v --%>
                                         <td>{{saf25.saf2521_dis_time}}</td>
+                                        <%-- w --%>
                                         <td>{{saf25.saf2505_ord_remark}}</td>
-                                        <td>{{saf25.saf2538_inv_no}}</td>
-                                        <td>{{saf25.saf2554_identifier}}</td>
-                                        <td>{{saf25.saf2539_inv_date}}</td>
+                                        <%-- x --%>
                                         <td>{{saf25.saf2553_gifts}}</td>
+                                        <%-- y --%>
                                         <td>{{saf25.saf2522_dis_demand}}</td>
+                                        <%-- z --%>
                                         <td>{{saf25.saf2562_warehs_date}}</td>
+                                        <%-- aa --%>
+                                        <td>{{saf25.saf2562_warehs_date}}</td>
+                                        <%-- ab --%>
+                                        <td>{{saf25.saf2557_open_no}}</td>
+                                        <%-- ac --%>
+                                        <td>{{saf25.saf2508_ord_plan}}</td>
 
                                     </tr>
                                 </tbody>
@@ -763,6 +879,8 @@
                                                 <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('08', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{Pcone.saf25FileInfo.cnf1004_char02}}</label>
+                                            &nbsp;/&nbsp;<label>筆數 : {{Pcone.saf25FileInfo.saf25List.length}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="Pcone.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Pcone.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
@@ -775,37 +893,90 @@
                                 <thead>
 
                                     <tr class="bg-primary text-light">
+                                        <%--a--%>
                                         <th v-on:click="sortBy(Pcone,'saf2503_ord_no',$event)">訂單編號</th>
+                                        <%--b--%>
                                         <th v-on:click="sortBy(Pcone,'saf2549_paymt_date',$event)">付款時間</th>
+                                        <%--c--%>
                                         <th v-on:click="sortBy(Pcone,'saf2510_ord_name',$event)">訂購人</th>
+                                        <%--d--%>
+                                        <th v-on:click="sortBy(Pcone,'saf2511_ord_cell',$event)">訂購人電話</th>
+                                        <%--e--%>
                                         <th v-on:click="sortBy(Pcone,'saf2550_paymt_way',$event)">付款方式</th>
+                                        <%--f--%>
+                                        <th v-on:click="sortBy(Pcone,'saf2524_ship_remark',$event)">發票</th>
+                                        <%--g--%>
+                                        <th v-on:click="sortBy(Pcone,'saf2502_seq ',$event)">信用卡後4碼</th>
+                                        <%--h--%>
+                                        <th v-on:click="sortBy(Pcone,'saf2548_price_sub',$event)">訂單金額</th>
+                                        <%--i--%>
                                         <th v-on:click="sortBy(Pcone,'saf2514_rec_name',$event)">收件人</th>
+                                        <%--j--%>
                                         <th v-on:click="sortBy(Pcone,'saf2515_rec_cell',$event)">電話</th>
-                                        <th v-on:click="sortBy(Pcone,'saf2519_rec_address',$event)">收件地址</th>
+                                        <%--k--%>
+                                        <th v-on:click="sortBy(Pcone,'saf2509_ord_shop',$event)">收件地址</th>
+                                        <%--l--%>
                                         <th v-on:click="sortBy(Pcone,'saf2531_psname',$event)">商品</th>
-                                        <th v-on:click="sortBy(Pcone,'saf2537_pcode',$event)">商品編號</th>
+                                        <%--m--%>
+                                        <th v-on:click="sortBy(Pcone,'saf2537_Letianode',$event)">商品編號</th>
+                                        <%--n--%>
+                                        <th v-on:click="sortBy(Pcone,'saf2536_pcode_v',$event)">主料號</th>
+                                        <%--o--%>
                                         <th v-on:click="sortBy(Pcone,'saf2542_groups',$event)">方案入數</th>
+                                        <%--p--%>
                                         <th v-on:click="sortBy(Pcone,'saf2547_price',$event)">方案價格</th>
-                                        <th v-on:click="sortBy(Pcone,'saf2540_ship_qty',$event)">方案數量</th>
+                                        <%--q--%>
+                                        <th v-on:click="sortBy(Pcone,'',$event)">方案數量</th>
+                                        <%--r--%>
                                         <th v-on:click="sortBy(Pcone,'saf2561_option',$event)">選項</th>
+                                        <%--s--%>
+                                        <th v-on:click="sortBy(Pcone,'saf2533_pspec',$event)">料號</th>
+                                        <%--t--%>
                                         <th v-on:click="sortBy(Pcone,'saf2541_ord_qty',$event)">數量</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr v-for="saf25 in Pcone.saf25FileInfo.saf25List">
+
+                                        <%--a--%>
                                         <td>{{saf25.saf2503_ord_no}}</td>
+                                        <%--b--%>
                                         <td>{{saf25.saf2549_paymt_date}}</td>
+                                        <%--c--%>
                                         <td>{{saf25.saf2510_ord_name}}</td>
+                                        <%--d--%>
+                                        <td>{{saf25.saf2511_ord_cell}}</td>
+                                        <%--e--%>
                                         <td>{{saf25.saf2550_paymt_way}}</td>
+                                        <%--f--%>
+                                        <td>{{saf25.saf2524_ship_remark}}</td>
+                                        <%--g--%>
+                                        <td>{{saf25.saf2502_seq }}</td>
+                                        <%--h--%>
+                                        <td>{{saf25.saf2548_price_sub}}</td>
+                                        <%--i--%>
                                         <td>{{saf25.saf2514_rec_name}}</td>
+                                        <%--j--%>
                                         <td>{{saf25.saf2515_rec_cell}}</td>
-                                        <td>{{saf25.saf2519_rec_address}}</td>
+                                        <%--k--%>
+                                        <td>{{saf25.saf2509_ord_shop}}</td>
+                                        <%--l--%>
                                         <td>{{saf25.saf2531_psname}}</td>
-                                        <td>{{saf25.saf2537_pcode}}</td>
+                                        <%--m--%>
+                                        <td>{{saf25.saf2537_Letianode}}</td>
+                                        <%--n--%>
+                                        <td>{{saf25.saf2536_pcode_v}}</td>
+                                        <%--o--%>
                                         <td>{{saf25.saf2542_groups}}</td>
+                                        <%--p--%>
                                         <td>{{saf25.saf2547_price}}</td>
-                                        <td>{{saf25.saf2540_ship_qty}}</td>
+                                        <%--q--%>
+                                        <td></td>
+                                        <%--r--%>
                                         <td>{{saf25.saf2561_option}}</td>
+                                        <%--s--%>
+                                        <td>{{saf25.saf2533_pspec}}</td>
+                                        <%--t--%>
                                         <td>{{saf25.saf2541_ord_qty}}</td>
 
                                     </tr>
@@ -825,6 +996,8 @@
                                                 <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('09', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{Symphox.saf25FileInfo.cnf1004_char02}}</label>
+                                            &nbsp;/&nbsp;<label>筆數 : {{Symphox.saf25FileInfo.saf25List.length}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="Symphox.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Symphox.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
@@ -837,12 +1010,20 @@
                                 <thead>
 
                                     <tr class="bg-primary text-light">
-                                        <th v-on:click="sortBy(Symphox,'saf2510_ord_name',$event)">訂貨人</th>
+
+
+
+
+
                                         <th v-on:click="sortBy(Symphox,'saf2503_ord_no',$event)">訂單編號</th>
-                                        <th v-on:click="sortBy(Symphox,'saf2504_ord_date',$event)">訂單日</th>
-                                        <th v-on:click="sortBy(Symphox,'saf2537_pcode',$event)">商品流水號</th>
-                                        <th v-on:click="sortBy(Symphox,'saf2531_psname',$event)">品項名</th>
-                                        <th v-on:click="sortBy(Symphox,'saf2541_ord_qty',$event)">數量</th>
+                                        <th v-on:click="sortBy(Symphox,'saf2562_warehs_date',$event)">PO單日期</th>
+                                        <th v-on:click="sortBy(Symphox,'saf2504_ord_date',$event)">訂單日期</th>
+                                        <th v-on:click="sortBy(Symphox,'saf2537_pcode',$event)">商品QC碼(編號)</th>
+
+                                        <th v-on:click="sortBy(Symphox,'saf2533_pspec',$event)">商品型號</th>
+
+                                        <th v-on:click="sortBy(Symphox,'saf2531_psname',$event)">品項名稱</th>
+                                        <th v-on:click="sortBy(Symphox,'saf2541_ord_qty',$event)">購買數量</th>
                                         <th v-on:click="sortBy(Symphox,'saf2514_rec_name',$event)">收貨人姓名</th>
                                         <th v-on:click="sortBy(Symphox,'saf2518_rec_zip',$event)">郵遞區號</th>
                                         <th v-on:click="sortBy(Symphox,'saf2519_rec_address',$event)">收貨人地址</th>
@@ -857,10 +1038,17 @@
                                 </thead>
                                 <tbody>
                                     <tr v-for="saf25 in Symphox.saf25FileInfo.saf25List">
-                                        <td>{{saf25.saf2510_ord_name}}</td>
+
                                         <td>{{saf25.saf2503_ord_no}}</td>
+
+                                        <td>{{saf25.saf2562_warehs_date}}</td>
+
+
                                         <td>{{saf25.saf2504_ord_date}}</td>
                                         <td>{{saf25.saf2537_pcode}}</td>
+
+                                        <td>{{saf25.saf2533_pspec}}</td>
+
                                         <td>{{saf25.saf2531_psname}}</td>
                                         <td>{{saf25.saf2541_ord_qty}}</td>
                                         <td>{{saf25.saf2514_rec_name}}</td>
@@ -891,6 +1079,8 @@
                                                 <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('10', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{Gomaji.saf25FileInfo.cnf1004_char02}}</label>
+                                            &nbsp;/&nbsp;<label>筆數 : {{Gomaji.saf25FileInfo.saf25List.length}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="Gomaji.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Gomaji.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
@@ -905,7 +1095,7 @@
 
                                     <tr class="bg-primary text-light">
                                         <th v-on:click="sortBy(Gomaji,'saf2502_seq',$event)">store_id</th>
-                                        <th v-on:click="sortBy(Gomaji,'saf2537_pcode',$event)">product_id</th>
+                                        <th v-on:click="sortBy(Gomaji,'saf2537_Letianode',$event)">product_id</th>
                                         <th v-on:click="sortBy(Gomaji,'saf2503_ord_no',$event)">代碼</th>
                                         <th v-on:click="sortBy(Gomaji,'saf2504_ord_date',$event)">購買日期</th>
                                         <th v-on:click="sortBy(Gomaji,'saf2523_ship_date',$event)">最後出貨日</th>
@@ -930,7 +1120,7 @@
                                 <tbody>
                                     <tr v-for="saf25 in Gomaji.saf25FileInfo.saf25List">
                                         <td>{{saf25.saf2502_seq}}</td>
-                                        <td>{{saf25.saf2537_pcode}}</td>
+                                        <td>{{saf25.saf2537_Letianode}}</td>
                                         <td>{{saf25.saf2503_ord_no}}</td>
                                         <td>{{saf25.saf2504_ord_date}}</td>
                                         <td>{{saf25.saf2523_ship_date}}</td>
@@ -967,6 +1157,8 @@
                                                 <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('11', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{PayEasy.saf25FileInfo.cnf1004_char02}}</label>
+                                            &nbsp;/&nbsp;<label>筆數 : {{PayEasy.saf25FileInfo.saf25List.length}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="PayEasy.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=PayEasy.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
@@ -988,7 +1180,7 @@
                                         <th v-on:click="sortBy(PayEasy,'saf2503_ord_no',$event)">訂單編號</th>
                                         <th v-on:click="sortBy(PayEasy,'saf2506_ord_status',$event)">活動訂單</th>
                                         <th v-on:click="sortBy(PayEasy,'saf2531_psname',$event)">商品銷售名稱</th>
-                                        <th v-on:click="sortBy(PayEasy,'saf2537_pcode',$event)">商品流水號</th>
+                                        <th v-on:click="sortBy(PayEasy,'saf2537_Letianode',$event)">商品流水號</th>
                                         <th v-on:click="sortBy(PayEasy,'saf2536_pcode_v',$event)">廠商商品原始碼</th>
                                         <th v-on:click="sortBy(PayEasy,'saf2541_ord_qty',$event)">商品數量</th>
                                         <th v-on:click="sortBy(PayEasy,'saf2548_price_sub',$event)">帳款金額</th>
@@ -1014,7 +1206,7 @@
                                         <td>{{saf25.saf2503_ord_no}}</td>
                                         <td>{{saf25.saf2506_ord_status}}</td>
                                         <td>{{saf25.saf2531_psname}}</td>
-                                        <td>{{saf25.saf2537_pcode}}</td>
+                                        <td>{{saf25.saf2537_Letianode}}</td>
                                         <td>{{saf25.saf2536_pcode_v}}</td>
                                         <td>{{saf25.saf2541_ord_qty}}</td>
                                         <td>{{saf25.saf2548_price_sub}}</td>
@@ -1045,6 +1237,8 @@
                                                 <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('12', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{UniPresiden.saf25FileInfo.cnf1004_char02}}</label>
+                                            &nbsp;/&nbsp;<label>筆數 : {{UniPresiden.saf25FileInfo.saf25List.length}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="UniPresiden.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=UniPresiden.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
@@ -1072,7 +1266,7 @@
                                         <th v-on:click="sortBy(UniPresiden,'saf2565_chg_notes',$event)">換貨註記</th>
                                         <th v-on:click="sortBy(UniPresiden,'saf2506_ord_status',$event)">訂單型態</th>
                                         <th v-on:click="sortBy(UniPresiden,'saf2566_warm',$event)">溫層</th>
-                                        <th v-on:click="sortBy(UniPresiden,'saf2537_pcode',$event)">商品品號</th>
+                                        <th v-on:click="sortBy(UniPresiden,'saf2537_Letianode',$event)">商品品號</th>
                                         <th v-on:click="sortBy(UniPresiden,'saf2536_pcode_v',$event)">廠商貨號</th>
                                         <th v-on:click="sortBy(UniPresiden,'saf2531_psname',$event)">商品名稱</th>
                                         <th v-on:click="sortBy(UniPresiden,'saf2532_pname',$event)">規格</th>
@@ -1081,7 +1275,11 @@
                                         <th v-on:click="sortBy(UniPresiden,'saf2529_logis_no',$event)">託運公司代碼</th>
                                         <th v-on:click="sortBy(UniPresiden,'saf2530_logis_comp',$event)">託運公司</th>
                                         <th v-on:click="sortBy(UniPresiden,'saf2528_fre_no',$event)">託運單號</th>
+
+
+
                                         <th v-on:click="sortBy(UniPresiden,'saf2567_carton_spec',$event)">外箱規格</th>
+                                        <th v-on:click="sortBy(UniPresiden,'saf2523_ship_date',$event)">出貨日期</th>
                                         <th v-on:click="sortBy(UniPresiden,'saf2526_ship_status',$event)">出貨狀態</th>
                                         <th v-on:click="sortBy(UniPresiden,'saf2505_ord_remark',$event)">訂單備註</th>
                                     </tr>
@@ -1103,7 +1301,7 @@
                                         <td>{{saf25.saf2565_chg_notes}}</td>
                                         <td>{{saf25.saf2506_ord_status}}</td>
                                         <td>{{saf25.saf2566_warm}}</td>
-                                        <td>{{saf25.saf2537_pcode}}</td>
+                                        <td>{{saf25.saf2537_Letianode}}</td>
                                         <td>{{saf25.saf2536_pcode_v}}</td>
                                         <td>{{saf25.saf2531_psname}}</td>
                                         <td>{{saf25.saf2532_pname}}</td>
@@ -1113,6 +1311,7 @@
                                         <td>{{saf25.saf2530_logis_comp}}</td>
                                         <td>{{saf25.saf2528_fre_no}}</td>
                                         <td>{{saf25.saf2567_carton_spec}}</td>
+                                        <td>{{saf25.saf2523_ship_date}}</td>
                                         <td>{{saf25.saf2526_ship_status}}</td>
                                         <td>{{saf25.saf2505_ord_remark}}</td>
                                     </tr>
@@ -1132,6 +1331,8 @@
                                                 <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('13', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{Dingding.saf25FileInfo.cnf1004_char02}}</label>
+                                            &nbsp;/&nbsp;<label>筆數 : {{Dingding.saf25FileInfo.saf25List.length}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="Dingding.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Dingding.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
@@ -1155,7 +1356,7 @@
                                         <th v-on:click="sortBy(Dingding,'saf2504_ord_date',$event)">訂單時間</th>
                                         <th v-on:click="sortBy(Dingding,'saf2531_psname',$event)">商品名稱</th>
                                         <th v-on:click="sortBy(Dingding,'saf2535_ptpye',$event)">商品類型</th>
-                                        <th v-on:click="sortBy(Dingding,'saf2537_pcode',$event)">商品序號</th>
+                                        <th v-on:click="sortBy(Dingding,'saf2537_Letianode',$event)">商品序號</th>
                                         <th v-on:click="sortBy(Dingding,'saf2532_pname',$event)">規格編號或條碼</th>
                                         <th v-on:click="sortBy(Dingding,'saf2544_cost',$event)">提報成本</th>
                                         <th v-on:click="sortBy(Dingding,'saf2547_price',$event)">單價</th>
@@ -1188,7 +1389,7 @@
                                         <td>{{saf25.saf2504_ord_date}}</td>
                                         <td>{{saf25.saf2531_psname}}</td>
                                         <td>{{saf25.saf2535_ptpye}}</td>
-                                        <td>{{saf25.saf2537_pcode}}</td>
+                                        <td>{{saf25.saf2537_Letianode}}</td>
                                         <td>{{saf25.saf2532_pname}}</td>
                                         <td>{{saf25.saf2544_cost}}</td>
                                         <td>{{saf25.saf2547_price}}</td>
@@ -1223,6 +1424,8 @@
                                                 <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('14', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{Crazymike.saf25FileInfo.cnf1004_char02}}</label>
+                                            &nbsp;/&nbsp;<label>筆數 : {{Crazymike.saf25FileInfo.saf25List.length}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="Crazymike.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Crazymike.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
@@ -1282,6 +1485,8 @@
                                                 <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('15', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{Xingqi.saf25FileInfo.cnf1004_char02}}</label>
+                                            &nbsp;/&nbsp;<label>筆數 : {{Xingqi.saf25FileInfo.saf25List.length}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="Xingqi.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Xingqi.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
@@ -1343,6 +1548,8 @@
                                                 <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('16', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{Lianhebao.saf25FileInfo.cnf1004_char02}}</label>
+                                            &nbsp;/&nbsp;<label>筆數 : {{Lianhebao.saf25FileInfo.saf25List.length}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="Lianhebao.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Lianhebao.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
@@ -1354,8 +1561,10 @@
                             <table class="table table-bordered" style="width: calc(100% - 18px)" v-if="Lianhebao.saf25FileInfo.cnf1004_char02!=''">
                                 <thead>
                                     <tr class="bg-primary text-light">
+                                        <th v-on:click="sortBy(Lianhebao,'saf2562_warehs_date',$event)">訂單通知函發送日</th>
                                         <th v-on:click="sortBy(Lianhebao,'saf2523_ship_date',$event)">最遲出貨日</th>
                                         <th v-on:click="sortBy(Lianhebao,'saf2503_ord_no',$event)">訂單編號</th>
+                                        <th v-on:click="sortBy(Lianhebao,'saf2502_seq',$event)">購物車編號</th>
                                         <th v-on:click="sortBy(Lianhebao,'saf2504_ord_date',$event)">訂購日期</th>
                                         <th v-on:click="sortBy(Lianhebao,'saf2510_ord_name',$event)">訂購人姓名</th>
                                         <th v-on:click="sortBy(Lianhebao,'saf2514_rec_name',$event)">收貨人姓名</th>
@@ -1365,13 +1574,18 @@
                                         <th v-on:click="sortBy(Lianhebao,'saf2519_rec_address',$event)">收貨人地址</th>
                                         <th v-on:click="sortBy(Lianhebao,'saf2522_dis_demand',$event)">配送備註</th>
                                         <th v-on:click="sortBy(Lianhebao,'saf2505_ord_remark',$event)">購買備註</th>
-                                        <th v-on:click="sortBy(Lianhebao,'saf2537_pcode',$event)">商品編號</th>
+                                        <th v-on:click="sortBy(Lianhebao,'saf2537_Letianode',$event)">商品編號</th>
                                         <th v-on:click="sortBy(Lianhebao,'saf2536_pcode_v',$event)">廠商料號</th>
                                         <th v-on:click="sortBy(Lianhebao,'saf2532_pname',$event)">商品型號</th>
                                         <th v-on:click="sortBy(Lianhebao,'saf2533_pspec',$event)">國際條碼</th>
                                         <th v-on:click="sortBy(Lianhebao,'saf2531_psname',$event)">商品名稱+規格尺寸</th>
                                         <th v-on:click="sortBy(Lianhebao,'saf2570_activity',$event)">特標語</th>
                                         <th v-on:click="sortBy(Lianhebao,'saf2541_ord_qty',$event)">訂購數量</th>
+
+                                        <th v-on:click="sortBy(Lianhebao,'saf2587_gift_pnt',$event)">促銷價</th>
+                                        <th v-on:click="sortBy(Lianhebao,'saf2588_gift_amt',$event)">促銷價-小計</th>
+
+
                                         <th v-on:click="sortBy(Lianhebao,'saf2547_price',$event)">原售價</th>
                                         <th v-on:click="sortBy(Lianhebao,'saf2548_price_sub',$event)">原售價-小計</th>
                                         <th v-on:click="sortBy(Lianhebao,'saf2544_cost',$event)">進貨價</th>
@@ -1384,8 +1598,11 @@
                                 </thead>
                                 <tbody>
                                     <tr v-for="saf25 in Lianhebao.saf25FileInfo.saf25List">
+                                        <td>{{saf25.saf2562_warehs_date}}</td>
                                         <td>{{saf25.saf2523_ship_date}}</td>
                                         <td>{{saf25.saf2503_ord_no}}</td>
+                                        <td>{{saf25.saf2502_seq}}</td>
+
                                         <td>{{saf25.saf2504_ord_date}}</td>
                                         <td>{{saf25.saf2510_ord_name}}</td>
                                         <td>{{saf25.saf2514_rec_name}}</td>
@@ -1395,13 +1612,18 @@
                                         <td>{{saf25.saf2519_rec_address}}</td>
                                         <td>{{saf25.saf2522_dis_demand}}</td>
                                         <td>{{saf25.saf2505_ord_remark}}</td>
-                                        <td>{{saf25.saf2537_pcode}}</td>
+                                        <td>{{saf25.saf2537_Letianode}}</td>
                                         <td>{{saf25.saf2536_pcode_v}}</td>
                                         <td>{{saf25.saf2532_pname}}</td>
                                         <td>{{saf25.saf2533_pspec}}</td>
                                         <td>{{saf25.saf2531_psname}}</td>
                                         <td>{{saf25.saf2570_activity}}</td>
                                         <td>{{saf25.saf2541_ord_qty}}</td>
+
+
+                                        <td>{{saf25.saf2587_gift_pnt}}</td>
+                                        <td>{{saf25.saf2588_gift_amt}}</td>
+
                                         <td>{{saf25.saf2547_price}}</td>
                                         <td>{{saf25.saf2548_price_sub}}</td>
                                         <td>{{saf25.saf2544_cost}}</td>
@@ -1427,6 +1649,8 @@
                                                 <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('17', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{MOMO_Specified.saf25FileInfo.cnf1004_char02}}</label>
+                                            &nbsp;/&nbsp;<label>筆數 : {{MOMO_Specified.saf25FileInfo.saf25List.length}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="MOMO_Specified.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=MOMO_Specified.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
@@ -1455,11 +1679,10 @@
                                         <th v-on:click="sortBy(MOMO_Specified,'saf2522_dis_demand',$event)">客戶配送需求</th>
                                         <th v-on:click="sortBy(MOMO_Specified,'saf2504_ord_date',$event)">轉單日</th>
                                         <th v-on:click="sortBy(MOMO_Specified,'saf2523_ship_date',$event)">預計出貨日</th>
-
                                         <th v-on:click="sortBy(MOMO_Specified,'saf2536_pcode_v',$event)">商品原廠編號</th>
                                         <th v-on:click="sortBy(MOMO_Specified,'saf2533_pspec',$event)">品號</th>
                                         <th v-on:click="sortBy(MOMO_Specified,'saf2531_psname',$event)">品名</th>
-                                        <th v-on:click="sortBy(MOMO_Specified,'saf2537_pcode',$event)">單名編號</th>
+                                        <th v-on:click="sortBy(MOMO_Specified,'saf2537_Letianode',$event)">單名編號</th>
                                         <th v-on:click="sortBy(MOMO_Specified,'saf2532_pname',$event)">單品詳細</th>
                                         <th v-on:click="sortBy(MOMO_Specified,'saf2541_ord_qty',$event)">數量</th>
                                         <th v-on:click="sortBy(MOMO_Specified,'saf2544_cost',$event)">進價(含稅)</th>
@@ -1473,7 +1696,6 @@
                                 </thead>
                                 <tbody>
                                     <tr v-for="saf25 in MOMO_Specified.saf25FileInfo.saf25List">
-                                        <td>{{saf25.saf2523_ship_date}}</td>
                                         <td>{{saf25.saf2502_seq}}</td>
                                         <td>{{saf25.saf2506_ord_status}}</td>
                                         <td>{{saf25.saf2505_ord_remark}}</td>
@@ -1493,7 +1715,7 @@
                                         <td>{{saf25.saf2536_pcode_v}}</td>
                                         <td>{{saf25.saf2533_pspec}}</td>
                                         <td>{{saf25.saf2531_psname}}</td>
-                                        <td>{{saf25.saf2537_pcode}}</td>
+                                        <td>{{saf25.saf2537_Letianode}}</td>
                                         <td>{{saf25.saf2532_pname}}</td>
                                         <td>{{saf25.saf2541_ord_qty}}</td>
                                         <td>{{saf25.saf2544_cost}}</td>
@@ -1520,6 +1742,8 @@
                                                 <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('18', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{YahooMart.saf25FileInfo.cnf1004_char02}}</label>
+                                            &nbsp;/&nbsp;<label>筆數 : {{YahooMart.saf25FileInfo.saf25List.length}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="YahooMart.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=YahooMart.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
@@ -1531,64 +1755,55 @@
                             <table class="table table-bordered" style="width: calc(100% - 18px)" v-if="YahooMart.saf25FileInfo.cnf1004_char02!=''">
                                 <thead>
                                     <tr class="bg-primary text-light">
-                                        <th v-on:click="sortBy(YahooMart,'saf2582_serial',$event)">交易序號</th>
-                                        <th v-on:click="sortBy(YahooMart,'saf2550_paymt_way',$event)">付款別</th>
+                                        <%--a--%>
                                         <th v-on:click="sortBy(YahooMart,'saf2510_ord_name',$event)">訂購人</th>
-                                        <th v-on:click="sortBy(YahooMart,'saf2503_ord_no',$event)">訂單編號</th>
+                                        <%--b--%>
                                         <th v-on:click="sortBy(YahooMart,'saf2514_rec_name',$event)">收件人姓名</th>
-                                        <th v-on:click="sortBy(YahooMart,'saf2518_rec_zip',$event)">收件人郵遞區號</th>
+                                        <%--c--%>
                                         <th v-on:click="sortBy(YahooMart,'saf2519_rec_address',$event)">收件人地址</th>
-                                        <th v-on:click="sortBy(YahooMart,'saf2504_ord_date',$event)">轉單日期</th>
-                                        <th v-on:click="sortBy(YahooMart,'saf2523_ship_date',$event)">最晚出貨日</th>
-                                        <th v-on:click="sortBy(YahooMart,'saf2584_deli_date',$event)">店家出貨日</th>
-                                        <th v-on:click="sortBy(YahooMart,'saf2535_ptpye',$event)">商品類型</th>
-                                        <th v-on:click="sortBy(YahooMart,'saf2530_logis_comp',$event)">物流設定</th>
-                                        <th v-on:click="sortBy(YahooMart,'saf2536_pcode_v',$event)">商品編號</th>
-                                        <th v-on:click="sortBy(YahooMart,'saf2537_pcode',$event)">店家商品料號</th>
-                                        <th v-on:click="sortBy(YahooMart,'saf2531_psname',$event)">商品名稱</th>
+                                        <%--d--%>
+                                        <th v-on:click="sortBy(YahooMart,'saf2515_rec_cell',$event)">行動電話</th>
+                                        <%--e--%>
                                         <th v-on:click="sortBy(YahooMart,'saf2505_ord_remark',$event)">購物車備註</th>
+                                        <%--f--%>
+                                        <th v-on:click="sortBy(YahooMart,'saf2582_serial',$event)">交易序號</th>
+                                        <%--g--%>
+                                        <th v-on:click="sortBy(YahooMart,'saf2531_psname',$event)">商品名稱</th>
+                                        <%--h--%>
                                         <th v-on:click="sortBy(YahooMart,'saf2532_pname',$event)">商品規格</th>
-                                        <th v-on:click="sortBy(YahooMart,'saf2548_price_sub',$event)">數量</th>
-                                        <th v-on:click="sortBy(YahooMart,'saf2541_ord_qty',$event)">金額小計</th>
-                                        <th v-on:click="sortBy(YahooMart,'saf2506_ord_status',$event)">訂單狀態</th>
-                                        <th v-on:click="sortBy(YahooMart,'saf2516_rec_tel01',$event)">收件人電話(日)</th>
-                                        <th v-on:click="sortBy(YahooMart,'saf2517_rec_tel02',$event)">收件人電話(夜)</th>
-                                        <th v-on:click="sortBy(YahooMart,'saf2515_rec_cell',$event)">收件人行動電話</th>
-                                        <th v-on:click="sortBy(YahooMart,'saf2564_post_box',$event)">發票寄送地址</th>
-                                        <th v-on:click="sortBy(YahooMart,'saf2586_tax_class',$event)">商品稅別</th>
-                                        <th v-on:click="sortBy(YahooMart,'saf2587_gift_pnt',$event)">超贈點點數</th>
-                                        <th v-on:click="sortBy(YahooMart,'saf2588_gift_amt',$event)">超贈點折抵金額</th>
+                                        <%--i--%>
+                                        <th v-on:click="sortBy(YahooMart,'saf2541_ord_qty',$event)">數量</th>
+                                        <%--j--%>
+                                        <th v-on:click="sortBy(YahooMart,'saf2548_price_sub',$event)">金額小計</th>
+                                        <%--k--%>
+                                        <th v-on:click="sortBy(YahooMart,'saf2503_ord_no',$event)">訂單編號</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr v-for="saf25 in YahooMart.saf25FileInfo.saf25List">
-                                        <td>{{saf25.saf2582_serial}}</td>
-                                        <td>{{saf25.saf2550_paymt_way}}</td>
+
+                                        <%--a--%>
                                         <td>{{saf25.saf2510_ord_name}}</td>
-                                        <td>{{saf25.saf2503_ord_no}}</td>
+                                        <%--b--%>
                                         <td>{{saf25.saf2514_rec_name}}</td>
-                                        <td>{{saf25.saf2518_rec_zip}}</td>
+                                        <%--c--%>
                                         <td>{{saf25.saf2519_rec_address}}</td>
-                                        <td>{{saf25.saf2504_ord_date}}</td>
-                                        <td>{{saf25.saf2523_ship_date}}</td>
-                                        <td>{{saf25.saf2584_deli_date}}</td>
-                                        <td>{{saf25.saf2535_ptpye}}</td>
-                                        <td>{{saf25.saf2530_logis_comp}}</td>
-                                        <td>{{saf25.saf2536_pcode_v}}</td>
-                                        <td>{{saf25.saf2537_pcode}}</td>
-                                        <td>{{saf25.saf2531_psname}}</td>
-                                        <td>{{saf25.saf2505_ord_remark}}</td>
-                                        <td>{{saf25.saf2532_pname}}</td>
-                                        <td>{{saf25.saf2548_price_sub}}</td>
-                                        <td>{{saf25.saf2541_ord_qty}}</td>
-                                        <td>{{saf25.saf2506_ord_status}}</td>
-                                        <td>{{saf25.saf2516_rec_tel01}}</td>
-                                        <td>{{saf25.saf2517_rec_tel02}}</td>
+                                        <%--d--%>
                                         <td>{{saf25.saf2515_rec_cell}}</td>
-                                        <td>{{saf25.saf2564_post_box}}</td>
-                                        <td>{{saf25.saf2586_tax_class}}</td>
-                                        <td>{{saf25.saf2587_gift_pnt}}</td>
-                                        <td>{{saf25.saf2588_gift_amt}}</td>
+                                        <%--e--%>
+                                        <td>{{saf25.saf2505_ord_remark}}</td>
+                                        <%--f--%>
+                                        <td>{{saf25.saf2582_serial}}</td>
+                                        <%--g--%>
+                                        <td>{{saf25.saf2531_psname}}</td>
+                                        <%--h--%>
+                                        <td>{{saf25.saf2532_pname}}</td>
+                                        <%--i--%>
+                                        <td>{{saf25.saf2541_ord_qty}}</td>
+                                        <%--j--%>
+                                        <td>{{saf25.saf2548_price_sub}}</td>
+                                        <%--k--%>
+                                        <td>{{saf25.saf2503_ord_no}}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -1606,6 +1821,8 @@
                                                 <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('19', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{Motian.saf25FileInfo.cnf1004_char02}}</label>
+                                            &nbsp;/&nbsp;<label>筆數 : {{Motian.saf25FileInfo.saf25List.length}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="Motian.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Motian.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
@@ -1630,7 +1847,7 @@
                                         <th v-on:click="sortBy(Motian,'saf2516_rec_tel01',$event)">電話</th>
                                         <th v-on:click="sortBy(Motian,'saf2515_rec_cell',$event)">行動電話</th>
                                         <th v-on:click="sortBy(Motian,'saf2519_rec_address',$event)">地址</th>
-                                        <th v-on:click="sortBy(Motian,'saf2537_pcode',$event)">商店品號</th>
+                                        <th v-on:click="sortBy(Motian,'saf2537_Letianode',$event)">商店品號</th>
                                         <th v-on:click="sortBy(Motian,'saf2536_pcode_v',$event)">商品編號</th>
                                         <th v-on:click="sortBy(Motian,'saf2531_psname',$event)">商品名稱</th>
                                         <th v-on:click="sortBy(Motian,'saf2532_pname',$event)">單品規格</th>
@@ -1660,7 +1877,7 @@
                                         <td>{{saf25.saf2516_rec_tel01}}</td>
                                         <td>{{saf25.saf2515_rec_cell}}</td>
                                         <td>{{saf25.saf2519_rec_address}}</td>
-                                        <td>{{saf25.saf2537_pcode}}</td>
+                                        <td>{{saf25.saf2537_Letianode}}</td>
                                         <td>{{saf25.saf2536_pcode_v}}</td>
                                         <td>{{saf25.saf2531_psname}}</td>
                                         <td>{{saf25.saf2532_pname}}</td>
@@ -1672,6 +1889,165 @@
                                         <td>{{saf25.saf2510_ord_name}}</td>
                                         <td>{{saf25.saf2512_ord_tel01}}</td>
                                         <td>{{saf25.saf2511_ord_cell}}</td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <%--20.樂天--%>
+                        <div class="scroll-table" v-if="Letian.open">
+                            <div>
+                                <table>
+                                    <tr>
+                                        <td style="padding: 3px">
+                                            <input type="checkbox" v-model="Letian.checked" v-if="Letian.saf25FileInfo.cnf1004_char02!=''" /></td>
+                                        <td style="padding: 3px">{{Letian.saf25FileInfo.FileName}}</td>
+                                        <td style="padding: 3px">
+                                            <label class="btn btn-default" v-if="Letian.saf25FileInfo.cnf1004_char02!=''" style="background-color: rgba(247, 255, 101, 0.67);">
+                                                <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('20', $event)">
+                                                重新送出檔案比對
+                                            </label>
+                                            <label>客戶代號 : {{Letian.saf25FileInfo.cnf1004_char02}}</label>
+                                            &nbsp;/&nbsp;<label>筆數 : {{Letian.saf25FileInfo.saf25List.length}}</label>
+                                            <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
+                                            <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="Letian.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Letian.saf25FileInfo.ErrorMsg">
+                                                錯誤訊息   
+                                            </label>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <table class="table table-bordered" style="width: calc(100% - 18px)" v-if="Letian.saf25FileInfo.cnf1004_char02!=''">
+                                <thead>
+                                    <tr class="bg-primary text-light">
+                                        <%--a--%>
+                                        <th v-on:click="sortBy(Letian,'saf2504_ord_date',$event)">order_date</th>
+                                        <%--b--%>
+                                        <th v-on:click="sortBy(Letian,'saf2503_ord_no',$event)">order_id</th>
+                                        <%--c--%>
+                                        <th v-on:click="sortBy(Letian,'saf2506_ord_status',$event)">order_status</th>
+                                        <%--f--%>
+                                        <th v-on:click="sortBy(Letian,'saf2537_pcode',$event)">product_base_sku</th>
+                                        <%--g--%>
+                                        <th v-on:click="sortBy(Letian,'saf2536_pcode_v',$event)">product_sku</th>
+                                        <%--i--%>
+                                        <th v-on:click="sortBy(Letian,'saf2535_ptpye',$event)">rakuten_category</th>
+                                        <%--j--%>
+                                        <th v-on:click="sortBy(Letian,'saf2531_psname',$event)">product_name</th>
+                                        <%--k--%>
+                                        <th v-on:click="sortBy(Letian,'saf2541_ord_qty',$event)">products_quantity</th>
+                                        <%--l--%>
+                                        <th v-on:click="sortBy(Letian,'saf2547_price',$event)">product_price</th>
+                                        <%--p--%>
+                                        <th v-on:click="sortBy(Letian,'saf2548_price_sub',$event)">order_total</th>
+                                        <%--q--%>
+                                        <th v-on:click="sortBy(Letian,'saf2587_gift_pnt',$event)">shop_coupon</th>
+                                        <%--r--%>
+                                        <th v-on:click="sortBy(Letian,'saf2588_gift_amt',$event)">rakuten_coupon</th>
+                                        <%--s--%>
+                                        <th v-on:click="sortBy(Letian,'saf2573_discount',$event)">payment_discount</th>
+                                        <%--v--%>
+                                        <th v-on:click="sortBy(Letian,'saf2532_pname',$event)">attribute_1</th>
+                                        <%--AD--%>
+                                        <th v-on:click="sortBy(Letian,'saf2551_paymt_status',$event)">payment_status</th>
+                                        <%--AF--%>
+                                        <th v-on:click="sortBy(Letian,'saf2550_paymt_way',$event)">payment_method</th>
+                                        <%--AL--%>
+                                        <th v-on:click="sortBy(Letian,'saf2549_paymt_date',$event)">payment_date</th>
+                                        <%--AO--%>
+                                        <th v-on:click="sortBy(Letian,'saf2576_cancel_d',$event)">cancel_due_date</th>
+                                        <%--AR--%>
+                                        <th v-on:click="sortBy(Letian,'saf2526_ship_status',$event)">shipping_status</th>
+                                        <%--AT--%>
+                                        <th v-on:click="sortBy(Letian,'saf2523_ship_date',$event)">shipping_date</th>
+                                        <%--AU--%>
+                                        <th v-on:click="sortBy(Letian,'saf2546_mana_fee',$event)">shipping_fee_total</th>
+                                        <%--AX--%>
+                                        <th v-on:click="sortBy(Letian,'saf2522_dis_demand',$event)">shipping_method</th>
+                                        <%--BC--%>
+                                        <th v-on:click="sortBy(Letian,'saf2510_ord_name',$event)">customer_name</th>
+                                        <%--BE--%>
+                                        <th v-on:click="sortBy(Letian,'saf2511_ord_cell',$event)">customer_phone</th>
+                                        <%--BF--%>
+                                        <th v-on:click="sortBy(Letian,'saf2538_inv_no',$event)">e_invoice_number</th>
+                                        <%--BI--%>
+                                        <th v-on:click="sortBy(Letian,'saf2539_inv_date',$event)">e_invoice_issued_date</th>
+                                        <%--BO--%>
+                                        <th v-on:click="sortBy(Letian,'saf2514_rec_name',$event)">recipient_name</th>
+                                        <%--BP--%>
+                                        <th v-on:click="sortBy(Letian,'saf2515_rec_cell',$event)">recipient_phone</th>
+                                        <%--BQ--%>
+                                        <th v-on:click="sortBy(Letian,'saf2518_rec_zip',$event)">address_code</th>
+                                        <%--BR--%>
+                                        <th v-on:click="sortBy(Letian,'saf2519_rec_address',$event)">shipping_address</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="saf25 in Letian.saf25FileInfo.saf25List">
+
+
+
+                                        <%--a--%>
+                                        <td>{{saf25.saf2504_ord_date}}</td>
+                                        <%--b--%>
+                                        <td>{{saf25.saf2503_ord_no}}</td>
+                                        <%--c--%>
+                                        <td>{{saf25.saf2506_ord_status}}</td>
+                                        <%--f--%>
+                                        <td>{{saf25.saf2537_pcode}}</td>
+                                        <%--g--%>
+                                        <td>{{saf25.saf2536_pcode_v}}</td>
+                                        <%--i--%>
+                                        <td>{{saf25.saf2535_ptpye}}</td>
+                                        <%--j--%>
+                                        <td>{{saf25.saf2531_psname}}</td>
+                                        <%--k--%>
+                                        <td>{{saf25.saf2541_ord_qty}}</td>
+                                        <%--l--%>
+                                        <td>{{saf25.saf2547_price}}</td>
+                                        <%--p--%>
+                                        <td>{{saf25.saf2548_price_sub}}</td>
+                                        <%--q--%>
+                                        <td>{{saf25.saf2587_gift_pnt}}</td>
+                                        <%--r--%>
+                                        <td>{{saf25.saf2588_gift_amt}}</td>
+                                        <%--s--%>
+                                        <td>{{saf25.saf2573_discount}}</td>
+                                        <%--v--%>
+                                        <td>{{saf25.saf2532_pname}}</td>
+                                        <%--AD--%>
+                                        <td>{{saf25.saf2551_paymt_status}}</td>
+                                        <%--AF--%>
+                                        <td>{{saf25.saf2550_paymt_way}}</td>
+                                        <%--AL--%>
+                                        <td>{{saf25.saf2549_paymt_date}}</td>
+                                        <%--AO--%>
+                                        <td>{{saf25.saf2576_cancel_d}}</td>
+                                        <%--AR--%>
+                                        <td>{{saf25.saf2526_ship_status}}</td>
+                                        <%--AT--%>
+                                        <td>{{saf25.saf2523_ship_date}}</td>
+                                        <%--AU--%>
+                                        <td>{{saf25.saf2546_mana_fee}}</td>
+                                        <%--AX--%>
+                                        <td>{{saf25.saf2522_dis_demand}}</td>
+                                        <%--BC--%>
+                                        <td>{{saf25.saf2510_ord_name}}</td>
+                                        <%--BE--%>
+                                        <td>{{saf25.saf2511_ord_cell}}</td>
+                                        <%--BF--%>
+                                        <td>{{saf25.saf2538_inv_no}}</td>
+                                        <%--BI--%>
+                                        <td>{{saf25.saf2539_inv_date}}</td>
+                                        <%--BO--%>
+                                        <td>{{saf25.saf2514_rec_name}}</td>
+                                        <%--BP--%>
+                                        <td>{{saf25.saf2515_rec_cell}}</td>
+                                        <%--BQ--%>
+                                        <td>{{saf25.saf2518_rec_zip}}</td>
+                                        <%--BR--%>
+                                        <td>{{saf25.saf2519_rec_address}}</td>
 
                                     </tr>
                                 </tbody>
@@ -1690,6 +2066,8 @@
                                                 <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('21', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{Pc.saf25FileInfo.cnf1004_char02}}</label>
+                                            &nbsp;/&nbsp;<label>筆數 : {{Pc.saf25FileInfo.saf25List.length}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="Pc.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Pc.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
@@ -1757,6 +2135,8 @@
                                                 <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('22', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{Lutian.saf25FileInfo.cnf1004_char02}}</label>
+                                            &nbsp;/&nbsp;<label>筆數 : {{Lutian.saf25FileInfo.saf25List.length}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="Lutian.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Lutian.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
@@ -1774,7 +2154,7 @@
                                         <th v-on:click="sortBy(Lutian,'saf2503_ord_no',$event)">訂單編號</th>
                                         <th v-on:click="sortBy(Lutian,'saf2549_paymt_date',$event)">付款時間</th>
                                         <th v-on:click="sortBy(Lutian,'saf2578_get_acc',$event)">買家帳號</th>
-                                        <th v-on:click="sortBy(Lutian,'saf2537_pcode',$event)">商品編號</th>
+                                        <th v-on:click="sortBy(Lutian,'saf2537_Letianode',$event)">商品編號</th>
                                         <th v-on:click="sortBy(Lutian,'saf2531_psname',$event)">商品名稱</th>
                                         <th v-on:click="sortBy(Lutian,'saf2532_pname',$event)">規格</th>
                                         <th v-on:click="sortBy(Lutian,'saf2561_option',$event)">項目</th>
@@ -1796,12 +2176,12 @@
                                 </thead>
                                 <tbody>
                                     <tr v-for="saf25 in Lutian.saf25FileInfo.saf25List">
-                                        <td>{{saf25.saf2504_ord_date}}</td>
+
                                         <td>{{saf25.saf2504_ord_date}}</td>
                                         <td>{{saf25.saf2503_ord_no}}</td>
                                         <td>{{saf25.saf2549_paymt_date}}</td>
                                         <td>{{saf25.saf2578_get_acc}}</td>
-                                        <td>{{saf25.saf2537_pcode}}</td>
+                                        <td>{{saf25.saf2537_Letianode}}</td>
                                         <td>{{saf25.saf2531_psname}}</td>
                                         <td>{{saf25.saf2532_pname}}</td>
                                         <td>{{saf25.saf2561_option}}</td>
@@ -1836,6 +2216,8 @@
                                                 <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('23', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{Yahoo.saf25FileInfo.cnf1004_char02}}</label>
+                                            &nbsp;/&nbsp;<label>筆數 : {{Yahoo.saf25FileInfo.saf25List.length}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="Yahoo.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Yahoo.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
@@ -1848,61 +2230,223 @@
                                 <thead>
 
                                     <tr class="bg-primary text-light">
-                                        <th v-on:click="sortBy(Yahoo,'saf2504_ord_date',$event)">訂單成立時間</th>
-                                        <th v-on:click="sortBy(Yahoo,'saf2503_ord_no',$event)">訂單編號</th>
-                                        <th v-on:click="sortBy(Yahoo,'saf2527_ship_no',$event)">帳單編號</th>
-                                        <th v-on:click="sortBy(Yahoo,'saf2536_pcode_v',$event)">商品編號</th>
-                                        <th v-on:click="sortBy(Yahoo,'saf2531_psname',$event)">商品名稱</th>
-                                        <th v-on:click="sortBy(Yahoo,'saf2537_pcode',$event)">第一組貨號</th>
-                                        <th v-on:click="sortBy(Yahoo,'saf2532_pname',$event)">規格1</th>
-                                        <th v-on:click="sortBy(Yahoo,'saf2571_auction',$event)">買家拍賣代號 </th>
-                                        <th v-on:click="sortBy(Yahoo,'saf2547_price',$event)">購買金額</th>
-                                        <th v-on:click="sortBy(Yahoo,'saf2541_ord_qty',$event)">購買數量 </th>
-                                        <th v-on:click="sortBy(Yahoo,'saf2548_price_sub',$event)">購買總額</th>
-                                        <th v-on:click="sortBy(Yahoo,'saf2546_mana_fee',$event)">原運費 </th>
-                                        <th v-on:click="sortBy(Yahoo,'saf2589_order_amt',$event)">訂單金額 </th>
-                                        <th v-on:click="sortBy(Yahoo,'saf2587_gift_pnt',$event)">超贈點</th>
-                                        <th v-on:click="sortBy(Yahoo,'saf2514_rec_name',$event)">取件人姓名 </th>
-                                        <th v-on:click="sortBy(Yahoo,'saf2516_rec_tel01',$event)">電話 </th>
-                                        <th v-on:click="sortBy(Yahoo,'saf2515_rec_cell',$event)">手機</th>
-                                        <th v-on:click="sortBy(Yahoo,'saf2518_rec_zip',$event)">郵遞區號</th>
-                                        <th v-on:click="sortBy(Yahoo,'saf2519_rec_address',$event)">收件人住址</th>
-                                        <th v-on:click="sortBy(Yahoo,'saf2550_paymt_way',$event)">付款方式</th>
-                                        <th v-on:click="sortBy(Yahoo,'saf2530_logis_comp',$event)">運送方式</th>
-                                        <th v-on:click="sortBy(Yahoo,'saf2530_logis_comp',$event)">出貨日期</th>
-                                        <th v-on:click="sortBy(Yahoo,'saf2506_ord_status',$event)">訂單狀態</th>
-                                        <th v-on:click="sortBy(Yahoo,'saf2551_paymt_status',$event)">付款狀態</th>
-                                        <th v-on:click="sortBy(Yahoo,'saf2526_ship_status',$event)">出貨狀態</th>
+                                        <%--a--%>
+                                        <th v-on:click="sortBy(Yahoo,'saf2504_ord_date',$event)">訂單成立時間
+                                        </th>
+                                        <%--b--%>
+                                        <th v-on:click="sortBy(Yahoo,'saf2549_paymt_date',$event)">付款時間
+                                        </th>
+                                        <%--c--%>
+                                        <th v-on:click="sortBy(Yahoo,'saf25FileInfo',$event)">訂單編號
+                                        </th>
+                                        <%--d--%>
+                                        <th v-on:click="sortBy(Yahoo,'saf2578_get_acc',$event)">帳單編號
+                                        </th>
+                                        <%--e--%>
+                                        <th v-on:click="sortBy(Yahoo,'saf2537_pcode',$event)">商品編號
+                                        </th>
+                                        <%--f--%>
+                                        <th v-on:click="sortBy(Yahoo,'saf2531_psname',$event)">商品名稱
+                                        </th>
+                                        <%--g--%>
+                                        <th v-on:click="sortBy(Yahoo,'saf2507_ord_class',$event)">第一組貨號
+                                        </th>
+                                        <%--h--%>
+                                        <th v-on:click="sortBy(Yahoo,'saf2508_ord_plan',$event)">第二組貨號
+                                        </th>
+                                        <%--i--%>
+                                        <th v-on:click="sortBy(Yahoo,'saf2536_pcode_v',$event)">商品條碼
+                                        </th>
+                                        <%--j--%>
+                                        <th v-on:click="sortBy(Yahoo,'saf2532_pname',$event)">規格1
+                                        </th>
+                                        <%--k--%>
+                                        <th v-on:click="sortBy(Yahoo,'saf2521_dis_time',$event)">規格2
+                                        </th>
+                                        <%--l--%>
+                                        <th v-on:click="sortBy(Yahoo,'saf2571_auction',$event)">買家拍賣代號
+                                        </th>
+                                        <%--m--%>
+                                        <th v-on:click="sortBy(Yahoo,'saf2505_ord_remark',$event)">買家暱稱
+                                        </th>
+                                        <%--n--%>
+                                        <th v-on:click="sortBy(Yahoo,'saf2547_price',$event)">購買金額
+                                        </th>
+                                        <%--o--%>
+                                        <th v-on:click="sortBy(Yahoo,'saf2541_ord_qty',$event)">購買數量
+                                        </th>
+                                        <%--p--%>
+                                        <th v-on:click="sortBy(Yahoo,'saf2548_price_sub',$event)">購買總額
+                                        </th>
+                                        <%--q--%>
+                                        <th v-on:click="sortBy(Yahoo,'saf2545_cost_sub',$event)">折扣活動總金額
+                                        </th>
+                                        <%--r--%>
+                                        <th v-on:click="sortBy(Yahoo,'saf2546_mana_fee',$event)">原運費
+                                        </th>
+                                        <%--s--%>
+                                        <th v-on:click="sortBy(Yahoo,'saf2544_cost',$event)">運費
+                                        </th>
+                                        <%--t--%>
+                                        <th v-on:click="sortBy(Yahoo,'saf2589_order_amt',$event)">訂單金額
+                                        </th>
+                                        <%--u--%>
+                                        <th v-on:click="sortBy(Yahoo,'saf2588_gift_amt',$event)">買家實付金額
+                                        </th>
+                                        <%--v--%>
+                                        <th v-on:click="sortBy(Yahoo,'saf2587_gift_pnt',$event)">超贈點
+                                        </th>
+                                        <%--w--%>
+                                        <th v-on:click="sortBy(Yahoo,'saf2590_col_money',$event)">餘額部份支付金額
+                                        </th>
+                                        <%--x--%>
+                                        <th v-on:click="sortBy(Yahoo,'saf2514_rec_name',$event)">取件人姓名
+                                        </th>
+                                        <%--y--%>
+                                        <th v-on:click="sortBy(Yahoo,'saf2516_rec_tel01',$event)">電話
+                                        </th>
+                                        <%--z--%>
+                                        <th v-on:click="sortBy(Yahoo,'saf2515_rec_cell',$event)">手機
+                                        </th>
+                                        <%--aa--%>
+                                        <th v-on:click="sortBy(Yahoo,'saf2518_rec_zip',$event)">郵遞區號
+                                        </th>
+                                        <%--ab--%>
+                                        <th v-on:click="sortBy(Yahoo,'saf2519_rec_address',$event)">收件人住址
+                                        </th>
+                                        <%--ac--%>
+                                        <th v-on:click="sortBy(Yahoo,'saf2528_fre_no',$event)">發票統編
+                                        </th>
+                                        <%--ad--%>
+                                        <th v-on:click="sortBy(Yahoo,'saf2533_pspec',$event)">發票抬頭
+
+                                        </th>
+                                        <%--ae--%>
+                                        <th v-on:click="sortBy(Yahoo,'saf2591_rec_email',$event)">發票寄送地址
+
+                                        </th>
+                                        <%--af--%>
+                                        <th v-on:click="sortBy(Yahoo,'saf2550_paymt_way',$event)">付款方式
+
+                                        </th>
+                                        <%--ag--%>
+                                        <th v-on:click="sortBy(Yahoo,'saf2530_logis_comp',$event)">運送方式
+
+                                        </th>
+                                        <%--ah--%>
+                                        <th v-on:click="sortBy(Yahoo,'saf2523_ship_date',$event)">出貨日期
+
+                                        </th>
+                                        <%--ai--%>
+                                        <th v-on:click="sortBy(Yahoo,'saf2502_seq',$event)">物流查件單號
+                                        </th>
+                                        <%--aj--%>
+                                        <th v-on:click="sortBy(Yahoo,'saf2583_store_remark',$event)">買家取貨門市店號
+                                        </th>
+                                        <%--ak--%>
+                                        <th v-on:click="sortBy(Yahoo,'saf2509_ord_shop',$event)">買家取貨門市名稱
+                                        </th>
+                                        <%--al--%>
+                                        <th v-on:click="sortBy(Yahoo,'saf2506_ord_status',$event)">訂單狀態
+                                        </th>
+                                        <%--am--%>
+                                        <th v-on:click="sortBy(Yahoo,'saf2551_paymt_status',$event)">付款狀態
+                                        </th>
+                                        <%--an--%>
+                                        <th v-on:click="sortBy(Yahoo,'saf2543_cancel_qty',$event)">多退少補
+                                        </th>
+                                        <%--ao--%>
+                                        <th v-on:click="sortBy(Yahoo,'saf2526_ship_status',$event)">出貨狀態
+                                        </th>
+                                       
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr v-for="saf25 in Yahoo.saf25FileInfo.saf25List">
-                                        <td>{{saf25.saf2504_ord_date}}</td>
-                                        <td>{{saf25.saf2503_ord_no}}</td>
-                                        <td>{{saf25.saf2527_ship_no}}</td>
-                                        <td>{{saf25.saf2536_pcode_v}}</td>
-                                        <td>{{saf25.saf2531_psname}}</td>
-                                        <td>{{saf25.saf2537_pcode}}</td>
-                                        <td>{{saf25.saf2532_pname}}</td>
-                                        <td>{{saf25.saf2571_auction}}</td>
-                                        <td>{{saf25.saf2547_price}}</td>
-                                        <td>{{saf25.saf2541_ord_qty}}</td>
-                                        <td>{{saf25.saf2548_price_sub}}</td>
-                                        <td>{{saf25.saf2546_mana_fee}}</td>
-                                        <td>{{saf25.saf2589_order_amt}}</td>
-                                        <td>{{saf25.saf2587_gift_pnt}}</td>
-                                        <td>{{saf25.saf2514_rec_name}}</td>
-                                        <td>{{saf25.saf2516_rec_tel01}}</td>
-                                        <td>{{saf25.saf2515_rec_cell}}</td>
-                                        <td>{{saf25.saf2518_rec_zip}}</td>
-                                        <td>{{saf25.saf2519_rec_address}}</td>
-                                        <td>{{saf25.saf2550_paymt_way}}</td>
-                                        <td>{{saf25.saf2530_logis_comp}}</td>
-                                        <td>{{saf25.saf2523_ship_date}}</td>
-                                        <td>{{saf25.saf2506_ord_status}}</td>
-                                        <td>{{saf25.saf2551_paymt_status}}</td>
-                                        <td>{{saf25.saf2526_ship_status}}</td>
-
+                                        
+                                        
+                                         <%--a--%>
+                                         <td>{{saf25.saf2504_ord_date}}</td>
+                                        <%--b--%>
+                                         <td>{{saf25.saf2549_paymt_date}}</td>
+                                        <%--c--%>
+                                         <td>{{saf25.saf25FileInfo}}</td>
+                                        <%--d--%>
+                                         <td>{{saf25.saf2578_get_acc}}</td>
+                                        <%--e--%>
+                                         <td>{{saf25.saf2537_pcode}}</td>
+                                        <%--f--%>
+                                         <td>{{saf25.saf2531_psname}}</td>
+                                        <%--g--%>
+                                         <td>{{saf25.saf2507_ord_class}}</td>
+                                        <%--h--%>
+                                         <td>{{saf25.saf2508_ord_plan}}</td>
+                                        <%--i--%>
+                                         <td>{{saf25.saf2536_pcode_v}}</td>
+                                        <%--j--%>
+                                         <td>{{saf25.saf2532_pname}}</td>
+                                        <%--k--%>
+                                         <td>{{saf25.saf2521_dis_time}}</td>
+                                        <%--l--%>
+                                         <td>{{saf25.saf2571_auction}}</td>
+                                        <%--m--%>
+                                         <td>{{saf25.saf2505_ord_remark}}</td>
+                                        <%--n--%>
+                                         <td>{{saf25.saf2547_price}}</td>
+                                        <%--o--%>
+                                         <td>{{saf25.saf2541_ord_qty}}</td>
+                                        <%--p--%>
+                                         <td>{{saf25.saf2548_price_sub}}</td>
+                                        <%--q--%>
+                                         <td>{{saf25.saf2545_cost_sub}}</td>
+                                        <%--r--%>
+                                         <td>{{saf25.saf2546_mana_fee}}</td>
+                                        <%--s--%>
+                                         <td>{{saf25.saf2544_cost}}</td>
+                                        <%--t--%>
+                                         <td>{{saf25.saf2589_order_amt}}</td>
+                                        <%--u--%>
+                                         <td>{{saf25.saf2588_gift_amt}}</td>
+                                        <%--v--%>
+                                         <td>{{saf25.saf2587_gift_pnt}}</td>
+                                        <%--w--%>
+                                         <td>{{saf25.saf2590_col_money}}</td>
+                                        <%--x--%>
+                                         <td>{{saf25.saf2514_rec_name}}</td>
+                                        <%--y--%>
+                                         <td>{{saf25.saf2516_rec_tel01}}</td>
+                                        <%--z--%>
+                                         <td>{{saf25.saf2515_rec_cell}}</td>
+                                        <%--aa--%>
+                                         <td>{{saf25.saf2518_rec_zip}}</td>
+                                        <%--ab--%>
+                                         <td>{{saf25.saf2519_rec_address}}</td>
+                                        <%--ac--%>
+                                         <td>{{saf25.saf2528_fre_no}}</td>
+                                        <%--ad--%>
+                                        <td>{{saf25.saf2533_pspec}}</td>
+                                        <%--ae--%>
+                                         <td>{{saf25.saf2591_rec_email}}</td>
+                                        <%--af--%>
+                                         <td>{{saf25.saf2550_paymt_way}}</td>
+                                        <%--ag--%>
+                                         <td>{{saf25.saf2530_logis_comp}}</td>
+                                        <%--ah--%>
+                                         <td>{{saf25.saf2523_ship_date}}</td>
+                                        <%--ai--%>
+                                         <td>{{saf25.saf2502_seq}}</td>
+                                        <%--aj--%>
+                                         <td>{{saf25.saf2583_store_remark}}</td>
+                                        <%--ak--%>
+                                         <td>{{saf25.saf2509_ord_shop}}</td>
+                                        <%--al--%>
+                                         <td>{{saf25.saf2506_ord_status}}</td>
+                                        <%--am--%>
+                                         <td>{{saf25.saf2551_paymt_status}}</td>
+                                        <%--an--%>
+                                         <td>{{saf25.saf2543_cancel_qty}}</td>
+                                        <%--ao--%>
+                                         <td>{{saf25.saf2526_ship_status}}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -1920,6 +2464,8 @@
                                                 <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('24', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{PconeMart.saf25FileInfo.cnf1004_char02}}</label>
+                                            &nbsp;/&nbsp;<label>筆數 : {{PconeMart.saf25FileInfo.saf25List.length}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="PconeMart.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=PconeMart.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
@@ -1932,27 +2478,54 @@
                                 <thead>
 
                                     <tr class="bg-primary text-light">
+                                        <%--a--%>
+                                        <th v-on:click="sortBy(PconeMart,'saf2503_ord_no',$event)">訂單編號</th>
+                                        <%--b--%>
+                                        <th v-on:click="sortBy(PconeMart,'saf2549_paymt_date',$event)">付款時間</th>
+                                        <%--c--%>
+                                        <th v-on:click="sortBy(PconeMart,'saf2510_ord_name',$event)">訂購人</th>
+                                        <%--d--%>
                                         <th v-on:click="sortBy(PconeMart,'saf2511_ord_cell',$event)">訂購人電話</th>
+                                        <%--e--%>
                                         <th v-on:click="sortBy(PconeMart,'saf2550_paymt_way',$event)">付款方式</th>
-                                        <th v-on:click="sortBy(PconeMart,'saf2538_inv_no',$event)">發票號碼</th>
+                                        <%--f--%>
+                                        <th v-on:click="sortBy(PconeMart,'saf2538_inv_no',$event)">發票</th>
+                                        <%--g--%>
                                         <th v-on:click="sortBy(PconeMart,'saf2502_seq',$event)">信用卡後四碼</th>
+                                        <%--h--%>
                                         <th v-on:click="sortBy(PconeMart,'saf2548_price_sub',$event)">訂單金額</th>
+                                        <%--i--%>
                                         <th v-on:click="sortBy(PconeMart,'saf2514_rec_name',$event)">收件人</th>
-                                        <th v-on:click="sortBy(PconeMart,'saf2515_rec_cell',$event)">電話.手機</th>
+                                        <%--j--%>
+                                        <th v-on:click="sortBy(PconeMart,'saf2515_rec_cell',$event)">電話</th>
+                                        <%--k--%>
                                         <th v-on:click="sortBy(PconeMart,'saf2509_ord_shop',$event)">取貨門市</th>
-                                        <th v-on:click="sortBy(PconeMart,'saf2531_psname',$event)">商品品名</th>
-                                        <th v-on:click="sortBy(PconeMart,'saf2537_pcode',$event)">商品編號</th>
+                                        <%--l--%>
+                                        <th v-on:click="sortBy(PconeMart,'saf2531_psname',$event)">商品</th>
+                                        <%--m--%>
+                                        <th v-on:click="sortBy(PconeMart,'saf2537_Letianode',$event)">商品編號</th>
+                                        <%--n--%>
                                         <th v-on:click="sortBy(PconeMart,'saf2536_pcode_v',$event)">主料號</th>
+                                        <%--o--%>
                                         <th v-on:click="sortBy(PconeMart,'saf2542_groups',$event)">方案入數</th>
+                                        <%--p--%>
                                         <th v-on:click="sortBy(PconeMart,'saf2547_price',$event)">方案價格</th>
+                                        <%--q--%>
                                         <th v-on:click="sortBy(PconeMart,'saf2540_ship_qty',$event)">方案數量</th>
+                                        <%--r--%>
                                         <th v-on:click="sortBy(PconeMart,'saf2561_option',$event)">選項</th>
+                                        <%--s--%>
                                         <th v-on:click="sortBy(PconeMart,'saf2533_pspec',$event)">料號</th>
+                                        <%--t--%>
                                         <th v-on:click="sortBy(PconeMart,'saf2541_ord_qty',$event)">數量</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr v-for="saf25 in PconeMart.saf25FileInfo.saf25List">
+
+                                        <td>{{saf25.saf2503_ord_no}}</td>
+                                        <td>{{saf25.saf2549_paymt_date}}</td>
+                                        <td>{{saf25.saf2510_ord_name}}</td>
 
                                         <td>{{saf25.saf2511_ord_cell}}</td>
                                         <td>{{saf25.saf2550_paymt_way}}</td>
@@ -1963,7 +2536,7 @@
                                         <td>{{saf25.saf2515_rec_cell}}</td>
                                         <td>{{saf25.saf2509_ord_shop}}</td>
                                         <td>{{saf25.saf2531_psname}}</td>
-                                        <td>{{saf25.saf2537_pcode}}</td>
+                                        <td>{{saf25.saf2537_Letianode}}</td>
                                         <td>{{saf25.saf2536_pcode_v}}</td>
                                         <td>{{saf25.saf2542_groups}}</td>
                                         <td>{{saf25.saf2547_price}}</td>
@@ -1977,7 +2550,95 @@
                                 </tbody>
                             </table>
                         </div>
-                        <%--26.Pchome宅配--%>
+                        <%--25. 奇摩超級商城-超取--%>
+                        <div class="scroll-table" v-if="YahooMart_MartDelivery.open">
+                            <div>
+                                <table>
+                                    <tr>
+                                        <td style="padding: 3px">
+                                            <input type="checkbox" v-model="YahooMart_MartDelivery.checked" v-if="YahooMart_MartDelivery.saf25FileInfo.cnf1004_char02!=''" /></td>
+                                        <td style="padding: 3px">{{YahooMart_MartDelivery.saf25FileInfo.FileName}}</td>
+                                        <td style="padding: 3px">
+                                            <label class="btn btn-default" v-if="YahooMart_MartDelivery.saf25FileInfo.cnf1004_char02!=''" style="background-color: rgba(247, 255, 101, 0.67);">
+                                                <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('25', $event)">
+                                                重新送出檔案比對
+                                            </label>
+                                            <label>客戶代號 : {{YahooMart_MartDelivery.saf25FileInfo.cnf1004_char02}}</label>
+                                            &nbsp;/&nbsp;<label>筆數 : {{YahooMart_MartDelivery.saf25FileInfo.saf25List.length}}</label>
+                                            <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
+                                            <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="YahooMart_MartDelivery.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=YahooMart_MartDelivery.saf25FileInfo.ErrorMsg">
+                                                錯誤訊息   
+                                            </label>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <table class="table table-bordered" style="width: calc(100% - 18px)" v-if="YahooMart_MartDelivery.saf25FileInfo.cnf1004_char02!=''">
+                                <thead>
+
+                                    <tr class="bg-primary text-light">
+                                        <%--a--%>
+                                        <th v-on:click="sortBy(YahooMart_MartDelivery,'saf2582_serial',$event)">交易序號</th>
+                                        <%--b--%>
+                                        <th v-on:click="sortBy(YahooMart_MartDelivery,'saf2514_rec_name',$event)">收件人姓名</th>
+                                        <%--c--%>
+                                        <th v-on:click="sortBy(YahooMart_MartDelivery,'saf2515_rec_cell',$event)">行動電話</th>
+                                        <%--d--%>
+                                        <th v-on:click="sortBy(YahooMart_MartDelivery,'saf2531_psname',$event)">商品名稱</th>
+                                        <%--e--%>
+                                        <th v-on:click="sortBy(YahooMart_MartDelivery,'saf2532_pname',$event)">商品規格</th>
+                                        <%--f--%>
+                                        <th v-on:click="sortBy(YahooMart_MartDelivery,'saf2541_ord_qty',$event)">數量</th>
+                                        <%--g--%>
+                                        <th v-on:click="sortBy(YahooMart_MartDelivery,'saf2548_price_sub',$event)">金額小計</th>
+                                        <%--h--%>
+                                        <th v-on:click="sortBy(YahooMart_MartDelivery,'saf2505_ord_remark',$event)">購物車備註</th>
+                                        <%--i--%>
+                                        <th v-on:click="sortBy(YahooMart_MartDelivery,'saf2519_rec_address',$event)">收件人地址</th>
+                                        <%--j--%>
+                                        <th v-on:click="sortBy(YahooMart_MartDelivery,'saf2516_rec_tel01',$event)">收件人電話</th>
+                                        <%--k--%>
+                                        <th v-on:click="sortBy(YahooMart_MartDelivery,'saf2506_ord_status',$event)">訂單狀態</th>
+                                        <%--l--%>
+                                        <th v-on:click="sortBy(YahooMart_MartDelivery,'saf2503_ord_no',$event)">訂單編號</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="saf25 in YahooMart_MartDelivery.saf25FileInfo.saf25List">
+
+
+
+                                        <%--a--%>
+                                        <td>{{saf25.saf2582_serial}}</td>
+                                        <%--b--%>
+                                        <td>{{saf25.saf2514_rec_name}}</td>
+                                        <%--c--%>
+                                        <td>{{saf25.saf2515_rec_cell}}</td>
+                                        <%--d--%>
+                                        <td>{{saf25.saf2531_psname}}</td>
+                                        <%--e--%>
+                                        <td>{{saf25.saf2532_pname}}</td>
+                                        <%--f--%>
+                                        <td>{{saf25.saf2541_ord_qty}}</td>
+                                        <%--g--%>
+                                        <td>{{saf25.saf2548_price_sub}}</td>
+                                        <%--h--%>
+                                        <td>{{saf25.saf2505_ord_remark}}</td>
+                                        <%--i--%>
+                                        <td>{{saf25.saf2519_rec_address}}</td>
+                                        <%--j--%>
+                                        <td>{{saf25.saf2516_rec_tel01}}</td>
+                                        <%--k--%>
+                                        <td>{{saf25.saf2506_ord_status}}</td>
+                                        <%--l--%>
+                                        <td>{{saf25.saf2503_ord_no}}</td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <%--26.Letianhome宅配--%>
                         <div class="scroll-table" v-if="PcHome_Delivery.open">
                             <div>
                                 <table>
@@ -1990,6 +2651,8 @@
                                                 <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('26', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{PcHome_Delivery.saf25FileInfo.cnf1004_char02}}</label>
+                                            &nbsp;/&nbsp;<label>筆數 : {{PcHome_Delivery.saf25FileInfo.saf25List.length}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="PcHome_Delivery.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=PcHome_Delivery.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
@@ -2002,20 +2665,34 @@
                                 <thead>
 
                                     <tr class="bg-primary text-light">
+                                        <%--a--%>
                                         <th v-on:click="sortBy(PcHome_Delivery,'saf2503_ord_no',$event)">訂單編號</th>
+                                        <%--b--%>
                                         <th v-on:click="sortBy(PcHome_Delivery,'saf2504_ord_date',$event)">訂購日期</th>
+                                        <%--c--%>
                                         <th v-on:click="sortBy(PcHome_Delivery,'saf2510_ord_name',$event)">訂購人</th>
+                                        <%--d--%>
                                         <th v-on:click="sortBy(PcHome_Delivery,'saf2514_rec_name',$event)">收貨人</th>
+                                        <%--e--%>
                                         <th v-on:click="sortBy(PcHome_Delivery,'saf2524_ship_remark',$event)">出貨方式</th>
-                                        <th v-on:click="sortBy(PcHome_Delivery,'saf2518_rec_zip',$event)">ZIP</th>
-                                        <th v-on:click="sortBy(PcHome_Delivery,'saf2519_rec_address',$event)">收貨地址(訂單編號)</th>
+                                        <%--f--%>
+                                        <th v-on:click="sortBy(PcHome_Delivery,'saf2518_rec_zip',$event)">郵遞區號</th>
+                                        <%--g--%>
+                                        <th v-on:click="sortBy(PcHome_Delivery,'saf2519_rec_address',$event)">收貨地址</th>
+                                        <%--h--%>
                                         <th v-on:click="sortBy(PcHome_Delivery,'saf2515_rec_cell',$event)">收貨人電話</th>
+                                        <%--i--%>
                                         <th v-on:click="sortBy(PcHome_Delivery,'saf2531_psname',$event)">商品名稱</th>
+                                        <%--j--%>
                                         <th v-on:click="sortBy(PcHome_Delivery,'saf2541_ord_qty',$event)">數量</th>
+                                        <%--k--%>
                                         <th v-on:click="sortBy(PcHome_Delivery,'saf2548_price_sub',$event)">金額</th>
+                                        <%--l--%>
                                         <th v-on:click="sortBy(PcHome_Delivery,'saf2532_pname',$event)">商品規格</th>
+                                        <%--m--%>
                                         <th v-on:click="sortBy(PcHome_Delivery,'saf2505_ord_remark',$event)">顧客特殊需求／統編</th>
-                                        <th v-on:click="sortBy(PcHome_Delivery,'saf2537_pcode',$event)">店家料號</th>
+                                        <%--n--%>
+                                        <th v-on:click="sortBy(PcHome_Delivery,'saf2537_Letianode',$event)">店家料號</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -2035,13 +2712,12 @@
                                         <td>{{saf25.saf2548_price_sub}}</td>
                                         <td>{{saf25.saf2532_pname}}</td>
                                         <td>{{saf25.saf2505_ord_remark}}</td>
-                                        <td>{{saf25.saf2537_pcode}}</td>
+                                        <td>{{saf25.saf2537_Letianode}}</td>
 
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
-
                         <%--27.蝦皮拍賣--%>
                         <div class="scroll-table" v-if="Shopee.open">
                             <div>
@@ -2055,6 +2731,8 @@
                                                 <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('27', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{Shopee.saf25FileInfo.cnf1004_char02}}</label>
+                                            &nbsp;/&nbsp;<label>筆數 : {{Shopee.saf25FileInfo.saf25List.length}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="Shopee.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Shopee.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
@@ -2095,14 +2773,14 @@
                                         <th v-on:click="sortBy(Shopee,'saf2584_deli_date',$event)">實際出貨時間</th>
                                         <th v-on:click="sortBy(Shopee,'saf2575_check_d',$event)">訂單完成時間</th>
                                         <th v-on:click="sortBy(Shopee,'saf2505_ord_remark',$event)">買家備註</th>
-                                        <th v-on:click="sortBy(Shopee,'',$event)">備註</th>
+
 
 
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr v-for="saf25 in Shopee.saf25FileInfo.saf25List">
-                                      
+
                                         <td>{{saf25.saf2503_ord_no}}</td>
                                         <td>{{saf25.saf2506_ord_status}}</td>
                                         <td>{{saf25.saf2552_return}}</td>
@@ -2130,7 +2808,7 @@
                                         <td>{{saf25.saf2584_deli_date}}</td>
                                         <td>{{saf25.saf2575_check_d}}</td>
                                         <td>{{saf25.saf2505_ord_remark}}</td>
-                                        <td></td>
+
 
                                     </tr>
                                 </tbody>
@@ -2149,6 +2827,8 @@
                                                 <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('28', $event)">
                                                 重新送出檔案比對
                                             </label>
+                                            <label>客戶代號 : {{Yahoo_MartDelivery.saf25FileInfo.cnf1004_char02}}</label>
+                                            &nbsp;/&nbsp;<label>筆數 : {{Yahoo_MartDelivery.saf25FileInfo.saf25List.length}}</label>
                                             <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
                                             <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="Yahoo_MartDelivery.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Yahoo_MartDelivery.saf25FileInfo.ErrorMsg">
                                                 錯誤訊息   
@@ -2166,7 +2846,7 @@
                                         <th v-on:click="sortBy(Yahoo_MartDelivery,'saf2527_ship_no',$event)">帳單編號</th>
                                         <th v-on:click="sortBy(Yahoo_MartDelivery,'saf2536_pcode_v',$event)">商品編號</th>
                                         <th v-on:click="sortBy(Yahoo_MartDelivery,'saf2531_psname',$event)">商品名稱</th>
-                                        <th v-on:click="sortBy(Yahoo_MartDelivery,'saf2537_pcode',$event)">第一組貨號</th>
+                                        <th v-on:click="sortBy(Yahoo_MartDelivery,'saf2537_Letianode',$event)">第一組貨號</th>
                                         <th v-on:click="sortBy(Yahoo_MartDelivery,'saf2532_pname',$event)">規格1</th>
                                         <th v-on:click="sortBy(Yahoo_MartDelivery,'saf2571_auction',$event)">買家拍賣代號 </th>
                                         <th v-on:click="sortBy(Yahoo_MartDelivery,'saf2547_price',$event)">購買金額</th>
@@ -2195,7 +2875,7 @@
                                         <td>{{saf25.saf2527_ship_no}}</td>
                                         <td>{{saf25.saf2536_pcode_v}}</td>
                                         <td>{{saf25.saf2531_psname}}</td>
-                                        <td>{{saf25.saf2537_pcode}}</td>
+                                        <td>{{saf25.saf2537_Letianode}}</td>
                                         <td>{{saf25.saf2532_pname}}</td>
                                         <td>{{saf25.saf2571_auction}}</td>
                                         <td>{{saf25.saf2547_price}}</td>
@@ -2220,7 +2900,224 @@
                                 </tbody>
                             </table>
                         </div>
+                        <%--29.生活市集-超取--%>
+                        <div class="scroll-table" v-if="Buy123CS.open">
+                            <div>
+                                <table>
+                                    <tr>
+                                        <td style="padding: 3px">
+                                            <input type="checkbox" v-model="Buy123CS.checked" v-if="Buy123CS.saf25FileInfo.cnf1004_char02!=''" /></td>
+                                        <td style="padding: 3px">{{Buy123CS.saf25FileInfo.FileName}}</td>
+                                        <td style="padding: 3px">
+                                            <label class="btn btn-default" v-if="Buy123CS.saf25FileInfo.cnf1004_char02!=''" style="background-color: rgba(247, 255, 101, 0.67);">
+                                                <input style="display: none;" type="file" accept=".csv" v-on:change="onFileChange('29', $event)">
+                                                重新送出檔案比對
+                                            </label>
+                                            <label>客戶代號 : {{Buy123CS.saf25FileInfo.cnf1004_char02}}</label>
+                                            &nbsp;/&nbsp;<label>筆數 : {{Buy123CS.saf25FileInfo.saf25List.length}}</label>
+                                            <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
+                                            <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="Buy123CS.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Buy123CS.saf25FileInfo.ErrorMsg">
+                                                錯誤訊息   
+                                            </label>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <table class="table table-bordered" style="width: calc(100% - 18px)" v-if="Buy123CS.saf25FileInfo.cnf1004_char02!=''">
+                                <thead>
 
+                                    <tr class="bg-primary text-light">
+                                        <th v-on:click="sortBy(Buy123CS,'saf2528_fre_no',$event)">物流單號</th>
+                                        <th v-on:click="sortBy(Buy123CS,'saf2503_ord_no',$event)">訂單編號</th>
+                                        <th v-on:click="sortBy(Buy123CS,'saf2514_rec_name',$event)">收件人</th>
+                                        <th v-on:click="sortBy(Buy123CS,'saf2509_ord_shop',$event)">取件門市</th>
+                                        <%--<th v-on:click="sortBy(Buy123CS,'saf2515_rec_cell',$event)">電話/手機</th>--%>
+                                        <%--<th v-on:click="sortBy(Buy123,'saf2521_dis_time',$event)">配送時段</th>--%>
+                                        <th v-on:click="sortBy(Buy123CS,'saf2531_psname',$event)">檔次名稱</th>
+                                        <th v-on:click="sortBy(Buy123CS,'saf2522_dis_demand',$event)">方案 * 組數</th>
+                                        <th v-on:click="sortBy(Buy123CS,'saf2508_ord_plan',$event)">品項/方案*數量</th>
+                                        <th v-on:click="sortBy(Buy123CS,'saf2590_col_money',$event)">代收金額</th>
+                                        <%--<th v-on:click="sortBy(Buy123CS,'saf2549_paymt_date',$event)">付款時間</th>
+                                        <th v-on:click="sortBy(Buy123CS,'saf2552_return',$event)">退貨或重複訂單</th>--%>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="saf25 in Buy123CS.saf25FileInfo.saf25List">
+                                        <td>{{saf25.saf2528_fre_no}}</td>
+                                        <td>{{saf25.saf2503_ord_no}}</td>
+                                        <td>{{saf25.saf2514_rec_name}}</td>
+                                        <td>{{saf25.saf2509_ord_shop}}</td>
+                                        <td>{{saf25.saf2531_psname}}</td>
+                                        <td>{{saf25.saf2522_dis_demand}}</td>
+                                        <td>{{saf25.saf2508_ord_plan}}</td>
+                                        <td>{{saf25.saf2590_col_money}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <%--30.蝦皮拍賣--%>
+                        <div class="scroll-table" v-if="Shopee2.open">
+                            <div>
+                                <table>
+                                    <tr>
+                                        <td style="padding: 3px">
+                                            <input type="checkbox" v-model="Shopee2.checked" v-if="Shopee2.saf25FileInfo.cnf1004_char02!=''" /></td>
+                                        <td style="padding: 3px">{{Shopee2.saf25FileInfo.FileName}}</td>
+                                        <td style="padding: 3px">
+                                            <label class="btn btn-default" v-if="Shopee2.saf25FileInfo.cnf1004_char02!=''" style="background-color: rgba(247, 255, 101, 0.67);">
+                                                <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('30', $event)">
+                                                重新送出檔案比對
+                                            </label>
+                                            <label>客戶代號 : {{Shopee2.saf25FileInfo.cnf1004_char02}}</label>
+                                            &nbsp;/&nbsp;<label>筆數 : {{Shopee2.saf25FileInfo.saf25List.length}}</label>
+                                            <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
+                                            <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="Shopee2.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=Shopee2.saf25FileInfo.ErrorMsg">
+                                                錯誤訊息   
+                                            </label>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <table class="table table-bordered" style="width: calc(100% - 18px)" v-if="Shopee2.saf25FileInfo.cnf1004_char02!=''">
+                                <thead>
+
+                                    <tr class="bg-primary text-light">
+                                        <%--27a	27b	27c	27d	27e	27f	27g	27h	27i	27j	27k	27l	27m	27n	27o	27p	27q	27r	27s	27t	27u	27v	27w	27x	27y	27z	27aa	27ab--%>
+                                        <th v-on:click="sortBy(Shopee2,'saf2503_ord_no',$event)">訂單編號</th>
+                                        <th v-on:click="sortBy(Shopee2,'saf2506_ord_status',$event)">訂單狀態</th>
+                                        <th v-on:click="sortBy(Shopee2,'saf2552_return',$event)">退貨 / 退款狀態</th>
+                                        <th v-on:click="sortBy(Shopee2,'saf2578_get_acc',$event)">買家帳號</th>
+                                        <th v-on:click="sortBy(Shopee2,'saf2504_ord_date',$event)">訂單成立時間</th>
+                                        <th v-on:click="sortBy(Shopee2,'saf2549_paymt_date',$event)">買家完成付款時間</th>
+                                        <th v-on:click="sortBy(Shopee2,'saf2548_price_sub',$event)">訂單小計</th>
+                                        <th v-on:click="sortBy(Shopee2,'saf2546_mana_fee',$event)">買家支付的運費</th>
+                                        <th v-on:click="sortBy(Shopee2,'saf2589_order_amt',$event)">訂單總金額</th>
+                                        <th v-on:click="sortBy(Shopee2,'saf2531_psname',$event)">商品資訊</th>
+                                        <th v-on:click="sortBy(Shopee2,'saf2519_rec_address',$event)">收件地址</th>
+                                        <th v-on:click="sortBy(Shopee2,'saf2561_option',$event)">國家</th>
+                                        <th v-on:click="sortBy(Shopee2,'saf2566_warm',$event)">城市</th>
+                                        <th v-on:click="sortBy(Shopee2,'saf2563_county',$event)">行政區</th>
+                                        <th v-on:click="sortBy(Shopee2,'saf2518_rec_zip',$event)">郵遞區號</th>
+                                        <th v-on:click="sortBy(Shopee2,'saf2514_rec_name',$event)">收件者姓名</th>
+                                        <th v-on:click="sortBy(Shopee2,'saf2515_rec_cell',$event)">電話號碼</th>
+                                        <th v-on:click="sortBy(Shopee2,'saf2522_dis_demand',$event)">寄送方式</th>
+                                        <th v-on:click="sortBy(Shopee2,'saf2525_ship_condi',$event)">出貨方式</th>
+                                        <th v-on:click="sortBy(Shopee2,'saf2502_seq',$event)">信用卡後四碼</th>
+                                        <th v-on:click="sortBy(Shopee2,'saf2507_ord_class',$event)">訂單類型</th>
+                                        <th v-on:click="sortBy(Shopee2,'saf2550_paymt_way',$event)">付款方式</th>
+                                        <th v-on:click="sortBy(Shopee2,'saf2523_ship_date',$event)">最晚出貨日期</th>
+                                        <th v-on:click="sortBy(Shopee2,'saf2579_auction_y',$event)">包裹查詢號碼</th>
+                                        <th v-on:click="sortBy(Shopee2,'saf2584_deli_date',$event)">實際出貨時間</th>
+                                        <th v-on:click="sortBy(Shopee2,'saf2575_check_d',$event)">訂單完成時間</th>
+                                        <th v-on:click="sortBy(Shopee2,'saf2505_ord_remark',$event)">買家備註</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="saf25 in Shopee2.saf25FileInfo.saf25List">
+
+                                        <td>{{saf25.saf2503_ord_no}}</td>
+                                        <td>{{saf25.saf2506_ord_status}}</td>
+                                        <td>{{saf25.saf2552_return}}</td>
+                                        <td>{{saf25.saf2578_get_acc}}</td>
+                                        <td>{{saf25.saf2504_ord_date}}</td>
+                                        <td>{{saf25.saf2549_paymt_date}}</td>
+                                        <td>{{saf25.saf2548_price_sub}}</td>
+                                        <td>{{saf25.saf2546_mana_fee}}</td>
+                                        <td>{{saf25.saf2589_order_amt}}</td>
+                                        <td>{{saf25.saf2531_psname}}</td>
+                                        <td>{{saf25.saf2519_rec_address}}</td>
+                                        <td>{{saf25.saf2561_option}}</td>
+                                        <td>{{saf25.saf2566_warm}}</td>
+                                        <td>{{saf25.saf2563_county}}</td>
+                                        <td>{{saf25.saf2518_rec_zip}}</td>
+                                        <td>{{saf25.saf2514_rec_name}}</td>
+                                        <td>{{saf25.saf2515_rec_cell}}</td>
+                                        <td>{{saf25.saf2522_dis_demand}}</td>
+                                        <td>{{saf25.saf2525_ship_condi}}</td>
+                                        <td>{{saf25.saf2502_seq}}</td>
+                                        <td>{{saf25.saf2507_ord_class}}</td>
+                                        <td>{{saf25.saf2550_paymt_way}}</td>
+                                        <td>{{saf25.saf2523_ship_date}}</td>
+                                        <td>{{saf25.saf2579_auction_y}}</td>
+                                        <td>{{saf25.saf2584_deli_date}}</td>
+                                        <td>{{saf25.saf2575_check_d}}</td>
+                                        <td>{{saf25.saf2505_ord_remark}}</td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <%--31. 17P超取--%>
+                        <div class="scroll-table" v-if="one7P2.open">
+
+                            <div>
+                                <table>
+                                    <tr>
+                                        <td style="padding: 3px">
+                                            <input type="checkbox" v-model="one7P2.checked" v-if="one7P2.saf25FileInfo.cnf1004_char02!=''" /></td>
+                                        <td style="padding: 3px">{{one7P2.saf25FileInfo.FileName}}</td>
+                                        <td style="padding: 3px">
+
+                                            <label class="btn btn-default" v-if="one7P2.saf25FileInfo.cnf1004_char02!=''" style="background-color: rgba(247, 255, 101, 0.67);">
+                                                <input style="display: none;" type="file" accept=".csv," v-on:change="onFileChange('31', $event)">
+                                                重新送出檔案比對
+                                            </label>
+                                            <label>客戶代號 : {{one7P2.saf25FileInfo.cnf1004_char02}}</label>
+                                            &nbsp;/&nbsp;<label>筆數 : {{one7P2.saf25FileInfo.saf25List.length}}</label>
+                                            <span v-else>此物流公司在此系統未登記，請登記才能匯入資料</span>
+                                            <label class="btn btn-default" style="color: red; background-color: rgba(255, 169, 169, 0.51);" v-if="one7P2.saf25FileInfo.ErrorMsg.length>0" data-toggle="modal" href='#modalDialog' v-on:click="ModalError=one7P2.saf25FileInfo.ErrorMsg">
+                                                錯誤訊息   
+                                            </label>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <table class="table table-bordered" style="width: calc(100% - 18px)" v-if="one7P2.saf25FileInfo.cnf1004_char02!=''">
+                                <thead>
+                                    <tr class="bg-primary text-light">
+                                        <th v-on:click="sortBy(one7P2,'saf2502_seq',$event)">檔號</th>
+                                        <th v-on:click="sortBy(one7P2,'saf2503_ord_no',$event)">訂單標號</th>
+                                        <th v-on:click="sortBy(one7P2,'saf2504_ord_date',$event)">購買日期</th>
+                                        <th v-on:click="sortBy(one7P2,'saf2530_logis_comp',$event)">超商</th>
+                                        <th v-on:click="sortBy(one7P2,'saf2509_ord_shop',$event)">取件門市</th>
+                                        <th v-on:click="sortBy(one7P2,'saf2519_rec_address',$event)">物流編號</th>
+                                        <th v-on:click="sortBy(one7P2,'saf2514_rec_name',$event)">收件人</th>
+                                        <th v-on:click="sortBy(one7P2,'saf2515_rec_cell',$event)">收件人電話</th>
+                                        <th v-on:click="sortBy(one7P2,'saf2531_psname',$event)">方案名稱</th>
+                                        <th v-on:click="sortBy(one7P2,'saf2532_pname',$event)">應出貨品項規格</th>
+                                        <th v-on:click="sortBy(one7P2,'saf2536_pcode_v',$event)">貨號</th>
+                                        <th v-on:click="sortBy(one7P2,'saf2541_ord_qty',$event)">應出貨數</th>
+                                        <th v-on:click="sortBy(one7P2,'saf2547_price',$event)">售價</th>
+                                        <th v-on:click="sortBy(one7P2,'saf2544_cost',$event)">進貨價</th>
+                                        <th v-on:click="sortBy(one7P2,'saf2505_ord_remark',$event)">訂單備註</th>
+                                        <th v-on:click="sortBy(one7P2,'saf2523_ship_date',$event)">出貨日期</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="saf25 in one7P2.saf25FileInfo.saf25List">
+                                        <%--檔號--%><td>{{saf25.saf2502_seq}}</td>
+                                        <%--訂單標號--%><td>{{saf25.saf2503_ord_no}}</td>
+                                        <%--購買日期--%><td>{{saf25.saf2504_ord_date}}</td>
+                                        <%--超商--%><td>{{saf25.saf2530_logis_comp}}</td>
+                                        <%--取件門市--%><td>{{saf25.saf2509_ord_shop}}</td>
+                                        <%--物流編號--%><td>{{saf25.saf2519_rec_address}}</td>
+                                        <%--收件人--%><td>{{saf25.saf2514_rec_name}}</td>
+                                        <%--收件人電話--%><td>{{saf25.saf2515_rec_cell}}</td>
+                                        <%--方案名稱--%><td>{{saf25.saf2531_psname}}</td>
+                                        <%--應出貨品項規格--%><td>{{saf25.saf2532_pname}}</td>
+                                        <%--貨號--%><td>{{saf25.saf2536_pcode_v}}</td>
+                                        <%--應出貨數--%><td>{{saf25.saf2541_ord_qty}}</td>
+                                        <%--售價--%><td>{{saf25.saf2547_price}}</td>
+                                        <%--進貨價--%><td>{{saf25.saf2544_cost}}</td>
+                                        <%--訂單備註--%><td>{{saf25.saf2505_ord_remark}}</td>
+                                        <%--出貨日期--%><td>{{saf25.saf2523_ship_date}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
 
 
                     </div>
@@ -2240,7 +3137,7 @@
                     </div>
                     <div class="modal-body">
                         <div style="padding: 30px;">
-                            <a href="../operation/dsap92501.pdf" target="_blank" style="font-size:30px">各平台訂單轉入操作手冊.pdf</a>
+                            <a href="../operation/dsap92501.pdf" target="_blank" style="font-size: 30px">各平台訂單轉入操作手冊.pdf</a>
                         </div>
                     </div>
                     <div class="modal-footer">

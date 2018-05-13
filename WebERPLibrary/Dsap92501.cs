@@ -17,7 +17,7 @@ namespace WebERPLibrary
 {
     public class Dsap92501
     {
-        public static List<string> Import_saf25(List<saf25FileInfo> List, string user)
+        public static List<string> Import_saf25(List<saf25FileInfo> List, string DateTime, string user)
         {
             var msg = new List<string>();
             using (var conn = new SqlConnection(MyConnStringList.AzureGoodeasy))
@@ -34,6 +34,12 @@ namespace WebERPLibrary
                         {
                             try
                             {
+
+                                if (string.IsNullOrEmpty(saf25.saf2504_ord_date))
+                                {
+                                    saf25.saf2504_ord_date = DateTime;
+                                }
+
                                 //30170806481078-003
                                 Insertsaf25(cmd, saf25, data.cnf1004_char02, user);
                             }
@@ -58,12 +64,54 @@ namespace WebERPLibrary
         }
         public static void Insertsaf25(SqlCommand cmd, saf25 saf25, string cnf1004_char02, string LoginUser)
         {
+            /*
+             * 假如saf2545_cost_sub	成本小計 = 0, 
+             * saf2545_cost_sub	 = saf2541_ord_qty訂單數量 * saf2544_cost進價(含稅)
+             */
+             if(string.IsNullOrEmpty(saf25.saf2545_cost_sub))
+            {
+                try {
+                    var qty = int.Parse(saf25.saf2541_ord_qty);
+                    var cost = double.Parse(saf25.saf2544_cost);
+                    var cost_sub = qty * cost;
+                    saf25.saf2545_cost_sub = cost_sub.ToString();
+                }
+                catch
+                {
+                    saf25.saf2545_cost_sub = "";
+                }
+            }
+            else
+            {
+                try
+                {
+                    var cost_sub_ori = double.Parse(saf25.saf2545_cost_sub);
+                    if (cost_sub_ori == 0)
+                    {
+                        try
+                        {
+                            var qty = int.Parse(saf25.saf2541_ord_qty);
+                            var cost = double.Parse(saf25.saf2544_cost);
+                            var cost_sub = qty * cost;
+                            saf25.saf2545_cost_sub = cost_sub.ToString();
+                        }
+                        catch
+                        {
+                            saf25.saf2545_cost_sub = "";
+                        }
+                    }
+                }
+                catch
+                {
+                    saf25.saf2545_cost_sub = "";
+                }
+            }
             cmd.Parameters.Clear();
             cmd.Parameters.AddWithValue("@LoginUser", LoginUser);
             cmd.Parameters.AddWithValue("@saf2501_cuscode", cnf1004_char02);
             cmd.Parameters.AddWithValue("@saf2502_seq", saf25.saf2502_seq ?? "");
             cmd.Parameters.AddWithValue("@saf2503_ord_no", saf25.saf2503_ord_no??"");
-            cmd.Parameters.AddWithValue("@saf2504_ord_date", saf25.saf2504_ord_date);
+            cmd.Parameters.AddWithValue("@saf2504_ord_date", Convert.ToDateTime(saf25.saf2504_ord_date));
             cmd.Parameters.AddWithValue("@saf2505_ord_remark", saf25.saf2505_ord_remark ?? "");
             cmd.Parameters.AddWithValue("@saf2506_ord_status", saf25.saf2506_ord_status ?? "");
             cmd.Parameters.AddWithValue("@saf2507_ord_class", saf25.saf2507_ord_class ?? "");
@@ -83,7 +131,7 @@ namespace WebERPLibrary
             if (!String.IsNullOrEmpty(saf25.saf2520_dis_date))
             {
 
-                cmd.Parameters.AddWithValue("@saf2520_dis_date", saf25.saf2520_dis_date);
+                cmd.Parameters.AddWithValue("@saf2520_dis_date", Convert.ToDateTime(saf25.saf2520_dis_date));
             }
             else
             {
@@ -96,7 +144,7 @@ namespace WebERPLibrary
             if (!String.IsNullOrEmpty(saf25.saf2523_ship_date))
             {
 
-                cmd.Parameters.AddWithValue("@saf2523_ship_date", saf25.saf2523_ship_date);
+                cmd.Parameters.AddWithValue("@saf2523_ship_date", Convert.ToDateTime(saf25.saf2523_ship_date));
             }
             else
             {
@@ -143,7 +191,7 @@ namespace WebERPLibrary
             if (!String.IsNullOrEmpty(saf25.saf2549_paymt_date))
             {
 
-                cmd.Parameters.AddWithValue("@saf2549_paymt_date", saf25.saf2549_paymt_date);
+                cmd.Parameters.AddWithValue("@saf2549_paymt_date", Convert.ToDateTime(saf25.saf2549_paymt_date));
             }
             else
             {
@@ -169,7 +217,7 @@ namespace WebERPLibrary
             if (!String.IsNullOrEmpty(saf25.saf2562_warehs_date))
             {
 
-                cmd.Parameters.AddWithValue("@saf2562_warehs_date", saf25.saf2562_warehs_date);
+                cmd.Parameters.AddWithValue("@saf2562_warehs_date", Convert.ToDateTime(saf25.saf2562_warehs_date));
             }
             else
             {
@@ -230,23 +278,26 @@ namespace WebERPLibrary
             cmd.Parameters.AddWithValue("@saf2588_gift_amt", String.IsNullOrEmpty(saf25.saf2588_gift_amt) ? "0" : saf25.saf2588_gift_amt);
             cmd.Parameters.AddWithValue("@saf2589_order_amt", String.IsNullOrEmpty(saf25.saf2589_order_amt) ? "0" : saf25.saf2589_order_amt);
 
-            var filter = "saf2503_ord_no=@saf2503_ord_no and saf2501_cuscode=@saf2501_cuscode";
+            var filter = "saf2503_ord_no=@saf2503_ord_no and saf2504_ord_date=@saf2504_ord_date and saf2514_rec_name=@saf2514_rec_name and saf2531_psname=@saf2531_psname and saf2532_pname =@saf2532_pname";
 
-            if (cnf1004_char02 == "140")
-            {
-                filter = "saf2504_ord_date=@saf2504_ord_date and saf2536_pcode_v=@saf2536_pcode_v and saf2578_get_acc=@saf2578_get_acc";
-            }
+            
            
             
 
 
             cmd.CommandText = String.Format(@"
 DECLARE @Exist int
+DECLARE @Shipping int
+
 
 SELECT @Exist=1
   FROM [dbo].[saf25] where {0}
 
-if(@Exist=1)
+
+SELECT @Shipping=1
+  FROM [dbo].[saf25] where {0} and saf2592_serial in ('0','')
+
+if(@Exist=1 and @Shipping=1)
 begin
 update [dbo].[saf25]
  set
@@ -345,7 +396,8 @@ else
 begin
 INSERT INTO [dbo].[saf25]
            (
-            [saf2501_cuscode]
+            [status]
+           ,[saf2501_cuscode]
            ,[saf2502_seq]
            ,[saf2503_ord_no]
            ,[saf2504_ord_date]
@@ -440,8 +492,8 @@ INSERT INTO [dbo].[saf25]
            ,[moddate])
      VALUES
            (
-         
-            @saf2501_cuscode
+            '10'
+           ,@saf2501_cuscode
            ,@saf2502_seq
            ,@saf2503_ord_no
            ,@saf2504_ord_date
@@ -542,7 +594,6 @@ end
         public static saf25FileInfo ImportExcels(string uploadsPath, string FileName, string OrderTime)
         {
             var saf25FileInfo = new saf25FileInfo();
-
 
             try
             {
@@ -659,12 +710,12 @@ end
                 }
                 else if (filenumber == "21" && FileName.ToUpper().Contains(".CSV"))
                 {
-                    var rowList = setPreWork(uploadsPath, FileName, "138", ref saf25FileInfo);
+                    var rowList = setPreWork(uploadsPath, FileName, "139", ref saf25FileInfo);
                     PC_tosaf25(rowList, saf25FileInfo, OrderTime);
                 }
                 else if (filenumber == "17" && FileName.ToUpper().Contains(".CSV"))
                 {
-                    var rowList = setPreWork(uploadsPath, FileName, "138", ref saf25FileInfo);
+                    var rowList = setPreWork(uploadsPath, FileName, "103", ref saf25FileInfo);
                     MOMO2_csvtosaf25(rowList, saf25FileInfo, OrderTime);
                 }
                 else if (filenumber == "24" && FileName.ToUpper().Contains(".CSV"))
@@ -672,20 +723,40 @@ end
                     var rowList = setPreWork(uploadsPath, FileName, "115", ref saf25FileInfo);
                     SonGuo2_csvtosaf25(rowList, saf25FileInfo, OrderTime);
                 }
+                else if (filenumber == "25" && FileName.ToUpper().Contains(".CSV"))
+                {
+                    var rowList = setPreWork(uploadsPath, FileName, "133", ref saf25FileInfo);
+                    YahooSmart2_tosaf25(rowList, saf25FileInfo, OrderTime);
+                }
                 else if (filenumber == "26" && FileName.ToUpper().Contains(".CSV"))
                 {
                     var rowList = setPreWork(uploadsPath, FileName, "138", ref saf25FileInfo);
-                    PC_tosaf25(rowList, saf25FileInfo, OrderTime);
+                    PC2_tosaf25(rowList, saf25FileInfo, OrderTime);
                 }
                 else if (filenumber == "27" && FileName.ToUpper().Contains(".CSV"))
                 {
-                    var rowList = setPreWork(uploadsPath, FileName, "138", ref saf25FileInfo);
+                    var rowList = setPreWork(uploadsPath, FileName, "156", ref saf25FileInfo);
                     ShoPee_csvtosaf25(rowList, saf25FileInfo, OrderTime);
                 }
                 else if (filenumber == "28" && FileName.ToUpper().Contains(".CSV"))
                 {
-                    var rowList = setPreWork(uploadsPath, FileName, "142", ref saf25FileInfo);
+                    var rowList = setPreWork(uploadsPath, FileName, "143", ref saf25FileInfo);
                     Yahoo_csvtosaf25(rowList, saf25FileInfo, OrderTime);
+                }
+                else if (filenumber == "29" && FileName.ToUpper().Contains(".CSV"))
+                {
+                    var rowList = setPreWork(uploadsPath, FileName, "111", ref saf25FileInfo);
+                    LifeMarket2_csvtosaf25(rowList, saf25FileInfo, OrderTime);
+                }
+                else if (filenumber == "30" && FileName.ToUpper().Contains(".CSV"))
+                {
+                    var rowList = setPreWork(uploadsPath, FileName, "157", ref saf25FileInfo);
+                    ShoPee2_csvtosaf25(rowList, saf25FileInfo, OrderTime);
+                }
+                else if (filenumber == "31" && FileName.ToUpper().Contains(".CSV"))
+                {
+                    var rowList = setPreWork(uploadsPath, FileName, "101", ref saf25FileInfo);
+                    SeventeenP2_csvtosaf25(rowList, saf25FileInfo, OrderTime);
                 }
             }
             catch (Exception ex)
@@ -767,11 +838,11 @@ end
             for (var j = 0; j < rowList.Count; j++)
             {
                 var saf25 = new saf25();
-                if (j <= 5) continue;//跳過標題
+                if (j == 0) continue;//跳過標題
 
                 var row = rowList[j];
-                if (row.Count != 11) continue;
-                if (string.IsNullOrEmpty(row[0]) || string.IsNullOrEmpty(row[3])) continue;
+                //if (row.Count != 11) continue;
+                //if (string.IsNullOrEmpty(row[0]) || string.IsNullOrEmpty(row[3])) continue;
 
 
                 for (var k = 0; k < row.Count; k++)
@@ -812,7 +883,7 @@ end
                     //E
                     else if (k == 4)
                     {
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2515_rec_cell = cellParse(column);
                     }
                     //F
                     else if (k == 5)
@@ -844,6 +915,115 @@ end
                     else if (k == 10)
                     {
                         saf25.saf2538_inv_no = column;
+                    }
+
+                }
+                saf25FileInfo.saf25List.Add(saf25);
+            }
+
+
+        }
+
+        private static void PC2_tosaf25(List<List<string>> rowList, saf25FileInfo saf25FileInfo, string OrderTime)
+        {
+            for (var j = 0; j < rowList.Count; j++)
+            {
+                var saf25 = new saf25();
+                if (j ==0) continue;//跳過標題
+
+                var row = rowList[j];
+
+                
+                //if (row.Count != 11) continue;
+                if (string.IsNullOrEmpty(row[0]) || string.IsNullOrEmpty(row[3])) continue;
+
+
+                for (var k = 0; k < row.Count; k++)
+                {
+                    var column = row[k];
+                    column=Regex.Replace(column.Replace("<br>", "，"), @"<[^>]*>", String.Empty);
+                    //A
+                    if (k == 0)
+                    {
+                        if (column.Trim() == "")
+                        {
+                            saf25FileInfo.ErrorMsg.Add(CreatErrorMsg(j, k, "沒有訂單編號"));
+                        }
+                        saf25.saf2503_ord_no = column;
+                    }
+                    //B
+                    else if (k == 1)
+                    {
+                        if (column.Trim() == "")
+                        {
+                            saf25.saf2504_ord_date = OrderTime;
+
+                        }
+                        else
+                        {
+                            saf25.saf2504_ord_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
+                        }
+                    }
+                    //C
+                    else if (k == 2)
+                    {
+                        saf25.saf2510_ord_name = column;
+                    }
+                    //D
+                    else if (k == 3)
+                    {
+                        saf25.saf2514_rec_name = column;
+                    }
+                    //E
+                    else if (k == 4)
+                    {
+                        saf25.saf2525_ship_condi = column;
+                    }
+                    //F
+                    else if (k == 5)
+                    {
+                        saf25.saf2518_rec_zip = column;
+                    }
+                    //G
+                    else if (k == 6)
+                    {
+                        saf25.saf2519_rec_address = column;
+                    }
+                    //H
+                    else if (k == 7)
+                    {
+                        saf25.saf2515_rec_cell = cellParse(column);
+                    }
+                    //I
+                    else if (k == 8)
+                    {
+                        saf25.saf2531_psname = column;
+                    }
+                    //J
+                    else if (k == 9)
+                    {
+
+                        saf25.saf2541_ord_qty = IntTryParse(column, saf25FileInfo, j, k, false);
+                    }
+                    //K
+                    else if (k == 10)
+                    {
+                        saf25.saf2548_price_sub = DoubleTryParse(column, saf25FileInfo, j, k, false);
+                    }
+                    //L  
+                    else if (k == 11)
+                    {
+                        saf25.saf2532_pname = column;
+                    }
+                    //M
+                    else if (k == 12)
+                    {
+                        saf25.saf2505_ord_remark = column;
+                    }
+                    //N
+                    else if (k == 13)
+                    {
+                        saf25.saf2536_pcode_v = column;
                     }
 
                 }
@@ -1000,23 +1180,23 @@ end
                     //Y
                     else if (k == 24)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     } //Z
                     else if (k == 25)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     } //AA
                     else if (k == 26)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     } //AB
                     else if (k == 27)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     } //AC
                     else if (k == 28)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//AD
                     else if (k == 29)
                     {
@@ -1024,7 +1204,7 @@ end
                     }//AE
                     else if (k == 30)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//AF
                     else if (k == 31)
                     {
@@ -1032,23 +1212,23 @@ end
                     }//AG
                     else if (k == 32)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//AH
                     else if (k == 33)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//AI
                     else if (k == 34)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//AJ
                     else if (k == 35)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//AK
                     else if (k == 36)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//AL
                     else if (k == 37)
                     {
@@ -1056,11 +1236,11 @@ end
                     }//AM
                     else if (k == 38)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//AN
                     else if (k == 39)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//AO
                     else if (k == 40)
                     {
@@ -1068,11 +1248,11 @@ end
                     }//AP
                     else if (k == 41)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//AQ
                     else if (k == 42)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//AR
                     else if (k == 43)
                     {
@@ -1080,7 +1260,7 @@ end
                     }//AS
                     else if (k == 44)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//AT
                     else if (k == 45)
                     {
@@ -1092,11 +1272,11 @@ end
                     }//AV
                     else if (k == 47)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//AW
                     else if (k == 48)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//AX
                     else if (k == 49)
                     {
@@ -1104,19 +1284,19 @@ end
                     }//AY
                     else if (k == 50)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//AZ
                     else if (k == 51)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//BA
                     else if (k == 52)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//BB
                     else if (k == 53)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//BC
                     else if (k == 54)
                     {
@@ -1124,11 +1304,11 @@ end
                     }//BD
                     else if (k == 55)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//BE
                     else if (k == 56)
                     {
-                        saf25.saf2511_ord_cell = column;
+                        saf25.saf2511_ord_cell = cellParse(column);
                     }//BF
                     else if (k == 57)
                     {
@@ -1136,11 +1316,11 @@ end
                     }//BG
                     else if (k == 58)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//BH
                     else if (k == 59)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//BI
                     else if (k == 60)
                     {
@@ -1148,23 +1328,23 @@ end
                     }//BJ
                     else if (k == 61)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//BK
                     else if (k == 62)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//BL
                     else if (k == 63)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//BM
                     else if (k == 64)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//BN
                     else if (k == 65)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//BO
                     else if (k == 66)
                     {
@@ -1172,7 +1352,7 @@ end
                     }//BP
                     else if (k == 67)
                     {
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2515_rec_cell = cellParse(column);
                     }//BQ
                     else if (k == 68)
                     {
@@ -1184,80 +1364,80 @@ end
                     }//BS
                     else if (k == 70)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//BT
                     else if (k == 71)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//BU
                     else if (k == 72)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//BV
                     else if (k == 73)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//BW
                     else if (k == 74)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//BX
                     else if (k == 75)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//BY
                     else if (k == 76)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//BZ
                     else if (k == 77)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//CA
                     else if (k == 78)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//CB
                     else if (k == 79)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//CC
                     else if (k == 80)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//CD
                     else if (k == 81)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//CE
                     else if (k == 82)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//CF
                     else if (k == 83)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//CG
                     else if (k == 84)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//CH
                     else if (k == 85)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//CI
                     else if (k == 86)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }//CJ
                     else if (k == 87)
                     {
-                        // saf25.saf2511_ord_cell = column;
+                        // saf25.saf2511_ord_cell = cellParse(column);
                     }
                     //Ck
                     else if (k == 88)
                     {
-                        //saf25.saf2511_ord_cell = column;
+                        //saf25.saf2511_ord_cell = cellParse(column);
                     }
 
                 }
@@ -1344,7 +1524,7 @@ end
                     //L  
                     else if (k == 11)
                     {
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2515_rec_cell = cellParse(column);
                     }
                     //M
                     else if (k == 12)
@@ -1409,7 +1589,7 @@ end
                     //Y
                     else if (k == 24)
                     {
-                        saf25.saf2511_ord_cell = column;
+                        saf25.saf2511_ord_cell = cellParse(column);
                     }
 
                 }
@@ -1432,71 +1612,73 @@ end
                     //A
                     if (k == 0)
                     {
-                        saf25.saf2582_serial = column;
+                        saf25.saf2510_ord_name = column;
                     }
                     //B
                     else if (k == 1)
                     {
-                        saf25.saf2550_paymt_way = column;
+                        saf25.saf2514_rec_name = column;
                     }
                     //C
                     else if (k == 2)
                     {
-                        saf25.saf2510_ord_name = column;
+                        saf25.saf2519_rec_address = column;
                     }
                     //D
                     else if (k == 3)
                     {
-                        if (column.Trim() == "")
-                        {
-                            saf25FileInfo.ErrorMsg.Add(CreatErrorMsg(j, k, "沒有訂單編號"));
-                        }
-                        saf25.saf2503_ord_no = column;
+                        //if (column.Trim() == "")
+                        //{
+                        //    saf25FileInfo.ErrorMsg.Add(CreatErrorMsg(j, k, "沒有訂單編號"));
+                        //}
+                        saf25.saf2515_rec_cell = cellParse(column);
                     }
                     //E
                     else if (k == 4)
                     {
-                        saf25.saf2514_rec_name = column;
+                        saf25.saf2505_ord_remark = column;
                     }
                     //F
                     else if (k == 5)
                     {
-                        saf25.saf2518_rec_zip = column;
+                        saf25.saf2582_serial = column;
                     }
                     //G
                     else if (k == 6)
                     {
-                        saf25.saf2519_rec_address = column;
+                        saf25.saf2531_psname = column;
                     }
                     //H
                     else if (k == 7)
                     {
-                        if (column.Trim() == "")
-                        {
-                            saf25.saf2504_ord_date = OrderTime;
+                        saf25.saf2532_pname = column;
+                        //if (column.Trim() == "")
+                        //{
+                        //    saf25.saf2504_ord_date = OrderTime;
 
-                        }
-                        else
-                        {
-                            saf25.saf2504_ord_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
-                        }
+                        //}
+                        //else
+                        //{
+                        //    saf25.saf2504_ord_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
+                        //}
                     }
                     //I
                     else if (k == 8)
                     {
-                        saf25.saf2523_ship_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
+                        saf25.saf2541_ord_qty = IntTryParse(column, saf25FileInfo, j, k, false);
                     }
                     //J
                     else if (k == 9)
                     {
 
-                        saf25.saf2584_deli_date = DateTimeTryParse(column, saf25FileInfo, j, k, true); ;
+                        saf25.saf2548_price_sub = DoubleTryParse(column, saf25FileInfo, j, k, true); ;
                     }
                     //K
                     else if (k == 10)
                     {
-                        //saf25.saf2526_ship_status = column;
+                        saf25.saf2503_ord_no = column;
                     }
+                    /*
                     //L  
                     else if (k == 11)
                     {
@@ -1565,7 +1747,7 @@ end
                     //Y
                     else if (k == 24)
                     {
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2515_rec_cell = cellParse(column);
                     }
                     //Z
                     else if (k == 25)
@@ -1586,7 +1768,99 @@ end
                     else if (k == 28)
                     {
                         saf25.saf2588_gift_amt = column;
+                    }*/
+                }
+                saf25FileInfo.saf25List.Add(saf25);
+
+            }
+        }
+
+        private static void YahooSmart2_tosaf25(List<List<string>> rowList, saf25FileInfo saf25FileInfo, string OrderTime)
+        {
+            for (var j = 0; j < rowList.Count; j++)
+            {
+                var saf25 = new saf25();
+                if (j == 0) continue;//跳過標題
+
+                var row = rowList[j];
+                for (var k = 0; k < row.Count; k++)
+                {
+                    var column = row[k];
+                    //A
+                    if (k == 0)
+                    {
+                        saf25.saf2582_serial = column;
                     }
+                    //B
+                    else if (k == 1)
+                    {
+                        saf25.saf2514_rec_name = column;
+                    }
+                    //C
+                    else if (k == 2)
+                    {
+                        saf25.saf2515_rec_cell = cellParse(column);
+                    }
+                    //D
+                    else if (k == 3)
+                    {
+                        saf25.saf2531_psname = column;
+                    }
+                    //E
+                    else if (k == 4)
+                    {
+                        saf25.saf2532_pname = column;
+                    }
+                    //F
+                    else if (k == 5)
+                    {
+                        saf25.saf2541_ord_qty = IntTryParse(column, saf25FileInfo, j, k, false);
+                    }
+                    //G
+                    else if (k == 6)
+                    {
+                        saf25.saf2548_price_sub = DoubleTryParse(column, saf25FileInfo, j, k, true); ;
+                    }
+                    //H
+                    else if (k == 7)
+                    {
+                        saf25.saf2505_ord_remark = column;
+                        //if (column.Trim() == "")
+                        //{
+                        //    saf25.saf2504_ord_date = OrderTime;
+
+                        //}
+                        //else
+                        //{
+                        //    saf25.saf2504_ord_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
+                        //}
+                    }
+                    //I
+                    else if (k == 8)
+                    {
+                        saf25.saf2519_rec_address = column;
+                    }
+                    //J
+                    else if (k == 9)
+                    {
+
+                        saf25.saf2516_rec_tel01 = column;
+                    }
+                    //K
+                    else if (k == 10)
+                    {
+                        saf25.saf2506_ord_status = column;
+                    }
+                    //L  
+                    else if (k == 11)
+                    {
+                        if (column.Trim() == "")
+                        {
+                            saf25FileInfo.ErrorMsg.Add(CreatErrorMsg(j, k, "沒有訂單編號"));
+                        }
+                        saf25.saf2503_ord_no = column;
+                    }
+                    
                 }
                 saf25FileInfo.saf25List.Add(saf25);
 
@@ -1641,7 +1915,7 @@ end
                     //E
                     else if (k == 4)
                     {
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2515_rec_cell = cellParse(column);
                     }
                     //F
                     else if (k == 5)
@@ -1730,6 +2004,119 @@ end
                     else if (k == 21)
                     {
                         saf25.saf2525_ship_condi = column;
+                    }
+                }
+                saf25FileInfo.saf25List.Add(saf25);
+            }
+        }
+
+        private static void SeventeenP2_csvtosaf25(List<List<string>> rowList, saf25FileInfo saf25FileInfo, string OrderTime)
+        {
+            for (var j = 0; j < rowList.Count; j++)
+            {
+                var saf25 = new saf25();
+                if (j == 0) continue;//跳過標題
+
+                var row = rowList[j];
+                if (string.IsNullOrEmpty(row[1].ToString())) continue;
+
+                for (var k = 0; k < row.Count; k++)
+                {
+                    var column = row[k];
+                    //A
+                    if (k == 0)
+                    {
+                        saf25.saf2502_seq = column;
+                    }
+                    //B
+                    else if (k == 1)
+                    {
+                        if (column.Trim() == "")
+                        {
+                            saf25FileInfo.ErrorMsg.Add(CreatErrorMsg(j, k, "沒有訂單編號"));
+                        }
+                        saf25.saf2503_ord_no = column;
+                    }
+                    //C
+                    else if (k == 2)
+                    {
+                        if (column.Trim() == "")
+                        {
+                            saf25.saf2504_ord_date = OrderTime;
+
+                        }
+                        else
+                        {
+                            saf25.saf2504_ord_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
+                        }
+                    }
+                    //D
+                    else if (k == 3)
+                    {
+                        saf25.saf2530_logis_comp = column;
+                    }
+                    //E
+                    else if (k == 4)
+                    {
+                        saf25.saf2509_ord_shop = column;
+                    }
+                    //F
+                    else if (k == 5)
+                    {
+                        saf25.saf2519_rec_address = column;
+                    }
+                    //G
+                    else if (k == 6)
+                    {
+                        saf25.saf2514_rec_name = column;
+                    }
+                    //H
+                    else if (k == 7)
+                    {
+                        saf25.saf2515_rec_cell = cellParse(column);
+                        //saf25.saf2534_ship_pname = column;
+                    }
+                    //I
+                    else if (k == 8)
+                    {
+                        saf25.saf2531_psname = column;
+                    }
+                    //J
+                    else if (k == 9)
+                    {
+                        saf25.saf2532_pname = column;
+                        saf25.saf2534_ship_pname = column;
+                    }
+                    //K
+                    else if (k == 10)
+                    {
+                        saf25.saf2536_pcode_v = column;
+                    }
+                    //L  
+                    else if (k == 11)
+                    {
+                        saf25.saf2540_ship_qty = IntTryParse(column, saf25FileInfo, j, k, false);
+                        saf25.saf2541_ord_qty = IntTryParse(column, saf25FileInfo, j, k, false);
+                    }
+                    //M
+                    else if (k == 12)
+                    {
+                        saf25.saf2547_price = DoubleTryParse(column, saf25FileInfo, j, k, false);
+                    }
+                    //N
+                    else if (k == 13)
+                    {
+                        saf25.saf2544_cost = DoubleTryParse(column, saf25FileInfo, j, k, false);
+                    }
+                    //O
+                    else if (k == 14)
+                    {
+                        saf25.saf2505_ord_remark = column;
+                    }
+                    //P
+                    else if (k == 15)
+                    {
+                        saf25.saf2523_ship_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
                     }
                 }
                 saf25FileInfo.saf25List.Add(saf25);
@@ -1845,7 +2232,7 @@ end
                     //Q
                     else if (k == 16)
                     {
-                        saf25.saf2511_ord_cell = column;
+                        saf25.saf2511_ord_cell = cellParse(column);
                     }
                     //R
                     else if (k == 17)
@@ -1865,7 +2252,7 @@ end
                     //U
                     else if (k == 20)
                     {
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2515_rec_cell = cellParse(column);
                     }
                     //V
                     else if (k == 21)
@@ -2055,7 +2442,7 @@ end
                     //Q
                     else if (k == 16)
                     {
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2515_rec_cell = cellParse(column);
                     }
                     //R
                     else if (k == 17)
@@ -2078,24 +2465,183 @@ end
             }
         }
 
+        private static void syncSaf25oldAndSaf25old2(saf25 p_saf25_old, ref saf25 p_saf25_old2)
+        {
+            p_saf25_old2.saf2501_cuscode = p_saf25_old.saf2501_cuscode;
+            p_saf25_old2.saf2502_seq = p_saf25_old.saf2501_cuscode;
+            p_saf25_old2.saf2503_ord_no = p_saf25_old.saf2503_ord_no;
+            p_saf25_old2.saf2504_ord_date = p_saf25_old.saf2504_ord_date;
+            p_saf25_old2.saf2505_ord_remark = p_saf25_old.saf2505_ord_remark;
+            p_saf25_old2.saf2508_ord_plan = p_saf25_old.saf2508_ord_plan;
+            p_saf25_old2.saf2509_ord_shop = p_saf25_old.saf2509_ord_shop;
+            p_saf25_old2.saf2514_rec_name = p_saf25_old.saf2514_rec_name;
+            p_saf25_old2.saf2515_rec_cell = p_saf25_old.saf2515_rec_cell;
+            p_saf25_old2.saf2519_rec_address = p_saf25_old.saf2519_rec_address;
+            p_saf25_old2.saf2522_dis_demand = p_saf25_old.saf2522_dis_demand;
+
+            p_saf25_old2.saf2528_fre_no = p_saf25_old.saf2528_fre_no;
+            p_saf25_old2.saf2531_psname = p_saf25_old.saf2531_psname;
+            p_saf25_old2.saf2532_pname = p_saf25_old.saf2532_pname;
+
+
+            p_saf25_old2.saf2549_paymt_date = p_saf25_old.saf2549_paymt_date;
+            p_saf25_old2.saf2552_return = p_saf25_old.saf2552_return;
+            p_saf25_old2.saf2590_col_money = p_saf25_old.saf2590_col_money;
+        }
+
         private static void LifeMarket_csvtosaf25(List<List<string>> rowList, saf25FileInfo saf25FileInfo, string OrderTime)
         {
+            var saf25_old = new saf25();
+            for (var j = 0; j < rowList.Count; j++)
+            {
+                var saf25 = new saf25();
+
+                if (j == 0) continue;//跳過標題
+
+                var row = rowList[j];
+                if (string.IsNullOrEmpty(row[0].ToString()))
+                {
+                    try
+                    {
+                        var saf25_old2 = new saf25();
+                        syncSaf25oldAndSaf25old2(saf25_old, ref saf25_old2);
+                        saf25_old2.saf2508_ord_plan = row[7].ToString();
+                        saf25_old2.saf2532_pname = row[7].ToString();
+                        saf25FileInfo.saf25List.Add(saf25_old2);
+                        continue;
+                    }
+                    catch (Exception ex)
+                    {
+                        continue;
+                    }
+                }
+
+                saf25_old = new saf25();
+
+                saf25.saf2504_ord_date = OrderTime;
+                saf25_old.saf2504_ord_date = OrderTime;
+                for (var k = 0; k < row.Count; k++)
+                {
+                    var column = row[k];
+
+                    //A
+                    if (k == 0)
+                    {
+                        saf25.saf2502_seq = column;
+                        saf25_old.saf2502_seq = column;
+                    }
+                    //B
+                    else if (k == 1)
+                    {
+                        if (column.Trim() == "")
+                        {
+                            saf25FileInfo.ErrorMsg.Add(CreatErrorMsg(j, k, "沒有訂單編號"));
+                        }
+                        saf25.saf2503_ord_no = column;
+                        saf25_old.saf2503_ord_no = column;
+                    }
+                    //C
+                    else if (k == 2)
+                    {
+                        saf25.saf2514_rec_name = column;
+                        saf25_old.saf2514_rec_name = column;
+                    }
+                    //D
+                    else if (k == 3)
+                    {
+                        saf25.saf2519_rec_address = column;
+                        saf25_old.saf2519_rec_address = column;
+                    }
+                    //E
+                    else if (k == 4)
+                    {
+                        saf25.saf2515_rec_cell = cellParse(column);
+                        saf25_old.saf2515_rec_cell = cellParse(column);
+                    }
+                    //F
+                    else if (k == 5)
+                    {
+                        saf25.saf2531_psname = column;
+                        saf25_old.saf2531_psname = column;
+                    }
+                    //G
+                    else if (k == 6)
+                    {
+                        saf25.saf2522_dis_demand = column;
+                        saf25_old.saf2522_dis_demand = column;
+                    }
+                    //H
+                    else if (k == 7)
+                    {
+                        saf25.saf2508_ord_plan = column;
+                        saf25_old.saf2508_ord_plan = column;
+                        saf25.saf2532_pname = column;
+                        saf25_old.saf2532_pname = column;
+                    }
+                    //I
+                    else if (k == 8)
+                    {
+                        saf25.saf2505_ord_remark = column;
+                        saf25_old.saf2505_ord_remark = column;
+                    }
+                    //J
+                    else if (k == 9)
+                    {
+                        saf25.saf2549_paymt_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
+                        saf25_old.saf2549_paymt_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
+                    }
+                    //K
+                    else if (k == 10)
+                    {
+                        saf25.saf2552_return = column;
+                        saf25_old.saf2552_return = column;
+                    }
+                }
+                saf25FileInfo.saf25List.Add(saf25);
+            }
+        }
+
+        private static void LifeMarket2_csvtosaf25(List<List<string>> rowList, saf25FileInfo saf25FileInfo, string OrderTime)
+        {
+            var saf25_old = new saf25();
             for (var j = 0; j < rowList.Count; j++)
             {
                 var saf25 = new saf25();
                 if (j == 0) continue;//跳過標題
 
                 var row = rowList[j];
-                if (string.IsNullOrEmpty(row[0].ToString())) continue;
+
+                if (string.IsNullOrEmpty(row[0].ToString()))
+                {
+                    try
+                    {
+                        var saf25_old2 = new saf25();
+                        syncSaf25oldAndSaf25old2(saf25_old, ref saf25_old2);
+                        saf25_old2.saf2508_ord_plan = row[6];
+                        saf25_old2.saf2532_pname = row[6];
+                        saf25_old2.saf2590_col_money = DoubleTryParse(row[7], saf25FileInfo, j, 7, false);
+                        saf25FileInfo.saf25List.Add(saf25_old2);
+                        continue;
+                    }
+                    catch (Exception ex)
+                    {
+                        continue;
+                    }
+                }
+                saf25_old = new saf25();
+
                 saf25.saf2504_ord_date = OrderTime;
                 for (var k = 0; k < row.Count; k++)
                 {
                     var column = row[k];
 
-
-
                     //A
                     if (k == 0)
+                    {
+                        saf25.saf2528_fre_no = column;
+                    }
+                    //B
+                    else if (k == 1)
                     {
                         if (column.Trim() == "")
                         {
@@ -2103,58 +2649,55 @@ end
                         }
                         saf25.saf2503_ord_no = column;
                     }
-                    //B
-                    else if (k == 1)
-                    {
-                        saf25.saf2514_rec_name = column;
-                    }
                     //C
                     else if (k == 2)
                     {
-                        saf25.saf2519_rec_address = column;
+                        saf25.saf2514_rec_name = column;
                     }
                     //D
                     else if (k == 3)
                     {
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2509_ord_shop = column;
                     }
                     //E
                     else if (k == 4)
                     {
-                        saf25.saf2521_dis_time = column;
+                        saf25.saf2531_psname = column;
                     }
                     //F
                     else if (k == 5)
                     {
-                        saf25.saf2531_psname = column;
+                        saf25.saf2522_dis_demand = column;
                     }
                     //G
                     else if (k == 6)
                     {
                         saf25.saf2508_ord_plan = column;
+                        saf25.saf2532_pname = column;
                     }
                     //H
                     else if (k == 7)
                     {
-                        saf25.saf2532_pname = column;
+                        saf25.saf2590_col_money = DoubleTryParse(column, saf25FileInfo, j, k, false);
                     }
-                    //I
-                    else if (k == 8)
-                    {
-                        saf25.saf2505_ord_remark = column;
-                    }
-                    //J
-                    else if (k == 9)
-                    {
-                        saf25.saf2549_paymt_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
-                    }
-                    //K
-                    else if (k == 10)
-                    {
-                        saf25.saf2552_return = column;
-                    }
+                    ////I
+                    //else if (k == 8)
+                    //{
+                    //    saf25.saf2505_ord_remark = column;
+                    //}
+                    ////J
+                    //else if (k == 9)
+                    //{
+                    //    saf25.saf2549_paymt_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
+                    //}
+                    ////K
+                    //else if (k == 10)
+                    //{
+                    //    saf25.saf2552_return = column;
+                    //}
                 }
                 saf25FileInfo.saf25List.Add(saf25);
+                syncSaf25oldAndSaf25old2(saf25, ref saf25_old);
             }
         }
 
@@ -2166,175 +2709,162 @@ end
                 if (j == 0) continue;//跳過標題
 
                 var row = rowList[j];
-                if (row.Count != 32) continue;
+                //if (row.Count != 32) continue;
 
                 if (string.IsNullOrEmpty(row[2].ToString())) continue;
                 saf25.saf2504_ord_date = OrderTime;
                 for (var k = 0; k < row.Count; k++)
                 {
-
                     var column = row[k];
-
 
                     //A
                     if (k == 0)
-                    {
-                        saf25.saf2502_seq = column;
-                    }
-                    //B
-                    else if (k == 1)
                     {
                         if (column.Trim() == "")
                         {
                             saf25FileInfo.ErrorMsg.Add(CreatErrorMsg(j, k, "沒有訂單編號"));
                         }
-
                         saf25.saf2503_ord_no = column;
+                    }
+                    //B
+                    else if (k == 1)
+                    {
+                        saf25.saf2587_gift_pnt = column;
                     }
                     //C
                     else if (k == 2)
                     {
-                        //saf25.saf2503_ord_no = column;
+                        saf25.saf2527_ship_no = column;
                     }
                     //D
                     else if (k == 3)
                     {
-                        //saf25.saf2527_ship_no = column;
+                        saf25.saf2578_get_acc = column;
                     }
                     //E
                     else if (k == 4)
                     {
-                        saf25.saf2506_ord_status = column;
+                        saf25.saf2537_pcode = column;
                     }
                     //F
                     else if (k == 5)
                     {
-                        saf25.saf2527_ship_no = column;
+                        saf25.saf2531_psname = column;
                     }
                     //G
                     else if (k == 6)
                     {
-                        saf25.saf2537_pcode = column;
+                        saf25.saf2532_pname = column;
                     }
                     //H
                     else if (k == 7)
                     {
-                        saf25.saf2531_psname = column;
+                        saf25.saf2534_ship_pname = column;
                     }
                     //I
                     else if (k == 8)
                     {
-                        saf25.saf2534_ship_pname = column;
+                        saf25.saf2536_pcode_v = column;
                     }
                     //J
                     else if (k == 9)
                     {
-                        saf25.saf2533_pspec = column;
+                        saf25.saf2507_ord_class = column;
                     }
                     //K
                     else if (k == 10)
                     {
-                        saf25.saf2536_pcode_v = column;
+                        saf25.saf2541_ord_qty = IntTryParse(column, saf25FileInfo, j, k, false);
                     }
                     //L  
                     else if (k == 11)
                     {
-                        saf25.saf2507_ord_class = column;
+                        saf25.saf2547_price = DoubleTryParse(column, saf25FileInfo, j, k, false);
                     }
                     //M
                     else if (k == 12)
                     {
-                        saf25.saf2541_ord_qty = IntTryParse(column, saf25FileInfo, j, k, false);
+                        saf25.saf2544_cost = DoubleTryParse(column, saf25FileInfo, j, k, false);
                     }
                     //N
                     else if (k == 13)
                     {
-                        saf25.saf2547_price = DoubleTryParse(column, saf25FileInfo, j, k, false);
+                        saf25.saf2514_rec_name = column;
                     }
                     //O
                     else if (k == 14)
                     {
-                        saf25.saf2544_cost = DoubleTryParse(column, saf25FileInfo, j, k, false);
+                        saf25.saf2515_rec_cell = cellParse(column);
                     }
                     //P
                     else if (k == 15)
                     {
-                        saf25.saf2514_rec_name = column;
+                        saf25.saf2516_rec_tel01 = column;
                     }
                     //Q
                     else if (k == 16)
                     {
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2519_rec_address = column;
                     }
                     //R
                     else if (k == 17)
                     {
-                        saf25.saf2516_rec_tel01 = column;
+                        saf25.saf2530_logis_comp = column;
                     }
                     //S
                     else if (k == 18)
                     {
-                        saf25.saf2519_rec_address = column;
+                        saf25.saf2528_fre_no = column;
                     }
                     //T
                     else if (k == 19)
                     {
-                        saf25.saf2530_logis_comp = column;
+                        saf25.saf2523_ship_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
                     }
                     //U
                     else if (k == 20)
                     {
-                        saf25.saf2528_fre_no = column;
+                        saf25.saf2520_dis_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
                     }
                     //V
                     else if (k == 21)
                     {
-                        saf25.saf2523_ship_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
+                        saf25.saf2521_dis_time = column;
                     }
                     //W
                     else if (k == 22)
                     {
-                        saf25.saf2520_dis_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
+                        saf25.saf2505_ord_remark = column;
                     }
                     //X
                     else if (k == 23)
                     {
-                        saf25.saf2521_dis_time = column;
+                        saf25.saf2553_gifts = column;
                     }
                     //Y
                     else if (k == 24)
                     {
-                        saf25.saf2505_ord_remark = column;
+                        saf25.saf2522_dis_demand = column;
                     }
                     //Z
                     else if (k == 25)
                     {
-                        saf25.saf2538_inv_no = column;
+                        saf25.saf2562_warehs_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
                     }
                     //AA
                     else if (k == 26)
                     {
-                        saf25.saf2554_identifier = column;
+                        saf25.saf2509_ord_shop = column;
                     }
                     //AB
                     else if (k == 27)
                     {
-                        saf25.saf2539_inv_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
+                        saf25.saf2557_open_no = column;
                     }
                     //AC
                     else if (k == 28)
                     {
-                        saf25.saf2553_gifts = column;
-                    }
-                    //AD
-                    else if (k == 29)
-                    {
-                        saf25.saf2522_dis_demand = column;
-                    }
-                    //AE
-                    else if (k == 30)
-                    {
-                        saf25.saf2562_warehs_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
+                        saf25.saf2508_ord_plan = column;
                     }
 
                 }
@@ -2378,65 +2908,87 @@ end
                     //D
                     else if (k == 3)
                     {
-                        saf25.saf2550_paymt_way = column;
+                        saf25.saf2511_ord_cell = cellParse(column);
                     }
                     //E
                     else if (k == 4)
                     {
-                        //saf25.saf2523_ship_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
+                        saf25.saf2550_paymt_way = column;
                     }
                     //F
                     else if (k == 5)
                     {
-                        //saf25.saf2531_psname = IntTryParse(column, saf25FileInfo, j, k, false);
+                        saf25.saf2524_ship_remark = column;
                     }
                     //G
                     else if (k == 6)
                     {
-                        saf25.saf2514_rec_name = column;
+                        saf25.saf2502_seq = column;
                     }
                     //H
                     else if (k == 7)
                     {
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2548_price_sub = DoubleTryParse(column, saf25FileInfo, j, k, false);
                     }
                     //I
                     else if (k == 8)
                     {
-                        saf25.saf2519_rec_address = column;
+                        saf25.saf2514_rec_name = column;
                     }
                     //J
                     else if (k == 9)
                     {
-                        saf25.saf2531_psname = column;
+                        saf25.saf2515_rec_cell = cellParse(column);
                     }
                     //K
                     else if (k == 10)
                     {
-                        saf25.saf2537_pcode = column;
+                        saf25.saf2519_rec_address = column;
                     }
                     //L  
                     else if (k == 11)
                     {
-                        saf25.saf2542_groups = DoubleTryParse(column, saf25FileInfo, j, k, false); ;
+                        saf25.saf2531_psname = column;
                     }
                     //M
                     else if (k == 12)
                     {
-                        saf25.saf2547_price = DoubleTryParse(column, saf25FileInfo, j, k, false);
+                        saf25.saf2537_pcode = column;
                     }
                     //N
                     else if (k == 13)
                     {
-                        saf25.saf2540_ship_qty = IntTryParse(column, saf25FileInfo, j, k, false);
+                        saf25.saf2536_pcode_v = column;
                     }
                     //O
                     else if (k == 14)
                     {
-                        saf25.saf2561_option = column;
+                        column = column.Replace("入", "");
+                        saf25.saf2542_groups = DoubleTryParse(column, saf25FileInfo, j, k, false);
                     }
                     //P
                     else if (k == 15)
+                    {
+                        column = column.Replace("$", "");
+                        saf25.saf2547_price = DoubleTryParse(column, saf25FileInfo, j, k, false);
+                    }
+                    //Q
+                    else if (k == 16)
+                    {
+                        //saf25.saf2533_pspec = column;
+                    }
+                    //R
+                    else if (k == 17)
+                    {
+                        saf25.saf2561_option = column;
+                    }
+                    //S
+                    else if (k == 18)
+                    {
+                        saf25.saf2533_pspec = column;
+                    }
+                    //T
+                    else if (k == 19)
                     {
                         saf25.saf2541_ord_qty = IntTryParse(column, saf25FileInfo, j, k, false);
                     }
@@ -2481,65 +3033,87 @@ end
                     //D
                     else if (k == 3)
                     {
-                        saf25.saf2550_paymt_way = column;
+                        saf25.saf2511_ord_cell = cellParse(column);
                     }
                     //E
                     else if (k == 4)
                     {
-                        //saf25.saf2523_ship_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
+                        saf25.saf2550_paymt_way = column;
                     }
                     //F
                     else if (k == 5)
                     {
-                        //saf25.saf2531_psname = IntTryParse(column, saf25FileInfo, j, k, false);
+                        saf25.saf2524_ship_remark = column;
                     }
                     //G
                     else if (k == 6)
                     {
-                        saf25.saf2514_rec_name = column;
+                        saf25.saf2502_seq = column;
                     }
                     //H
                     else if (k == 7)
                     {
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2548_price_sub = DoubleTryParse(column, saf25FileInfo, j, k, false);
                     }
                     //I
                     else if (k == 8)
                     {
-                        saf25.saf2519_rec_address = column;
+                        saf25.saf2514_rec_name = column;
                     }
                     //J
                     else if (k == 9)
                     {
-                        saf25.saf2531_psname = column;
+                        saf25.saf2515_rec_cell = cellParse(column);
                     }
                     //K
                     else if (k == 10)
                     {
-                        saf25.saf2537_pcode = column;
+                        saf25.saf2519_rec_address = column;
                     }
                     //L  
                     else if (k == 11)
                     {
-                        saf25.saf2542_groups = DoubleTryParse(column, saf25FileInfo, j, k, false); ;
+                        saf25.saf2531_psname = column;
                     }
                     //M
                     else if (k == 12)
                     {
-                        saf25.saf2547_price = DoubleTryParse(column, saf25FileInfo, j, k, false);
+                        saf25.saf2537_pcode = column;
                     }
                     //N
                     else if (k == 13)
                     {
-                        saf25.saf2540_ship_qty = IntTryParse(column, saf25FileInfo, j, k, false);
+                        saf25.saf2536_pcode_v = column;
                     }
                     //O
                     else if (k == 14)
                     {
-                        saf25.saf2561_option = column;
+                        column = column.Replace("入", "");
+                        saf25.saf2542_groups = DoubleTryParse(column, saf25FileInfo, j, k, false);
                     }
                     //P
                     else if (k == 15)
+                    {
+                        column = column.Replace("$", "");
+                        saf25.saf2547_price = DoubleTryParse(column, saf25FileInfo, j, k, false);
+                    }
+                    //Q
+                    else if (k == 16)
+                    {
+                        //saf25.saf2533_pspec = column;
+                    }
+                    //R
+                    else if (k == 17)
+                    {
+                        saf25.saf2561_option = column;
+                    }
+                    //S
+                    else if (k == 18)
+                    {
+                        saf25.saf2533_pspec = column;
+                    }
+                    //T
+                    else if (k == 19)
                     {
                         saf25.saf2541_ord_qty = IntTryParse(column, saf25FileInfo, j, k, false);
                     }
@@ -2556,8 +3130,8 @@ end
                 if (j == 0) continue;//跳過標題
 
                 var row = rowList[j];
-                if (row.Count != 17) continue;
-                if (string.IsNullOrEmpty(row[1].ToString()) || string.IsNullOrEmpty(row[6].ToString())) continue;
+                //if (row.Count != 17) continue;
+                //if (string.IsNullOrEmpty(row[1].ToString()) || string.IsNullOrEmpty(row[6].ToString())) continue;
 
                 for (var k = 0; k < row.Count; k++)
                 {
@@ -2565,16 +3139,16 @@ end
                     //A
                     if (k == 0)
                     {
-                        saf25.saf2510_ord_name = column;
-                    }
-                    //B
-                    else if (k == 1)
-                    {
                         if (column.Trim() == "")
                         {
                             saf25FileInfo.ErrorMsg.Add(CreatErrorMsg(j, k, "沒有訂單編號"));
                         }
                         saf25.saf2503_ord_no = column;
+                    }
+                    //B
+                    else if (k == 1)
+                    {
+                        saf25.saf2562_warehs_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
                     }
                     //C
                     else if (k == 2)
@@ -2582,7 +3156,6 @@ end
                         if (column.Trim() == "")
                         {
                             saf25.saf2504_ord_date = OrderTime;
-
                         }
                         else
                         {
@@ -2597,7 +3170,7 @@ end
                     //E
                     else if (k == 4)
                     {
-                        //saf25.saf2523_ship_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
+                        saf25.saf2533_pspec = column;
                     }
                     //F
                     else if (k == 5)
@@ -2637,7 +3210,7 @@ end
                     //M
                     else if (k == 12)
                     {
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2515_rec_cell = cellParse(column);
                     }
                     //N
                     else if (k == 13)
@@ -2728,12 +3301,12 @@ end
                     //H
                     else if (k == 7)
                     {
-                        saf25.saf2511_ord_cell = column;
+                        saf25.saf2511_ord_cell = cellParse(column);
                     }
                     //I
                     else if (k == 8)
                     {
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2515_rec_cell = cellParse(column);
                     }
                     //J
                     else if (k == 9)
@@ -2944,7 +3517,7 @@ end
                     //U
                     else if (k == 20)
                     {
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2515_rec_cell = cellParse(column);
                     }
                     //V
                     else if (k == 21)
@@ -2966,9 +3539,9 @@ end
 
                 var row = rowList[j];
 
-                if (row.Count != 28) continue;
+                //if (row.Count != 28) continue;
                 if (string.IsNullOrEmpty(row[1].ToString())) continue;
-                if (row[17].ToString().Contains("運費")) continue;
+                //if (row[17].ToString().Contains("運費")) continue;
 
                 for (var k = 0; k < row.Count; k++)
                 {
@@ -3036,7 +3609,7 @@ end
                     //I
                     else if (k == 8)
                     {
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2515_rec_cell = cellParse(column);
                     }
                     //J
                     else if (k == 9)
@@ -3121,7 +3694,7 @@ end
                     //Z
                     else if (k == 25)
                     {
-                        //saf25.saf2570_activity = column;
+                        saf25.saf2523_ship_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
                     }
                     //AA
                     else if (k == 26)
@@ -3277,7 +3850,7 @@ end
                     //W
                     else if (k == 22)
                     {
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2515_rec_cell = cellParse(column);
                     }
                     //X
                     else if (k == 23)
@@ -3341,7 +3914,10 @@ end
                     //B
                     else if (k == 1)
                     {
-                        saf25.saf2523_ship_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
+                        if (column.Trim() != "")
+                        {
+                            saf25.saf2523_ship_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
+                        }
                     }
                     //C
                     else if (k == 2)
@@ -3376,13 +3952,12 @@ end
                     //I
                     else if (k == 8)
                     {
-                        saf25.saf2514_rec_name = column;
+                        saf25.saf2545_cost_sub = DoubleTryParse(column, saf25FileInfo, j, k, false);
                     }
                     //J
                     else if (k == 9)
                     {
-
-                        saf25.saf2528_fre_no = column;
+                        saf25.saf2514_rec_name = column;
                     }
                     //K
                     else if (k == 10)
@@ -3392,7 +3967,7 @@ end
                     //L  
                     else if (k == 11)
                     {
-                        saf25.saf2515_rec_cell = column.Replace("'", ""); ;
+                        saf25.saf2515_rec_cell = cellParse(column.Replace("'", ""));
                     }
                     //M
                     else if (k == 12)
@@ -3416,7 +3991,7 @@ end
 
                 if (j == 1 && row[0].ToString().Equals("序號")) continue;//跳過標題
 
-                if (row.Count != 13) continue;
+                //if (row.Count != 13) continue;
 
                 if (string.IsNullOrEmpty(row[3].ToString())) continue;
                 saf25.saf2504_ord_date = OrderTime;
@@ -3446,7 +4021,7 @@ end
                     //D
                     else if (k == 3)
                     {
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2515_rec_cell = cellParse(column);
                     }
                     //E
                     else if (k == 4)
@@ -3515,7 +4090,7 @@ end
                     //A
                     if (k == 0)
                     {
-                        //saf25.saf2504_ord_date = column;
+                        saf25.saf2562_warehs_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
                     }
                     //B
                     else if (k == 1)
@@ -3534,7 +4109,7 @@ end
                     //D
                     else if (k == 3)
                     {
-                        //saf25.saf2527_ship_no = column;
+                        saf25.saf2502_seq = column;
                     }
                     //E
                     else if (k == 4)
@@ -3569,7 +4144,7 @@ end
                     //I
                     else if (k == 8)
                     {
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2515_rec_cell = cellParse(column);
                     }
                     //J
                     else if (k == 9)
@@ -3630,12 +4205,12 @@ end
                     //U
                     else if (k == 20)
                     {
-                        //saf25.saf2556_leave_msg = column;
+                        saf25.saf2587_gift_pnt = DoubleTryParse(column, saf25FileInfo, j, k, false);
                     }
                     //V
                     else if (k == 21)
                     {
-                        //saf25.saf2587_gift_pnt = IntTryParse(column, saf25FileInfo, j, k, false);
+                        saf25.saf2588_gift_amt = DoubleTryParse(column, saf25FileInfo, j, k, false);
                     }
                     //W
                     else if (k == 22)
@@ -3695,7 +4270,7 @@ end
                 for (var k = 0; k < row.Count; k++)
                 {
                     var column = row[k];
-
+                    
                     //A
                     if (k == 0)
                     {
@@ -3712,72 +4287,107 @@ end
                     //B
                     else if (k == 1)
                     {
-                        saf25.saf2536_pcode_v = column;
+                        saf25.saf2503_ord_no = column;
                     }
                     //C
                     else if (k == 2)
                     {
-                        saf25.saf2531_psname = column;
+                        saf25.saf2549_paymt_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
                     }
                     //D
                     else if (k == 3)
                     {
-                        saf25.saf2532_pname = column;
+                        saf25.saf2578_get_acc = column;
                     }
                     //E
                     else if (k == 4)
                     {
-                        //saf25.saf2523_ship_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
+                        saf25.saf2537_pcode = column;
                     }
                     //F
                     else if (k == 5)
                     {
-                        saf25.saf2537_pcode = column;
+                        saf25.saf2531_psname = column;
                     }
                     //G
                     else if (k == 6)
                     {
-                        saf25.saf2547_price = DoubleTryParse(column, saf25FileInfo, j, k, false);
+                        saf25.saf2532_pname = column;
                     }
                     //H
                     else if (k == 7)
                     {
-                        saf25.saf2541_ord_qty = IntTryParse(column, saf25FileInfo, j, k, false);
+                        saf25.saf2561_option = column;
                     }
                     //I
                     else if (k == 8)
                     {
-                        saf25.saf2548_price_sub = DoubleTryParse(column, saf25FileInfo, j, k, false);
+                        saf25.saf2536_pcode_v = column;
                     }
                     //J
                     else if (k == 9)
                     {
-                        saf25.saf2578_get_acc = column;
+                        saf25.saf2541_ord_qty = IntTryParse(column, saf25FileInfo, j, k, false);
                     }
                     //K
                     else if (k == 10)
                     {
-                        //有HTML Tag
-                        saf25.saf2506_ord_status = Regex.Replace(column.Replace("<br>", "，"), @"<[^>]*>", String.Empty);
-                        //saf25.saf2506_ord_status = column;
+                        ////有HTML Tag
+                        //saf25.saf2506_ord_status = Regex.Replace(column.Replace("<br>", "，"), @"<[^>]*>", String.Empty);
+                        saf25.saf2547_price = DoubleTryParse(column, saf25FileInfo, j, k, false);
                     }
                     //L  
                     else if (k == 11)
                     {
-                        saf25.saf2514_rec_name = column;
+                        saf25.saf2522_dis_demand = column;
                     }
                     //M
                     else if (k == 12)
                     {
-                        saf25.saf2516_rec_tel01 = column;
+                        saf25.saf2588_gift_amt = DoubleTryParse(column, saf25FileInfo, j, k, false);
                     }
                     //N
                     else if (k == 13)
                     {
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2546_mana_fee = DoubleTryParse(column, saf25FileInfo, j, k, false);
                     }
                     //O
                     else if (k == 14)
+                    {
+                        saf25.saf2548_price_sub = DoubleTryParse(column, saf25FileInfo, j, k, false);
+                    }
+                    //P
+                    else if (k == 15)
+                    {
+                        saf25.saf2505_ord_remark = column;
+                    }
+                    //Q
+                    else if (k == 16)
+                    {
+                        saf25.saf2506_ord_status = Regex.Replace(column.Replace("<br>", "，"), @"<[^>]*>", String.Empty); ;
+                    }
+                    //R
+                    else if (k == 17)
+                    {
+                        saf25.saf2564_post_box = column;
+                    }
+                    //S
+                    else if (k == 18)
+                    {
+                        saf25.saf2514_rec_name = column;
+                    }
+                    //T
+                    else if (k == 19)
+                    {
+                        saf25.saf2516_rec_tel01 = column;
+                    }
+                    //U
+                    else if (k == 20)
+                    {
+                        saf25.saf2515_rec_cell = cellParse(column);
+                    }
+                    //V
+                    else if (k == 21)
                     {
                         saf25.saf2519_rec_address = column;
                     }
@@ -3816,7 +4426,7 @@ end
                     //B
                     else if (k == 1)
                     {
-                        //saf25.saf2502_seq = column;
+                        saf25.saf2549_paymt_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
                     }
                     //C
                     else if (k == 2)
@@ -3830,12 +4440,12 @@ end
                     //D
                     else if (k == 3)
                     {
-                        saf25.saf2527_ship_no = column;
+                        saf25.saf2578_get_acc = column;
                     }
                     //E
                     else if (k == 4)
                     {
-                        saf25.saf2536_pcode_v = column;
+                        saf25.saf2537_pcode = column;
                     }
                     //F
                     else if (k == 5)
@@ -3845,17 +4455,17 @@ end
                     //G
                     else if (k == 6)
                     {
-                        saf25.saf2537_pcode = column;
+                        saf25.saf2507_ord_class = column;
                     }
                     //H
                     else if (k == 7)
                     {
-                        //saf25.saf2514_rec_name = column;
+                        saf25.saf2508_ord_plan = column;
                     }
                     //I
                     else if (k == 8)
                     {
-                        //saf25.saf2522_dis_demand = column;
+                        saf25.saf2536_pcode_v = column;
                     }
                     //J
                     else if (k == 9)
@@ -3866,7 +4476,7 @@ end
                     //K
                     else if (k == 10)
                     {
-                        //saf25.saf2515_rec_cell = column;
+                        saf25.saf2521_dis_time = column;
                     }
                     //L  
                     else if (k == 11)
@@ -3876,7 +4486,7 @@ end
                     //M
                     else if (k == 12)
                     {
-                        //saf25.saf2541_ord_qty = IntTryParse(column, saf25FileInfo, j, k, false);
+                        saf25.saf2505_ord_remark = column;
                     }
                     //N
                     else if (k == 13)
@@ -3896,7 +4506,7 @@ end
                     //Q
                     else if (k == 16)
                     {
-                        //saf25.saf2545_cost_sub = DoubleTryParse(column, saf25FileInfo, j, k, false);
+                        saf25.saf2545_cost_sub = DoubleTryParse(column, saf25FileInfo, j, k, false);
                     }
                     //R
                     else if (k == 17)
@@ -3906,7 +4516,7 @@ end
                     //S
                     else if (k == 18)
                     {
-                        //saf25.saf2536_pcode_v = column;
+                        saf25.saf2544_cost = DoubleTryParse(column, saf25FileInfo, j, k, false);
                     }
                     //T
                     else if (k == 19)
@@ -3916,7 +4526,7 @@ end
                     //U
                     else if (k == 20)
                     {
-                        //saf25.saf2556_leave_msg = column;
+                        saf25.saf2588_gift_amt = DoubleTryParse(column, saf25FileInfo, j, k, false);
                     }
                     //V
                     else if (k == 21)
@@ -3926,7 +4536,7 @@ end
                     //W
                     else if (k == 22)
                     {
-                        //saf25.saf2556_leave_msg = column;
+                        saf25.saf2590_col_money = DoubleTryParse(column, saf25FileInfo, j, k, false);
                     }
                     //X
                     else if (k == 23)
@@ -3941,7 +4551,7 @@ end
                     //Z
                     else if (k == 25)
                     {
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2515_rec_cell = cellParse(column);
                     }
                     //AA
                     else if (k == 26)
@@ -3956,17 +4566,17 @@ end
                     //AC
                     else if (k == 28)
                     {
-                        //saf25.saf2556_leave_msg = column;
+                        saf25.saf2528_fre_no = column;
                     }
                     //AD
                     else if (k == 29)
                     {
-                        //saf25.saf2556_leave_msg = column;
+                        saf25.saf2533_pspec = column;
                     }
                     //AE
                     else if (k == 30)
                     {
-                        //saf25.saf2556_leave_msg = column;
+                        saf25.saf2591_rec_email = column;
                     }
                     //AF
                     else if (k == 31)
@@ -3986,17 +4596,17 @@ end
                     //AI
                     else if (k == 34)
                     {
-                        //saf25.saf2556_leave_msg = column;
+                        saf25.saf2502_seq = column;
                     }
                     //AJ
                     else if (k == 35)
                     {
-                        //saf25.saf2556_leave_msg = column;
+                        saf25.saf2583_store_remark = column;
                     }
                     //AK
                     else if (k == 36)
                     {
-                        //saf25.saf2556_leave_msg = column;
+                        saf25.saf2509_ord_shop = column;
                     }
                     //AL
                     else if (k == 37)
@@ -4011,7 +4621,7 @@ end
                     //AN
                     else if (k == 39)
                     {
-                        //saf25.saf2556_leave_msg = column;
+                        saf25.saf2543_cancel_qty = IntTryParse(column, saf25FileInfo, j, k, true);
                     }
                     //AO
                     else if (k == 40)
@@ -4103,7 +4713,7 @@ end
                     //K
                     else if (k == 10)
                     {
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2515_rec_cell = cellParse(column);
                     }
                     //L  
                     else if (k == 11)
@@ -4203,7 +4813,7 @@ end
                     else if (k == 4)
                     {
                         
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2515_rec_cell = cellParse(column);
                     }
                     //F
                     else if (k == 5)
@@ -4257,7 +4867,7 @@ end
                     //N
                     else if (k == 13)
                     {
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2515_rec_cell = cellParse(column);
                     }
                     //O
                     else if (k == 14)
@@ -4427,7 +5037,7 @@ end
                     //N
                     else if (k == 13)
                     {
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2515_rec_cell = cellParse(column);
                     }
                     //O
                     else if (k == 14)
@@ -4523,86 +5133,92 @@ end
                     //B
                     else if (k == 1)
                     {
+                        //if (column.Trim() == "")
+                        //{
+                        //    saf25FileInfo.ErrorMsg.Add(CreatErrorMsg(j, k, "沒有訂單編號"));
+                        //}
+                        saf25.saf2506_ord_status = column;
+                    }
+                    //C
+                    else if (k == 2)
+                    {
+                        saf25.saf2505_ord_remark = column;
+                    }
+                    //D
+                    else if (k == 3)
+                    {
+                        saf25.saf2520_dis_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
+                    }
+                    //E
+                    else if (k == 4)
+                    {
+                        ////時間判斷 DateTimeTryParse(欄位資料，saf25FileInfo，列，欄，是否允許NULL(DB))
+                        //saf25.saf2520_dis_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
+                    }
+                    //F
+                    else if (k == 5)
+                    {
                         if (column.Trim() == "")
                         {
                             saf25FileInfo.ErrorMsg.Add(CreatErrorMsg(j, k, "沒有訂單編號"));
                         }
                         saf25.saf2503_ord_no = column;
                     }
-                    //C
-                    else if (k == 2)
-                    {
-                        saf25.saf2506_ord_status = column;
-                    }
-                    //D
-                    else if (k == 3)
-                    {
-                        saf25.saf2505_ord_remark = column;
-                    }
-                    //E
-                    else if (k == 4)
-                    {
-                        //時間判斷 DateTimeTryParse(欄位資料，saf25FileInfo，列，欄，是否允許NULL(DB))
-                        saf25.saf2520_dis_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
-                    }
-                    //F
-                    else if (k == 5)
-                    {
-                        saf25.saf2529_logis_no = column;
-                    }
                     //G
                     else if (k == 6)
                     {
-                        saf25.saf2528_fre_no = column;
+                        saf25.saf2550_paymt_way = column;
                     }
                     //H
                     else if (k == 7)
                     {
-                        saf25.saf2507_ord_class = column;
+                        saf25.saf2514_rec_name = column;
                     }
                     //I
                     else if (k == 8)
                     {
-                        saf25.saf2522_dis_demand = column;
+                        saf25.saf2519_rec_address = column;
                     }
                     //J
                     else if (k == 9)
                     {
-                        //訂單日確認
-                        if (column.Trim() == "")
-                        {
-                            saf25.saf2504_ord_date = OrderTime;
+                        saf25.saf2564_post_box = column;
+                        ////訂單日確認
+                        //if (column.Trim() == "")
+                        //{
+                        //    saf25.saf2504_ord_date = OrderTime;
 
-                        }
-                        else
-                        {
-                            saf25.saf2504_ord_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
-                        }
+                        //}
+                        //else
+                        //{
+                        //    saf25.saf2504_ord_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
+                        //}
                     }
                     //K
                     else if (k == 10)
                     {
-                        saf25.saf2523_ship_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
+                        saf25.saf2565_chg_notes = column;
+                        //saf25.saf2523_ship_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
                     }
                     //L  
                     else if (k == 11)
                     {
-                        saf25.saf2514_rec_name = column;
+                        saf25.saf2507_ord_class = column;
                     }
                     //M
                     else if (k == 12)
                     {
-                        saf25.saf2516_rec_tel01 = column;
+                        saf25.saf2522_dis_demand = column;
                     }
                     //N
                     else if (k == 13)
                     {
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2504_ord_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
                     }
                     //O
                     else if (k == 14)
                     {
-                        saf25.saf2519_rec_address = column;
+                        saf25.saf2523_ship_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
                     }
                     //P
                     else if (k == 15)
@@ -4681,51 +5297,19 @@ end
 
                 var row = rowList[j];
 
-                if (row.Count != 28) continue;
-                if (string.IsNullOrEmpty(row[1].ToString())) continue;
-                if (row[17].ToString().Contains("運費")) continue;
-
                 for (var k = 0; k < row.Count; k++)
                 {
                     var column = row[k];
-                    if (column.Substring(0, 1) == "'")
-                    {
-                        column = column.Substring(1, column.Length - 1);
-                    }
-                    if (column.Substring(column.Length - 1, 1) == "'")
-                    {
-                        column = column.Substring(0, column.Length - 1);
-                    }
+                    //if (column.Substring(0, 1) == "'")
+                    //{
+                    //    column = column.Substring(1, column.Length - 1);
+                    //}
+                    //if (column.Substring(column.Length - 1, 1) == "'")
+                    //{
+                    //    column = column.Substring(0, column.Length - 1);
+                    //}
                     //A
                     if (k == 0)
-                    {
-                        saf25.saf2502_seq = column;
-                    }
-                    //B
-                    else if (k == 1)
-                    {
-                        saf25.saf2568_vendor_no = column;
-                    }
-                    //C
-                    else if (k == 2)
-                    {
-                        saf25.saf2569_vendor_name = column;
-                    }
-                    //D
-                    else if (k == 3)
-                    {
-                        if (column.Trim() == "")
-                        {
-                            saf25.saf2504_ord_date = OrderTime;
-
-                        }
-                        else
-                        {
-                            saf25.saf2504_ord_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
-                        }
-                    }
-                    //E
-                    else if (k == 4)
                     {
                         if (column.Trim() == "")
                         {
@@ -4733,120 +5317,153 @@ end
                         }
                         saf25.saf2503_ord_no = column;
                     }
+                    //B
+                    else if (k == 1)
+                    {
+                        saf25.saf2506_ord_status = column;
+                    }
+                    //C
+                    else if (k == 2)
+                    {
+                        saf25.saf2552_return = column;
+                    }
+                    //D
+                    else if (k == 3)
+                    {
+                        saf25.saf2578_get_acc = column;
+                        //if (column.Trim() == "")
+                        //{
+                        //    saf25.saf2504_ord_date = OrderTime;
+
+                        //}
+                        //else
+                        //{
+                        //    saf25.saf2504_ord_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
+                        //}
+                    }
+                    //E
+                    else if (k == 4)
+                    {
+                        //if (column.Trim() == "")
+                        //{
+                        //    saf25FileInfo.ErrorMsg.Add(CreatErrorMsg(j, k, "沒有訂單編號"));
+                        //}
+                        saf25.saf2504_ord_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
+                    }
                     //F
                     else if (k == 5)
                     {
-                        saf25.saf2527_ship_no = column;
+                        saf25.saf2549_paymt_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
                     }
                     //G
                     else if (k == 6)
                     {
-                        saf25.saf2510_ord_name = column;
+                        saf25.saf2548_price_sub = DoubleTryParse(column, saf25FileInfo, j, k, false);
                     }
                     //H
                     else if (k == 7)
                     {
-                        saf25.saf2514_rec_name = column;
+                        saf25.saf2546_mana_fee = DoubleTryParse(column, saf25FileInfo, j, k, false);
                     }
                     //I
                     else if (k == 8)
                     {
-                        saf25.saf2515_rec_cell = column;
+                        saf25.saf2589_order_amt = DoubleTryParse(column, saf25FileInfo, j, k, false);
                     }
                     //J
                     else if (k == 9)
                     {
-                        saf25.saf2519_rec_address = column;
+                        saf25.saf2531_psname = column;
                     }
                     //K
                     else if (k == 10)
                     {
-                        saf25.saf2564_post_box = column;
+                        saf25.saf2519_rec_address = column;
                     }
                     //L  
                     else if (k == 11)
                     {
-                        saf25.saf2518_rec_zip = column;
+                        saf25.saf2561_option = column;
                     }
                     //M
                     else if (k == 12)
                     {
-                        saf25.saf2565_chg_notes = column;
+                        saf25.saf2566_warm = column;
                     }
                     //N
                     else if (k == 13)
                     {
-                        saf25.saf2506_ord_status = column;
+                        saf25.saf2563_county = column;
                     }
                     //O
                     else if (k == 14)
                     {
-                        saf25.saf2566_warm = column;
+                        saf25.saf2518_rec_zip = column;
                     }
                     //P
                     else if (k == 15)
                     {
-                        saf25.saf2537_pcode = column;
+                        saf25.saf2514_rec_name = column;
                     }
                     //Q
                     else if (k == 16)
                     {
-                        saf25.saf2536_pcode_v = column;
+                        saf25.saf2515_rec_cell = cellParse(column);
                     }
                     //R
                     else if (k == 17)
                     {
-                        saf25.saf2531_psname = column;
+                        saf25.saf2522_dis_demand = column;
                     }
                     //S
                     else if (k == 18)
                     {
-                        saf25.saf2532_pname = column;
+                        saf25.saf2525_ship_condi = column;
                     }
                     //T
                     else if (k == 19)
                     {
-                        saf25.saf2541_ord_qty = IntTryParse(column, saf25FileInfo, j, k, false); ;
+                        saf25.saf2502_seq = column;
                     }
                     //U
                     else if (k == 20)
                     {
-                        saf25.saf2544_cost = DoubleTryParse(column, saf25FileInfo, j, k, false); ;
+                        saf25.saf2507_ord_class = column;
                     }
                     //V
                     else if (k == 21)
                     {
-                        saf25.saf2529_logis_no = column;
+                        saf25.saf2550_paymt_way = column;
                     }
                     //W
                     else if (k == 22)
                     {
-                        saf25.saf2530_logis_comp = column;
+                        saf25.saf2523_ship_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
                     }
                     //X
                     else if (k == 23)
                     {
-                        saf25.saf2528_fre_no = column;
+                        saf25.saf2579_auction_y = column;
                     }
                     //Y
                     else if (k == 24)
                     {
-                        saf25.saf2567_carton_spec = column;
+                        saf25.saf2584_deli_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
                     }
                     //Z
                     else if (k == 25)
                     {
-                        //saf25.saf2570_activity = column;
+                        saf25.saf2575_check_d = DateTimeTryParse(column, saf25FileInfo, j, k, true);
                     }
                     //AA
                     else if (k == 26)
                     {
-                        saf25.saf2526_ship_status = column;
+                        saf25.saf2505_ord_remark = column;
                     }
                     //AB
                     else if (k == 27)
                     {
-                        saf25.saf2505_ord_remark = column;
+                        //saf25.saf2505_ord_remark = column;
                     }
 
                 }
@@ -4854,6 +5471,188 @@ end
             }
         }
 
+        private static void ShoPee2_csvtosaf25(List<List<string>> rowList, saf25FileInfo saf25FileInfo, string OrderTime)
+        {
+            for (var j = 0; j < rowList.Count; j++)
+            {
+                var saf25 = new saf25();
+                if (j == 0) continue;//跳過標題
+
+                var row = rowList[j];
+
+                for (var k = 0; k < row.Count; k++)
+                {
+                    var column = row[k];
+                    //if (column.Substring(0, 1) == "'")
+                    //{
+                    //    column = column.Substring(1, column.Length - 1);
+                    //}
+                    //if (column.Substring(column.Length - 1, 1) == "'")
+                    //{
+                    //    column = column.Substring(0, column.Length - 1);
+                    //}
+                    //A
+                    if (k == 0)
+                    {
+                        if (column.Trim() == "")
+                        {
+                            saf25FileInfo.ErrorMsg.Add(CreatErrorMsg(j, k, "沒有訂單編號"));
+                        }
+                        saf25.saf2503_ord_no = column;
+                    }
+                    //B
+                    else if (k == 1)
+                    {
+                        saf25.saf2506_ord_status = column;
+                    }
+                    //C
+                    else if (k == 2)
+                    {
+                        saf25.saf2552_return = column;
+                    }
+                    //D
+                    else if (k == 3)
+                    {
+                        saf25.saf2578_get_acc = column;
+                        //if (column.Trim() == "")
+                        //{
+                        //    saf25.saf2504_ord_date = OrderTime;
+
+                        //}
+                        //else
+                        //{
+                        //    saf25.saf2504_ord_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
+                        //}
+                    }
+                    //E
+                    else if (k == 4)
+                    {
+                        //if (column.Trim() == "")
+                        //{
+                        //    saf25FileInfo.ErrorMsg.Add(CreatErrorMsg(j, k, "沒有訂單編號"));
+                        //}
+                        saf25.saf2504_ord_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
+                    }
+                    //F
+                    else if (k == 5)
+                    {
+                        saf25.saf2549_paymt_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
+                    }
+                    //G
+                    else if (k == 6)
+                    {
+                        saf25.saf2548_price_sub = DoubleTryParse(column, saf25FileInfo, j, k, false);
+                    }
+                    //H
+                    else if (k == 7)
+                    {
+                        saf25.saf2546_mana_fee = DoubleTryParse(column, saf25FileInfo, j, k, false);
+                    }
+                    //I
+                    else if (k == 8)
+                    {
+                        saf25.saf2589_order_amt = DoubleTryParse(column, saf25FileInfo, j, k, false);
+                    }
+                    //J
+                    else if (k == 9)
+                    {
+                        saf25.saf2531_psname = column;
+                    }
+                    //K
+                    else if (k == 10)
+                    {
+                        saf25.saf2519_rec_address = column;
+                    }
+                    //L  
+                    else if (k == 11)
+                    {
+                        saf25.saf2561_option = column;
+                    }
+                    //M
+                    else if (k == 12)
+                    {
+                        saf25.saf2566_warm = column;
+                    }
+                    //N
+                    else if (k == 13)
+                    {
+                        saf25.saf2563_county = column;
+                    }
+                    //O
+                    else if (k == 14)
+                    {
+                        saf25.saf2518_rec_zip = column;
+                    }
+                    //P
+                    else if (k == 15)
+                    {
+                        saf25.saf2514_rec_name = column;
+                    }
+                    //Q
+                    else if (k == 16)
+                    {
+                        saf25.saf2515_rec_cell = cellParse(column);
+                    }
+                    //R
+                    else if (k == 17)
+                    {
+                        saf25.saf2522_dis_demand = column;
+                    }
+                    //S
+                    else if (k == 18)
+                    {
+                        saf25.saf2525_ship_condi = column;
+                    }
+                    //T
+                    else if (k == 19)
+                    {
+                        saf25.saf2502_seq = column;
+                    }
+                    //U
+                    else if (k == 20)
+                    {
+                        saf25.saf2507_ord_class = column;
+                    }
+                    //V
+                    else if (k == 21)
+                    {
+                        saf25.saf2550_paymt_way = column;
+                    }
+                    //W
+                    else if (k == 22)
+                    {
+                        saf25.saf2523_ship_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
+                    }
+                    //X
+                    else if (k == 23)
+                    {
+                        saf25.saf2579_auction_y = column;
+                    }
+                    //Y
+                    else if (k == 24)
+                    {
+                        saf25.saf2584_deli_date = DateTimeTryParse(column, saf25FileInfo, j, k, true);
+                    }
+                    //Z
+                    else if (k == 25)
+                    {
+                        saf25.saf2575_check_d = DateTimeTryParse(column, saf25FileInfo, j, k, true);
+                    }
+                    //AA
+                    else if (k == 26)
+                    {
+                        saf25.saf2505_ord_remark = column;
+                    }
+                    //AB
+                    else if (k == 27)
+                    {
+                        //saf25.saf2505_ord_remark = column;
+                    }
+
+                }
+                saf25FileInfo.saf25List.Add(saf25);
+            }
+        }
 
         private static string DateTimeTryParse(string Time, saf25FileInfo saf25FileInfo, int row, int column, bool allowEmpty)
         {
@@ -4898,6 +5697,21 @@ end
             }
         }
 
+
+        private static string cellParse(string Num)
+        {
+
+            //手機格式補0
+            if (Num.IndexOf("(") < 0 && Num.IndexOf(")") < 0 && Num.IndexOf("9") == 0 && Num.Trim().Length==9)
+            {
+
+                Num = "0" + Num.Trim();
+
+            }
+
+            return Num;
+        
+        }
         private static string IntTryParse(string Num, saf25FileInfo saf25FileInfo, int row, int column, bool allowEmpty)
         {
             int Value;
@@ -4998,6 +5812,10 @@ end
                 while (sr.Peek() >= 0)
                 {
                     var ch = (char)sr.Read();
+                    if (ch == ']')
+                    {
+                        var a = 1;
+                    }
                     if (quotMarkMode)
                     {
                         //雙引號包含區段內遇到雙引號有兩種情境
@@ -5024,6 +5842,10 @@ end
                         }
                         //雙引號內遇到換行符號\n
                         else if (ch == '\n')
+                        {
+                            sb.Append(" ");
+                        }//雙引號內遇到換行符號\r
+                        else if (ch == '\r')
                         {
                             sb.Append(" ");
                         }
