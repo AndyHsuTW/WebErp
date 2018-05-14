@@ -22,6 +22,7 @@ C:\Users\hamow\OneDrive\Documents\case\GA_System\VS_Project\WebERPLibrary\bin\De
 C:\Users\hamow\OneDrive\Documents\case\GA_System\VS_Project\WebERPLibrary\bin\Debug\ExcelDataReader.xml
 C:\Users\hamow\OneDrive\Documents\case\GA_System\VS_Project\WebERPLibrary\bin\Debug\ExcelDataReader.DataSet.xml
 C:\Users\hamow\OneDrive\Documents\case\GA_System\VS_Project\WebERPLibrary\bin\Debug\Newtonsoft.Json.xml
+<<<<<<< HEAD
 D:\WebErp\WebERPLibrary\bin\Debug\WebERPLibrary.dll
 D:\WebErp\WebERPLibrary\bin\Debug\WebERPLibrary.pdb
 D:\WebErp\WebERPLibrary\bin\Debug\EPPlus.dll
@@ -40,3 +41,6 @@ D:\WebErp\WebERPLibrary\obj\Debug\WebERPLibrary.csproj.CoreCompileInputs.cache
 D:\WebErp\WebERPLibrary\obj\Debug\WebERPLibrary.csproj.CopyComplete
 D:\WebErp\WebERPLibrary\obj\Debug\WebERPLibrary.dll
 D:\WebErp\WebERPLibrary\obj\Debug\WebERPLibrary.pdb
+=======
+C:\Users\hamow\OneDrive\Documents\case\GA_System\VS_Project\WebERPLibrary\bin\Debug\ICSharpCode.SharpZipLib.dll
+>>>>>>> 2ba3d35e6ac37d60d59aa42237243288000b8208
