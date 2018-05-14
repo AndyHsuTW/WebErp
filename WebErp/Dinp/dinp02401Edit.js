@@ -54,8 +54,8 @@
             console.error("vueMultiselect fallback");
             vueMultiselect = window.VueMultiselect;
         }
-        window.dinp02301Edit = new Vue({
-            el: "#Dinp02301Edit",
+        window.dinp02401Edit = new Vue({
+            el: "#dinp02401Edit",
             data: {
                 Display: false,
                 IsAppBodyDisplay:true,

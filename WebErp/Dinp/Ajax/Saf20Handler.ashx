@@ -39,7 +39,7 @@ public class Saf20Handler : IHttpHandler, IRequiresSessionState
     /// Request.Form["user"]
     /// </summary>
     public string User { get; set; }
-    
+
     public void ProcessRequest (HttpContext context) {
         this.Action = context.Request.Form["act"];
         this.Data = context.Request.Form["data"];
@@ -47,7 +47,7 @@ public class Saf20Handler : IHttpHandler, IRequiresSessionState
         this.Saf20aFields = context.Request.Form["Saf20afields"];
         this.PrintBcode = context.Request.Form["printBcode"];
         this.User = context.Request.Form["user"];
-        
+
         if (this.Action == null) return;
         switch (this.Action.ToLower())
         {
@@ -74,18 +74,18 @@ public class Saf20Handler : IHttpHandler, IRequiresSessionState
                 break;
             case "getdetail":
                 {
-                    var Saf20aList = Saf20a.GetList(this.Data);
-                    context.Response.ContentType = "text/plain";
-                    context.Response.Write(JsonConvert.SerializeObject(Saf20aList));
+                    //var Saf20aList = Saf20a.GetList(this.Data);
+                    //context.Response.ContentType = "text/plain";
+                    //context.Response.Write(JsonConvert.SerializeObject(Saf20aList));
                     return;
                 }
                 break;
             case "del":
                 {
                     bool success = false;
-                    Saf20a.Delete(this.Data);
-                    Saf20.Delete(this.Data);
-                    
+                    //Saf20a.Delete(this.Data);
+                    //Saf20.Delete(this.Data);
+
                     context.Response.ContentType = "text/plain";
                     context.Response.Write("ok");
                     return;
@@ -112,80 +112,80 @@ public class Saf20Handler : IHttpHandler, IRequiresSessionState
                     {
                         context.Session["printBcode"] = JsonConvert.DeserializeObject<Cnf07>(this.PrintBcode);
                     }
-                    
+
                     context.Response.Write(Guid.NewGuid().ToString());
-                    return; 
+                    return;
                 }
                 break;
             case "import":
-                {
-                    var now = DateTime.Now;
-                    var name = context.Request.Files[0].FileName;
-                    byte[] b = new byte[context.Request.Files[0].InputStream.Length];
-                    if (b.Length == 0)
-                    {
-                        throw new Exception("File can not be empty");
-                    }
-                    context.Request.Files[0].InputStream.Read(b, 0, b.Length);
-                    List<Saf20.ImportItemRow> Saf20List = null;
-                    using (MemoryStream stream = new MemoryStream(b))
-                    {
-                        Saf20List = Saf20.ParseFromExcelNpoi(stream, name.EndsWith("xlsx") ? 2007 : 2003);
-                    }
-                    if (Saf20List != null && Saf20List.Count > 0)
-                    {
-                        var lastRowId = -1;
-                        Saf20 currentSaf20 = null;
-                        for (var i = 0; i < Saf20List.Count; i++)
-                        {
-                            var Saf20Row = Saf20List[i];
-                            var currentRowId = Saf20Row.GetMasterRowId();
-                            try
-                            {
-                                if (currentRowId != lastRowId)
-                                {
-                                    lastRowId = currentRowId;
-                                    // get only Saf20 fields
-                                    var Saf20 = new Saf20.ImportItemRow(Saf20Row.Where(
-                                        o =>
-                                        o.Key.StartsWith("Saf20", StringComparison.OrdinalIgnoreCase) &&
-                                        !o.Key.StartsWith("Saf20a", StringComparison.OrdinalIgnoreCase))
-                                                                                .ToDictionary(o => o.Key, o => o.Value));
-                                    Saf20.adduser = this.User;
-                                    Saf20.adddate = now;
-                                        
-                                    int Saf20Id = Saf20.AddItem(Saf20);
-                                    if (Saf20Id < 0)
-                                    {
-                                        throw new Exception("Import fail");
-                                    }
-                                    currentSaf20 = Saf20.Search(new Saf20.FilterOption
-                                        {
-                                            id = Saf20Id
-                                        }).FirstOrDefault();
-                                }
-                                // get only Saf20a fields
-                                {
-                                    var Saf20a = new Saf20.ImportItemRow(Saf20Row.Where(
-                                        o =>
-                                        o.Key.StartsWith("Saf20a", StringComparison.OrdinalIgnoreCase))
-                                                                                 .ToDictionary(o => o.Key, o => o.Value));
-                                    Saf20a.adduser = this.User;
-                                    Saf20a.adddate = now;
-                                    
-                                    int id = Saf20a.AddItem(currentSaf20, Saf20a);
-                                }
+                //{
+                //    var now = DateTime.Now;
+                //    var name = context.Request.Files[0].FileName;
+                //    byte[] b = new byte[context.Request.Files[0].InputStream.Length];
+                //    if (b.Length == 0)
+                //    {
+                //        throw new Exception("File can not be empty");
+                //    }
+                //    context.Request.Files[0].InputStream.Read(b, 0, b.Length);
+                //    List<Saf20.ImportItemRow> Saf20List = null;
+                //    using (MemoryStream stream = new MemoryStream(b))
+                //    {
+                //        Saf20List = Saf20.ParseFromExcelNpoi(stream, name.EndsWith("xlsx") ? 2007 : 2003);
+                //    }
+                //    if (Saf20List != null && Saf20List.Count > 0)
+                //    {
+                //        var lastRowId = -1;
+                //        Saf20 currentSaf20 = null;
+                //        for (var i = 0; i < Saf20List.Count; i++)
+                //        {
+                //            var Saf20Row = Saf20List[i];
+                //            var currentRowId = Saf20Row.GetMasterRowId();
+                //            try
+                //            {
+                //                if (currentRowId != lastRowId)
+                //                {
+                //                    lastRowId = currentRowId;
+                //                    // get only Saf20 fields
+                //                    var Saf20 = new Saf20.ImportItemRow(Saf20Row.Where(
+                //                        o =>
+                //                        o.Key.StartsWith("Saf20", StringComparison.OrdinalIgnoreCase) &&
+                //                        !o.Key.StartsWith("Saf20a", StringComparison.OrdinalIgnoreCase))
+                //                                                                .ToDictionary(o => o.Key, o => o.Value));
+                //                    Saf20.adduser = this.User;
+                //                    Saf20.adddate = now;
 
-                            }
-                            catch (Exception ex)
-                            {
-                                context.Response.ContentType = "text/plain";
-                                context.Response.Write(String.Format("{0}, 請檢查第{1}列", ex.Message, i + 3));
-                                return;
-                            }
-                        }
-                    }
-                }
+                //                    int Saf20Id = Saf20.AddItem(Saf20);
+                //                    if (Saf20Id < 0)
+                //                    {
+                //                        throw new Exception("Import fail");
+                //                    }
+                //                    currentSaf20 = Saf20.Search(new Saf20.FilterOption
+                //                    {
+                //                        id = Saf20Id
+                //                    }).FirstOrDefault();
+                //                }
+                //                // get only Saf20a fields
+                //                {
+                //                    var Saf20a = new Saf20.ImportItemRow(Saf20Row.Where(
+                //                        o =>
+                //                        o.Key.StartsWith("Saf20a", StringComparison.OrdinalIgnoreCase))
+                //                                                                 .ToDictionary(o => o.Key, o => o.Value));
+                //                    Saf20a.adduser = this.User;
+                //                    Saf20a.adddate = now;
+
+                //                    int id = Saf20a.AddItem(currentSaf20, Saf20a);
+                //                }
+
+                //            }
+                //            catch (Exception ex)
+                //            {
+                //                context.Response.ContentType = "text/plain";
+                //                context.Response.Write(String.Format("{0}, 請檢查第{1}列", ex.Message, i + 3));
+                //                return;
+                //            }
+                //        }
+                //    }
+                //}
                 break;
             default:
                 {
@@ -196,7 +196,7 @@ public class Saf20Handler : IHttpHandler, IRequiresSessionState
         context.Response.ContentType = "text/plain";
         context.Response.Write("ok");
     }
- 
+
     public bool IsReusable {
         get {
             return false;

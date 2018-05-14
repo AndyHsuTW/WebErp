@@ -8,4 +8,3 @@ D:\WebErp\ErpBaseLibrary\bin\Debug\ErpBaseLibrary.pdb
 D:\WebErp\ErpBaseLibrary\obj\Debug\ErpBaseLibrary.csproj.CoreCompileInputs.cache
 D:\WebErp\ErpBaseLibrary\obj\Debug\ErpBaseLibrary.dll
 D:\WebErp\ErpBaseLibrary\obj\Debug\ErpBaseLibrary.pdb
-D:\WebErp\ErpBaseLibrary\obj\Debug\ErpBaseLibrary.csprojAssemblyReference.cache

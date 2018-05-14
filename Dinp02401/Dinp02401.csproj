@@ -65,6 +65,7 @@
     <Compile Include="Cnf07.cs" />
     <Compile Include="Cnf10.cs" />
     <Compile Include="Cnf14.cs" />
+    <Compile Include="ExtensionDataTable.cs" />
     <Compile Include="Gaf04.cs" />
     <Compile Include="Saf20.cs" />
     <Compile Include="Print\PrintHelper.cs" />
