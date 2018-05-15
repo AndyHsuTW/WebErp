@@ -200,8 +200,8 @@
                 OnAdd: function () {
                     console.log("OnAdd");
                     this.Display = false;
-                    window.dinp02301Edit.Display = true;
-                    window.dinp02301Edit.Reset();
+                    window.dsap02101Edit.Display = true;
+                    window.dsap02101Edit.Reset();
                 },
                 OnDelete: function () {
                     if (this.SelectedInf29Item == null) {

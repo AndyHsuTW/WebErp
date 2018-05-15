@@ -19,7 +19,7 @@
             {
                 template: '\
                         <div>\
-                            <ul class="app-title">\<li>客戶訂單資料查詢v18.01.12</li></ul>\
+                            <ul class="app-title">\<li>dsaq02101客戶訂單資料查詢v18.05.08</li></ul>\
                             <div class="app-body">\
                                 <div class="common-button-div">\
                                     <function-button id="SearchBtn" hot-key="f1" v-on:click.native="OnSearch()">查詢</function-button>\

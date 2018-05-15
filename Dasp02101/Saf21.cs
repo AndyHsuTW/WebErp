@@ -277,7 +277,7 @@ namespace Dsap02101
                                                            ? filterOption.saf2101_docno_date_start
                                                            : filterOption.saf2101_docno_date_end);
                     }
-                    if (filterOption.saf2101_docno_orderno_start >0)
+                    if (filterOption.saf2101_docno_orderno_start > 0)
                     {
                         saf2101DocnoOrdernoFilter = String.Format(@" AND (
                             saf21.[saf2101_docno_orderno] >= @saf2101DocnoOrdernoStart 
@@ -410,7 +410,246 @@ namespace Dsap02101
             }
             return saf21List;
         }
+        public static Saf21 AddItem(Saf21 saf21)
+        {
+            if (saf21 == null)
+            {
+                throw new ArgumentNullException("saf21");
+            }
 
+            var lastDocSeq = GetLastDocnoSeq(saf21.saf2101_docno_type, saf21.saf2101_docno_date);
+            saf21.saf2101_docno_orderno = ++lastDocSeq;
 
+            saf21.saf2101_docno = saf21.saf2101_docno + saf21.saf2101_docno_type+
+                                  saf21.saf2101_docno_date.ToString("yyyyMMdd") +
+                                  saf21.saf2101_docno_orderno.ToString("0000");
+
+            using (var conn = new SqlConnection { ConnectionString = MyConnStringList.AzureGoodeasy })
+            using (var sqlCmd = conn.CreateCommand())
+            {
+                conn.Open();
+                sqlCmd.CommandText = @"
+    INSERT INTO [dbo].[saf21]
+           ([saf2101_docno]
+           ,[status]
+           ,[saf2101_bcode]
+           ,[saf2101_docno_type]
+           ,[saf2101_docno_date]
+           ,[saf2101_docno_orderno]
+           ,[saf2106_order_date]
+           ,[saf2108_customer_code]
+           ,[saf2109_salesid]
+           ,[saf2110_del_date]
+           ,[saf2114_payment]
+           ,[saf2115_period]
+           ,[saf2120_ls_po_no]
+           ,[saf2121_last_del_date]
+           ,[saf2122_agent]
+           ,[saf2123_delivery_place_no]
+           ,[saf2124_blandid]
+           ,[saf2125_po_type]
+           ,[saf2126_print_times]
+           ,[saf2127_delivery_type]
+           ,[saf2128_currency]
+           ,[saf2129_exchange_rate]
+           ,[saf2131_faxno]
+           ,[saf2132_yyyymm]
+           ,[saf2133_seq2]
+           ,[saf2134_p_po_time]
+           ,[saf2135_rec_customer_code]
+           ,[saf2136_customer_order_no]
+           ,[saf2139_total_price]
+           ,[saf2140_bcode]
+           ,[saf2140_docno_type]
+           ,[saf2140_docno_date]
+           ,[saf2140_docno_seq]
+           ,[saf2142_delivery_place]
+           ,[saf2144_bcode]
+           ,[saf2145_open_id]
+           ,[saf2145_docno_type]
+           ,[saf2145_docno_date]
+           ,[saf2145_docno_orderno]
+           ,[saf2147_recid]
+           ,[saf2148_magazine_no]
+           ,[saf2153_delivery_id]
+           ,[saf2156_take_no]
+           ,[saf2159_way]
+           ,[remark])
+     OUTPUT INSERTED.ID
+     VALUES
+           (@saf2101_docno
+           ,''
+           ,@saf2101_bcode
+           ,@saf2101_docno_type
+           ,@saf2101_docno_date
+           ,@saf2101_docno_orderno
+           ,@saf2106_order_date
+           ,@saf2108_customer_code
+           ,''
+           ,null
+           ,@saf2114_payment
+           ,''
+           ,''
+           ,null
+           ,''
+           ,''
+           ,''
+           ,''
+           ,''
+           ,''
+           ,@saf2128_currency
+           ,@saf2129_exchange_rate
+           ,''
+           ,null
+           ,0
+           ,@saf2134_p_po_time
+           ,@saf2108_customer_code
+           ,''
+           ,@saf2139_total_price
+           ,''
+           ,''
+           ,null
+           ,0
+           ,''
+           ,''
+           ,''
+           ,''
+           ,null
+           ,0
+           ,@saf2147_recid
+           ,''
+           ,''
+           ,''
+           ,''
+           ,@remark);";
+                sqlCmd.Parameters.AddWithValue("@saf2101_docno", saf21.saf2101_docno);
+                sqlCmd.Parameters.AddWithValue("@saf2101_bcode", saf21.saf2101_bcode);
+                sqlCmd.Parameters.AddWithValue("@saf2101_docno_type", saf21.saf2101_docno_type);
+                sqlCmd.Parameters.AddWithValue("@saf2101_docno_date", saf21.saf2101_docno_date);
+                sqlCmd.Parameters.AddWithValue("@saf2101_docno_orderno", saf21.saf2101_docno_orderno);
+                sqlCmd.Parameters.AddWithValue("@saf2106_order_date", saf21.saf2106_order_date);
+                sqlCmd.Parameters.AddWithValueSafe("@saf2108_customer_code", saf21.saf2108_customer_code);
+                sqlCmd.Parameters.AddWithValue("@saf2114_payment", saf21.saf2114_payment);
+                sqlCmd.Parameters.AddWithValue("@saf2128_currency", saf21.saf2128_currency);
+                sqlCmd.Parameters.AddWithValue("@saf2129_exchange_rate", saf21.saf2129_exchange_rate);
+                sqlCmd.Parameters.AddWithValue("@saf2139_total_price", saf21.saf2139_total_price);
+                sqlCmd.Parameters.AddWithValue("@saf2147_recid", saf21.saf2147_recid);
+                sqlCmd.Parameters.AddWithValue("@remark", saf21.remark);
+                sqlCmd.Parameters.AddWithValueSafe("@saf2134_p_po_time", saf21.saf2134_p_po_time);
+
+                /*sqlCmd.Parameters.AddWithValue("@inf2901_docno", inf29.inf2901_docno);
+                sqlCmd.Parameters.AddWithValue("@inf2901_bcode", inf29.inf2901_bcode);
+                sqlCmd.Parameters.AddWithValue("@inf2902_docno_type", inf29.inf2902_docno_type);
+                sqlCmd.Parameters.AddWithValue("@inf2902_docno_date", inf29.inf2902_docno_date);
+                sqlCmd.Parameters.AddWithValue("@inf2902_docno_seq", inf29.inf2902_docno_seq);
+                sqlCmd.Parameters.AddWithValueSafe("@inf2903_customer_code", inf29.inf2903_customer_code);
+                sqlCmd.Parameters.AddWithValueDatetimeSafe("@inf2904_pro_date", inf29.inf2904_pro_date);
+                sqlCmd.Parameters.AddWithValueSafe("@inf2906_wherehouse", inf29.inf2906_wherehouse);
+                sqlCmd.Parameters.AddWithValueSafe("@inf2906_ref_no_type", inf29.inf2906_ref_no_type);
+                sqlCmd.Parameters.AddWithValueSafe("@inf2906_ref_no_date", inf29.inf2906_ref_no_date);
+                sqlCmd.Parameters.AddWithValueSafe("@inf2906_ref_no_seq", inf29.inf2906_ref_no_seq);
+                sqlCmd.Parameters.AddWithValueSafe("@inf2910_in_reason", inf29.inf2910_in_reason);
+                sqlCmd.Parameters.AddWithValueSafe("@inf2911_sub_amt", inf29.Inf29aList.Sum(o => o.inf29a38_one_amt));
+                sqlCmd.Parameters.AddWithValueSafe("@inf2914_inv_eff", inf29.inf2914_inv_eff);
+                sqlCmd.Parameters.AddWithValueSafe("@inf2916_apr_empid", inf29.inf2916_apr_empid);
+                sqlCmd.Parameters.AddWithValueSafe("@inf2952_project_no", inf29.inf2952_project_no);
+                sqlCmd.Parameters.AddWithValue("@inf2928_currency", inf29.inf2928_currency);
+                sqlCmd.Parameters.AddWithValue("@inf2929_exchange_rate", inf29.inf2929_exchange_rate);
+                sqlCmd.Parameters.AddWithValueSafe("@remark", inf29.remark);
+                sqlCmd.Parameters.AddWithValue("@adduser", inf29.adduser);
+                sqlCmd.Parameters.AddWithValue("@adddate", inf29.adddate);
+                */
+                var id = (int)sqlCmd.ExecuteScalar();
+                saf21.id = id;
+            }
+
+            return saf21;
+        }
+        /*public static int AddItem(ImportItemRow inf29Row)
+        {
+            if (inf29Row == null)
+            {
+                throw new ArgumentNullException("inf29Row");
+            }
+
+            var lastDocSeq = GetLastDocnoSeq(inf29Row["inf2902_docno_type"].ToString(), Convert.ToDateTime(inf29Row["inf2902_docno_date"]));
+
+            int inf2902_docno_seq = ++lastDocSeq;
+
+            string inf2901_docno = inf29Row["inf2901_bcode"].ToString() + inf29Row["inf2902_docno_type"].ToString() +
+                                   Convert.ToDateTime(inf29Row["inf2902_docno_date"]).ToString("yyyyMMdd") +
+                                   inf2902_docno_seq.ToString("0000");
+
+            var fields = inf29Row.Keys.ToArray();
+            string fieldNamesSql = String.Join(", ", fields);
+            string paramsFieldsSql = String.Join(",@", fields);
+
+            using (var conn = new SqlConnection { ConnectionString = MyConnStringList.AzureGoodeasy })
+            using (var sqlCmd = conn.CreateCommand())
+            {
+                conn.Open();
+                sqlCmd.CommandText = String.Format(@"
+    INSERT INTO [dbo].[inf29]
+        (
+        inf2901_docno
+        ,inf2902_docno_seq
+        ,adduser
+        ,adddate
+        ,{0})
+    OUTPUT INSERTED.ID
+        VALUES
+        (
+        @inf2901_docno
+        ,@inf2902_docno_seq
+        ,@adduser
+        ,@adddate
+        ,@{1} ) ", fieldNamesSql, paramsFieldsSql);
+
+                sqlCmd.Parameters.AddWithValueSafe("@inf2901_docno", inf2901_docno);
+                sqlCmd.Parameters.AddWithValueSafe("@inf2902_docno_seq", inf2902_docno_seq);
+                sqlCmd.Parameters.AddWithValueSafe("@adduser", inf29Row.adduser);
+                sqlCmd.Parameters.AddWithValue("@adddate", inf29Row.adddate);
+
+                foreach (var field in fields)
+                {
+                    sqlCmd.Parameters.AddWithValueSafe("@" + field, inf29Row[field]);
+                }
+
+                int id = (int)sqlCmd.ExecuteScalar();
+                return id;
+            }
+        }*/
+
+        public static int GetLastDocnoSeq(string docnoType, DateTime docnoDate)
+        {
+            var seq = -1;
+
+            using (var conn = new SqlConnection { ConnectionString = MyConnStringList.AzureGoodeasy })
+            using (var sqlCmd = conn.CreateCommand())
+            {
+                conn.Open();
+                sqlCmd.CommandText = @"
+        SELECT TOP 1 saf2101_docno_orderno
+            FROM [saf21]
+        WHERE saf2101_docno_type = @docnoType
+        AND saf2101_docno_date = @docnoDate
+        ORDER BY saf2101_docno_orderno DESC
+        ";
+                sqlCmd.Parameters.AddWithValue("@docnoType", docnoType);
+                sqlCmd.Parameters.AddWithValue("@docnoDate", docnoDate);
+
+                using (var sqlReader = sqlCmd.ExecuteReader())
+                {
+                    if (sqlReader.HasRows)
+                    {
+                        if (sqlReader.Read())
+                        {
+                            seq = Convert.ToInt32(sqlReader["saf2101_docno_orderno"]);
+                        }
+                    }
+                }
+            }
+            return seq;
+        }
     }
 }

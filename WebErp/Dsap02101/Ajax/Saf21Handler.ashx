@@ -51,18 +51,24 @@ public class Saf21Handler : IHttpHandler, IRequiresSessionState
         if (this.Action == null) return;
         switch (this.Action.ToLower())
         {
-            //case "save":
-            //    {
-            //        Saf21 saf21Item = JsonConvert.DeserializeObject<Saf21>(this.Data);
+            case "save":
+                {
+                    try
+                    {
+                        Saf21 saf21Item = JsonConvert.DeserializeObject<Saf21>(this.Data);
+                        Saf21.AddItem(saf21Item);
+                        Saf21a.AddItem(saf21Item, saf21Item.Saf21aList);
+                        saf21Item.Saf21aList = null;
+                        context.Response.ContentType = "text/plain";
+                        context.Response.Write(JsonConvert.SerializeObject(saf21Item));
+                        return;
+                    }catch(Exception ex )
+                    {
+                        var msg = ex.Message;
+                    }
 
-            //        Saf21.AddItem(saf21Item);
-            //        Inf29a.AddItem(saf21Item, saf21Item.Saf21aList);
-            //        saf21Item.Saf21aList = null;
-            //        context.Response.ContentType = "text/plain";
-            //        context.Response.Write(JsonConvert.SerializeObject(saf21Item));
-            //        return;
-            //    }
-            //    break;
+                }
+                break;
             case "get":
                 {
                     Saf21.FilterOption filterOption = JsonConvert.DeserializeObject<Saf21.FilterOption>(this.Data);

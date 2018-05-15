@@ -19,14 +19,120 @@ namespace Dsap02101
         public int saf21a16_total_qty { get; set; }
         public int saf21a51_gift_qty { get; set; }
         public int saf21a56_box_qty { get; set; }
-        public int inf0164_dividend{get;set;}
+        public double inf0164_dividend{get;set;}
         public int saf21a57_qty { get; set; }
-        public int saf21a37_utax_price { get; set; }
+        public double saf21a37_utax_price { get; set; }
         public double saf21a13_tax{get;set;}
         public double saf21a11_unit_price{get;set;}
         public int saf21a50_one_amt{get;set;}
         public string remark { get; set; }
-        
+
+        public static List<Saf21a> AddItem(Saf21 saf21, List<Saf21a> saf21aList)
+        {
+            if (saf21aList == null || saf21aList.Count == 0)
+            {
+                throw new ArgumentNullException("saf21aList");
+            }
+
+            using (var conn = new SqlConnection { ConnectionString = MyConnStringList.AzureGoodeasy })
+            using (var sqlCmd = conn.CreateCommand())
+            {
+                conn.Open();
+                sqlCmd.CommandText = @"
+    INSERT INTO [dbo].[inf29a]
+               (
+               [inf29a00_inf29id]
+               ,[inf29a01_docno]
+               ,[inf29a02_seq]
+               ,[inf29a04_sizeno]
+               ,[inf29a05_pcode]
+               ,[inf29a05_shoes_code]
+               ,[inf29a09_retail_one]
+               ,[inf29a09_oretail_one]
+               ,[inf29a10_ocost_one]
+               ,[inf29a10_cost_one]
+               ,[inf29a11_dis_rate]
+               ,[inf29a12_sub_amt]
+               ,[inf29a13_sold_qty]
+               ,[inf29a14_trn_type]
+               ,[inf29a17_runit]
+               ,[inf29a26_box_qty]
+               ,[inf29a33_product_name]
+               ,[inf29a36_odds_amt]
+               ,[inf29a38_one_amt]
+               ,[inf29a39_price]
+               ,[inf29a40_tax]
+               ,[inf29a41_pcat]
+               ,[adduser]
+               ,[adddate])
+    OUTPUT INSERTED.ID
+         VALUES
+               (
+               @inf29a00_inf29id
+               ,@inf29a01_docno
+               ,@inf29a02_seq
+               ,@inf29a04_sizeno
+               ,@inf29a05_pcode
+               ,@inf29a05_shoes_code
+               ,@inf29a09_oretail_one
+               ,@inf29a09_retail_one
+               ,@inf29a10_ocost_one
+               ,@inf29a10_cost_one
+               ,@inf29a11_dis_rate
+               ,@inf29a12_sub_amt
+               ,@inf29a13_sold_qty
+               ,@inf29a14_trn_type
+               ,@inf29a17_runit
+               ,@inf29a26_box_qty
+               ,@inf29a33_product_name
+               ,@inf29a36_odds_amt
+               ,@inf29a38_one_amt
+               ,@inf29a39_price
+               ,@inf29a40_tax
+               ,@inf29a41_pcat
+               ,@adduser
+               ,@adddate  ) ";
+
+                foreach (var inf29a in saf21aList)
+                {
+                    sqlCmd.Parameters.Clear();
+
+                    sqlCmd.Parameters.AddWithValue("@inf29a00_inf29id", inf29.id);
+                    sqlCmd.Parameters.AddWithValue("@inf29a01_docno", inf29.inf2901_docno);
+                    sqlCmd.Parameters.AddWithValue("@inf29a02_seq", inf29a.inf29a02_seq);
+                    sqlCmd.Parameters.AddWithValueSafe("@inf29a04_sizeno", inf29a.inf29a04_sizeno);
+                    sqlCmd.Parameters.AddWithValueSafe("@inf29a05_pcode", inf29a.inf29a05_pcode);
+                    sqlCmd.Parameters.AddWithValueSafe("@inf29a05_shoes_code", inf29a.inf29a05_shoes_code);
+                    sqlCmd.Parameters.AddWithValueSafe("@inf29a09_retail_one", inf29a.inf29a09_retail_one);
+                    sqlCmd.Parameters.AddWithValueSafe("@inf29a09_oretail_one", inf29a.inf29a09_oretail_one);
+                    sqlCmd.Parameters.AddWithValueSafe("@inf29a10_ocost_one", inf29a.inf29a10_ocost_one);
+                    sqlCmd.Parameters.AddWithValueSafe("@inf29a10_cost_one", inf29a.inf29a10_cost_one);
+                    sqlCmd.Parameters.AddWithValueSafe("@inf29a11_dis_rate", inf29a.inf29a11_dis_rate);
+                    sqlCmd.Parameters.AddWithValueSafe("@inf29a12_sub_amt", inf29a.inf29a12_sub_amt);
+                    sqlCmd.Parameters.AddWithValueSafe("@inf29a13_sold_qty", inf29a.inf29a13_sold_qty);
+                    sqlCmd.Parameters.AddWithValueSafe("@inf29a14_trn_type", inf29a.inf29a14_trn_type);
+                    sqlCmd.Parameters.AddWithValueSafe("@inf29a17_runit", inf29a.inf29a17_runit);
+                    sqlCmd.Parameters.AddWithValueSafe("@inf29a26_box_qty", inf29a.inf29a26_box_qty);
+                    //                    sqlCmd.Parameters.AddWithValueSafe("@inf29a31_currency", inf29a.inf29a31_currency);
+                    //                    sqlCmd.Parameters.AddWithValueSafe("@inf29a32_exchange_rate", inf29a.inf29a32_exchange_rate);
+                    sqlCmd.Parameters.AddWithValueSafe("@inf29a33_product_name", inf29a.inf29a33_product_name);
+                    sqlCmd.Parameters.AddWithValueSafe("@inf29a36_odds_amt", inf29a.inf29a36_odds_amt);
+                    sqlCmd.Parameters.AddWithValueSafe("@inf29a38_one_amt", inf29a.inf29a38_one_amt);
+                    sqlCmd.Parameters.AddWithValueSafe("@inf29a39_price", inf29a.inf29a39_price);
+                    sqlCmd.Parameters.AddWithValueSafe("@inf29a40_tax", inf29a.inf29a40_tax);
+                    sqlCmd.Parameters.AddWithValueSafe("@inf29a41_pcat", inf29a.inf29a41_pcat);
+                    sqlCmd.Parameters.AddWithValue("@adduser", inf29a.adduser);
+                    sqlCmd.Parameters.AddWithValue("@adddate", inf29a.adddate);
+
+                    int id = (int)sqlCmd.ExecuteScalar();
+                    inf29a.id = id;
+                }
+
+            }
+
+            return inf29aList;
+        }
+
 
         public static List<Saf21a> GetList(string docno)
         {

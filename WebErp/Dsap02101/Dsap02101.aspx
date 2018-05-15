@@ -721,7 +721,7 @@
 
     <div id="Dinp02301Edit" v-if="Display" v-cloak>
         <ul class="app-title">
-            <li>{{"Dinp02301 庫存異動資料維護 <%=this.AppVersion %>"}}
+            <li>{{"Dsap02101 客戶訂單資料維護 <%=this.AppVersion %>"}}
             </li>
         </ul>
         <div class="app-body" v-show="IsAppBodyDisplay">
@@ -769,7 +769,7 @@
                             </td>
                             <td>
                                 <multiselect
-                                    v-model="Inf29Item.BCodeInfo"
+                                    v-model="Saf21Item.BCodeInfo"
                                     v-bind:options="BcodeList"
                                     v-bind:close-on-select="true"
                                     v-bind:placeholder="''"
@@ -779,125 +779,65 @@
                                     label="cnf0703_bfname">
                                 </multiselect>
                             </td>
-                            <td>異動單號
+                            <td>訂單單號
                             </td>
                             <td>
-                                <input type="text" v-model="Inf29Item_Inf2902DocNo" disabled="disabled"/>
+                                <input type="text" v-model="Saf21Item_Saf2101DocNo" disabled="disabled"/>
                             </td>
-                            <td>異動日期
+                            <td>訂單日期
                             </td>
                             <td>
-                                <vue-datetimepicker placeholder="" ref="ProDate"
-                                    v-model="Inf29Item.inf2904_pro_date"></vue-datetimepicker>
-                                <span>
-                                    單據來源
-                                </span>
+                                <input type="text" v-model="Saf21Item.saf2106_order_date"  disabled="disabled"/>
+                            </td>
+                            <td>
+                                    訂單人員
+                            </td>
+                            <td>
                                 <span class="ref-inputs">
-                                    <input type="text" v-model="Inf29Item.inf2906_ref_no_type" />
-                                    <input type="text" v-model="Inf29Item.inf2906_ref_no_date" />
-                                    <input type="text" v-model="Inf29Item.inf2906_ref_no_seq" />
-                                </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                倉庫代號
-                            </td>
-                            <td>
-                                <multiselect
-                                    v-model="Inf29Item.SelectedWherehouse"
-                                    v-bind:options="WherehouseList"
-                                    v-bind:close-on-select="true"
-                                    v-bind:placeholder="''"
-                                    v-bind:show-labels="false" 
-                                    v-bind:custom-label="WherehouseSelectLabel"
-                                    track-by="cnf1002_fileorder"
-                                    label="cnf1003_char01">
-                                </multiselect>
-                            </td>
-                            <td>
-                                異動代號
-                            </td>
-                            <td>
-                                <multiselect
-                                    v-model="Inf29Item.SelectedInReason"
-                                    v-bind:options="InReasonList"
-                                    v-bind:close-on-select="true"
-                                    v-bind:placeholder="''"
-                                    v-bind:show-labels="false" 
-                                    v-bind:custom-label="InReasonSelectLabel"
-                                    track-by="cnf1002_fileorder"
-                                    label="cnf1003_char01">
-                                </multiselect>
-                            </td>
-                            <td>
-                                專案代號
-                            </td>
-                            <td colspan="3">
-                                <span class="key-value-inputs">
-                                    <input type="text" v-model="Inf29Item.inf2952_project_no" 
-                                        v-on:change="GetProjectFullname(Inf29Item.inf2952_project_no, Inf29Item.BCodeInfo)"/>
-                                    <input type="text" v-model="Inf29Item.ProjectFullname" disabled="disabled"/>
-                                </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                備註
-                            </td>
-                            <td colspan="3">
-                                <input type="text" style="width:99%;" v-model="Inf29Item.remark"/>
-                            </td>
-                            <td>
-                                員工
-                            </td>
-                            <td colspan="3">
-                                <span class="key-value-inputs">
-                                    <input type="text" v-model="Inf29Item.inf2916_apr_empid" 
-                                        v-on:change="GetEmpCname(Inf29Item.inf2916_apr_empid)"/>
+                                    <input type="text" v-model="Saf21Item.saf2156_take_no" v-on:change="GetEmpCname(Saf21Item.saf2156_take_no)"/>
                                     <input type="text" v-model="Inf29Item.EmpCname" disabled="disabled"/>
+
                                 </span>
                             </td>
+                           
                         </tr>
                         <tr>
-                            <td>
-                                新增者
+                             <td>
+                                客戶編號
                             </td>
-                            <td colspan="3">
-                                <span>
-                                    <input type="text" class="small-field" v-model="Inf29Item.adduser" disabled="disabled"/>
+                            <td>
+                                <input type="text" v-model="Saf21Item.saf2108_customer_code" v-on:change="OnCustomCodeChange"/>
+                                <input type="text" v-model="Saf21Item.cmf0103_bname" disabled="disabled"/>
+                            </td>
+                            <td>
+                                客戶聯絡人
+                            </td>
+                            <td>
+                                <input type="text" v-model="Saf21Item.cmf01a05_fname"  disabled="disabled"/>
+                            </td>
+                            <td>
+                                連絡電話
+                            </td>
+                            <td>
+                                <span class="key-value-inputs">
+                                    <input type="text" v-model="Saf21Item.cmf01a17_telo1" disabled="disabled"/>
                                 </span>
-                                新增日期
-                                <span>
-                                    <input type="text" class="small-field" v-model="Inf29Item.adddate" disabled="disabled"/>
-                                </span>
-                                修改者
-                                <span>
-                                    <input type="text" class="small-field" v-model="Inf29Item.moduser" disabled="disabled"/>
-                                </span>
-                                修改日期
-                                <span>
-                                    <input type="text" class="small-field" v-model="Inf29Item.moddate" disabled="disabled"/>
-                                </span>
+                            </td>
+                            <td>
+                                手機
+                            </td>
+                            <td >
+                                <input type="text" style="width:99%;" v-model="Saf21Item.cmf01a23_cellphone" disabled="disabled"/>
                             </td>
                             
-                            <td>
-                                異動單位
-                            </td>
-                            <td>
-                                <span class="key-value-inputs">
-                                    <input type="text" v-model="Inf29Item.inf2903_customer_code" v-on:change="OnCustomCodeChange"/>
-                                    <input type="text" v-model="Inf29Item.Inf2903CustomerCodeName" disabled="disabled"/>
-                                </span>
-                            </td>
                         </tr>
                         <tr>
                             <td>
                                 幣值別
                             </td>
-                            <td>
+                            <td >
                                 <multiselect class="small-field"
-                                    v-model="Inf29Item.SelectedCurrencyInfo"
+                                    v-model="Saf21Item.SelectedCurrencyInfo"
                                     v-bind:options="CurrencyList"
                                     v-bind:close-on-select="true"
                                     v-bind:placeholder="''"
@@ -906,9 +846,85 @@
                                     track-by="cnf1003_char01"
                                     label="cnf1003_char01">
                                 </multiselect>
-                                匯率
-                                <input type="text" class="small-field" v-model="Inf29Item.inf2929_exchange_rate" disabled="disabled"/>
                             </td>
+                            <td>
+                                匯率
+                            </td>
+                            <td>
+                                <span>
+                                    <input type="text" class="small-field" v-model="Saf21Item.saf2129_exchange_rate" disabled="disabled"/>
+                                </span>
+                            </td>
+                            <td>
+                                付款方式
+                            </td>
+                            <td>
+                                <input type="text" v-model="Saf21Item.saf2114_payment" v-on:change="OnPaymentChange"/>
+                                <input type="text" v-bind:value="Saf21Item.cnf1003_char01" disabled="disabled"/>
+                            </td>
+                            <td>
+                                應交貨日期
+                            </td>
+                            <td>
+                                <vue-datetimepicker placeholder="" ref="ProDate"
+                                    v-model="Inf29Item.inf2904_pro_date"></vue-datetimepicker>
+                            </td>
+                           
+                        </tr>
+                        <tr>
+                             <td>
+                                收貨地址
+                            </td>
+                            <td colspan ="5">
+                                    <input type="text" style="width:100%;" v-bind:value="Saf21Item.cmf0110_oaddress" disabled="disabled" />
+                            </td>
+                            <td>
+                                總金額
+                            </td>
+                            <td>
+                                <input type="text"  v-model="Saf21aTotalPrice" disabled="disabled"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                備註
+                            </td>
+                            <td colspan="7">
+                                    <input type="text" style="width:100%;" class="small-field" v-model="Saf21Item.Remark" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                新增者
+                            </td>
+                            <td>
+                                <span class="key-value-inputs">
+                                    <input type="text" v-model="Saf21Item.adduser" disabled ="disabled"/>
+                                </span>
+                            </td>
+                            <td>
+                                新增日期
+                            </td>
+                            <td>
+                                    <input type="text" v-model="Saf21Item.adddate" disabled ="disabled"/>
+                            </td>
+                            <td>
+                                修改者
+                            </td>
+                            <td>
+                               <input type="text" v-model="Saf21Item.moduser" disabled ="disabled"/>
+                            </td>
+                            <td>
+                                修改日期
+                            </td>
+                            <td>
+                               <input type="text" v-model="Saf21Item.moddate" disabled ="disabled"/>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            
+
                             <td>
                             </td>
                             <td>
@@ -936,8 +952,8 @@
                             </td>
                             <td colspan="5">
                                 <span class="key-value-inputs">
-                                    <input type="text" v-model="Inf29aItem.inf29a05_pcode" v-on:change="OnPcodeChange(Inf29aItem.inf29a05_pcode)"/>
-                                    <input type="text" v-model="Inf29aItem.inf29a33_product_name" disabled="disabled"/>
+                                    <input type="text" v-model="Saf21aItem.saf21a02_pcode" v-on:change="OnPcodeChange(Saf21aItem.saf21a02_pcode)"/>
+                                    <input type="text" v-model="Saf21aItem.saf21a41_product_name" disabled="disabled"/>
                                     <button type="button" class="btn btn-default btn-xs" v-on:click="ShowDpCodeWindow">
                                         <i class="fa fa-search"></i>
                                     </button>
@@ -946,71 +962,95 @@
                                     貨號
                                 </span>
                                 <span>
-                                    <input type="text" class="small-field" v-model="Inf29aItem.inf29a05_shoes_code" disabled="disabled"/>
+                                    <input type="text" class="small-field" v-model="Saf21aItem.saf21a03_relative_no" disabled="disabled"/>
                                 </span>
                             </td>
                             <td>
                                 單位
                             </td>
                             <td>
-                                <input type="text" class="x-small-field" v-model="Inf29aItem.inf29a17_runit" disabled="disabled"/>
+                                <input type="text" class="x-small-field" v-model="Saf21aItem.saf21a43_runit" disabled="disabled"/>
                             </td>
 
                             <td>
-                                原進價
+                                未稅單價
                             </td>
                             <td>
-                                <input type="text" class="small-field" v-model="Inf29aItem.inf29a10_ocost_one" disabled="disabled"/>
+                                <input type="text" class="small-field" v-model="Saf21aItem.saf21a37_utax_price" disabled="disabled"/>
                             </td>
                             <td>
-                                售價
+                                營業稅
                             </td>
                             <td>
-                                <input type="text" class="small-field" v-model="Inf29aItem.inf29a09_retail_one" disabled="disabled"/>
+                                <input type="text" class="small-field" v-model="Saf21aItem_Saf21a63ChgTax" disabled="disabled"/>
                             </td>
-                            <td>
-                                尾差
-                            </td>
-                            <td>
-                                <input type="text" class="small-field" v-model="Inf29aItem.inf29a36_odds_amt" />
-                            </td>
+
                         </tr>
                         <tr>
                             <td>
-                                進價
+                                含稅單價
                             </td>
                             <td>
-                                <input type="text" class="small-field" v-model="Inf29aItem.inf29a10_cost_one" disabled="disabled"/>
+                                <input type="text" class="small-field" v-model="Saf21aItem.saf21a11_unit_price" disabled="disabled"/>
                             </td>
                             <td>
-                                數量
+                                訂單數量
                             </td>
                             <td>
-                                <input type="text" class="small-field" v-model="Inf29aItem.inf29a13_sold_qty" />
+                                <input type="text" class="small-field" v-model="Saf21aItem_Total_Qty" />
                             </td>
                             <td>
-                                金額
+                                贈品數量
                             </td>
                             <td>
-                                <input type="text" class="small-field" v-bind:value="Inf29aItem_Inf29a38OneAmt" disabled="disabled"/>
+                                <input type="text" class="small-field" v-model="Saf21aItem.saf21a51_gift_qty" />
                             </td>
                             <td>
-                                確認
+                                大單位數
                             </td>
                             <td>
-                                <multiselect class="small-field"
-                                    v-model="Inf29aItem.Confirmed"
-                                    v-bind:options="ConfirmList"
-                                    v-bind:close-on-select="true"
-                                    v-bind:placeholder="''"
-                                    v-bind:show-labels="false" >
-                                </multiselect>
+                                <input type="text" class="small-field" v-bind:value="Saf21aItem.saf21a56_box_qty" />
+                            </td>
+                            <td>
+                                換算值
+                            </td>
+                            <td>
+                                <input type="text" class="small-field" v-bind:value="Saf21aItem.inf0164_dividend" disabled="disabled"/>
+                            </td>
+                            <td>
+                                小單位數量
+                            </td>
+                            <td>
+                                <input type="text" class="small-field" v-model="Saf21aItem.saf21a57_qty"  />
+                            </td>
+                            
+
+                        </tr>
+                        <tr>
+                            <td>
+                                差額
+                            </td>
+                            <td>
+                                <input type="text" class="small-field"v-model="Saf21aItem.saf21a49_odds_amt"/>
+                            </td>
+                            <td>
+                            <td>
+                                金額小記
+                            </td>
+                            <td>
+                                <input type="text" class="small-field" v-bind:value="Saf21aItem_Saf21a50OneAmt" disabled="disabled"/>
+                            </td>
+                            <td>
+                                備註
+                            </td>
+                            <td colspan="5">
+                                <input type="text" class="small-field" v-model="Saf21aItem.Remark" style="width:100%;"/>
                             </td>
                             <td colspan="2">
-                                <button type="button" class="btn btn-default" role='button' v-on:click="OnAddInf29aItem()">
+                                <button type="button" class="btn btn-default" role='button' v-on:click="OnAddSaf21aItem()">
                                     輸入明細
                                 </button>
-                                <button type="button" class="btn btn-default" role='button' v-on:click="OnDeleteInf29aItem">
+                                <button type="button" class="btn btn-default" role='button' v-on:click="OnDeleteSaf21aItem">
                                     刪除明細
                                 </button>
                             </td>
@@ -1023,124 +1063,123 @@
                     <table class="table table-bordered sortable">
                         <thead>
                             <tr class="bg-primary text-light">
-                                <th v-on:click="OnTableSorting('inf29a02_seq')">
+                                <th v-on:click="OnTableSorting('saf21a02_seq')">
                                     項次
                                     <span class="sort-item glyphicon" 
-                                        v-bind:class="{'glyphicon-sort':SortColumn!='inf29a02_seq', 
-                                        'glyphicon-chevron-up': SortColumn=='inf29a02_seq' && SortOrder=='asc',
-                                        'glyphicon-chevron-down': SortColumn=='inf29a02_seq' && SortOrder=='desc'}">
+                                        v-bind:class="{'glyphicon-sort':SortColumn!='saf21a02_seq', 
+                                        'glyphicon-chevron-up': SortColumn=='saf21a02_seq' && SortOrder=='asc',
+                                        'glyphicon-chevron-down': SortColumn=='saf21a02_seq' && SortOrder=='desc'}">
                                     </span>
                                 </th>
-                                <th v-on:click="OnTableSorting('inf29a05_pcode')">
+                                <th v-on:click="OnTableSorting('saf21a02_pcode')">
                                     產品編號
                                     <span class="sort-item glyphicon" 
-                                        v-bind:class="{'glyphicon-sort':SortColumn!='inf29a05_pcode', 
-                                        'glyphicon-chevron-up': SortColumn=='inf29a05_pcode' && SortOrder=='asc',
-                                        'glyphicon-chevron-down': SortColumn=='inf29a05_pcode' && SortOrder=='desc'}">
+                                        v-bind:class="{'glyphicon-sort':SortColumn!='saf21a02_pcode', 
+                                        'glyphicon-chevron-up': SortColumn=='saf21a02_pcode' && SortOrder=='asc',
+                                        'glyphicon-chevron-down': SortColumn=='saf21a02_pcode' && SortOrder=='desc'}">
                                     </span>
                                 </th>
-                                <th v-on:click="OnTableSorting('inf29a05_shoes_code')">
-                                    貨號
+                                <th v-on:click="OnTableSorting('saf21a41_product_name')">
+                                    產品名稱
                                     <span class="sort-item glyphicon" 
-                                        v-bind:class="{'glyphicon-sort':SortColumn!='inf29a05_shoes_code', 
-                                        'glyphicon-chevron-up': SortColumn=='inf29a05_shoes_code' && SortOrder=='asc',
-                                        'glyphicon-chevron-down': SortColumn=='inf29a05_shoes_code' && SortOrder=='desc'}">
+                                        v-bind:class="{'glyphicon-sort':SortColumn!='saf21a41_product_name', 
+                                        'glyphicon-chevron-up': SortColumn=='saf21a41_product_name' && SortOrder=='asc',
+                                        'glyphicon-chevron-down': SortColumn=='saf21a41_product_name' && SortOrder=='desc'}">
                                     </span>
                                 </th>
-                                <th v-on:click="OnTableSorting('inf29a33_product_name')">
-                                    產品簡稱
-                                    <span class="sort-item glyphicon" 
-                                        v-bind:class="{'glyphicon-sort':SortColumn!='inf29a33_product_name', 
-                                        'glyphicon-chevron-up': SortColumn=='inf29a33_product_name' && SortOrder=='asc',
-                                        'glyphicon-chevron-down': SortColumn=='inf29a33_product_name' && SortOrder=='desc'}">
-                                    </span>
-                                </th>
-                                <th v-on:click="OnTableSorting('inf29a13_sold_qty')">
-                                    數量
-                                    <span class="sort-item glyphicon" 
-                                        v-bind:class="{'glyphicon-sort':SortColumn!='inf29a13_sold_qty', 
-                                        'glyphicon-chevron-up': SortColumn=='inf29a13_sold_qty' && SortOrder=='asc',
-                                        'glyphicon-chevron-down': SortColumn=='inf29a13_sold_qty' && SortOrder=='desc'}">
-                                    </span>
-                                </th>
-                                <th v-on:click="OnTableSorting('inf29a11_dis_rate')">
-                                    折扣
-                                    <span class="sort-item glyphicon" 
-                                        v-bind:class="{'glyphicon-sort':SortColumn!='inf29a11_dis_rate', 
-                                        'glyphicon-chevron-up': SortColumn=='inf29a11_dis_rate' && SortOrder=='asc',
-                                        'glyphicon-chevron-down': SortColumn=='inf29a11_dis_rate' && SortOrder=='desc'}">
-                                    </span>
-                                </th>
-                                <th v-on:click="OnTableSorting('inf29a17_runit')">
+                                <th v-on:click="OnTableSorting('saf21a43_runit')">
                                     單位
                                     <span class="sort-item glyphicon" 
-                                        v-bind:class="{'glyphicon-sort':SortColumn!='inf29a17_runit', 
-                                        'glyphicon-chevron-up': SortColumn=='inf29a17_runit' && SortOrder=='asc',
-                                        'glyphicon-chevron-down': SortColumn=='inf29a17_runit' && SortOrder=='desc'}">
+                                        v-bind:class="{'glyphicon-sort':SortColumn!='saf21a43_runit', 
+                                        'glyphicon-chevron-up': SortColumn=='saf21a43_runit' && SortOrder=='asc',
+                                        'glyphicon-chevron-down': SortColumn=='saf21a43_runit' && SortOrder=='desc'}">
                                     </span>
                                 </th>
-                                <th v-on:click="OnTableSorting('inf29a10_ocost_one')">
-                                    原價
+                                <th v-on:click="OnTableSorting('saf21a56_box_qty')">
+                                    大單位數量
                                     <span class="sort-item glyphicon" 
-                                        v-bind:class="{'glyphicon-sort':SortColumn!='inf29a10_ocost_one', 
-                                        'glyphicon-chevron-up': SortColumn=='inf29a10_ocost_one' && SortOrder=='asc',
-                                        'glyphicon-chevron-down': SortColumn=='inf29a10_ocost_one' && SortOrder=='desc'}">
+                                        v-bind:class="{'glyphicon-sort':SortColumn!='saf21a56_box_qty', 
+                                        'glyphicon-chevron-up': SortColumn=='saf21a56_box_qty' && SortOrder=='asc',
+                                        'glyphicon-chevron-down': SortColumn=='saf21a56_box_qty' && SortOrder=='desc'}">
                                     </span>
                                 </th>
-                                <th v-on:click="OnTableSorting('inf29a10_cost_one')">
-                                    進價
+                                <th v-on:click="OnTableSorting('inf0164_dividend')">
+                                    換算值
                                     <span class="sort-item glyphicon" 
-                                        v-bind:class="{'glyphicon-sort':SortColumn!='inf29a10_cost_one', 
-                                        'glyphicon-chevron-up': SortColumn=='inf29a10_cost_one' && SortOrder=='asc',
-                                        'glyphicon-chevron-down': SortColumn=='inf29a10_cost_one' && SortOrder=='desc'}">
+                                        v-bind:class="{'glyphicon-sort':SortColumn!='inf0164_dividend', 
+                                        'glyphicon-chevron-up': SortColumn=='inf0164_dividend' && SortOrder=='asc',
+                                        'glyphicon-chevron-down': SortColumn=='inf0164_dividend' && SortOrder=='desc'}">
                                     </span>
                                 </th>
-                                <th v-on:click="OnTableSorting('inf29a38_one_amt')">
-                                    金額小計
+                                <th v-on:click="OnTableSorting('saf21a57_qty')">
+                                    小單位數量
                                     <span class="sort-item glyphicon" 
-                                        v-bind:class="{'glyphicon-sort':SortColumn!='inf29a38_one_amt', 
-                                        'glyphicon-chevron-up': SortColumn=='inf29a38_one_amt' && SortOrder=='asc',
-                                        'glyphicon-chevron-down': SortColumn=='inf29a38_one_amt' && SortOrder=='desc'}">
+                                        v-bind:class="{'glyphicon-sort':SortColumn!='saf21a57_qty', 
+                                        'glyphicon-chevron-up': SortColumn=='saf21a57_qty' && SortOrder=='asc',
+                                        'glyphicon-chevron-down': SortColumn=='saf21a57_qty' && SortOrder=='desc'}">
                                     </span>
                                 </th>
-                                <th v-on:click="OnTableSorting('Confirmed')">
-                                    確認
+                                <th v-on:click="OnTableSorting('saf21a16_total_qty')">
+                                    小計數量
                                     <span class="sort-item glyphicon" 
-                                        v-bind:class="{'glyphicon-sort':SortColumn!='Confirmed', 
-                                        'glyphicon-chevron-up': SortColumn=='Confirmed' && SortOrder=='asc',
-                                        'glyphicon-chevron-down': SortColumn=='Confirmed' && SortOrder=='desc'}">
+                                        v-bind:class="{'glyphicon-sort':SortColumn!='saf21a16_total_qty', 
+                                        'glyphicon-chevron-up': SortColumn=='saf21a16_total_qty' && SortOrder=='asc',
+                                        'glyphicon-chevron-down': SortColumn=='saf21a16_total_qty' && SortOrder=='desc'}">
                                     </span>
                                 </th>
-
+                                <th v-on:click="OnTableSorting('saf21a11_unit_price')">
+                                    單價
+                                    <span class="sort-item glyphicon" 
+                                        v-bind:class="{'glyphicon-sort':SortColumn!='saf21a11_unit_price', 
+                                        'glyphicon-chevron-up': SortColumn=='saf21a11_unit_price' && SortOrder=='asc',
+                                        'glyphicon-chevron-down': SortColumn=='saf21a11_unit_price' && SortOrder=='desc'}">
+                                    </span>
+                                </th>
+                                <th v-on:click="OnTableSorting('saf21a50_one_amt')">
+                                    小計
+                                    <span class="sort-item glyphicon" 
+                                        v-bind:class="{'glyphicon-sort':SortColumn!='saf21a50_one_amt', 
+                                        'glyphicon-chevron-up': SortColumn=='saf21a50_one_amt' && SortOrder=='asc',
+                                        'glyphicon-chevron-down': SortColumn=='saf21a50_one_amt' && SortOrder=='desc'}">
+                                    </span>
+                                </th>
+                                <th v-on:click="OnTableSorting('Remark')">
+                                    備註
+                                    <span class="sort-item glyphicon" 
+                                        v-bind:class="{'glyphicon-sort':SortColumn!='Remark', 
+                                        'glyphicon-chevron-up': SortColumn=='Remark' && SortOrder=='asc',
+                                        'glyphicon-chevron-down': SortColumn=='Remark' && SortOrder=='desc'}">
+                                    </span>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="inf29aItem in Inf29aList" 
-                                v-on:click="OnRowClick(inf29aItem)"
-                                v-bind:class="{'selected-row':inf29aItem==SelectedInf29aItem}"
+                            <tr v-for="saf21aItem in Saf21aList" 
+                                v-on:click="OnRowClick(saf21aItem)"
+                                v-bind:class="{'selected-row':saf21aItem==SelectedSaf21aItem}"
                                 >
                                 <!-- 項次 -->
-                                <td>{{inf29aItem.inf29a02_seq}}</td>
+                                <td>{{saf21aItem.saf21a02_seq}}</td>
                                 <!-- 產品編號 -->
-                                <td>{{inf29aItem.inf29a05_pcode}}</td>
-                                <!-- 貨號 -->
-                                <td>{{inf29aItem.inf29a05_shoes_code}}</td>
-                                <!-- 產品簡稱 -->
-                                <td>{{inf29aItem.inf29a33_product_name }}</td>
-                                <!-- 數量 -->
-                                <td>{{inf29aItem.inf29a13_sold_qty }}</td>
-                                <!-- 折扣 -->
-                                <td>{{inf29aItem.inf29a11_dis_rate }}%</td>
+                                <td>{{saf21aItem.saf21a02_pcode}}</td>
+                                <!-- 產品名稱 -->
+                                <td>{{saf21aItem.saf21a41_product_name}}</td>
                                 <!-- 單位 -->
-                                <td>{{inf29aItem.inf29a17_runit }}</td>
-                                <!-- 原價 -->
-                                <td>{{inf29aItem.inf29a10_ocost_one }}</td>
-                                <!-- 進價 -->
-                                <td>{{inf29aItem.inf29a10_cost_one }}</td>
-                                <!-- 金額小計 -->
-                                <td>{{inf29aItem.inf29a38_one_amt }}</td>
-                                <!-- 確認 -->
-                                <td>{{inf29aItem.Confirmed }}</td>
+                                <td>{{saf21aItem.saf21a43_runit }}</td>
+                                <!-- 大單位數量 -->
+                                <td>{{saf21aItem.saf21a56_box_qty }}</td>
+                                <!-- 換算值 -->
+                                <td>{{saf21aItem.inf0164_dividend }}</td>
+                                <!-- 小單位數量 -->
+                                <td>{{saf21aItem.saf21a57_qty }}</td>
+                                <!-- 小計數量 -->
+                                <td>{{saf21aItem.saf21a16_total_qty }}</td>
+                                <!-- 單價 -->
+                                <td>{{saf21aItem.saf21a11_unit_price }}</td>
+                                <!-- 小計 -->
+                                <td>{{saf21aItem.saf21a50_one_amt }}</td>
+                                <!-- 備註 -->
+                                <td>{{saf21aItem.Remark }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -1153,11 +1192,11 @@
                     <span>
                         總數量
                     </span>
-                    <input type="text" class="small-field" v-model="TotalAmount" disabled="disabled"/>
+                    <input type="text" class="small-field" v-model="Saf21aTotalAmount" disabled="disabled"/>
                     <span>
                         總金額
                     </span>
-                    <input type="text" class="small-field" v-model="TotalPrice" disabled="disabled"/>
+                    <input type="text" class="small-field" v-model="Saf21aTotalPrice" disabled="disabled"/>
                 </div>
             </div>
             <div class="modal fade" id="HelpDialog" ref="HelpDialog">
@@ -1194,25 +1233,25 @@
         (function () {
             var BcodeList = JSON.parse("<%=HttpUtility.JavaScriptStringEncode(JsonConvert.SerializeObject(BcodeList),false)%>");
             <%--var InReasonList = JSON.parse("<%=HttpUtility.JavaScriptStringEncode(JsonConvert.SerializeObject(InReasonList),false)%>");--%>
-            <%--var CurrencyList = JSON.parse("<%=HttpUtility.JavaScriptStringEncode(JsonConvert.SerializeObject(CurrencyList),false)%>");--%>
+            var CurrencyList = JSON.parse("<%=HttpUtility.JavaScriptStringEncode(JsonConvert.SerializeObject(CurrencyList),false)%>");
 
             requirejs.config({
                 paths: {
                     "dsap02101Search": "Dsap02101/dsap02101Search",
-                    "dinp02301Edit": "Dinp/dinp02301Edit",
+                    "dsap02101Edit": "Dsap02101/dsap02101Edit",
                 },
                 shim: {}
             });
 
-            var requiredFiles = ["dsap02101Search", "dinp02301Edit"];
+            var requiredFiles = ["dsap02101Search", "dsap02101Edit"];
 
-            function onLoaded(dsap02101Search, dinp02301Edit) {
+            function onLoaded(dsap02101Search, dsap02101Edit) {
                 window.dsap02101Search.SetBCodeList(BcodeList);
-                window.dinp02301Edit.SetBCodeList(BcodeList);
+                window.dsap02101Edit.SetBCodeList(BcodeList);
                 //window.dinp02301Search.WherehouseList = WherehouseList;
                 //window.dinp02301Edit.WherehouseList = WherehouseList;
-                //window.dinp02301Edit.InReasonList = InReasonList;
-                //window.dinp02301Edit.CurrencyList = CurrencyList;
+                //window.dsap02101Edit.InReasonList = InReasonList;
+                window.dsap02101Edit.CurrencyList = CurrencyList;
             }
 
             function onError(error) {
