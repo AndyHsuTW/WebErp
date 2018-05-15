@@ -1,0 +1,9 @@
+D:\WebErp\Dasp02101\bin\Debug\Dsap02101.dll
+D:\WebErp\Dasp02101\bin\Debug\Dsap02101.pdb
+D:\WebErp\Dasp02101\bin\Debug\ErpBaseLibrary.dll
+D:\WebErp\Dasp02101\bin\Debug\ErpBaseLibrary.pdb
+D:\WebErp\Dasp02101\obj\Debug\Dsap02101.csprojAssemblyReference.cache
+D:\WebErp\Dasp02101\obj\Debug\Dsap02101.csproj.CoreCompileInputs.cache
+D:\WebErp\Dasp02101\obj\Debug\Dsap02101.csproj.CopyComplete
+D:\WebErp\Dasp02101\obj\Debug\Dsap02101.dll
+D:\WebErp\Dasp02101\obj\Debug\Dsap02101.pdb
