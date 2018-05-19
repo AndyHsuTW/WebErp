@@ -114,6 +114,7 @@
                             <tr class="bg-primary text-light">
                                 <th>檔案</th>
                                 <th>檔案大小</th>
+                                <th>狀態</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -122,6 +123,7 @@
                                 <td>
                                     <div v-text="bytesToSize(file.size)"></div>
                                 </td>
+                                <td><div><label v-bind:id="file.name.substring(0,2)"></label></div></td>
                             </tr>
                         </tbody>
                     </table>

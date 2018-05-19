@@ -569,13 +569,16 @@
                             vueobj.companiestojudge(File);
                         } else {
                             vueobj.checkAjax(File);
-
                         }
-
-
                     },
                         1000);
-
+                },
+                writeFailToTable: function (ErrorMsgLen, filenumber) {
+                    if (ErrorMsgLen > 0) {
+                        $("#" + filenumber).text('失敗');
+                    } else {
+                        $("#" + filenumber).text('');
+                    }
                 },
                 companiestojudge: function (File) {
                     var formData = new FormData();
@@ -591,6 +594,7 @@
                             function (result) {
                                 vueobj.one7P.open = true;
                                 vueobj.one7P.saf25FileInfo = JSON.parse(result);
+                                vueobj.writeFailToTable(vueobj.one7P.saf25FileInfo.ErrorMsg.length, filenumber);
                             });
                     } else if (filenumber == "02") {
                         vueobj.MOMO.FileName = File.name;
@@ -598,6 +602,7 @@
                             function (result) {
                                 vueobj.MOMO.open = true;
                                 vueobj.MOMO.saf25FileInfo = JSON.parse(result);
+                                vueobj.writeFailToTable(vueobj.MOMO.saf25FileInfo.ErrorMsg.length, filenumber);
                             });
                     } else if (filenumber == "03") {
                         vueobj.PChome.FileName = File.name;
@@ -605,6 +610,7 @@
                             function (result) {
                                 vueobj.PChome.open = true;
                                 vueobj.PChome.saf25FileInfo = JSON.parse(result);
+                                vueobj.writeFailToTable(vueobj.PChome.saf25FileInfo.ErrorMsg.length, filenumber);
                             });
                     } else if (filenumber == "04") {
                         vueobj.Formosa_Plastics.FileName = File.name;
@@ -612,6 +618,7 @@
                             function (result) {
                                 vueobj.Formosa_Plastics.open = true;
                                 vueobj.Formosa_Plastics.saf25FileInfo = JSON.parse(result);
+                                vueobj.writeFailToTable(vueobj.Formosa_Plastics.saf25FileInfo.ErrorMsg.length, filenumber);
                             });
                     } else if (filenumber == "05") {
                         vueobj.Taiwan_Mobile.FileName = File.name;
@@ -619,6 +626,7 @@
                             function (result) {
                                 vueobj.Taiwan_Mobile.open = true;
                                 vueobj.Taiwan_Mobile.saf25FileInfo = JSON.parse(result);
+                                vueobj.writeFailToTable(vueobj.Taiwan_Mobile.saf25FileInfo.ErrorMsg.length, filenumber);
                             });
                     } else if (filenumber == "06") {
                         vueobj.Buy123.FileName = File.name;
@@ -626,6 +634,7 @@
                             function (result) {
                                 vueobj.Buy123.open = true;
                                 vueobj.Buy123.saf25FileInfo = JSON.parse(result);
+                                vueobj.writeFailToTable(vueobj.Buy123.saf25FileInfo.ErrorMsg.length, filenumber);
                             });
                     } else if (filenumber == "07") {
                         vueobj.Eastern.FileName = File.name;
@@ -633,6 +642,7 @@
                             function (result) {
                                 vueobj.Eastern.open = true;
                                 vueobj.Eastern.saf25FileInfo = JSON.parse(result);
+                                vueobj.writeFailToTable(vueobj.Eastern.saf25FileInfo.ErrorMsg.length, filenumber);
                             });
                     } else if (filenumber == "08") {
                         vueobj.Pcone.FileName = File.name;
@@ -640,6 +650,7 @@
                             function (result) {
                                 vueobj.Pcone.open = true;
                                 vueobj.Pcone.saf25FileInfo = JSON.parse(result);
+                                vueobj.writeFailToTable(vueobj.Pcone.saf25FileInfo.ErrorMsg.length, filenumber);
                             });
                     } else if (filenumber == "09") {
                         vueobj.Symphox.FileName = File.name;
@@ -647,6 +658,7 @@
                             function (result) {
                                 vueobj.Symphox.open = true;
                                 vueobj.Symphox.saf25FileInfo = JSON.parse(result);
+                                vueobj.writeFailToTable(vueobj.Symphox.saf25FileInfo.ErrorMsg.length, filenumber);
                             });
                     } else if (filenumber == "10") {
                         vueobj.Gomaji.FileName = File.name;
@@ -654,6 +666,7 @@
                             function (result) {
                                 vueobj.Gomaji.open = true;
                                 vueobj.Gomaji.saf25FileInfo = JSON.parse(result);
+                                vueobj.writeFailToTable(vueobj.Gomaji.saf25FileInfo.ErrorMsg.length, filenumber);
                             });
                     } else if (filenumber == "11") {
                         vueobj.PayEasy.FileName = File.name;
@@ -661,6 +674,7 @@
                             function (result) {
                                 vueobj.PayEasy.open = true;
                                 vueobj.PayEasy.saf25FileInfo = JSON.parse(result);
+                                vueobj.writeFailToTable(vueobj.PayEasy.saf25FileInfo.ErrorMsg.length, filenumber);
                             });
                     } else if (filenumber == "12") {
                         vueobj.UniPresiden.FileName = File.name;
@@ -668,6 +682,7 @@
                             function (result) {
                                 vueobj.UniPresiden.open = true;
                                 vueobj.UniPresiden.saf25FileInfo = JSON.parse(result);
+                                vueobj.writeFailToTable(vueobj.UniPresiden.saf25FileInfo.ErrorMsg.length, filenumber);
                             });
                     } else if (filenumber == "13") {
                         vueobj.Dingding.FileName = File.name;
@@ -675,6 +690,7 @@
                             function (result) {
                                 vueobj.Dingding.open = true;
                                 vueobj.Dingding.saf25FileInfo = JSON.parse(result);
+                                vueobj.writeFailToTable(vueobj.Dingding.saf25FileInfo.ErrorMsg.length, filenumber);
                             });
                     } else if (filenumber == "14") {
                         vueobj.Crazymike.FileName = File.name;
@@ -682,6 +698,7 @@
                             function (result) {
                                 vueobj.Crazymike.open = true;
                                 vueobj.Crazymike.saf25FileInfo = JSON.parse(result);
+                                vueobj.writeFailToTable(vueobj.Crazymike.saf25FileInfo.ErrorMsg.length, filenumber);
                             });
                     } else if (filenumber == "15") {
                         vueobj.Xingqi.FileName = File.name;
@@ -689,6 +706,7 @@
                             function (result) {
                                 vueobj.Xingqi.open = true;
                                 vueobj.Xingqi.saf25FileInfo = JSON.parse(result);
+                                vueobj.writeFailToTable(vueobj.Xingqi.saf25FileInfo.ErrorMsg.length, filenumber);
                             });
                     } else if (filenumber == "16") {
                         vueobj.Lianhebao.FileName = File.name;
@@ -696,6 +714,7 @@
                             function (result) {
                                 vueobj.Lianhebao.open = true;
                                 vueobj.Lianhebao.saf25FileInfo = JSON.parse(result);
+                                vueobj.writeFailToTable(vueobj.Lianhebao.saf25FileInfo.ErrorMsg.length, filenumber);
                             });
                     } else if (filenumber == "17") {
                         vueobj.MOMO_Specified.FileName = File.name;
@@ -703,6 +722,7 @@
                             function (result) {
                                 vueobj.MOMO_Specified.open = true;
                                 vueobj.MOMO_Specified.saf25FileInfo = JSON.parse(result);
+                                vueobj.writeFailToTable(vueobj.MOMO_Specified.saf25FileInfo.ErrorMsg.length, filenumber);
                             });
                     } else if (filenumber == "18") {
                         vueobj.YahooMart.FileName = File.name;
@@ -710,6 +730,7 @@
                             function (result) {
                                 vueobj.YahooMart.open = true;
                                 vueobj.YahooMart.saf25FileInfo = JSON.parse(result);
+                                vueobj.writeFailToTable(vueobj.YahooMart.saf25FileInfo.ErrorMsg.length, filenumber);
                             });
                     } else if (filenumber == "19") {
                         vueobj.Motian.FileName = File.name;
@@ -717,6 +738,7 @@
                             function (result) {
                                 vueobj.Motian.open = true;
                                 vueobj.Motian.saf25FileInfo = JSON.parse(result);
+                                vueobj.writeFailToTable(vueobj.Motian.saf25FileInfo.ErrorMsg.length, filenumber);
                             });
                     } else if (filenumber == "20") {
                         vueobj.Letian.FileName = File.name;
@@ -724,6 +746,7 @@
                             function (result) {
                                 vueobj.Letian.open = true;
                                 vueobj.Letian.saf25FileInfo = JSON.parse(result);
+                                vueobj.writeFailToTable(vueobj.Letian.saf25FileInfo.ErrorMsg.length, filenumber);
                             });
                     } else if (filenumber == "21") {
                         vueobj.Pc.FileName = File.name;
@@ -731,6 +754,7 @@
                             function (result) {
                                 vueobj.Pc.open = true;
                                 vueobj.Pc.saf25FileInfo = JSON.parse(result);
+                                vueobj.writeFailToTable(vueobj.Pc.saf25FileInfo.ErrorMsg.length, filenumber);
                             });
                     } else if (filenumber == "22") {
                         vueobj.Lutian.FileName = File.name;
@@ -738,6 +762,7 @@
                             function (result) {
                                 vueobj.Lutian.open = true;
                                 vueobj.Lutian.saf25FileInfo = JSON.parse(result);
+                                vueobj.writeFailToTable(vueobj.Lutian.saf25FileInfo.ErrorMsg.length, filenumber);
                             });
                     } else if (filenumber == "23") {
 
@@ -746,6 +771,7 @@
                             function (result) {
                                 vueobj.Yahoo.open = true;
                                 vueobj.Yahoo.saf25FileInfo = JSON.parse(result);
+                                vueobj.writeFailToTable(vueobj.Yahoo.saf25FileInfo.ErrorMsg.length, filenumber);
                             });
                     } else if (filenumber == "24") {
                         vueobj.PconeMart.FileName = File.name;
@@ -753,6 +779,7 @@
                             function (result) {
                                 vueobj.PconeMart.open = true;
                                 vueobj.PconeMart.saf25FileInfo = JSON.parse(result);
+                                vueobj.writeFailToTable(vueobj.PconeMart.saf25FileInfo.ErrorMsg.length, filenumber);
                             });
                     } else if (filenumber == "25") {
                         vueobj.YahooMart_MartDelivery.FileName = File.name;
@@ -760,6 +787,7 @@
                             function (result) {
                                 vueobj.YahooMart_MartDelivery.open = true;
                                 vueobj.YahooMart_MartDelivery.saf25FileInfo = JSON.parse(result);
+                                vueobj.writeFailToTable(vueobj.YahooMart_MartDelivery.saf25FileInfo.ErrorMsg.length, filenumber);
                             });
                     } else if (filenumber == "26") {
                         vueobj.PcHome_Delivery.FileName = File.name;
@@ -767,6 +795,7 @@
                             function (result) {
                                 vueobj.PcHome_Delivery.open = true;
                                 vueobj.PcHome_Delivery.saf25FileInfo = JSON.parse(result);
+                                vueobj.writeFailToTable(vueobj.PcHome_Delivery.saf25FileInfo.ErrorMsg.length, filenumber);
                             });
                     } else if (filenumber == "27") {
                         vueobj.Shopee.FileName = File.name;
@@ -774,6 +803,7 @@
                             function (result) {
                                 vueobj.Shopee.open = true;
                                 vueobj.Shopee.saf25FileInfo = JSON.parse(result);
+                                vueobj.writeFailToTable(vueobj.Shopee.saf25FileInfo.ErrorMsg.length, filenumber);
                             });
                     } else if (filenumber == "28") {
                         vueobj.Yahoo_MartDelivery.FileName = File.name;
@@ -781,6 +811,7 @@
                             function (result) {
                                 vueobj.Yahoo_MartDelivery.open = true;
                                 vueobj.Yahoo_MartDelivery.saf25FileInfo = JSON.parse(result);
+                                vueobj.writeFailToTable(vueobj.Yahoo_MartDelivery.saf25FileInfo.ErrorMsg.length, filenumber);
                             });
                     } else if (filenumber == "29") {
                         vueobj.Buy123CS.FileName = File.name;
@@ -788,6 +819,7 @@
                             function (result) {
                                 vueobj.Buy123CS.open = true;
                                 vueobj.Buy123CS.saf25FileInfo = JSON.parse(result);
+                                vueobj.writeFailToTable(vueobj.Buy123CS.saf25FileInfo.ErrorMsg.length, filenumber);
                             });
                     } else if (filenumber == "30") {
                         vueobj.Shopee2.FileName = File.name;
@@ -795,6 +827,7 @@
                             function (result) {
                                 vueobj.Shopee2.open = true;
                                 vueobj.Shopee2.saf25FileInfo = JSON.parse(result);
+                                vueobj.writeFailToTable(vueobj.Shopee2.saf25FileInfo.ErrorMsg.length, filenumber);
                             });
                     } else if (filenumber == "31") {
                         vueobj.one7P2.FileName = File.name;
@@ -802,6 +835,7 @@
                             function (result) {
                                 vueobj.one7P2.open = true;
                                 vueobj.one7P2.saf25FileInfo = JSON.parse(result);
+                                vueobj.writeFailToTable(vueobj.one7P2.saf25FileInfo.ErrorMsg.length, filenumber);
                             });
                     }
 
@@ -880,7 +914,7 @@
                         return 0;
                     });
 
-
+                    //files.ErrorMsg = "";
                     this.MultipleFile = files;
                     //e.target.value = "";
                 },
