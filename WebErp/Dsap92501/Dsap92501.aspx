@@ -1448,8 +1448,8 @@
                                         <th v-on:click="sortBy(Crazymike,'saf2532_pname',$event)">商品規格</th>
                                         <th v-on:click="sortBy(Crazymike,'saf2544_cost',$event)">含稅成本</th>
                                         <th v-on:click="sortBy(Crazymike,'saf2546_mana_fee',$event)">運費成本</th>
-                                        <th v-on:click="sortBy(Crazymike,'saf2514_rec_name',$event)">含稅小計</th>
-                                        <th v-on:click="sortBy(Crazymike,'saf2528_fre_no',$event)">收件人姓名</th>
+                                        <th v-on:click="sortBy(Crazymike,'saf2545_cost_sub',$event)">含稅小計</th>
+                                        <th v-on:click="sortBy(Crazymike,'saf2514_rec_name',$event)">收件人姓名</th>
                                         <th v-on:click="sortBy(Crazymike,'saf2519_rec_address',$event)">收件人地址</th>
                                         <th v-on:click="sortBy(Crazymike,'saf2515_rec_cell',$event)">收件人電話</th>
                                         <th v-on:click="sortBy(Crazymike,'saf2553_gifts',$event)">贈品</th>
@@ -1465,8 +1465,8 @@
                                         <td>{{saf25.saf2532_pname}}</td>
                                         <td>{{saf25.saf2544_cost}}</td>
                                         <td>{{saf25.saf2546_mana_fee}}</td>
+                                        <td>{{saf25.saf2545_cost_sub}}</td>
                                         <td>{{saf25.saf2514_rec_name}}</td>
-                                        <td>{{saf25.saf2528_fre_no}}</td>
                                         <td>{{saf25.saf2519_rec_address}}</td>
                                         <td>{{saf25.saf2515_rec_cell}}</td>
                                         <td>{{saf25.saf2553_gifts}}</td>
