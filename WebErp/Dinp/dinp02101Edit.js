@@ -74,7 +74,7 @@
                     inf2916_apr_empid: null, //員工ID
                     inf2921_pmonth:null, //所屬帳款月份
                     EmpCname: null, //員工Name
-                    inf2903_customer_code: null, //客戶代碼
+                    inf2903_customer_code: "", //客戶代碼
                     Inf2903CustomerCodeName: null, //異動單位
                     inf2906_ref_no_type: null, //單據來源
                     inf2906_ref_no_date: null, //單據來源
@@ -86,6 +86,7 @@
                     inf2002_docno_type: null,//單據分類編號
                     inf2002_docno_date: null,//異動單號_日期
                     inf2002_docno_seq: null,//異動單號_流水號
+                    inf2952_project_no:"",
                     remark: null,
                     adddate: null,
                     adduser: null,
@@ -97,28 +98,32 @@
                     inf29a04_sizeno:null,//尺碼
                     inf29a05_pcode: null, //產品編號
                     inf29a05_shoes_code: null, //貨號
+                    inf29a06_qty: 0,//小單位數量
                     inf29a09_retail_one:null,//換算後幣值售價
                     inf29a09_oretail_one:null, //售價
                     inf29a10_ocost_one: 0, //含稅單價
                     inf29a10_cost_one0: 0, //未稅單價
                     inf29a10_cost_one: 0, //換算後幣值進價
-                    inf29a17_runit: null, //單位
-                    inf29a24_retrn_qty: null,//退貨數
-                    inf29a26_box_qty: null,//箱入量
+                    inf29a13_sold_qty:0,//大單位數量
+                    inf29a16_gift_qty:0,//贈品數量
+                    inf29a17_runit: "", //單位
+                    inf29a24_retrn_qty: 0,//退貨數
+                    inf29a26_box_qty: 0,//箱入量
 //                    SelectedCurrencyInfo: null, //幣別
 //                    inf29a32_exchange_rate: 1, //匯率
                     inf29a33_product_name: null, //商品名稱
-                    inf29a39_price: 0, //售價
-                    inf29a40_tax:null,//營業稅率
-                    inf29a41_pcat:null,//商品分類編號
-                    inf29a13_sold_qty: 0, //數量
                     inf29a36_odds_amt: 0, //尾差
+                    inf29a39_price: 0, //售價
+                    inf29a40_tax:0,//營業稅率
+                    inf29a41_pcat: "",//商品分類編號
+                    inf29a49_tax: 0,//營業稅
                     inf0164_dividend :null,
                     adddate: null,
                     adduser: null,
                     moddate: null,
                     moduser: null,
                     Confirmed: "N", //確認
+                    remark:null,
 
                 }, // New edit item of Inf29a
                 BcodeList: [], //公司代號下拉選單資料
@@ -179,10 +184,20 @@
                     return total.toFixed(2);
                 },
                 Inf29aItem_Inf29a38OneAmt: function () { //小計金額
-                    return this.Inf29aItem.inf29a39_price * (this.Inf29aItem_Inf29a13SoldQty - this.inf29a24_retrn_qty) + this.Inf29aItem.inf29a36_odds_amt * 1;
+                    var amt = this.Inf29aItem.inf29a39_price * (this.Inf29aItem_Inf29a13SoldQty - this.inf29a24_retrn_qty) + this.Inf29aItem.inf29a36_odds_amt * 1;
+                    if (isNaN(amt)) {
+                        return 0;
+                    } else {
+                        return amt;
+                    }
                 },
                 Inf29aItem_Inf29a12SubAmt: function () { //換算後幣值小計
-                    return this.inf2929_exchange_rate * this.Inf29aItem.inf29a09_retail_one * (this.Inf29aItem_Inf29a13SoldQty - this.inf29a24_retrn_qty退貨數);
+                    var amt = this.inf2929_exchange_rate * this.Inf29aItem.inf29a09_retail_one * (this.Inf29aItem_Inf29a13SoldQty - this.inf29a24_retrn_qty);
+                    if (isNaN(amt)) {
+                        return 0;
+                    } else {
+                        return amt;
+                    }
                 }
             },
             methods: {
@@ -211,6 +226,7 @@
                             inf29a04_sizeno:this.Inf29aItem.inf29a04_sizeno,//尺碼
                             inf29a05_pcode: this.Inf29aItem.inf29a05_pcode,
                             inf29a05_shoes_code: this.Inf29aItem.inf29a05_shoes_code, //貨號
+                            inf29a06_qty: this.Inf29aItem.inf29a06_qty,//小單位數量
                             inf29a09_retail_one: this.Inf29aItem.inf29a09_retail_one,//換算後幣值售價
                             inf29a09_oretail_one:this.Inf29aItem.inf29a09_oretail_one, //售價
                             inf29a10_ocost_one: this.Inf29aItem.inf29a10_ocost_one, //原進價
@@ -220,8 +236,6 @@
                             inf29a14_trn_type: "1", //1表示自行輸入的資料
                             //inf29a31_currency: this.Inf29aItem.SelectedCurrencyInfo == null ? "" : this.Inf29aItem.SelectedCurrencyInfo.cnf1003_char01, //幣別
 //                            inf29a32_exchange_rate: this.Inf29aItem.inf29a32_exchange_rate, //匯率
-                            inf29a39_price: this.Inf29aItem.inf29a39_price, //售價
-                            inf29a38_one_amt: this.Inf29aItem_Inf29a38OneAmt, //小計金額
                             inf29a12_sub_amt: this.Inf29aItem_Inf29a12SubAmt, //換算後幣值小計
                             inf29a13_sold_qty: this.Inf29aItem_Inf29a13SoldQty, //數量
                             inf29a17_runit: this.Inf29aItem.inf29a17_runit, //單位
@@ -229,11 +243,15 @@
                             inf29a26_box_qty: this.Inf29aItem.inf29a26_box_qty, //箱入量
                             inf29a33_product_name: this.Inf29aItem.inf29a33_product_name, //商品名稱
                             inf29a36_odds_amt: this.Inf29aItem.inf29a36_odds_amt, //尾差
+                            inf29a38_one_amt: this.Inf29aItem_Inf29a38OneAmt, //小計金額
+                            inf29a39_price: this.Inf29aItem.inf29a39_price, //售價
                             inf29a40_tax: this.Inf29aItem.inf29a40_tax, //營業稅率
                             inf29a41_pcat: this.Inf29aItem.inf29a41_pcat, //商品分類編號
-                            Confirmed: this.Inf29aItem.Confirmed, //確認
+                            inf29a49_tax: this.Inf29aItem.inf29a49_tax,//營業稅
                             adduser:this.Inf29aItem.adduser,
-                            adddate:this.Inf29aItem.adddate
+                            adddate: this.Inf29aItem.adddate,
+                            remark: this.Inf29aItem.remark,
+                            
                         };
                         var inf29aIndex = this.Inf29aList.indexOf(inf29a);
                         this.Inf29aList.splice(inf29aIndex,1,this.SelectedInf29aItem);
@@ -249,32 +267,35 @@
                     }
                     this.Inf29aList.push({
                         inf29a02_seq: inf29a02_seq,
-                        inf29a04_sizeno:this.Inf29aItem.inf29a04_sizeno,//尺碼
+                        inf29a04_sizeno: this.Inf29aItem.inf29a04_sizeno,//尺碼
                         inf29a05_pcode: this.Inf29aItem.inf29a05_pcode,
                         inf29a05_shoes_code: this.Inf29aItem.inf29a05_shoes_code, //貨號
+                        inf29a06_qty: this.Inf29aItem.inf29a06_qty,//小單位數量
                         inf29a09_retail_one: this.Inf29aItem.inf29a09_retail_one,//換算後幣值售價
-                        inf29a09_oretail_one:this.Inf29aItem.inf29a09_oretail_one, //售價
+                        inf29a09_oretail_one: this.Inf29aItem.inf29a09_oretail_one, //售價
                         inf29a10_ocost_one: this.Inf29aItem.inf29a10_ocost_one, //原進價
                         inf29a10_cost_one: this.Inf29aItem.inf29a10_cost_one, //換算後幣值進價
                         inf29a10_cost_one0: this.Inf29aItem.inf29a10_cost_one0,//未稅單價
                         inf29a11_dis_rate: 100, //折扣
                         inf29a14_trn_type: this.Inf29aItem.inf29a14_trn_type || "1", //1表示自行輸入的資料
                         //inf29a31_currency: this.Inf29aItem.SelectedCurrencyInfo == null ? "" : this.Inf29aItem.SelectedCurrencyInfo.cnf1003_char01, //幣別
-//                        inf29a32_exchange_rate: this.Inf29aItem.inf29a32_exchange_rate, //匯率
-                        inf29a39_price: this.Inf29aItem.inf29a39_price, //售價
-                        inf29a38_one_amt: this.Inf29aItem_Inf29a38OneAmt, //小計金額
+                        //inf29a32_exchange_rate: this.Inf29aItem.inf29a32_exchange_rate, //匯率
                         inf29a12_sub_amt: this.Inf29aItem_Inf29a12SubAmt, //換算後幣值小計
                         inf29a13_sold_qty: this.Inf29aItem_Inf29a13SoldQty, //數量
+                        inf29a16_gift_qty: this.Inf29aItem.inf29a16_gift_qty,//贈品數量
                         inf29a17_runit: this.Inf29aItem.inf29a17_runit, //單位
                         inf29a24_retrn_qty: this.Inf29aItem.inf29a24_retrn_qty,//退貨數
                         inf29a26_box_qty: this.Inf29aItem.inf29a26_box_qty, //箱入量
                         inf29a33_product_name: this.Inf29aItem.inf29a33_product_name, //商品名稱
                         inf29a36_odds_amt: this.Inf29aItem.inf29a36_odds_amt, //尾差
+                        inf29a38_one_amt: this.Inf29aItem_Inf29a38OneAmt, //小計金額
+                        inf29a39_price: this.Inf29aItem.inf29a39_price, //售價
                         inf29a40_tax: this.Inf29aItem.inf29a40_tax, //營業稅率
                         inf29a41_pcat: this.Inf29aItem.inf29a41_pcat, //商品分類編號
-                        Confirmed: this.Inf29aItem.Confirmed, //確認
-                        adduser:this.Inf29aItem.adduser,
-                        adddate:this.Inf29aItem.adddate
+                        inf29a49_tax: this.Inf29aItem.inf29a49_tax,
+                        adduser: this.Inf29aItem.adduser,
+                        adddate: this.Inf29aItem.adddate,
+                        remark: this.Inf29aItem.remark,
                     });
                 },
                 OnDeleteInf29aItem: function () {//刪除明細
@@ -336,11 +357,7 @@
                         alert("公司代號不允許空白，請重新輸入");
                         return;
                     }
-                    if (this.Inf29Item.inf2903_customer_code == null ||
-                        this.Inf29Item.inf2903_customer_code == "") {
-                        alert("請輸入異動單位");
-                        return;
-                    }
+                    
                     var inf2902_docno_date = null;
                     if (this.Inf29Item.inf2902_docno_date != null && this.Inf29Item.inf2902_docno_date != "") {
                         inf2902_docno_date = Date.parseDate(this.Inf29Item.inf2902_docno_date, 'Ymd').dateFormat('Y-m-d');
@@ -374,7 +391,8 @@
                         inf2909_vcode: this.Inf29Item.inf2909_vcode || "", //代送商
                         inf2928_currency: this.Inf29Item.SelectedCurrencyInfo == null ? "" : this.Inf29Item.SelectedCurrencyInfo.cnf1003_char01, //幣別
                         inf2929_exchange_rate: this.Inf29Item.inf2929_exchange_rate || 0,
-                        inf2921_pmonth:this.Inf29Item.inf2921_pmonth,
+                        inf2921_pmonth: this.Inf29Item.inf2921_pmonth,
+                        inf2952_project_no: this.Inf29Item.inf2952_project_no,
                         remark: this.Inf29Item.remark || "",
                         adddate: new Date(),
                         adduser: this.Inf29Item.adduser,
@@ -975,7 +993,7 @@
                         ProjectFullname: null, //專案全名
                         inf2916_apr_empid: null, //員工ID
                         EmpCname: null, //員工Name
-                        inf2903_customer_code: null, //客戶代碼
+                        inf2903_customer_code: "", //客戶代碼
                         Inf2903CustomerCodeName: null, //異動單位
                         inf2906_ref_no_type: null, //單據來源
                         inf2906_ref_no_date: null, //單據來源
@@ -988,6 +1006,7 @@
                         inf2002_docno_type: null,//單據分類編號
                         inf2002_docno_date: null,//異動單號_日期
                         inf2002_docno_seq: null,//異動單號_流水號
+                        inf2952_project_no: "",
                         remark: null,
                         adddate: null,
                         adduser: null,
@@ -1014,32 +1033,38 @@
 //                        return item.cnf1003_char01=="NTD";
 //                    }).shift();
                     this.Inf29aItem = {
-                        inf29a02_seq:null,//序號
-                        inf29a04_sizeno:null,//尺碼
+                        inf29a02_seq: null,//序號
+                        inf29a04_sizeno: null,//尺碼
                         inf29a05_pcode: null, //產品編號
                         inf29a05_shoes_code: null, //貨號
+                        inf29a06_qty: 0,//小單位數量
                         inf29a09_retail_one: null,//換算後幣值售價
                         inf29a09_oretail_one: null, //售價
-                        inf29a17_runit: null, //單位
-                        inf29a10_ocost_one: 0, //原進價
+                        inf29a10_ocost_one: 0, //含稅單價
+                        inf29a10_cost_one0: 0, //未稅單價
                         inf29a10_cost_one: 0, //換算後幣值進價
-                        inf29a10_cost_one0: 0,//未稅單價
-                        inf29a24_retrn_qty: null,//退貨數
-                        inf29a26_box_qty: null,//箱入量
-//                        SelectedCurrencyInfo: defaultCurrency, //幣別
-//                        inf29a32_exchange_rate: 1, //匯率
+                        inf29a13_sold_qty: 0,//大單位數量
+                        inf29a16_gift_qty: 0,//贈品數量
+                        inf29a17_runit: "", //單位
+                        inf29a24_retrn_qty: 0,//退貨數
+                        inf29a26_box_qty: 0,//箱入量
+                        //                    SelectedCurrencyInfo: null, //幣別
+                        //                    inf29a32_exchange_rate: 1, //匯率
                         inf29a33_product_name: null, //商品名稱
-                        inf29a39_price: 0, //售價
-                        inf29a40_tax:null,//營業稅率
-                        inf29a41_pcat:null,//商品分類編號
-                        inf29a13_sold_qty: 0, //數量
                         inf29a36_odds_amt: 0, //尾差
+                        inf29a39_price: 0, //售價
+                        inf29a40_tax: 0,//營業稅率
+                        inf29a41_pcat: null,//商品分類編號
+                        inf29a49_tax: 0,//營業稅
+                        inf0164_dividend: null,
                         adddate: null,
                         adduser: null,
                         moddate: null,
                         moduser: null,
                         Confirmed: "N", //確認
+                        remark: null,
                     };
+                    
 //                    if(defaultCurrency){
 //                        this.GetExchangeInfo(defaultCurrency);
 //                    }
