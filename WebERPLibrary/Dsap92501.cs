@@ -68,7 +68,7 @@ namespace WebERPLibrary
              * 假如saf2545_cost_sub	成本小計 = 0, 
              * saf2545_cost_sub	 = saf2541_ord_qty訂單數量 * saf2544_cost進價(含稅)
              */
-             if(string.IsNullOrEmpty(saf25.saf2545_cost_sub))
+            if (string.IsNullOrEmpty(saf25.saf2545_cost_sub))
             {
                 try {
                     var qty = int.Parse(saf25.saf2541_ord_qty);
@@ -110,7 +110,7 @@ namespace WebERPLibrary
             cmd.Parameters.AddWithValue("@LoginUser", LoginUser);
             cmd.Parameters.AddWithValue("@saf2501_cuscode", cnf1004_char02);
             cmd.Parameters.AddWithValue("@saf2502_seq", saf25.saf2502_seq ?? "");
-            cmd.Parameters.AddWithValue("@saf2503_ord_no", saf25.saf2503_ord_no??"");
+            cmd.Parameters.AddWithValue("@saf2503_ord_no", saf25.saf2503_ord_no ?? "");
             cmd.Parameters.AddWithValue("@saf2504_ord_date", Convert.ToDateTime(saf25.saf2504_ord_date));
             cmd.Parameters.AddWithValue("@saf2505_ord_remark", saf25.saf2505_ord_remark ?? "");
             cmd.Parameters.AddWithValue("@saf2506_ord_status", saf25.saf2506_ord_status ?? "");
@@ -225,7 +225,7 @@ namespace WebERPLibrary
 
             }
 
-           
+
 
             cmd.Parameters.AddWithValue("@saf2563_county", saf25.saf2563_county ?? "");
             cmd.Parameters.AddWithValue("@saf2564_post_box", saf25.saf2564_post_box ?? "");
@@ -240,19 +240,19 @@ namespace WebERPLibrary
             cmd.Parameters.AddWithValue("@saf2573_discount", String.IsNullOrEmpty(saf25.saf2573_discount) ? "0" : saf25.saf2573_discount);
 
             if (!String.IsNullOrEmpty(saf25.saf2574_chang_d))
-            {cmd.Parameters.AddWithValue("@saf2574_chang_d", saf25.saf2574_chang_d);}
+            { cmd.Parameters.AddWithValue("@saf2574_chang_d", saf25.saf2574_chang_d); }
             else
-            { cmd.Parameters.AddWithValue("@saf2574_chang_d", DBNull.Value);}
+            { cmd.Parameters.AddWithValue("@saf2574_chang_d", DBNull.Value); }
 
             if (!String.IsNullOrEmpty(saf25.saf2575_check_d))
-            {  cmd.Parameters.AddWithValue("@saf2575_check_d", saf25.saf2575_check_d);}
+            { cmd.Parameters.AddWithValue("@saf2575_check_d", saf25.saf2575_check_d); }
             else
-            {   cmd.Parameters.AddWithValue("@saf2575_check_d", DBNull.Value);}
+            { cmd.Parameters.AddWithValue("@saf2575_check_d", DBNull.Value); }
 
             if (!String.IsNullOrEmpty(saf25.saf2576_cancel_d))
-            { cmd.Parameters.AddWithValue("@saf2576_cancel_d", saf25.saf2576_cancel_d);}
+            { cmd.Parameters.AddWithValue("@saf2576_cancel_d", saf25.saf2576_cancel_d); }
             else
-            {  cmd.Parameters.AddWithValue("@saf2576_cancel_d", DBNull.Value); }
+            { cmd.Parameters.AddWithValue("@saf2576_cancel_d", DBNull.Value); }
 
 
             cmd.Parameters.AddWithValue("@saf2577_canwatch", saf25.saf2577_canwatch ?? "");
@@ -267,11 +267,11 @@ namespace WebERPLibrary
             if (!String.IsNullOrEmpty(saf25.saf2584_deli_date))
             { cmd.Parameters.AddWithValue("@saf2584_deli_date", saf25.saf2584_deli_date); }
             else
-            { cmd.Parameters.AddWithValue("@saf2584_deli_date", DBNull.Value);}
+            { cmd.Parameters.AddWithValue("@saf2584_deli_date", DBNull.Value); }
 
             if (!String.IsNullOrEmpty(saf25.saf2585_conf_date))
             { cmd.Parameters.AddWithValue("@saf2585_conf_date", saf25.saf2585_conf_date); }
-            else{cmd.Parameters.AddWithValue("@saf2585_conf_date", DBNull.Value);}
+            else { cmd.Parameters.AddWithValue("@saf2585_conf_date", DBNull.Value); }
 
             cmd.Parameters.AddWithValue("@saf2586_tax_class", saf25.saf2586_tax_class ?? "");
             cmd.Parameters.AddWithValue("@saf2587_gift_pnt", String.IsNullOrEmpty(saf25.saf2587_gift_pnt) ? "0" : saf25.saf2587_gift_pnt);
@@ -280,9 +280,9 @@ namespace WebERPLibrary
 
             var filter = "saf2503_ord_no=@saf2503_ord_no and saf2504_ord_date=@saf2504_ord_date and saf2514_rec_name=@saf2514_rec_name and saf2531_psname=@saf2531_psname and saf2532_pname =@saf2532_pname";
 
-            
-           
-            
+
+
+
 
 
             cmd.CommandText = String.Format(@"
@@ -599,8 +599,8 @@ end
             {
                 var filenumber = FileName.Substring(0, 2);
 
-                
-                if (filenumber=="01" && FileName.ToUpper().Contains(".CSV"))
+
+                if (filenumber == "01" && FileName.ToUpper().Contains(".CSV"))
                 {
                     var rowList = setPreWork(uploadsPath, FileName, "100", ref saf25FileInfo);
                     SeventeenP_csvtosaf25(rowList, saf25FileInfo, OrderTime);
@@ -828,7 +828,7 @@ end
         {
 
             var rowList = ExcelTool(p_uploadsPath);
-            CompanyExists_cnf1004_char02(cnf1002_fileorder, ref  p_saf25FileInfo);
+            CompanyExists_cnf1004_char02(cnf1002_fileorder, ref p_saf25FileInfo);
             p_saf25FileInfo.FileName = p_FileName;
             return rowList;
         }
@@ -848,6 +848,7 @@ end
                 for (var k = 0; k < row.Count; k++)
                 {
                     var column = row[k];
+                    detectEandSingleQuotation(ref column);
                     //A
                     if (k == 0)
                     {
@@ -929,11 +930,11 @@ end
             for (var j = 0; j < rowList.Count; j++)
             {
                 var saf25 = new saf25();
-                if (j ==0) continue;//跳過標題
+                if (j == 0) continue;//跳過標題
 
                 var row = rowList[j];
 
-                
+
                 //if (row.Count != 11) continue;
                 if (string.IsNullOrEmpty(row[0]) || string.IsNullOrEmpty(row[3])) continue;
 
@@ -941,7 +942,8 @@ end
                 for (var k = 0; k < row.Count; k++)
                 {
                     var column = row[k];
-                    column=Regex.Replace(column.Replace("<br>", "，"), @"<[^>]*>", String.Empty);
+                    column = Regex.Replace(column.Replace("<br>", "，"), @"<[^>]*>", String.Empty);
+                    detectEandSingleQuotation(ref column);
                     //A
                     if (k == 0)
                     {
@@ -1044,6 +1046,7 @@ end
                 for (var k = 0; k < row.Count; k++)
                 {
                     var column = row[k];
+                    detectEandSingleQuotation(ref column);
                     //A
                     if (k == 0)
                     {
@@ -1458,9 +1461,8 @@ end
                 saf25.saf2504_ord_date = OrderTime;
                 for (var k = 0; k < row.Count; k++)
                 {
-
-
                     var column = row[k];
+                    detectEandSingleQuotation(ref column);
                     //A
                     if (k == 0)
                     {
@@ -1609,6 +1611,7 @@ end
                 for (var k = 0; k < row.Count; k++)
                 {
                     var column = row[k];
+                    detectEandSingleQuotation(ref column);
                     //A
                     if (k == 0)
                     {
@@ -1786,6 +1789,7 @@ end
                 for (var k = 0; k < row.Count; k++)
                 {
                     var column = row[k];
+                    detectEandSingleQuotation(ref column);
                     //A
                     if (k == 0)
                     {
@@ -1860,7 +1864,7 @@ end
                         }
                         saf25.saf2503_ord_no = column;
                     }
-                    
+
                 }
                 saf25FileInfo.saf25List.Add(saf25);
 
@@ -1880,6 +1884,7 @@ end
                 for (var k = 0; k < row.Count; k++)
                 {
                     var column = row[k];
+                    detectEandSingleQuotation(ref column);
                     //A
                     if (k == 0)
                     {
@@ -2023,6 +2028,7 @@ end
                 for (var k = 0; k < row.Count; k++)
                 {
                     var column = row[k];
+                    detectEandSingleQuotation(ref column);
                     //A
                     if (k == 0)
                     {
@@ -2136,6 +2142,7 @@ end
                 for (var k = 0; k < row.Count; k++)
                 {
                     var column = row[k];
+                    detectEandSingleQuotation(ref column);
                     //A
                     if (k == 0)
                     {
@@ -2347,6 +2354,7 @@ end
                 for (var k = 0; k < row.Count; k++)
                 {
                     var column = row[k];
+                    detectEandSingleQuotation(ref column);
                     //A
                     if (k == 0)
                     {
@@ -2523,7 +2531,7 @@ end
                 for (var k = 0; k < row.Count; k++)
                 {
                     var column = row[k];
-
+                    detectEandSingleQuotation(ref column);
                     //A
                     if (k == 0)
                     {
@@ -2634,7 +2642,7 @@ end
                 for (var k = 0; k < row.Count; k++)
                 {
                     var column = row[k];
-
+                    detectEandSingleQuotation(ref column);
                     //A
                     if (k == 0)
                     {
@@ -2716,7 +2724,7 @@ end
                 for (var k = 0; k < row.Count; k++)
                 {
                     var column = row[k];
-
+                    detectEandSingleQuotation(ref column);
                     //A
                     if (k == 0)
                     {
@@ -2885,7 +2893,7 @@ end
                 for (var k = 0; k < row.Count; k++)
                 {
                     var column = row[k];
-
+                    detectEandSingleQuotation(ref column);
                     //A
                     if (k == 0)
                     {
@@ -3010,7 +3018,7 @@ end
                 for (var k = 0; k < row.Count; k++)
                 {
                     var column = row[k];
-
+                    detectEandSingleQuotation(ref column);
                     //A
                     if (k == 0)
                     {
@@ -3136,6 +3144,7 @@ end
                 for (var k = 0; k < row.Count; k++)
                 {
                     var column = row[k];
+                    detectEandSingleQuotation(ref column);
                     //A
                     if (k == 0)
                     {
@@ -3251,6 +3260,7 @@ end
                 for (var k = 0; k < row.Count; k++)
                 {
                     var column = row[k];
+                    detectEandSingleQuotation(ref column);
                     //A
                     if (k == 0)
                     {
@@ -3402,6 +3412,7 @@ end
                 for (var k = 0; k < row.Count; k++)
                 {
                     var column = row[k];
+                    detectEandSingleQuotation(ref column);
                     //A
                     if (k == 0)
                     {
@@ -3546,14 +3557,15 @@ end
                 for (var k = 0; k < row.Count; k++)
                 {
                     var column = row[k];
-                    if (column.Substring(0, 1) == "'")
-                    {
-                        column = column.Substring(1, column.Length - 1);
-                    }
-                    if (column.Substring(column.Length - 1, 1) == "'")
-                    {
-                        column = column.Substring(0, column.Length - 1);
-                    }
+                    //if (column.Substring(0, 1) == "'")
+                    //{
+                    //    column = column.Substring(1, column.Length - 1);
+                    //}
+                    //if (column.Substring(column.Length - 1, 1) == "'")
+                    //{
+                    //    column = column.Substring(0, column.Length - 1);
+                    //}
+                    detectEandSingleQuotation(ref column);
                     //A
                     if (k == 0)
                     {
@@ -3725,6 +3737,7 @@ end
                 for (var k = 0; k < row.Count; k++)
                 {
                     var column = row[k];
+                    detectEandSingleQuotation(ref column);
                     //A
                     if (k == 0)
                     {
@@ -3901,6 +3914,7 @@ end
                 for (var k = 0; k < row.Count; k++)
                 {
                     var column = row[k];
+                    detectEandSingleQuotation(ref column);
                     //A
                     if (k == 0)
                     {
@@ -3998,7 +4012,7 @@ end
                 for (var k = 0; k < row.Count; k++)
                 {
                     var column = row[k];
-
+                    detectEandSingleQuotation(ref column);
                     //A
                     if (k == 0)
                     {
@@ -4087,6 +4101,7 @@ end
                 for (var k = 0; k < row.Count; k++)
                 {
                     var column = row[k];
+                    detectEandSingleQuotation(ref column);
                     //A
                     if (k == 0)
                     {
@@ -4270,7 +4285,7 @@ end
                 for (var k = 0; k < row.Count; k++)
                 {
                     var column = row[k];
-                    
+                    detectEandSingleQuotation(ref column);
                     //A
                     if (k == 0)
                     {
@@ -4397,6 +4412,34 @@ end
 
         }
 
+        private static void detectEandSingleQuotation(ref string in_column)
+        {
+            try
+            {
+                if (in_column.Substring(0, 1) == "'")
+                {
+                    in_column = in_column.Substring(1, in_column.Length - 1);
+                }
+                if (in_column.Substring(in_column.Length - 1, 1) == "'")
+                {
+                    in_column = in_column.Substring(0, in_column.Length - 1);
+                }
+            }
+            catch
+            {
+            }
+            if (in_column.ToUpper().IndexOf("E+") > 0)
+            {
+                try
+                {
+                    in_column = double.Parse(in_column).ToString();
+                }
+                catch
+                {
+                }
+            }
+        }
+
         private static void Yahoo_csvtosaf25(List<List<string>> rowList, saf25FileInfo saf25FileInfo, string OrderTime)
         {
             for (var j = 0; j < rowList.Count; j++)
@@ -4410,6 +4453,7 @@ end
                 for (var k = 0; k < row.Count; k++)
                 {
                     var column = row[k];
+                    detectEandSingleQuotation( ref column);
                     //A
                     if (k == 0)
                     {
@@ -4647,6 +4691,7 @@ end
                 for (var k = 0; k < row.Count; k++)
                 {
                     var column = row[k];
+                    detectEandSingleQuotation(ref column);
                     //A
                     if (k == 0)
                     {
@@ -4785,6 +4830,7 @@ end
                 for (var k = 0; k < row.Count; k++)
                 {
                     var column = row[k];
+                    detectEandSingleQuotation(ref column);
                     //A
                     if (k == 0)
                     {
@@ -4955,6 +5001,7 @@ end
                 for (var k = 0; k < row.Count; k++)
                 {
                     var column = row[k];
+                    detectEandSingleQuotation(ref column);
                     //A
                     if (k == 0)
                     {
@@ -5125,6 +5172,7 @@ end
                 for (var k = 0; k < row.Count; k++)
                 {
                     var column = row[k];
+                    detectEandSingleQuotation(ref column);
                     //A
                     if (k == 0)
                     {
@@ -5300,14 +5348,7 @@ end
                 for (var k = 0; k < row.Count; k++)
                 {
                     var column = row[k];
-                    //if (column.Substring(0, 1) == "'")
-                    //{
-                    //    column = column.Substring(1, column.Length - 1);
-                    //}
-                    //if (column.Substring(column.Length - 1, 1) == "'")
-                    //{
-                    //    column = column.Substring(0, column.Length - 1);
-                    //}
+                    detectEandSingleQuotation(ref column);
                     //A
                     if (k == 0)
                     {
@@ -5483,14 +5524,7 @@ end
                 for (var k = 0; k < row.Count; k++)
                 {
                     var column = row[k];
-                    //if (column.Substring(0, 1) == "'")
-                    //{
-                    //    column = column.Substring(1, column.Length - 1);
-                    //}
-                    //if (column.Substring(column.Length - 1, 1) == "'")
-                    //{
-                    //    column = column.Substring(0, column.Length - 1);
-                    //}
+                    detectEandSingleQuotation(ref column);
                     //A
                     if (k == 0)
                     {
@@ -5697,7 +5731,6 @@ end
             }
         }
 
-
         private static string cellParse(string Num)
         {
 
@@ -5712,6 +5745,7 @@ end
             return Num;
         
         }
+
         private static string IntTryParse(string Num, saf25FileInfo saf25FileInfo, int row, int column, bool allowEmpty)
         {
             int Value;
@@ -5768,6 +5802,7 @@ end
             };
 
         }
+
         private static List<List<string>> setPreWork(string p_uploadsPath, string p_FileName, string cnf1002_fileorder, ref saf25FileInfo p_saf25FileInfo)
         {
             CompanyExists_cnf1004_char02(cnf1002_fileorder, ref  p_saf25FileInfo);
@@ -5792,8 +5827,6 @@ end
             }
             return rowList;
         }
-
-
 
         private static void CSVTool(string Path)
         {
@@ -5878,9 +5911,6 @@ end
             }
             File.WriteAllText(Path, sb.ToString(), Encoding.UTF8);
         }
-
-
-
 
         private static void CompanyExists_cnf1004_char02(string cnf1002_fileorder, ref saf25FileInfo p_saf25FileInfo)
         {
