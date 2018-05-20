@@ -4435,6 +4435,13 @@ end
                         {
                             saf25FileInfo.ErrorMsg.Add(CreatErrorMsg(j, k, "沒有訂單編號"));
                         }
+                        if (column.ToUpper().IndexOf("E+") > 0)
+                        {
+                            try {
+                                column = double.Parse(column).ToString();
+                            } catch {
+                            }
+                        }
                         saf25.saf2503_ord_no = column;
                     }
                     //D

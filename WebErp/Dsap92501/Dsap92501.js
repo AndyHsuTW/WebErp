@@ -766,7 +766,7 @@
                             });
                     } else if (filenumber == "23") {
 
-                        vueobj.PChome.FileName = File.name;
+                        vueobj.Yahoo.FileName = File.name;
                         vueobj.ImportExcelsAjax(formData,
                             function (result) {
                                 vueobj.Yahoo.open = true;

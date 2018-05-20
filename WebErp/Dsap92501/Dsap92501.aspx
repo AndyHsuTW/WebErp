@@ -2239,7 +2239,7 @@
                                         <th v-on:click="sortBy(Yahoo,'saf2549_paymt_date',$event)">付款時間
                                         </th>
                                         <%--c--%>
-                                        <th v-on:click="sortBy(Yahoo,'saf25FileInfo',$event)">訂單編號
+                                        <th v-on:click="sortBy(Yahoo,'saf2503_ord_no',$event)">訂單編號
                                         </th>
                                         <%--d--%>
                                         <th v-on:click="sortBy(Yahoo,'saf2578_get_acc',$event)">帳單編號
@@ -2372,7 +2372,7 @@
                                         <%--b--%>
                                          <td>{{saf25.saf2549_paymt_date}}</td>
                                         <%--c--%>
-                                         <td>{{saf25.saf25FileInfo}}</td>
+                                         <td>{{saf25.saf2503_ord_no}}</td>
                                         <%--d--%>
                                          <td>{{saf25.saf2578_get_acc}}</td>
                                         <%--e--%>
