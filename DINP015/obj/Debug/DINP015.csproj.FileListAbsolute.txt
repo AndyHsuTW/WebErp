@@ -1,0 +1,16 @@
+C:\Users\tony7lee\SOHO\WebErp-master\DINP015\bin\Debug\DINP015.dll
+C:\Users\tony7lee\SOHO\WebErp-master\DINP015\bin\Debug\DINP015.pdb
+C:\Users\tony7lee\SOHO\WebErp-master\DINP015\bin\Debug\EPPlus.dll
+C:\Users\tony7lee\SOHO\WebErp-master\DINP015\bin\Debug\ErpBaseLibrary.dll
+C:\Users\tony7lee\SOHO\WebErp-master\DINP015\bin\Debug\ICSharpCode.SharpZipLib.dll
+C:\Users\tony7lee\SOHO\WebErp-master\DINP015\bin\Debug\NPOI.dll
+C:\Users\tony7lee\SOHO\WebErp-master\DINP015\bin\Debug\NPOI.OOXML.dll
+C:\Users\tony7lee\SOHO\WebErp-master\DINP015\bin\Debug\NPOI.OpenXml4Net.dll
+C:\Users\tony7lee\SOHO\WebErp-master\DINP015\bin\Debug\NPOI.OpenXmlFormats.dll
+C:\Users\tony7lee\SOHO\WebErp-master\DINP015\bin\Debug\ErpBaseLibrary.pdb
+C:\Users\tony7lee\SOHO\WebErp-master\DINP015\bin\Debug\EPPlus.xml
+C:\Users\tony7lee\SOHO\WebErp-master\DINP015\bin\Debug\NPOI.xml
+C:\Users\tony7lee\SOHO\WebErp-master\DINP015\obj\Debug\DINP015.csprojResolveAssemblyReference.cache
+C:\Users\tony7lee\SOHO\WebErp-master\DINP015\obj\Debug\DINP015.csproj.CoreCompileInputs.cache
+C:\Users\tony7lee\SOHO\WebErp-master\DINP015\obj\Debug\DINP015.dll
+C:\Users\tony7lee\SOHO\WebErp-master\DINP015\obj\Debug\DINP015.pdb
