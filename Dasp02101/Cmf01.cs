@@ -16,7 +16,7 @@ namespace Dsap02101
         public string cmf01a17_telo1 { get; set; }
         public string cmf01a23_cellphone { get; set; }
         public string cmf01a05_fname { get; set; }
-        public string cmf01a03_recid { get; set; }
+        public decimal cmf01a03_recid { get; set; }
         public static List<Cmf01> GetCustomerCodeName(string custcode)
         {
             Cmf01 cm = new Cmf01();
@@ -33,6 +33,8 @@ namespace Dsap02101
                     {
                         while (sqlReader.Read())
                         {
+                            try
+                            {
                             cm.cmf0103_bname = (string)sqlReader["cmf0103_bname"];
                             cm.cmf0109_ozipcode = (string)sqlReader["cmf0109_ozipcode"];
                             cm.cmf0110_oaddress = (string)sqlReader["cmf0110_oaddress"];
@@ -40,7 +42,12 @@ namespace Dsap02101
                             cm.cmf01a05_fname = (string)( sqlReader.IsDBNull(6) ? "" : sqlReader["cmf01a05_fname"]);
                             cm.cmf01a17_telo1 = (string)(sqlReader.IsDBNull(4) ? "" : sqlReader["cmf01a17_telo1"]); 
                             cm.cmf01a23_cellphone = (string)(sqlReader.IsDBNull(5) ? "" : sqlReader["cmf01a23_cellphone"]);
-                            cm.cmf01a03_recid = (string)(sqlReader.IsDBNull(1) ? "" : sqlReader["cmf01a03_recid"]);
+                            cm.cmf01a03_recid = (decimal)(sqlReader.IsDBNull(1) ? "" : sqlReader["cmf01a03_recid"]);
+                            }catch(Exception ex)
+                            {
+
+                            }
+
                             result.Add(cm);
                         }
                         

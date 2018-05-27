@@ -172,6 +172,7 @@
             overflow: auto;
             background: #fff;
         }
+
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
@@ -196,12 +197,12 @@
                         </function-button>
                 <function-button id="DeleteBtn"
                     hot-key="f3"
-                    v-on:click.native="OnDelete()">
+                    v-on:click.native="OnDeleteALL()">
                             刪除
                         </function-button>
                 <function-button id="CopyBtn"
                     hot-key="f4"
-                    v-on:click.native="OnCopy()">
+                    v-on:click.native="OnEdit()">
                             複製
                         </function-button>
                 <function-button id="PrintBtn" 
@@ -350,6 +351,8 @@
                             <td>
                                 <input type="text" class="medium-field" v-model="Filter.Qty">
                             </td>
+                            <td>
+                                目前顯示{{ Saf21List.length }} 筆
                             </td>
                         </tr>
 
@@ -441,13 +444,17 @@
                                         'glyphicon-chevron-down': Saf21SortColumn=='remark' && Saf21SortOrder=='desc'}">
                                     </span>
                                 </th>
+                                <th>
+                                    操作
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="saf21Item in Saf21List" 
+                            <tr v-for="(saf21Item, index) in Saf21List" 
                                 v-on:click="OnMainRowClick(saf21Item)"
+                                v-on:dblclick="OnEdit(saf21Item)"
                                 v-bind:class="{'selected-row':saf21Item==SelectedSaf21Item}">
-                                <td>{{saf21Item.saf2133_seq2 }}</td>
+                                <td>{{index + 1 }}</td>
                                 <td>{{saf21Item.saf2101_docno}}</td>
                                 <td>{{saf21Item.saf2106_order_date}}</td>
                                 <td>{{saf21Item.saf2139_total_price}}</td>
@@ -457,6 +464,9 @@
                                 <td>{{saf21Item.taf1019_tel1}}</td>
                                 <td>{{saf21Item.taf1031_cellphone}}</td>
                                 <td>{{saf21Item.remark}}</td>
+                                <td>
+                                    <input type="button" value="刪除" v-on:click="OnDelete(saf21Item)">
+                                </td>
 
                             </tr>
                         </tbody>
@@ -595,8 +605,7 @@
                                 v-on:click="OnSubRowClick(saf21aItem)"
                                 v-bind:class="{'selected-row':saf21aItem==SelectedSaf21aItem}"
                                 >
-                                <td>{{saf21aItem.id}}</td>
-                                <td>{{saf21aItem.saf21a01_seq_seq}}</td>
+                                <td>{{saf21aItem.saf21a02_seq}}</td>
                                 <td>{{saf21aItem.saf21a02_pcode}}</td>
                                 <td>{{saf21aItem.saf21a03_relative_no }}</td>
                                 <td>{{saf21aItem.saf21a41_product_name }}</td>
@@ -738,7 +747,7 @@
                 </function-button>
                 <function-button id="DeleteBtn"
                     hot-key="f3"
-                    v-on:click.native="OnDelete()">
+                    v-on:click.native="OnDelete(Saf21Item)">
                     刪除
                 </function-button>
                 <function-button id="SaveBtn"
@@ -794,7 +803,7 @@
                             </td>
                             <td>
                                 <span class="ref-inputs">
-                                    <input type="text" v-model="Saf21Item.saf2156_take_no" v-on:change="GetEmpCname(Saf21Item.saf2156_take_no)"/>
+                                    <input type="text" v-model="Saf21Item.saf2147_recid" v-on:change="GetEmpCname(Saf21Item.saf2147_recid)"/>
                                     <input type="text" v-model="Inf29Item.EmpCname" disabled="disabled"/>
 
                                 </span>
@@ -866,8 +875,7 @@
                                 應交貨日期
                             </td>
                             <td>
-                                <vue-datetimepicker placeholder="" ref="ProDate"
-                                    v-model="Inf29Item.inf2904_pro_date"></vue-datetimepicker>
+                                <vue-datetimepicker placeholder="" ref="ProDate" v-model="Saf21Item.saf2110_del_date"></vue-datetimepicker>
                             </td>
                            
                         </tr>
@@ -982,7 +990,7 @@
                                 營業稅
                             </td>
                             <td>
-                                <input type="text" class="small-field" v-model="Saf21aItem_Saf21a63ChgTax" disabled="disabled"/>
+                                <input type="text" class="small-field" v-model="Saf21aItem.saf21a13_tax" disabled="disabled"/>
                             </td>
 
                         </tr>

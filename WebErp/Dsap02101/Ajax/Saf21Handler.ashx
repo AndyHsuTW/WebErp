@@ -39,10 +39,12 @@ public class Saf21Handler : IHttpHandler, IRequiresSessionState
     /// Request.Form["user"]
     /// </summary>
     public string User { get; set; }
+    public string Edit { get; set; }
 
     public void ProcessRequest (HttpContext context) {
         this.Action = context.Request.Form["act"];
         this.Data = context.Request.Form["data"];
+        this.Edit = context.Request.Form["edit"];
         this.Saf21ields = context.Request.Form["saf21fields"];
         this.Saf21aFields = context.Request.Form["saf21afields"];
         this.PrintBcode = context.Request.Form["printBcode"];
@@ -56,8 +58,9 @@ public class Saf21Handler : IHttpHandler, IRequiresSessionState
                     try
                     {
                         Saf21 saf21Item = JsonConvert.DeserializeObject<Saf21>(this.Data);
-                        Saf21.AddItem(saf21Item);
-                        Saf21a.AddItem(saf21Item, saf21Item.Saf21aList);
+                        bool isEdit = this.Edit == "true" ? true : false;
+                        Saf21.AddItem(saf21Item, isEdit);
+                        Saf21a.AddItem(saf21Item, saf21Item.Saf21aList, isEdit);
                         saf21Item.Saf21aList = null;
                         context.Response.ContentType = "text/plain";
                         context.Response.Write(JsonConvert.SerializeObject(saf21Item));
@@ -86,17 +89,30 @@ public class Saf21Handler : IHttpHandler, IRequiresSessionState
                     return;
                 }
                 break;
-            //case "del":
-            //    {
-            //        bool success = false;
-            //        Inf29a.Delete(this.Data);
-            //        Inf29.Delete(this.Data);
-
-            //        context.Response.ContentType = "text/plain";
-            //        context.Response.Write("ok");
-            //        return;
-            //    }
-            //    break;
+            case "del":
+                {
+                    bool success = false;
+                    Saf21a.Delete(this.Data, "saf21a01_docno");
+                    Saf21.Delete(this.Data);
+                    context.Response.ContentType = "text/plain";
+                    context.Response.Write("ok");
+                    return;
+                }
+                break;
+            case "delall":
+                {
+                    bool success = false;
+                    string[] docnoArray = JsonConvert.DeserializeObject<string []>(this.Data);
+                    foreach(string docno in docnoArray)
+                    {
+                        Saf21a.Delete(docno, "saf21a01_docno");
+                        Saf21.Delete(docno);
+                    }
+                    context.Response.ContentType = "text/plain";
+                    context.Response.Write("ok");
+                    return;
+                }
+                break;
             //case "export":
             //    {
             //        var inf29FieldNameList = JsonConvert.DeserializeObject<Cnf05[]>(this.Inf29Fields);

@@ -57,6 +57,8 @@
         window.dsap02101Edit = new Vue({
             el: "#Dinp02301Edit",
             data: {
+                Edit: false,
+                newSaf21aList:[],
                 Display: false,
                 IsAppBodyDisplay: true,
                 IsDpCodeDisplay: false,
@@ -86,7 +88,6 @@
                     saf2123_delivery_place_no: null,
                     cmf0110_oaddress: null,
                     cmf01a05_fname: null,
-
                     remark: null,
                     adduser: null,
                     adddate: null,
@@ -97,6 +98,7 @@
 
                 },
                 Saf21aItem: {
+                    id:null,
                     saf21a02_pcode: null,
                     saf21a03_relative_no: null,
                     saf21a41_product_name: null,
@@ -110,17 +112,22 @@
                     saf2129_exchange_rate: null,
                     saf21a16_total_qty: null,
                     saf21a49_odds_amt: null,
-                    saf21a62_chg_amt: null,
+                    saf21a62_chg_sub: null,
                     saf2140_docno_seq: null,
                     saf21a56_box_qty: null,
                     saf21a51_gift_qty: null,
                     inf0164_dividend: null,
                     saf21a57_qty: null,
-                    inf0127_tax_flag: null,
                     saf21a02_seq: null,
                     Remark: null,
                     saf21a38_discount: null,
                     saf21a63_chg_tax: null,
+                    saf20a64_chg_sum: null,
+                    adduer: null,
+                    adddate: null,
+                    modifiuser: null,
+                    modifidate: null,
+                    beenMod: false
                 },
                 Inf29Item: {
                     id: null,//儲存成功後從伺服器返回
@@ -196,7 +203,7 @@
                         var vueObj = this;
                         Vue.nextTick(function () {
                             // DOM updated
-                            vueObj.$refs.ProDate.setValue(vueObj.Inf29Item.inf2904_pro_date);
+                            vueObj.$refs.ProDate.setValue(vueObj.Saf21Item.saf2110_del_date);
 
                         });
                     }
@@ -208,12 +215,20 @@
             computed: {
                 Saf21Item_Saf2101DocNo: function () {
                     var seq = "";
-                    if (this.Saf21Item.saf2140_docno_seq == null || this.Saf21Item.saf2140_docno_seq == "") {
-
-                    } else {
-                        seq = (this.Saf21Item.saf2140_docno_seq + "").padStart("4", "0");
+                    if (this.Saf21Item.saf2101_docno) {
+                        if (this.Saf21Item.saf2101_docno != "" || this.Saf21Item.saf2101_docno != null) {
+                            return this.Saf21Item.saf2101_docno
+                        }
                     }
-                    return this.Saf21Item.saf2101_docno_type + this.Saf21Item.saf2101_docno_date + seq;
+                     else {
+                        if (this.Saf21Item.saf2101_docno_orderno == null || this.Saf21Item.saf2101_docno_orderno == "") {
+
+                        } else {
+                            seq = (this.Saf21Item.saf2101_docno_orderno + "")
+                        }
+                        return this.Saf21Item.BCodeInfo.cnf0701_bcode + this.Saf21Item.saf2101_docno_type + this.Saf21Item.saf2101_docno_date + seq;
+                    }
+                    
                 },
                 Inf29Item_Inf2902DocNo: function () {
                     var seq = "";
@@ -289,6 +304,7 @@
                 },
                 OnAddSaf21aItem: function (defaultSeq) {//輸入明細
                     var vueObj = this;
+
                     if (this.Saf21aItem.saf21a02_pcode == null || this.Saf21aItem.saf21a02_pcode == "") {
                         return;
                     }
@@ -298,26 +314,33 @@
                             return item.saf21a02_seq == vueObj.Saf21aItem.saf21a02_seq;
                         }).shift();
                         this.SelectedSaf21aItem = {
+                            id: this.Saf21aItem.id,
                             saf21a02_seq: this.Saf21aItem.saf21a02_seq,
                             saf21a02_pcode: this.Saf21aItem.saf21a02_pcode,
                             saf21a37_utax_price: this.Saf21aItem.saf21a37_utax_price, //未稅單價
                             saf21a11_unit_price: this.Saf21aItem.saf21a11_unit_price,
                             saf21a16_total_qty: this.Saf21aItem_Total_Qty,
-                            saf21a51_gift_qty: this.Saf21aItem.saf21a51_gift_qty, //贈品數量
+                            saf21a51_gift_qty: 0, //贈品數量
                             saf21a03_relative_no: this.Saf21aItem.saf21a03_relative_no, //貨號
                             inf0164_dividend: this.Saf21aItem.inf0164_dividend, //換算值
                             saf21a57_qty: this.Saf21aItem.saf21a57_qty, //小單位數量
                             saf21a49_odds_amt: this.Saf21aItem.saf21a49_odds_amt, //差額
                             saf21a50_one_amt: this.Saf21aItem_Saf21a50OneAmt, //金額小計
                             Remark: this.Saf21aItem.Remark,
+                            saf21a12_tax_type: this.Saf21aItem.saf21a12_tax_type,
                             saf21a13_tax: this.Saf21aItem.saf21a13_tax, //營業稅率
                             saf21a43_runit: this.Saf21aItem.saf21a43_runit, //單位
                             saf21a56_box_qty: this.Saf21aItem.saf21a56_box_qty, //箱入量
                             saf21a41_product_name: this.Saf21aItem.saf21a41_product_name, //商品名稱
                             saf21a38_discount: 100,
                             saf21a39_total_price: this.Saf21aItem.saf21a37_utax_price * this.Saf21aItem_Total_Qty,
-                            saf21a55_cost: this.Saf21aItem.saf21a55_cost,
-                            saf21a63_chg_tax: this.Saf21aItem.saf21a63_chg_tax, //(this.Saf21aItem.saf21a50_one_amt / (1 + this.Saf21aItem.saf21a13_tax)) * this.Saf21aItem.saf21a13_tax * this.Saf21Item.saf2129_exchange_rate,
+                            saf21a55_cost: parseInt(this.Saf21aItem.saf21a55_cost),
+                            saf21a61_chng_price: this.Saf21aItem.saf21a11_unit_price * this.Saf21Item.saf2129_exchange_rate,
+                            saf21a64_chg_sum: this.Saf21aItem_Saf21a50OneAmt * this.Saf21Item.saf2129_exchange_rate,
+                            saf21a63_chg_tax: this.Saf21aItem.saf21a12_tax_type == 1 ? (((this.Saf21aItem_Saf21a50OneAmt / (1 + this.Saf21aItem.saf21a13_tax)) * this.Saf21aItem.saf21a13_tax)) * this.Saf21Item.saf2129_exchange_rate : 0,
+                            moduser: loginUserName
+                            moddate: new Date().dateFormat(this.UiDateFormat),
+                            beenMod: true,
 
                             inf29a09_retail_one: this.Inf29aItem.inf29a09_retail_one,//換算後幣值售價
                             inf29a09_oretail_one: this.Inf29aItem.inf29a09_oretail_one, //售價
@@ -335,44 +358,59 @@
                             inf29a36_odds_amt: this.Inf29aItem.inf29a36_odds_amt, //尾差
                             inf29a41_pcat: this.Inf29aItem.inf29a41_pcat, //商品分類編號
                             Confirmed: this.Saf21aItem.Confirmed, //確認
-                            adduser: this.Saf21aItem.adduser,
-                            adddate: this.Saf21aItem.adddate
+                            //adduser: this.Saf21aItem.adduser,
+                            //adddate: new Date().dateFormat(this.UiDateFormat),
+
+
                         };
+                        this.SelectedSaf21aItem.saf21a62_chg_sub = this.SelectedSaf21aItem.saf21a64_chg_sum - this.SelectedSaf21aItem.saf21a63_chg_tax
                         var saf21aIndex = this.Saf21aList.indexOf(saf21a);
                         this.Saf21aList.splice(saf21aIndex, 1, this.SelectedSaf21aItem);
                         // deselect
                         this.OnRowClick(this.SelectedSaf21aItem);
                         return;
                     }
-                    var saf21a02_seq = defaultSeq || this.Saf21aList.length;
+                    var saf21a02_seq = defaultSeq || this.Saf21aList.length + 1;
                     for (var i in this.Saf21aList) {
                         if (this.Saf21aList[i].saf21a02_seq == saf21a02_seq) {
-                            return this.OnAddInf29aItem(saf21a02_seq + 1);
+                            return this.OnAddSaf21aItem(saf21a02_seq + 1);
                         }
                     }
-                    this.Saf21aList.push({
+                    var tmpSaf21a = {
                         saf21a02_seq: saf21a02_seq,
                         saf21a02_pcode: this.Saf21aItem.saf21a02_pcode,
                         saf21a37_utax_price: this.Saf21aItem.saf21a37_utax_price, //未稅單價
                         saf21a11_unit_price: this.Saf21aItem.saf21a11_unit_price,
                         saf21a16_total_qty: this.Saf21aItem_Total_Qty,
-                        saf21a51_gift_qty: this.Saf21aItem.saf21a51_gift_qty, //贈品數量
+                        saf21a51_gift_qty: 0, //贈品數量
                         saf21a03_relative_no: this.Saf21aItem.saf21a03_relative_no, //貨號
                         inf0164_dividend: this.Saf21aItem.inf0164_dividend, //換算值
                         saf21a57_qty: this.Saf21aItem.saf21a57_qty, //小單位數量
                         saf21a49_odds_amt: this.Saf21aItem.saf21a49_odds_amt, //差額
                         saf21a50_one_amt: this.Saf21aItem_Saf21a50OneAmt, //金額小計
                         Remark: this.Saf21aItem.Remark,
-                        saf21a13_tax: this.Saf21aItem_Saf21a63ChgTax, //營業稅
+                        saf21a12_tax_type: this.Saf21aItem.saf21a12_tax_type,
+                        saf21a13_tax: this.Saf21aItem.saf21a13_tax, //營業稅率
                         saf21a43_runit: this.Saf21aItem.saf21a43_runit, //單位
                         saf21a56_box_qty: this.Saf21aItem.saf21a56_box_qty, //箱入量
                         saf21a41_product_name: this.Saf21aItem.saf21a41_product_name, //商品名稱
                         saf21a38_discount: 100,
-                        saf21a55_cost: this.Saf21aItem.saf21a55_cost,
-                        saf21a63_chg_tax: (this.Saf21aItem.saf21a50_one_amt / (1 + this.Saf21aItem.saf21a13_tax)) * this.Saf21aItem.saf21a13_tax * this.Saf21Item.saf2129_exchange_rate,
-                        adduser: this.Saf21aItem.adduser,
-                        adddate: this.Saf21aItem.adddate
-                    });
+                        saf21a39_total_price: this.Saf21aItem.saf21a37_utax_price * this.Saf21aItem_Total_Qty,
+                        saf21a55_cost: parseInt(this.Saf21aItem.saf21a55_cost),
+                        saf21a61_chng_price: this.Saf21aItem.saf21a11_unit_price * this.Saf21Item.saf2129_exchange_rate,
+                        saf21a64_chg_sum: this.Saf21aItem_Saf21a50OneAmt * this.Saf21Item.saf2129_exchange_rate,
+                        saf21a63_chg_tax: this.Saf21aItem.saf21a12_tax_type == 1 ? (((this.Saf21aItem_Saf21a50OneAmt / (1 + this.Saf21aItem.saf21a13_tax)) * this.Saf21aItem.saf21a13_tax)) * this.Saf21Item.saf2129_exchange_rate : 0,
+                        adduser: loginUserName
+                        adddate: new Date().dateFormat(this.UiDateFormat)
+                    };
+                    tmpSaf21a.saf21a62_chg_sub =tmpSaf21a.saf21a64_chg_sum -tmpSaf21a.saf21a63_chg_tax
+                    this.Saf21aList.push(tmpSaf21a);
+                    this.ResetSaf21a();
+                    
+                },
+                OnDelete: function (saf21Item) {
+                    window.dsap02101Search.OnDelete(saf21Item);
+                    this.OnExit();
                 },
                 OnAddInf29aItem: function (defaultSeq) {//輸入明細
                     var vueObj = this;
@@ -458,6 +496,7 @@
                     if (confirm("是否確認刪除明細?")) {
                         var index = this.Saf21aList.indexOf(this.SelectedSaf21aItem);
                         this.Saf21aList.splice(index, 1);
+                        this.ResetSaf21a();
                     }
                 },
                 OnDeleteInf29aItem: function () {//刪除明細
@@ -478,6 +517,7 @@
                         //    return item.cnf1003_char01==inf29aItem.inf29a31_currency;
                         //}).shift();
                         this.Saf21aItem = {
+                            id: saf21aItem.id,
                             saf21a02_seq: saf21aItem.saf21a02_seq,
                             saf21a02_pcode: saf21aItem.saf21a02_pcode,
                             saf21a37_utax_price: saf21aItem.saf21a37_utax_price, //未稅單價
@@ -490,6 +530,7 @@
                             saf21a49_odds_amt: saf21aItem.saf21a49_odds_amt, //差額
                             saf21a50_one_amt: saf21aItem.saf21a50_one_amt, //金額小計
                             Remark: saf21aItem.Remark,
+                            saf21a12_tax_type: saf21aItem.saf21a12_tax_type,
                             saf21a13_tax: saf21aItem.saf21a13_tax, //營業稅率
                             saf21a43_runit: saf21aItem.saf21a43_runit, //單位
                             saf21a56_box_qty: saf21aItem.saf21a56_box_qty, //箱入量
@@ -541,7 +582,7 @@
                 },
                 OnSave: function () {
 
-                    if (this.Saff21Copy == JSON.stringify(this.Saf21Item) + JSON.stringify(this.Saf21aList)) {
+                    if (this.Saf21Copy == JSON.stringify(this.Saf21Item) + JSON.stringify(this.Saf21aList)) {
                         alert("您未修改任何欄位，所以不與存檔");
                         return;
                     }
@@ -562,6 +603,10 @@
                     if (this.Saf21Item.saf2106_order_date != null && this.Saf21Item.saf2106_order_date != "") {
                         saf2106_order_date = Date.parseDate(this.Saf21Item.saf2106_order_date, 'Ymd').dateFormat('Y-m-d');
                     }
+                    var saf2110_del_date = null;
+                    if (this.Saf21Item.saf2110_del_date != null && this.Saf21Item.saf2110_del_date != "") {
+                        //saf2110_del_date = Date.parseDate(this.Saf21Item.saf2110_del_date, 'Y/m/d').dateFormat('Y-m-d');
+                    }
                     if (this.Saf21Item.saf2134_p_po_time == null) {
                         var now = new Date();
                         this.Saf21Item.saf2134_p_po_time = now.dateFormat(this.UiDateFormat);
@@ -574,22 +619,26 @@
                         }
                     }*/
                     var saf21Item = {
+                        saf2101_docno: this.Saf21Item.saf2101_docno,
                         saf2101_bcode: this.Saf21Item.BCodeInfo.cnf0701_bcode,
                         saf2101_docno_type: this.Saf21Item.saf2101_docno_type,
                         saf2101_docno_date: saf2101_docno_date,
                         saf2106_order_date: saf2106_order_date,
                         saf2108_customer_code: this.Saf21Item.saf2108_customer_code,
+                        saf2110_del_date: this.Saf21Item.saf2110_del_date.substring(0,10),
                         saf2114_payment : this.Saf21Item.saf2114_payment,
                         saf2123_delivery_place_no: this.Saf21Item.saf2123_delivery_place_no,
-                        saf2128_currency : 'NTD',//this.Saf21Item.saf2128_currency,
-                        saf2129_exchange_rate: 1,//this.Saf21Item.saf2129_exchange_rate,
+                        saf2128_currency: this.Saf21Item.SelectedCurrencyInfo == null ? "" : this.Saf21Item.SelectedCurrencyInfo.cnf1003_char01,
+                        saf2129_exchange_rate: this.Saf21Item.saf2129_exchange_rate,
                         saf2134_p_po_time: this.Saf21Item.saf2134_p_po_time,
                         saf2139_total_price: parseInt(this.Saf21aTotalPrice),
-                        saf2147_recid: this.Saf21Item.saf2147_recid === "" ? 0 : this.Saf21Item.saf2147_recid,
+                        saf2147_recid: this.Saf21Item.saf2147_recid,
                         saf2156_take_no : this.Saf21Item.saf2156_take_no,
                         remark : this.Saf21Item.Remark,
-                        adduser: 'test', //this.Saf21Item.adduser,
-                        adddate : this.Saf21Item.adddate,
+                        adduser: loginUserName,
+                        adddate: new Date().dateFormat(this.UiDateFormat),
+                        moduser: loginUserName,
+                        moddate: new Date().dateFormat(this.UiDateFormat)
                         /*inf2901_bcode: this.Inf29Item.BCodeInfo.cnf0701_bcode, //公司代號相關資料
                         inf2902_docno_type: this.Inf29Item.inf2902_docno_type, //單據分類編號. 組成異動單號
                         inf2902_docno_date: inf2902_docno_date, //異動單號_日期. 組成異動單號
@@ -621,6 +670,7 @@
                             cache: false,
                             data: {
                                 act: "save",
+                                edit:this.Edit,
                                 data: JSON.stringify(saf21Item)
                             },
                             dataType: 'text',
@@ -731,7 +781,7 @@
                                 success: function (result) {
                                     var inf01 = JSON.parse(result)
                                     vueObj.Saf21aItem.inf0164_dividend = inf01.inf0164_dividend;
-                                    vueObj.Saf21aItem.inf0127_tax_flag = inf01.inf0127_tax_flag;
+                                    vueObj.Saf21aItem.saf21a12_tax_type = inf01.inf0127_tax_flag;
                                 },
                                 error: function (jqXhr, textStatus, errorThrown) {
                                     LoadingHelper.hideLoading();
@@ -742,16 +792,26 @@
                                     alert("查詢換算值失敗");
                                 }
                             });
+                            var now = new Date();
+
                             vueObj.Saf21aItem.saf21a02_pcode = productInfo.pcode;
                             vueObj.Saf21aItem.saf21a03_relative_no = productInfo.pclass;
                             vueObj.Saf21aItem.saf21a41_product_name = productInfo.psname;
                             vueObj.Saf21aItem.saf21a37_utax_price = parseFloat(productInfo.retail).toFixed(2);
                             vueObj.Saf21aItem.saf21a43_runit = productInfo.runit;
                             vueObj.Saf21aItem.saf21a55_cost = parseFloat(productInfo.cost).toFixed(2);
-                            vueObj.Saf21aItem.saf21a13_tax = productInfo.tax;
-                            vueObj.Saf21aItem.saf21a11_unit_price = parseFloat(parseFloat(productInfo.retail) * (parseFloat(productInfo.tax) / 100 + 1));
-                            vueObj.Saf21aItem.saf21a56_box_qty = productInfo.pqty_o;
+                            vueObj.Saf21aItem.saf21a13_tax = productInfo.tax / 100;
+                            //vueObj.saf21aItem.saf21a16_total_qty = Saf21aItem_Total_Qty;
+                            //vueObj.saf21aItem.saf21a39_total_price = Saf21aTotalPrice;
+                            vueObj.Saf21aItem.saf21a11_unit_price = parseFloat(parseFloat(productInfo.retail));
+                                //(parseFloat(productInfo.tax) / 100 + 1));
+                            //vueObj.Saf21aItem.saf21a56_box_qty = productInfo.pqty_o === '' ? 0 : productInfo.pqty_o;
                             vueObj.Saf21aItem.saf21a12_tax_type = 1;
+                            vueObj.Saf21aItem.saf21a61_chng_price = parseFloat(productInfo.retail).toFixed(2) * vueObj.Saf21Item.saf2129_exchange_rate;
+                            vueObj.Saf21aItem.saf21a64_chg_sum = vueObj.Saf21aItem_Saf21a50OneAmt * vueObj.Saf21Item.saf2129_exchange_rate;
+                            vueObj.Saf21aItem.saf21a63_chg_tax = (vueObj.Saf21aItem_Saf21a50OneAmt / (1 + vueObj.Saf21aItem.saf21a13_tax) * vueObj.Saf21aItem.saf21a13_tax) * vueObj.Saf21Item.saf2129_exchange_rate;
+                            vueObj.Saf21aItem.adduser = loginUserName;
+                            //vueObj.adddate = now.dateFormat(this.UiDateFormat);
 
                             vueObj.Inf29aItem.inf29a05_pcode = productInfo.pcode;
                             vueObj.Inf29aItem.inf29a05_shoes_code = productInfo.pclass;
@@ -786,7 +846,8 @@
                                 return;
                             }
                             this.Display = false;
-                            window.dinp02301Search.Display = true;
+                            window.dsap02101Search.Display = true;
+                            this.Edit = false;
                         },
                         AutoFillFilter: function (field, value, type) {
                             this.Filter[field] = value;
@@ -867,6 +928,8 @@
                                         vueObj.Saf21Item.cmf0110_oaddress = customInfo[0].cmf0110_oaddress;
                                         vueObj.Saf21Item.saf2147_recid = customInfo[0].cmf01a03_recid;
                                         vueObj.Saf21Item.cmf01a05_fname = customInfo[0].cmf01a05_fname;
+                                        vueObj.Saf21Item.cmf01a17_telo1 = customInfo[0].cmf01a17_telo1;
+                                        vueObj.Saf21Item.cmf01a23_cellphone = customInfo[0].cmf01a23_cellphone;
 
                                     }
                                 },
@@ -1072,19 +1135,55 @@
                                 }
                             });
                         },
-                        SetCopy:function(inf29) {
+                        SetCopy: function (saf21) {
+                            console.log(saf21);
                             var vueObj = this;
                             var now = new Date();
                             var asyncTasks = [];
                             LoadingHelper.showLoading();
-                            if (inf29.inf2906_ref_no_date == null) {
-                                inf29.inf2906_ref_no_date = "";
+                            if (saf21.saf2106_order_date == null) {
+                                saf21.saf2106_order_date = "";
                             }
                             var currencyInfo = this.CurrencyList.filter(function (item, index, array) {
-                                return item.cnf1003_char01 == inf29.inf2928_currency;
+                                return item.cnf1003_char01 == saf21.saf2128_currency;
                             }).shift();
-                            this.Inf29Item = {
-                                BCodeInfo: null, //公司代號相關資料
+                            console.log(saf21.saf2110_del_date);
+                            this.Saf21Item = {
+                                id: saf21.id,
+                                BCodeInfo: null,
+                                saf2101_bcode: null,
+                                saf2101_docno: saf21.saf2101_docno,
+                                status: '',
+                                saf2101_docno_type: "OA",
+                                saf2101_docno_date: saf21.saf2101_docno_date.substring(0, 10).replace(/[&\|\\\*^%$#@\-]/g, ""),
+                                saf2101_docno_orderno: saf21.saf2101_docno_orderno,
+                                saf2106_order_date: saf21.saf2106_order_date.substring(0, 10).replace(/[&\|\\\*^%$#@\-]/g,""),
+                                saf2156_take_no: saf21.saf2156_take_no,
+                                saf2108_customer_code: saf21.saf2108_customer_code,
+                                saf2128_currency: null,
+                                saf2150_one_amt: saf21.saf2150_one_amt,
+                                saf2134_p_po_time: saf21.saf2134_p_po_time,
+                                saf2147_recid: saf21.saf2147_recid,
+                                cmf01a23_cellphone: saf21.cmf01a23_cellphone,
+                                cmf01a17_telo1: saf21.cmf01a17_telo1,
+                                saf2114_payment: saf21.saf2114_payment,
+                                cmf0103_bname: null,
+                                cnf1003_char01: null,
+                                saf2129_exchange_rate: saf21.saf2129_exchange_rate,
+                                saf2110_del_date: saf21.saf2110_del_date.substring(0, 10).replace(/[&\|\\\*^%$#@\-]/g, "/"),
+                                saf2123_delivery_place_no: saf21.saf2123_delivery_place_no,
+                                cmf0110_oaddress: null,
+                                cmf01a05_fname: null,
+                                Remark: saf21.remark,
+                                adduser: saf21.adduser,
+                                adddate: saf21.adddate,
+                                moduser: loginUserName,
+                                moddate: null,
+                                verifyuser: null,
+                                verifydate: null,
+
+
+                                /*BCodeInfo: null, //公司代號相關資料
                                 inf2902_docno_type: "XC", //單據分類編號. 組成異動單號
                                 inf2902_docno_date: now.dateFormat("Ymd"), //異動單號_日期. 組成異動單號
                                 inf2904_pro_date: now.dateFormat(this.UiDateFormat), //異動日期
@@ -1106,31 +1205,68 @@
                                 SelectedCurrencyInfo: currencyInfo, //幣別
                                 remark: inf29.remark,
                                 adddate: now.dateFormat(this.UiDateFormat),
-                                adduser: loginUserName,
+                                adduser: loginUserName,*/
                             };
-                            this.Inf29Item.BCodeInfo = this.BcodeList.filter(function (item, index, array) {
-                                return item.cnf0701_bcode == inf29.inf2901_bcode;
+                            this.Saf21Item.BCodeInfo = this.BcodeList.filter(function (item, index, array) {
+                                return item.cnf0701_bcode == saf21.saf2101_bcode;
                             }).shift();
-                            this.Inf29Item.SelectedWherehouse = this.WherehouseList.filter(function (item, index, array) {
-                                return item.cnf1002_fileorder == inf29.inf2906_wherehouse;
+                            this.Saf21Item.SelectedCurrencyInfo = this.CurrencyList.filter(function (item, index, array) {
+                                return item.cnf1003_char01 == saf21.saf2128_currency;
                             }).shift();
-                            this.Inf29Item.SelectedInReason = this.InReasonList.filter(function (item, index, array) {
-                                return item.cnf1002_fileorder == inf29.inf2910_in_reason;
-                            }).shift();
-                            if (inf29.inf2952_project_no != null && inf29.inf2952_project_no != '') {
-                                this.GetProjectFullname(inf29.inf2952_project_no, this.Inf29Item.BCodeInfo);
-                            }
-                            if (inf29.inf2916_apr_empid != null && inf29.inf2916_apr_empid != '') {
-                                this.GetEmpCname(inf29.inf2916_apr_empid);
-                            }
 
-                            asyncTasks.push(this.GetInf29aList(inf29.inf2901_docno).done(function (inf29aListJson) {
+                            //this.Inf29Item.BCodeInfo = this.BcodeList.filter(function (item, index, array) {
+                            //    return item.cnf0701_bcode == inf29.inf2901_bcode;
+                            //}).shift();
+                            //this.Inf29Item.SelectedWherehouse = this.WherehouseList.filter(function (item, index, array) {
+                            //    return item.cnf1002_fileorder == inf29.inf2906_wherehouse;
+                            //}).shift();
+                            //this.Inf29Item.SelectedInReason = this.InReasonList.filter(function (item, index, array) {
+                            //    return item.cnf1002_fileorder == inf29.inf2910_in_reason;
+                            //}).shift();
+                            //if (inf29.inf2952_project_no != null && inf29.inf2952_project_no != '') {
+                            //    this.GetProjectFullname(inf29.inf2952_project_no, this.Inf29Item.BCodeInfo);
+                            //}
+                            //if (inf29.inf2916_apr_empid != null && inf29.inf2916_apr_empid != '') {
+                            //    this.GetEmpCname(inf29.inf2916_apr_empid);
+                            //}
+
+                            asyncTasks.push(window.dsap02101Search.GetSaf21aList(this.Saf21Item.saf2101_docno).done(function () {
                                 var now = new Date();
-                                var inf29aList = JSON.parse(inf29aListJson);
-                                for (var i in inf29aList) {
-                                    var inf29a = inf29aList[i];
-                                    vueObj.Inf29aList.push({
-                                        inf29a02_seq: i,
+                                var saf21aList = window.dsap02101Search.Saf21aList; // JSON.parse(saf21aListJson);
+                                for (var i in saf21aList) {
+                                    var saf21a = saf21aList[i];
+                                    vueObj.Saf21aList.push({
+                                        id: saf21a.id,
+                                        saf21a57_qty: saf21a.saf21a57_qty,
+                                        saf21a02_pcode: saf21a.saf21a02_pcode,
+                                        saf21a03_relative_no: saf21a.saf21a03_relative_no,
+                                        saf21a41_product_name: saf21a.saf21a41_product_name,
+                                        saf21a37_utax_price: saf21a.saf21a37_utax_price,
+                                        saf21a43_runit: saf21a.saf21a43_runit,
+                                        saf21a55_cost: saf21a.saf21a55_cost,
+                                        saf21a12_tax_type: saf21a.saf21a12_tax_type,
+                                        saf21a13_tax: saf21a.saf21a13_tax,
+                                        saf21a11_unit_price: saf21a.saf21a11_unit_price,
+                                        saf21a61_chng_price: saf21a.saf21a61_chng_price,
+                                        saf2129_exchange_rate: saf21a.saf2129_exchange_rate,
+                                        saf21a16_total_qty: saf21a.saf21a16_total_qty,
+                                        saf21a49_odds_amt: saf21a.saf21a49_odds_amt,
+                                        saf21a50_one_amt: saf21a.saf21a50_one_amt,
+                                        saf20a62_chg_sub: saf21a.saf20a62_chg_sub,
+                                        saf2140_docno_seq: saf21a.saf2140_docno_seq,
+                                        saf21a56_box_qty: saf21a.saf21a56_box_qty,
+                                        saf21a51_gift_qty: saf21a.saf21a51_gift_qty,
+                                        inf0164_dividend: saf21a.inf0164_dividend,
+                                        saf21a02_seq: saf21a.saf21a02_seq,
+                                        Remark: saf21a.remark,
+                                        saf21a38_discount: saf21a.saf21a38_discount,
+                                        saf21a63_chg_tax: saf21a.saf21a63_chg_tax,
+                                        saf20a64_chg_sum: saf21a.saf20a64_chg_sum,
+
+
+
+
+                                        /*saf21a02_seq: i,
                                         inf29a04_sizeno: inf29a.inf29a04_sizeno,//尺碼
                                         inf29a05_pcode: inf29a.inf29a05_pcode,
                                         inf29a05_shoes_code: inf29a.inf29a05_shoes_code, //貨號
@@ -1154,14 +1290,18 @@
                                         inf29a41_pcat: inf29a.inf29a41_pcat, //商品分類編號
                                         Confirmed: "N", //確認
                                         adduser: loginUserName,
-                                        adddate: now.dateFormat(vueObj.UiDateFormat)
+                                        adddate: now.dateFormat(vueObj.UiDateFormat)*/
                                     });
                                 }
                             }));
+                            this.GetEmpCname(this.Saf21Item.saf2147_recid);
+                            this.OnCustomCodeChange();
+                            this.OnPaymentChange();
+                            this.Edit = "true";
                             // 所有資料取完後用JSON備份, 用來檢查是否後續有被使用者修改
                             $.when.apply($, asyncTasks).then(function () {
                                 LoadingHelper.hideLoading();
-                                vueObj.Inf29Copy = JSON.stringify(vueObj.Inf29Item) + JSON.stringify(vueObj.Inf29aList);
+                                vueObj.Saf21Copy = JSON.stringify(vueObj.Saf21Item) + JSON.stringify(vueObj.Saf21aList);
                             });
                         },
                         SetBCodeList: function (bcodeList) {
@@ -1185,6 +1325,7 @@
                                 saf2156_take_no: null,
                                 saf2108_customer_code: null,
                                 saf2128_currency: null,
+                                remark:"",
                                 SelectedCurrencyInfo: defaultCurrency,
                                 saf2150_one_amt: null,
                                 saf2129_exchange_rate: 1,
@@ -1217,6 +1358,9 @@
                                 moddate: null,
                                 moduser: null,
                             };
+                            if (this.Saf21aList && this.Saf21aList.length > 0) {
+                                window.dsap02101Edit.Saf21aList = [];
+                            }
                             if (defaultCurrency) {
                                 asyncTasks.push(this.GetExchangeInfo(defaultCurrency));
                             }
@@ -1246,12 +1390,14 @@
                                 saf21a61_chng_price: 0,
                                 saf21a16_total_qty: 0,
                                 saf21a49_odds_amt: 0,
+                                saf2110_del_date: null,
                                 saf21a62_chg_amt: 0,
                                 saf21a50_one_amt: 0,
                                 saf21a51_gift_qty: 0,
                                 inf0164_dividend: 0,
                                 saf21a57_qty: 0,
                                 saf21a13_tax: 0,
+                                remark: ""
                             };
                             //                    if(defaultCurrency){
                             //                        this.GetExchangeInfo(defaultCurrency);

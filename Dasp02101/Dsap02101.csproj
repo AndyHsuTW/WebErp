@@ -41,7 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cmf01.cs" />
     <Compile Include="Cnf07.cs" />
+    <Compile Include="cnf10.cs" />
+    <Compile Include="Inf01.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Saf21.cs" />
     <Compile Include="Saf21a.cs" />

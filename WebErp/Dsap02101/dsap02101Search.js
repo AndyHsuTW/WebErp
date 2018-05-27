@@ -50,6 +50,7 @@
         window.dsap02101Search = new Vue({
             el: "#Dsap02101Search",
             data: {
+                Delete: false,
                 Display: true,
                 Filter: {
                     OrderDateStart: null,
@@ -180,15 +181,16 @@
 
                 },
                 OnMainRowClick: function (saf21Item) {
-                    if (this.SelectedSaf21Item == saf21Item) {
-                        this.SelectedSaf21Item = null;
-                        this.SelectedSaf21aItem = null;
-                        this.Saf21aList = [];
-                    } else {
-                        this.SelectedSaf21Item = saf21Item;
-                        this.GetSaf21aList(saf21Item.saf2101_docno);
+                    if (!this.Delete) {
+                        if (this.SelectedSaf21Item == saf21Item) {
+                            this.SelectedSaf21Item = null;
+                            this.SelectedSaf21aItem = null;
+                            this.Saf21aList = [];
+                        } else {
+                            this.SelectedSaf21Item = saf21Item;
+                            this.GetSaf21aList(saf21Item.saf2101_docno);
+                        }
                     }
-
                 },
                 OnSubRowClick: function (saf21aItem) {
                     if (this.SelectedSaf21aItem == saf21aItem) {
@@ -203,11 +205,14 @@
                     window.dsap02101Edit.Display = true;
                     window.dsap02101Edit.Reset();
                 },
-                OnDelete: function () {
-                    if (this.SelectedInf29Item == null) {
+                OnDelete: function (saf21Item) {
+                    if (this.SelectedSaf21Item != saf21Item) {
+                        this.SelectedSaf21Item = saf21Item;
+                    }
+                    if (this.SelectedSaf21Item == null) {
                         return;
                     }
-                    if (this.SelectedInf29Item.adduser.toLowerCase() != loginUserName.toLowerCase()) {
+                    if (this.SelectedSaf21Item.adduser.toLowerCase().trim() != 'test'/* loginUserName.toLowerCase()*/) {
                         alert("只可以刪除自己的資料");
                         return;
                     }
@@ -218,11 +223,11 @@
                     var vueObj = this;
                     return $.ajax({
                         type: 'POST',
-                        url: rootUrl + "Dinp/Ajax/Inf29Handler.ashx",
+                        url: rootUrl + "Dsap02101/Ajax/Saf21Handler.ashx",
                         cache: false,
                         data: {
                             act: "del",
-                            data: this.SelectedInf29Item.inf2901_docno
+                            data: this.SelectedSaf21Item.saf2101_docno
                         },
                         dataType: 'text',
                         success: function (result) {
@@ -359,6 +364,52 @@
                     });
 
                 },
+                OnEdit: function (saf21Item) {
+                    this.Edit = true;
+                    console.log(saf21Item.saf2110_del_date);
+                    if (this.SelectedSaf21Item != saf21Item) {
+                        this.SelectedSaf21Item = saf21Item;
+                        console.log(saf21Item);
+                    }
+                    if (this.SelectedSaf21Item == null) {
+                        return;
+                    }
+                    var vueObj = this;
+                    var resetTask = window.dsap02101Edit.Reset();
+                    window.dsap02101Edit.Display = true;
+                    window.dsap02101Search.Display = false;
+                    // send selected inf29 to dinpEdit object
+                    resetTask.done(function () {
+                        window.dsap02101Edit.SetCopy(saf21Item);
+                    });
+                    // get inf29alist from server, remove id...
+
+                    var saf29Item = {
+                        id: null,//儲存成功後從伺服器返回
+                        BCodeInfo: null, //公司代號相關資料
+                        inf2902_docno_type: "XC", //單據分類編號. 組成異動單號
+                        inf2902_docno_date: null, //異動單號_日期. 組成異動單號
+                        inf2904_pro_date: null, //異動日期
+                        inf2902_docno_seq: null,//異動單號_流水號, 儲存成功後從伺服器返回
+                        SelectedWherehouse: null, //選中的倉庫代號
+                        inf2952_project_no: null, //專案代號
+                        ProjectFullname: null, //專案全名
+                        inf2916_apr_empid: null, //員工ID
+                        EmpCname: null, //員工Name
+                        inf2903_customer_code: null, //客戶代碼
+                        Inf2903CustomerCodeName: null, //cmf0104_fname客戶名稱
+                        inf2906_ref_no_type: null, //單據來源
+                        inf2906_ref_no_date: null, //單據來源
+                        inf2906_ref_no_seq: null, //單據來源
+                        SelectedInReason: null, //異動代號
+                        inf2910_in_reason: null, //異動代號
+                        remark: null,
+                        adddate: null,
+                        adduser: null,
+                        moddate: null,
+                        moduser: null,
+                    };
+                },
                 OnCopy: function () {
                     if (this.SelectedInf29Item == null) {
                         return;
@@ -485,6 +536,51 @@
                     this.Saf21SortColumn = column;
 
                     this.Saf21List.sort(this.SortSaf21List);
+                },
+                OnDeleteALL: function () {
+                    var isOk = true;
+                    var docnoLsit = [];
+                    this.Saf21List.forEach(element => {
+                        if (element.adduser != 'test') { // loginUserName
+                            isOk = false;
+                            return;
+                        } else {
+                            docnoLsit.push(element.saf2101_docno);
+                        }
+                    });
+                    if (isOk) {
+                        LoadingHelper.showLoading();
+                        var vueObj = this;
+                        return $.ajax({
+                            type: 'POST',
+                            url: rootUrl + "Dsap02101/Ajax/Saf21Handler.ashx",
+                            cache: false,
+                            data: {
+                                act: "delALL",
+                                data: JSON.stringify(docnoLsit)
+                            },
+                            dataType: 'text',
+                            success: function (result) {
+                                LoadingHelper.hideLoading();
+                                if (result != "ok") {
+                                    alert("刪除失敗");
+                                } else {
+                                    alert("刪除成功");
+                                    this.OnSearch();
+                                }
+                            },
+                            error: function (jqXhr, textStatus, errorThrown) {
+                                if (jqXhr.status == 0) {
+                                    return;
+                                }
+                                LoadingHelper.hideLoading();
+                                console.error(errorThrown);
+                                alert("刪除失敗");
+                            }
+                        });
+                    } else {
+                        alert('查詢資料有其他人的資料，無法刪除')
+                    }
                 },
                 OnSaf21aTableSorting: function (column) {
                     if (this.Saf21aSortColumn == column) {
