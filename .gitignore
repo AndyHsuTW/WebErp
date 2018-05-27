@@ -20,3 +20,13 @@ WebERPLibrary/obj/Release/*
 WebErp.sln.DotSettings.user
 WebErp/Bin/WebERPLibrary.dll
 *.csv
+*.lock
+*.ide
+*.ide-shm
+*.ide-wal
+*.CodeAnalysisLog.xml
+*.FileListAbsolute.txt
+*.lastcodeanalysissucceeded
+*.csproj.user
+WebErp/Dcnp/Import_template_Dcnp00501_20171230_完成_FINAL.xlsx
+WebErp/vwd.webinfo

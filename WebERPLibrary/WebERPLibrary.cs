@@ -227,9 +227,11 @@ namespace WebERPLibrary
                 ,inf01a03_size
                 ,inf01a07_retail
                 ,inf01a13_cost
+                ,inf01a67_cost_notax
                 ,inf01b24_inv_qty
                 ,ISNULL(inf0104_mcode,'')+'-'+ISNULL(inf0302_bname,'') as bname
                 ,inf0175_graphy
+                ,inf0164_dividend
                   FROM [dbo].[inf01] inf01
                  Inner join  [dbo].[inf01a]  inf01a on inf01.inf0102_pcode=inf01a.inf01a02_pcode
                  Inner join  [dbo].[inf01b]  inf01b on inf01.inf0102_pcode=inf01b.inf01b02_pcode
@@ -290,12 +292,14 @@ namespace WebERPLibrary
                     {
                         List.Add(new D_pcodeData()
                         {
+                            dividend = Convert.ToDouble(rd["inf0164_dividend"]),
                             pcode = rd["inf0102_pcode"].ToString(),
                             pclass = rd["inf0107_pclass"].ToString(),
                             psname = rd["inf0113_psname"].ToString(),
                             pname = rd["inf0110_pname"].ToString(),
                             color = rd["inf0111_color"].ToString(),
                             cost = rd["inf01a13_cost"].ToString(),
+                            cost_notax = rd["inf01a67_cost_notax"].ToString(),
                             runit = rd["inf0115_runit"].ToString(),
                             pdept = rd["inf0123_pdept"].ToString(),
                             pcat = rd["inf0124_pcat"].ToString(),
@@ -547,6 +551,8 @@ namespace WebERPLibrary
         public string pname { get; set; }
         public string color { get; set; }
         public string cost { get; set; }
+        public string cost_notax { get; set; }
+        public double dividend { get; set; }
         public string runit { get; set; }
         public string pdept { get; set; }
         public string pcat { get; set; }

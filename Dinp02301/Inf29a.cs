@@ -49,6 +49,8 @@ namespace Dinp02301
 
         public string inf29a17_runit { get; set; }
 
+        public double inf29a24_retrn_qty { get; set; }
+
         public double inf29a26_box_qty { get; set; }
 
         //public string inf29a31_currency { get; set; }
@@ -67,6 +69,8 @@ namespace Dinp02301
 
         public string inf29a41_pcat { get; set; }
 
+        public double inf29a49_tax { get; set; }
+
         public string remark { get; set; }
 
         public string adduser { get; set; }
@@ -78,6 +82,8 @@ namespace Dinp02301
         public DateTime? moddate { get; set; }
 
         #endregion
+        
+        public double inf0164_dividend { get; set; }
 
 
         public static List<Inf29a> AddItem(Inf29 inf29, List<Inf29a> inf29aList)
@@ -308,10 +314,13 @@ namespace Dinp02301
                ,[inf29a39_price]
                ,[inf29a40_tax]
                ,[inf29a41_pcat]
-               ,[remark]
-               ,[adduser]
-               ,[adddate]
+               ,[inf29a49_tax]
+               ,inf29a.[remark]
+               ,inf29a.[adduser]
+               ,inf29a.[adddate]
         FROM inf29a
+        LEFT JOIN [dbo].[inf01]
+            ON inf29a.inf29a05_pcode = inf01.inf0102_pcode
         WHERE inf29a01_docno = @docno
 ");
                 sqlCmd.Parameters.AddWithValue("@docno", docno);
@@ -345,9 +354,11 @@ namespace Dinp02301
                             inf29a.inf29a39_price = Convert.ToDouble(sqlReader["inf29a39_price"]);
                             inf29a.inf29a40_tax = Convert.ToDouble(sqlReader["inf29a40_tax"]);
                             inf29a.inf29a41_pcat = Convert.ToString(sqlReader["inf29a41_pcat"]);
+                            inf29a.inf29a49_tax = Convert.ToDouble(sqlReader["inf29a49_tax"]);
                             inf29a.remark = Convert.ToString(sqlReader["remark"]);
                             inf29a.adduser = Convert.ToString(sqlReader["adduser"]);
                             inf29a.adddate = Convert.ToDateTime(sqlReader["adddate"]);
+                            inf29a.inf0164_dividend = Convert.ToDouble(sqlReader["inf0164_dividend"]);
 
                             inf29aList.Add(inf29a);
                         }
@@ -528,6 +539,7 @@ namespace Dinp02301
           ,[inf29a36_odds_amt0]
           ,[inf29a37_magazine_no]
           ,[inf29a38_one_amt]
+          ,[inf29a49_tax]
           ,[remark]
           ,[adduser]
           ,[adddate]
