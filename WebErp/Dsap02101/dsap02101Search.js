@@ -212,7 +212,7 @@
                     if (this.SelectedSaf21Item == null) {
                         return;
                     }
-                    if (this.SelectedSaf21Item.adduser.toLowerCase().trim() != 'test'/* loginUserName.toLowerCase()*/) {
+                    if (this.SelectedSaf21Item.adduser.toLowerCase().trim() != loginUserName.toLowerCase()) {
                         alert("只可以刪除自己的資料");
                         return;
                     }
@@ -541,7 +541,7 @@
                     var isOk = true;
                     var docnoLsit = [];
                     this.Saf21List.forEach(element => {
-                        if (element.adduser != 'test') { // loginUserName
+                        if (element.adduser != loginUserName) {
                             isOk = false;
                             return;
                         } else {

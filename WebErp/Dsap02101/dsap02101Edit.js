@@ -338,7 +338,7 @@
                             saf21a61_chng_price: this.Saf21aItem.saf21a11_unit_price * this.Saf21Item.saf2129_exchange_rate,
                             saf21a64_chg_sum: this.Saf21aItem_Saf21a50OneAmt * this.Saf21Item.saf2129_exchange_rate,
                             saf21a63_chg_tax: this.Saf21aItem.saf21a12_tax_type == 1 ? (((this.Saf21aItem_Saf21a50OneAmt / (1 + this.Saf21aItem.saf21a13_tax)) * this.Saf21aItem.saf21a13_tax)) * this.Saf21Item.saf2129_exchange_rate : 0,
-                            moduser: loginUserName
+                            moduser: loginUserName,
                             moddate: new Date().dateFormat(this.UiDateFormat),
                             beenMod: true,
 
@@ -400,7 +400,7 @@
                         saf21a61_chng_price: this.Saf21aItem.saf21a11_unit_price * this.Saf21Item.saf2129_exchange_rate,
                         saf21a64_chg_sum: this.Saf21aItem_Saf21a50OneAmt * this.Saf21Item.saf2129_exchange_rate,
                         saf21a63_chg_tax: this.Saf21aItem.saf21a12_tax_type == 1 ? (((this.Saf21aItem_Saf21a50OneAmt / (1 + this.Saf21aItem.saf21a13_tax)) * this.Saf21aItem.saf21a13_tax)) * this.Saf21Item.saf2129_exchange_rate : 0,
-                        adduser: loginUserName
+                        adduser: loginUserName,
                         adddate: new Date().dateFormat(this.UiDateFormat)
                     };
                     tmpSaf21a.saf21a62_chg_sub =tmpSaf21a.saf21a64_chg_sum -tmpSaf21a.saf21a63_chg_tax

@@ -1263,7 +1263,7 @@
             }
 
             function onError(error) {
-                console.error(error);
+                //console.error(error);
             }
 
             require(requiredFiles, onLoaded, onError);
