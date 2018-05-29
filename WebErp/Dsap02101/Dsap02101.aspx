@@ -610,7 +610,7 @@
                                 <td>{{saf21aItem.saf21a03_relative_no }}</td>
                                 <td>{{saf21aItem.saf21a41_product_name }}</td>
                                 <td>{{saf21aItem.saf21a43_runit }}</td>
-                                <td>{{saf21aItem.saf21a16_total_qty }}%</td>
+                                <td>{{saf21aItem.saf21a16_total_qty }}</td>
                                 <td>{{saf21aItem.saf21a51_gift_qty }}</td>
                                 <td>{{saf21aItem.saf21a56_box_qty }}</td>
                                 <td>{{saf21aItem.inf0164_dividend }}</td>
@@ -1263,7 +1263,7 @@
             }
 
             function onError(error) {
-                //console.error(error);
+                console.error(error);
             }
 
             require(requiredFiles, onLoaded, onError);

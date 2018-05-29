@@ -88,8 +88,8 @@ namespace Dsap02101
         public DateTime verifydate { get; set; }
         public string cmf0103_bname { get; set; }
         public string taf1002_firstname { get; set; }
-        public int taf1019_tel1 { get; set; }
-        public int taf1031_cellphone { get; set; }
+        public string taf1019_tel1 { get; set; }
+        public string taf1031_cellphone { get; set; }
 
         #endregion
 
@@ -403,10 +403,10 @@ SELECT saf21.id,
                             saf21.saf2108_customer_code = Convert.ToString(sqlReader["saf2108_customer_code"]);
                             saf21.cmf0103_bname = Convert.ToString(sqlReader["cmf0103_bname"]);
                             saf21.taf1002_firstname = Convert.ToString(sqlReader["cmf01a05_fname"]);
-                            saf21.taf1019_tel1 = Convert.ToInt32(sqlReader["cmf01a17_telo1"]);
+                            saf21.taf1019_tel1 = Convert.IsDBNull(sqlReader["cmf01a17_telo1"]) ? "" : Convert.ToString(sqlReader["cmf01a17_telo1"]);
                             saf21.saf2147_recid = Convert.ToString(sqlReader["saf2147_recid"]);
                             saf21.saf2114_payment = Convert.ToString(sqlReader["saf2114_payment"]);
-                            saf21.taf1031_cellphone = Convert.ToInt32(sqlReader["cmf01a23_cellphone"]);
+                            saf21.taf1031_cellphone = Convert.IsDBNull(sqlReader["cmf01a23_cellphone"]) ? "" : Convert.ToString(sqlReader["cmf01a23_cellphone"]);
                             saf21.remark = Convert.ToString(sqlReader["remark"]);
                             saf21.adduser = Convert.ToString(sqlReader["adduser"]);
                             saf21.saf2129_exchange_rate = Convert.ToDouble(sqlReader["saf2129_exchange_rate"]);

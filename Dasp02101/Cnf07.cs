@@ -48,7 +48,8 @@ namespace Dsap02101
                           ,[cnf0703_bfname]
                           ,[cnf0751_tax_headoffice]
                       FROM [cnf07] t
-                    WHERE  t.cnf0751_tax_headoffice = '0' ");
+                        WHERE status != '1' 
+                    order by cnf0701_bcode ");
 
                 using (var sqlReader = sqlCmd.ExecuteReader())
                 {
