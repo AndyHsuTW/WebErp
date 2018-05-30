@@ -581,7 +581,6 @@
 
                 },
                 OnSave: function () {
-
                     if (this.Saf21Copy == JSON.stringify(this.Saf21Item) + JSON.stringify(this.Saf21aList)) {
                         alert("您未修改任何欄位，所以不與存檔");
                         return;
@@ -661,7 +660,6 @@
                         moduser: this.Inf29Item.moduser*/
                     };
                         saf21Item.Saf21aList = this.Saf21aList;
-
                         var vueObj = this;
                         LoadingHelper.showLoading();
                         return $.ajax({
@@ -675,6 +673,7 @@
                             },
                             dataType: 'text',
                             success: function (saf21Json) {
+                                alert('3333');
                                 var saf21Item = JSON.parse(saf21Json);
                                 if (saf21Item == null) {
                                     alert("存檔失敗");

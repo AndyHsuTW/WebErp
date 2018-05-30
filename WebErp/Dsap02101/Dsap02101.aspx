@@ -852,7 +852,7 @@
                                     v-bind:placeholder="''"
                                     v-bind:show-labels="false" 
                                     v-on:select="GetExchangeInfo"
-                                    track-by="cnf1003_char01"
+                                    track-by="cnf1002_fileorder"
                                     label="cnf1003_char01">
                                 </multiselect>
                             </td>
