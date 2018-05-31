@@ -67,7 +67,7 @@ public class Inf15Handler   : IHttpHandler, IRequiresSessionState {
                         context.Response.ContentType = "text/plain";
                         context.Response.Write(JsonConvert.SerializeObject(newItem));
                     }
-                    catch (SqlException ex)
+                    catch (Exception ex)
                     {
                         if (ex.Message.Contains("insert duplicate key"))
                         {
