@@ -26,7 +26,7 @@ namespace DINP015
         /// <summary>
         /// Key
         /// </summary>
-        public int id { get; set; }
+        public int? id { get; set; }
         /// <summary>
         /// 類型 ""->公司 1->客戶
         /// </summary>
@@ -246,7 +246,7 @@ namespace DINP015
                 throw new Exception("請輸入序號");
             }
 
-            DataSet ds = GetDataSet(MyConnStringList.AzureGoodeasy, "select id from [dbo].[inf15]");
+            DataSet ds = GetDataSet(MyConnStringList.AzureGoodeasy, "select * from [dbo].[inf15]");
             DateTime m_BegDate = new DateTime();
             DateTime m_EndDate = new DateTime();
             DateTime m_ThisDate = new DateTime();
@@ -444,14 +444,64 @@ UPDATE [dbo].[inf15]
                 }
 
                 conn.Open();
-                sqlCmd.CommandText = String.Format(@"
-    Delete from [dbo].[inf15]
-    WHERE id IN ({0})
-", inClause);
+                sqlCmd.CommandText = String.Format(@"INSERT INTO inf15d
+                                                      (status,
+                                                       inf1501_bcode,
+                                                       inf1502_app,
+                                                       inf1502_pmonth,
+                                                       inf1502_close_type,
+                                                       inf1502_seq,
+                                                       inf1503_beg_date,
+                                                       inf1504_end_date,
+                                                       inf1505_this_date,
+                                                       inf1506_last_date,
+                                                       inf1507_sal_flag1,
+                                                       inf1508_inv_flag2,
+                                                       inf1509_pas_flag3,
+                                                       inf1510_clo_flag4,
+                                                       inf1511_trx_flag5,
+                                                       inf1511_rev_flag6,
+                                                       inf1511_rev_flag7,
+                                                       inf1512_inv_date,
+                                                       remark,
+                                                       adduser,
+                                                       adddate,
+                                                       moduser,
+                                                       moddate)
+                                                      select status,
+                                                             inf1501_bcode,
+                                                             inf1502_app,
+                                                             inf1502_pmonth,
+                                                             inf1502_close_type,
+                                                             inf1502_seq,
+                                                             inf1503_beg_date,
+                                                             inf1504_end_date,
+                                                             inf1505_this_date,
+                                                             inf1506_last_date,
+                                                             inf1507_sal_flag1,
+                                                             inf1508_inv_flag2,
+                                                             inf1509_pas_flag3,
+                                                             inf1510_clo_flag4,
+                                                             inf1511_trx_flag5,
+                                                             inf1511_rev_flag6,
+                                                             inf1511_rev_flag7,
+                                                             inf1512_inv_date,
+                                                             remark,
+                                                             adduser,
+                                                             adddate,
+                                                             moduser,
+                                                             moddate
+                                                        from inf15
+                                                       where id in ({0})
+                                                    ", inClause);
+                sqlCmd.ExecuteNonQuery();
+                sqlCmd.CommandText = String.Format(@"Delete from [dbo].[inf15]
+                                                    WHERE id IN ({0})", inClause);
 
-                var count = sqlCmd.ExecuteNonQuery();
+                sqlCmd.ExecuteNonQuery();
 
             }
+
             return true;
         }
 
