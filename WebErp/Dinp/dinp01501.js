@@ -11,6 +11,7 @@
             "jquery.datetimepicker": "public/scripts/jquery.datetimepicker/jquery.datetimepicker.full",
             "jqueryDatetimepicker-css": "public/scripts/jquery.datetimepicker/jquery.datetimepicker",
             "jquery.mousewheel": "public/scripts/jquery.mousewheel.min",
+            "tableHeadFixer": "public/scripts/FixedHeader/tableHeadFixer"
         },
         map: {
             '*': {
@@ -36,7 +37,8 @@
         "jquery.mousewheel",
         "UserLog",
         "print-js",
-        "vue-multiselect"
+        "vue-multiselect",
+        "tableHeadFixer"
     ];
 
     function onLoaded(bootstrap,
@@ -46,7 +48,8 @@
         jqMousewheel,
         userLog,
         printJs,
-        vueMultiselect) {
+        vueMultiselect,
+        jqTable) {
         SaveEnterPageLog(rootUrl, localStorage.getItem("USER_ID"), "Dinp01501");
 
         if (vueMultiselect == null) {
@@ -265,13 +268,12 @@
                     var inf15List = [];
                     if (!inf15Item) {
                         for (var i in this.Inf15List) {
-                           
                             if (this.Inf15List[i].checked) {
                                 var tmpbcode = this.Inf15List[i].inf1501_bcode;
                                 var tmpccode = this.Inf15List[i].inf1501_ccode;
                                 var tmpappcode = this.Inf15List[i].inf1502_app;
                                 var defaultBCodeInfo = this.BcodeList.filter(function (item, index, array) {
-                                     return item.cnf0701_bcode == tmpbcode;
+                                    return item.cnf0701_bcode == tmpbcode;
                                 }).shift();
                                 var defaultCCodeInfo = this.CcodeList.filter(function (item, index, array) {
                                     return item.cmf0102_cuscode == tmpccode;
@@ -315,6 +317,53 @@
                                 $("#EditDialog").modal();
                             }
                         }
+                    } else {
+                        this.EditDialog.editingItem.id = null;
+                        var tmpbcode = inf15Item.inf1501_bcode;
+                        var tmpccode = inf15Item.inf1501_ccode;
+                        var tmpappcode = inf15Item.inf1502_app;
+                        var defaultBCodeInfo = this.BcodeList.filter(function (item, index, array) {
+                            return item.cnf0701_bcode == tmpbcode;
+                        }).shift();
+                        var defaultCCodeInfo = this.CcodeList.filter(function (item, index, array) {
+                            return item.cmf0102_cuscode == tmpccode;
+                        }).shift();
+                        var defaultAppCodeInfo = this.AppCodeList.filter(function (item, index, array) {
+                            return item.id == tmpappcode;
+                        }).shift();
+                        this.EditDialog.display = true;
+                        this.EditDialog.isCopyMode = true;
+                        this.EditDialog.status = inf15Item.status;
+                        this.EditDialog.inf1501_bcode = defaultBCodeInfo;
+                        this.EditDialog.inf1501_ccode = defaultCCodeInfo;
+                        this.EditDialog.inf1502_app = defaultAppCodeInfo;
+                        this.EditDialog.inf1502_pmonth = inf15Item.inf1502_pmonth;
+                        $("#EditMonth").val(inf15Item.inf1502_pmonth);
+                        this.EditDialog.inf1502_close_type = inf15Item.inf1502_close_type;
+                        this.EditDialog.inf1502_seq = inf15Item.inf1502_seq;
+                        this.EditDialog.inf1503_beg_date = inf15Item.inf1503_beg_date;
+                        this.EditDialog.inf1504_end_date = inf15Item.inf1504_end_date;
+                        this.EditDialog.inf1505_this_date = inf15Item.inf1505_this_date;
+                        this.EditDialog.inf1506_last_date = inf15Item.inf1506_last_date;
+                        $("#inf1503_beg_date").val(inf15Item.inf1503_beg_date);
+                        $("#inf1504_end_date").val(inf15Item.inf1504_end_date);
+                        $("#inf1505_this_date").val(inf15Item.inf1505_this_date);
+                        $("#inf1506_last_date").val(inf15Item.inf1506_last_date);
+                        this.EditDialog.inf1507_sal_flag1 = inf15Item.inf1507_sal_flag1;
+                        this.EditDialog.inf1508_inv_flag2 = inf15Item.inf1508_inv_flag2;
+                        this.EditDialog.inf1509_pas_flag3 = '';
+                        this.EditDialog.inf1510_clo_flag4 = inf15Item.inf1510_clo_flag4;
+                        this.EditDialog.inf1511_trx_flag5 = inf15Item.inf1511_trx_flag5;
+                        this.EditDialog.inf1511_rev_flag6 = null;
+                        this.EditDialog.inf1511_rev_flag7 = null;
+                        this.EditDialog.inf1512_inv_date = inf15Item.inf1512_inv_date;
+                        $("#inf1512_inv_date").val(inf15Item.inf1512_inv_date);
+                        this.EditDialog.remark = inf15Item.remark;
+
+                        var dateNow = new Date().dateFormat(this.UiDateFormat);
+                        this.EditDialog.adddate = dateNow;
+                        this.$refs.AddDate.setValue(dateNow);
+                        this.EditDialog.adduser = loginUserName;
                     }
                 },
                 OnDelete: function (inf15Item) {
