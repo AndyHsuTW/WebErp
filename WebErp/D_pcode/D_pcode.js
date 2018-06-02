@@ -54,7 +54,7 @@
                                                 </td>\
                                                 <td>&nbsp;&nbsp;&nbsp;售價&nbsp起&nbsp\
                                                 </td>\
-                                                <td><input type="text" v-model="Filter.Retail_start">&nbsp訖&nbsp<input type="text" v-model="Filter.Retail_end">\
+                                                <td><input type="text" v-model="Filter.Retail_start">&nbsp訖&nbsp<input type="text" v-model="Filter.Retail_end">&nbsp;&nbsp;筆數 : {{D_pcodeList.length}}\
                                                 </td>\
                                             </tr>\
                                         </table>\
