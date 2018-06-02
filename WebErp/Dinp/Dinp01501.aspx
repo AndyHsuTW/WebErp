@@ -166,6 +166,79 @@
         }
 
         }
+
+        /* @group Reset */
+
+.fht-table,
+.fht-table thead,
+.fht-table tfoot,
+.fht-table tbody,
+.fht-table tr,
+.fht-table th,
+.fht-table td {
+	/* position */
+    margin: 0;
+    
+    /* size */
+	padding: 0;
+
+	/* text */
+	font-size: 100%;
+	font: inherit;
+	vertical-align: top;
+	}
+
+.fht-table {
+	/* appearance */
+    border-collapse: collapse;
+    border-spacing: 0;
+	}
+
+/* @end */
+
+/* @group Content */
+
+.fht-table-wrapper,
+.fht-table-wrapper .fht-thead,
+.fht-table-wrapper .fht-tfoot,
+.fht-table-wrapper .fht-fixed-column .fht-tbody,
+.fht-table-wrapper .fht-fixed-body .fht-tbody,
+.fht-table-wrapper .fht-tbody {
+	/* appearance */
+	overflow: hidden;
+	
+	/* position */
+	position: relative;
+	}
+
+	.fht-table-wrapper .fht-fixed-body .fht-tbody,
+	.fht-table-wrapper .fht-tbody {
+		/* appearance */
+	    overflow: auto;
+		}
+
+		.fht-table-wrapper .fht-table .fht-cell {
+			/* appearance */
+			overflow: hidden;
+			
+			/* size */
+		    height: 1px;
+			}
+	
+	.fht-table-wrapper .fht-fixed-column,
+	.fht-table-wrapper .fht-fixed-body {
+	    /* position */
+	    top: 0;
+	    left: 0;
+	    position: absolute;
+	    }
+	    
+	.fht-table-wrapper .fht-fixed-column {
+	    /* position */
+	    z-index: 1;
+	    }
+
+/* @end */
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
@@ -300,7 +373,7 @@
 
             <div class="result-div">
                 <div class="scroll-table">
-                    <table class="table table-bordered sortable">
+                    <table id="tbdinp01501" class="table table-bordered sortable grid_4">
                         <thead>
                             <tr class="bg-primary text-light">
                                 <th class="no-sortable">
@@ -469,9 +542,15 @@
                                 <td>{{inf15Item.moduser}}</td>
                                 <td>{{inf15Item.moddate}}</td>
                                 <td>
-                                    <button type="button" class="btn btn-default" data-toggle="modal" href='#EditDialog'
-                                        v-on:click="OnModify(inf15Item)">
-                                        編輯</button>
+                                    <button type="button" class="btn btn-default" data-toggle="modal" href='#EditDialog' v-on:click="OnModify(inf15Item)">
+                                       <span class="glyphicon glyphicon-ok"></span>
+                                    </button>
+                                    <button type="button" class="btn btn-default" v-on:click="OnDelete(inf15Item)">
+                                        <span class="glyphicon glyphicon-remove"></span>
+                                    </button>
+                                    <button type="button" class="btn btn-default" data-toggle="modal" href='#EditDialog' v-on:click="OnCopy(inf15Item)">
+                                        <span class="glyphicon glyphicon-copy"></span>
+                                    </button>
                                 </td>
                             </tr>
                         </tbody>
@@ -939,6 +1018,8 @@
                     timepicker: false,
                     format: 'Y/m'
                 });
+
+                $("#tbdinp01501").tableHeadFixer();
             }
 
             function onError(error) {
