@@ -31,7 +31,7 @@ namespace Dinp02301
 
         public string inf29a05_shoes_code { get; set; }
 
-        public string inf29a06_qty { get; set; }
+        public double inf29a06_qty { get; set; }
 
         public double inf29a09_retail_one { get; set; }
 
@@ -196,7 +196,7 @@ namespace Dinp02301
                     sqlCmd.Parameters.AddWithValueSafe("@inf29a14_trn_type", inf29a.inf29a14_trn_type);
                     sqlCmd.Parameters.AddWithValueSafe("@inf29a16_gift_qty", inf29a.inf29a16_gift_qty);
                     sqlCmd.Parameters.AddWithValueSafe("@inf29a17_runit", inf29a.inf29a17_runit);
-                    sqlCmd.Parameters.AddWithValueSafe("@inf29a22_tax_flag", inf29a.inf29a22_tax_flag);
+                    sqlCmd.Parameters.AddWithValueSafe("@inf29a22_tax_flag", inf29a.inf29a22_tax_flag??"");
                     sqlCmd.Parameters.AddWithValueSafe("@inf29a24_retrn_qty", inf29a.inf29a24_retrn_qty);
                     sqlCmd.Parameters.AddWithValueSafe("@inf29a26_box_qty", inf29a.inf29a26_box_qty);
 //                    sqlCmd.Parameters.AddWithValueSafe("@inf29a31_currency", inf29a.inf29a31_currency);
@@ -208,7 +208,7 @@ namespace Dinp02301
                     sqlCmd.Parameters.AddWithValueSafe("@inf29a40_tax", inf29a.inf29a40_tax);
                     sqlCmd.Parameters.AddWithValueSafe("@inf29a41_pcat", inf29a.inf29a41_pcat);
                     sqlCmd.Parameters.AddWithValueSafe("@inf29a49_tax", inf29a.inf29a49_tax);
-                    sqlCmd.Parameters.AddWithValue("@remark", inf29a.remark);
+                    sqlCmd.Parameters.AddWithValue("@remark", inf29a.remark??"");
                     sqlCmd.Parameters.AddWithValue("@adduser", inf29a.adduser);
                     sqlCmd.Parameters.AddWithValue("@adddate", inf29a.adddate);
 

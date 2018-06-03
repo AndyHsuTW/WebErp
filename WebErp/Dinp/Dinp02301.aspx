@@ -988,18 +988,18 @@
                             <td>
                                 <input type="text" class="small-field" v-bind:value="Inf29aItem_Inf29a38OneAmt" disabled="disabled"/>
                             </td>
-                            <td>
-                                確認
-                            </td>
-                            <td>
-                                <multiselect class="small-field"
-                                    v-model="Inf29aItem.Confirmed"
-                                    v-bind:options="ConfirmList"
-                                    v-bind:close-on-select="true"
-                                    v-bind:placeholder="''"
-                                    v-bind:show-labels="false" >
-                                </multiselect>
-                            </td>
+<%--                            <td>--%>
+<%--                                確認--%>
+<%--                            </td>--%>
+<%--                            <td>--%>
+<%--                                <multiselect class="small-field"--%>
+<%--                                    v-model="Inf29aItem.Confirmed"--%>
+<%--                                    v-bind:options="ConfirmList"--%>
+<%--                                    v-bind:close-on-select="true"--%>
+<%--                                    v-bind:placeholder="''"--%>
+<%--                                    v-bind:show-labels="false" >--%>
+<%--                                </multiselect>--%>
+<%--                            </td>--%>
                             <td colspan="2">
                                 <button type="button" class="btn btn-default" role='button' v-on:click="OnAddInf29aItem()">
                                     輸入明細
@@ -1134,7 +1134,7 @@
                                 <!-- 金額小計 -->
                                 <td>{{inf29aItem.inf29a38_one_amt }}</td>
                                 <!-- 確認 -->
-                                <td>{{inf29aItem.Confirmed }}</td>
+<%--                                <td>{{inf29aItem.Confirmed }}</td>--%>
                             </tr>
                         </tbody>
                     </table>
