@@ -168,8 +168,8 @@
             </div>
            
             <div class="result-div">
-                <div class="scroll-table">
-                    <table class="table table-bordered sortable">
+                <div class="scroll-table wrapper">
+                    <table class="table table-bordered sortable" v-float-thead="">
                         <thead>
                             <tr class="bg-primary text-light">
                                 <th class="no-sortable">

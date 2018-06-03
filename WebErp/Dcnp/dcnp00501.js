@@ -25,9 +25,11 @@
         }
     });
 
-    var requiredFiles = ["bootstrap", "FunctionButton", "vuejs-uib-pagination", "vue-jQuerydatetimepicker", "LoadingHelper", "jquery.mousewheel"];
+    var requiredFiles = ["bootstrap", "FunctionButton", "vuejs-uib-pagination", "vue-jQuerydatetimepicker", "LoadingHelper", "jquery.mousewheel",
+    "jquery.floatThead"];
 
-    function onLoaded(bootstrap, functionButton, uibPagination, vueDatetimepicker, loadingHelper) {
+    function onLoaded(bootstrap, functionButton, uibPagination, vueDatetimepicker, loadingHelper,
+    jqFloatThead) {
         window.dcnp00501 = new Vue({
             el: "#Dcnp00501",
             data: {
@@ -577,7 +579,19 @@
                 },
             },
             directives: {
-
+                "float-thead": {
+                    inserted: function(el, binding) {
+                        $(el).floatThead({
+                            scrollContainer: function($table) {
+                                return $table.closest('.wrapper');
+                            },
+                            zIndex: 0
+                        });
+                    },
+                    unbind: function(el) {
+                        $(el).floatThead('destroy');
+                    }
+                }
             },
             mounted: function () {}
         });
