@@ -49,6 +49,10 @@ namespace Dinp02301
         public string inf2914_inv_eff { get; set; }
 
         public string inf2916_apr_empid { get; set; }
+
+        public DateTime inf2921_pmonth { get; set; }
+
+        public double inf2951_allowances { get; set; }
         
         public string inf2952_project_no { get; set; }
 
@@ -810,6 +814,8 @@ namespace Dinp02301
                ,[inf2911_sub_amt]
                ,[inf2914_inv_eff]
                ,[inf2916_apr_empid]
+               ,[inf2921_pmonth]
+               ,[inf2951_allowances]
                ,[inf2952_project_no]
                ,[inf2928_currency]
                ,[inf2929_exchange_rate]
@@ -833,6 +839,8 @@ namespace Dinp02301
                ,@inf2911_sub_amt
                ,@inf2914_inv_eff
                ,@inf2916_apr_empid
+               ,@inf2921_pmonth
+               ,@inf2951_allowances
                ,@inf2952_project_no
                ,@inf2928_currency
                ,@inf2929_exchange_rate
@@ -855,6 +863,8 @@ namespace Dinp02301
                 sqlCmd.Parameters.AddWithValueSafe("@inf2911_sub_amt", inf29.Inf29aList.Sum(o=>o.inf29a38_one_amt));
                 sqlCmd.Parameters.AddWithValueSafe("@inf2914_inv_eff", inf29.inf2914_inv_eff);
                 sqlCmd.Parameters.AddWithValueSafe("@inf2916_apr_empid", inf29.inf2916_apr_empid);
+                sqlCmd.Parameters.AddWithValueDatetimeSafe("@inf2921_pmonth", inf29.inf2921_pmonth);
+                sqlCmd.Parameters.AddWithValueSafe("@inf2951_allowances", inf29.inf2951_allowances);
                 sqlCmd.Parameters.AddWithValueSafe("@inf2952_project_no", inf29.inf2952_project_no);
                 sqlCmd.Parameters.AddWithValue("@inf2928_currency", inf29.inf2928_currency);
                 sqlCmd.Parameters.AddWithValue("@inf2929_exchange_rate", inf29.inf2929_exchange_rate);

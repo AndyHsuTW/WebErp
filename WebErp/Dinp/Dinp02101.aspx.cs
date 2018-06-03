@@ -39,7 +39,7 @@ public partial class Dinp_Dinp02101 : System.Web.UI.Page
     {
         BcodeList = Cnf07.GetList();
         WherehouseList = Cnf10.GetList("004");
-        InReasonList = Cnf10.GetList("S15");
+        InReasonList = Cnf10.GetList("S15").Where(o => o.cnf1002_fileorder == "100").ToList();
         CurrencyList = Cnf10.GetList("073");
 
         Inf29.CreateKeywordSP();

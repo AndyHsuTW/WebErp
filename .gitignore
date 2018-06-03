@@ -30,3 +30,4 @@ WebErp/Bin/WebERPLibrary.dll
 *.csproj.user
 WebErp/Dcnp/Import_template_Dcnp00501_20171230_完成_FINAL.xlsx
 WebErp/vwd.webinfo
+DINP015/obj/Debug/*

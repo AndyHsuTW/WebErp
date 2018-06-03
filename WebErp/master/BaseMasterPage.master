@@ -58,7 +58,8 @@
                 "UserLog": "public/scripts/UserLog/UserLog",
                 "vue-multiselect": "public/scripts/VueComponent/multiselect/vue-multiselect@2.0.3.min",
                 "vue-multiselect-css": "public/scripts/VueComponent/multiselect/vue-multiselect.min",
-                "print-js":"public/scripts/print.min"
+                "print-js": "public/scripts/print.min",
+                "jquery.floatThead":"public/scripts/jquery.floatThead.min",
             },
             shim: {
                 "bootstrap": {
@@ -69,7 +70,7 @@
                 },
                 "vue-multiselect": {
                     "deps": ["css!vue-multiselect-css"]
-                }
+                },
             },
             map: {
                 '*': {

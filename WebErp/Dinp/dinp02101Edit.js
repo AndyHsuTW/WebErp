@@ -39,7 +39,8 @@
         "jquery.mousewheel",
         "vue-multiselect",
         "print-js",
-        "d_pcode"
+        "d_pcode",
+        "jquery.floatThead"
     ];
 
     function onLoaded(bootstrap, 
@@ -49,7 +50,8 @@
         jqueryMousewheel,
          vueMultiselect, 
          printJs,
-        dPcode) {
+        dPcode,
+        jqFloatThead) {
         if (vueMultiselect == null) {
             console.error("vueMultiselect fallback");
             vueMultiselect = window.VueMultiselect;
@@ -71,23 +73,24 @@
                     inf2909_vcode: null, //專案代號
                     inf0303_fname:null, //廠商全名
                     ProjectFullname: null, //專案全名
-                    inf2916_apr_empid: null, //員工ID
-                    inf2921_pmonth:null, //所屬帳款月份
                     EmpCname: null, //員工Name
                     inf2903_customer_code: "", //客戶代碼
                     Inf2903CustomerCodeName: null, //異動單位
                     inf2906_ref_no_type: null, //單據來源
                     inf2906_ref_no_date: null, //單據來源
                     inf2906_ref_no_seq: null, //單據來源
-                    SelectedInReason: null, //異動代號
                     inf2910_in_reason: null, //異動代號
+                    SelectedInReason: null, //異動代號
+                    inf2916_apr_empid: null, //員工ID
+                    inf2921_pmonth: null, //所屬帳款月份
                     SelectedCurrencyInfo: null, //幣別
                     inf2929_exchange_rate: 1, //匯率
                     inf2002_docno_type: null,//單據分類編號
                     inf2002_docno_date: null,//異動單號_日期
                     inf2002_docno_seq: null,//異動單號_流水號
+                    inf2951_allowances: 0,//折讓金額
                     inf2952_project_no:"",
-                    remark: null,
+                    remark: "",
                     adddate: null,
                     adduser: null,
                     moddate: null,
@@ -99,14 +102,15 @@
                     inf29a05_pcode: null, //產品編號
                     inf29a05_shoes_code: null, //貨號
                     inf29a06_qty: 0,//小單位數量
-                    inf29a09_retail_one:null,//換算後幣值售價
-                    inf29a09_oretail_one:null, //售價
+                    inf29a09_retail_one:0,//換算後幣值售價
+                    inf29a09_oretail_one:0, //售價
                     inf29a10_ocost_one: 0, //含稅單價
                     inf29a10_cost_one0: 0, //未稅單價
                     inf29a10_cost_one: 0, //換算後幣值進價
                     inf29a13_sold_qty:0,//大單位數量
                     inf29a16_gift_qty:0,//贈品數量
                     inf29a17_runit: "", //單位
+                    inf29a22_tax_flag: "",//稅別
                     inf29a24_retrn_qty: 0,//退貨數
                     inf29a26_box_qty: 0,//箱入量
 //                    SelectedCurrencyInfo: null, //幣別
@@ -117,13 +121,13 @@
                     inf29a40_tax:0,//營業稅率
                     inf29a41_pcat: "",//商品分類編號
                     inf29a49_tax: 0,//營業稅
-                    inf0164_dividend :null,
+                    inf0164_dividend :0,
                     adddate: null,
                     adduser: null,
                     moddate: null,
                     moduser: null,
                     Confirmed: "N", //確認
-                    remark:null,
+                    remark:"",
 
                 }, // New edit item of Inf29a
                 BcodeList: [], //公司代號下拉選單資料
@@ -145,7 +149,6 @@
                         Vue.nextTick(function () {
                             // DOM updated
                             vueObj.$refs.ProDate.setValue(vueObj.Inf29Item.inf2904_pro_date);
-                            
                         });
                     }
                 }
@@ -165,7 +168,10 @@
                 },
                 Inf29aItem_Inf29a13SoldQty: function() {
 
-                    return this.Inf29aItem.inf29a26_box_qty * this.Inf29aItem.inf0164_dividend + this.Inf29aItem.inf29a06_qty;
+                    if (this.Inf29aItem.inf29a13_sold_qty == 0) {
+                        return this.Inf29aItem.inf29a26_box_qty * this.Inf29aItem.inf0164_dividend + this.Inf29aItem.inf29a06_qty;
+                    }
+                    return this.Inf29aItem.inf29a13_sold_qty;
                 },
                 TotalAmount: function () {
                     var total = 0.0;
@@ -184,7 +190,7 @@
                     return total.toFixed(2);
                 },
                 Inf29aItem_Inf29a38OneAmt: function () { //小計金額
-                    var amt = this.Inf29aItem.inf29a39_price * (this.Inf29aItem_Inf29a13SoldQty - this.inf29a24_retrn_qty) + this.Inf29aItem.inf29a36_odds_amt * 1;
+                    var amt = this.Inf29aItem.inf29a39_price * (this.Inf29aItem_Inf29a13SoldQty - this.Inf29aItem.inf29a24_retrn_qty) + this.Inf29aItem.inf29a36_odds_amt * 1;
                     if (isNaN(amt)) {
                         return 0;
                     } else {
@@ -192,7 +198,7 @@
                     }
                 },
                 Inf29aItem_Inf29a12SubAmt: function () { //換算後幣值小計
-                    var amt = this.inf2929_exchange_rate * this.Inf29aItem.inf29a09_retail_one * (this.Inf29aItem_Inf29a13SoldQty - this.inf29a24_retrn_qty);
+                    var amt = this.inf2929_exchange_rate * this.Inf29aItem.inf29a09_retail_one * (this.Inf29aItem_Inf29a13SoldQty - this.Inf29aItem.inf29a24_retrn_qty);
                     if (isNaN(amt)) {
                         return 0;
                     } else {
@@ -238,7 +244,9 @@
 //                            inf29a32_exchange_rate: this.Inf29aItem.inf29a32_exchange_rate, //匯率
                             inf29a12_sub_amt: this.Inf29aItem_Inf29a12SubAmt, //換算後幣值小計
                             inf29a13_sold_qty: this.Inf29aItem_Inf29a13SoldQty, //數量
+                            inf29a16_gift_qty: this.Inf29aItem.inf29a16_gift_qty,//贈品數量
                             inf29a17_runit: this.Inf29aItem.inf29a17_runit, //單位
+                            inf29a22_tax_flag: this.Inf29aItem.inf29a22_tax_flag,//稅別
                             inf29a24_retrn_qty:this.Inf29aItem.inf29a24_retrn_qty, //退貨數
                             inf29a26_box_qty: this.Inf29aItem.inf29a26_box_qty, //箱入量
                             inf29a33_product_name: this.Inf29aItem.inf29a33_product_name, //商品名稱
@@ -248,6 +256,7 @@
                             inf29a40_tax: this.Inf29aItem.inf29a40_tax, //營業稅率
                             inf29a41_pcat: this.Inf29aItem.inf29a41_pcat, //商品分類編號
                             inf29a49_tax: this.Inf29aItem.inf29a49_tax,//營業稅
+                            inf0164_dividend: this.Inf29aItem.inf0164_dividend,//換算值
                             adduser:this.Inf29aItem.adduser,
                             adddate: this.Inf29aItem.adddate,
                             remark: this.Inf29aItem.remark,
@@ -284,6 +293,7 @@
                         inf29a13_sold_qty: this.Inf29aItem_Inf29a13SoldQty, //數量
                         inf29a16_gift_qty: this.Inf29aItem.inf29a16_gift_qty,//贈品數量
                         inf29a17_runit: this.Inf29aItem.inf29a17_runit, //單位
+                        inf29a22_tax_flag: this.Inf29aItem.inf29a22_tax_flag,//稅別
                         inf29a24_retrn_qty: this.Inf29aItem.inf29a24_retrn_qty,//退貨數
                         inf29a26_box_qty: this.Inf29aItem.inf29a26_box_qty, //箱入量
                         inf29a33_product_name: this.Inf29aItem.inf29a33_product_name, //商品名稱
@@ -293,6 +303,7 @@
                         inf29a40_tax: this.Inf29aItem.inf29a40_tax, //營業稅率
                         inf29a41_pcat: this.Inf29aItem.inf29a41_pcat, //商品分類編號
                         inf29a49_tax: this.Inf29aItem.inf29a49_tax,
+                        inf0164_dividend: this.Inf29aItem.inf0164_dividend,//換算值
                         adduser: this.Inf29aItem.adduser,
                         adddate: this.Inf29aItem.adddate,
                         remark: this.Inf29aItem.remark,
@@ -326,6 +337,7 @@
                             inf29a10_ocost_one: inf29aItem.inf29a10_ocost_one, //原進價
                             inf29a10_cost_one: inf29aItem.inf29a10_cost_one, //換算後幣值進價
                             inf29a10_cost_one0: inf29aItem.inf29a10_cost_one0,//未稅單價
+                            inf29a22_tax_flag: inf29aItem.inf29a22_tax_flag,//稅別
                             inf29a24_retrn_qty: inf29aItem.inf29a24_retrn_qty,//退貨數
                             inf29a26_box_qty:inf29aItem.inf29a26_box_qty,//箱入量
                             //SelectedCurrencyInfo: currencyInfo, //幣別
@@ -392,6 +404,7 @@
                         inf2928_currency: this.Inf29Item.SelectedCurrencyInfo == null ? "" : this.Inf29Item.SelectedCurrencyInfo.cnf1003_char01, //幣別
                         inf2929_exchange_rate: this.Inf29Item.inf2929_exchange_rate || 0,
                         inf2921_pmonth: this.Inf29Item.inf2921_pmonth,
+                        inf2951_allowances: this.Inf29Item.inf2951_allowances,
                         inf2952_project_no: this.Inf29Item.inf2952_project_no,
                         remark: this.Inf29Item.remark || "",
                         adddate: new Date(),
@@ -511,14 +524,23 @@
                     vueObj.Inf29aItem.inf29a26_box_qty = productInfo.pqty_o;
                     vueObj.Inf29aItem.inf29a33_product_name = productInfo.psname;
                     vueObj.Inf29aItem.inf29a40_tax = productInfo.tax;
+                    vueObj.Inf29aItem.inf29a22_tax_flag = productInfo.tax_flag;
                     vueObj.Inf29aItem.inf29a41_pcat = productInfo.pcat;
                     vueObj.Inf29aItem.inf29a04_sizeno = productInfo.size;
-                    vueObj.inf29a38_one_amt = vueObj.Inf29aItem.inf29a39_price * (vueObj.Inf29aItem_Inf29a13SoldQty
-                        - vueObj.Inf29aItem.inf29a24_retrn_qty) + vueObj.Inf29aItem.inf29a36_odds_amt;
-                    vueObj.inf0164_dividend = productInfo.dividend;
+                    vueObj.inf29a38_one_amt = vueObj.Inf29aItem_Inf29a38OneAmt;
+                    vueObj.Inf29aItem.inf0164_dividend = productInfo.dividend;
                     if (parseFloat(productInfo.cost) == 0) {
                         if (confirm("您確定進價 = 0，回是(Y)繼續作業，回否(N)請修正進價")) {
                         }
+                    }
+                    if (vueObj.Inf29aItem.inf29a22_tax_flag == "1") {
+                        vueObj.Inf29aItem.inf29a49_tax =
+                            (vueObj.Inf29aItem.inf29a38_one_amt / (1 + vueObj.Inf29aItem.inf29a40_tax)) * vueObj.Inf29aItem.inf29a40_tax;
+                        if (isNaN(vueObj.Inf29aItem.inf29a49_tax)) {
+                            vueObj.Inf29aItem.inf29a49_tax = 0;
+                        }
+                    } else {
+                        vueObj.Inf29aItem.inf29a49_tax = 0;
                     }
                     //TODO also on currency change
                     if (vueObj.Inf29Item.SelectedCurrencyInfo == null) {
@@ -912,6 +934,7 @@
                         inf2921_pmonth: inf29.inf2921_pmonth,//所屬帳款月份
                         inf2928_currency: inf29.inf2928_currency, //幣別
                         inf2929_exchange_rate: inf29.inf2929_exchange_rate, //匯率
+                        inf2951_allowances: inf29.inf2951_allowances, //匯率
                         SelectedInReason: null, //異動代號
                         SelectedCurrencyInfo: currencyInfo, //幣別
                         remark: inf29.remark,
@@ -954,7 +977,9 @@
                                 inf29a38_one_amt: inf29a.inf29a38_one_amt, //小計金額
                                 inf29a12_sub_amt: inf29a.inf29a12_sub_amt, //換算後幣值小計
                                 inf29a13_sold_qty: inf29a.inf29a13_sold_qty, //數量
+                                inf29a16_gift_qty: inf29a.inf29a16_gift_qty,//贈品數量
                                 inf29a17_runit: inf29a.inf29a17_runit, //單位
+                                inf29a22_tax_flag: inf29a.inf29a22_tax_flag,//稅別
                                 inf29a24_retrn_qty: inf29a.inf29a24_retrn_qty,//退貨數
                                 inf29a26_box_qty: inf29a.inf29a26_box_qty, //箱入量
                                 inf29a33_product_name: inf29a.inf29a33_product_name, //商品名稱
@@ -1000,14 +1025,15 @@
                         inf2906_ref_no_seq: null, //單據來源
                         SelectedInReason: null, //異動代號
                         inf2910_in_reason: null, //異動代號
-                        inf2921_pmonth:null,//所屬帳款月份
+                        inf2921_pmonth: null,//所屬帳款月份
                         SelectedCurrencyInfo: defaultCurrency, //幣別
                         inf2929_exchange_rate: 1, //匯率
                         inf2002_docno_type: null,//單據分類編號
                         inf2002_docno_date: null,//異動單號_日期
                         inf2002_docno_seq: null,//異動單號_流水號
+                        inf2951_allowances: 0,//折讓金額
                         inf2952_project_no: "",
-                        remark: null,
+                        remark: "",
                         adddate: null,
                         adduser: null,
                         moddate: null,
@@ -1038,14 +1064,15 @@
                         inf29a05_pcode: null, //產品編號
                         inf29a05_shoes_code: null, //貨號
                         inf29a06_qty: 0,//小單位數量
-                        inf29a09_retail_one: null,//換算後幣值售價
-                        inf29a09_oretail_one: null, //售價
+                        inf29a09_retail_one: 0,//換算後幣值售價
+                        inf29a09_oretail_one: 0, //售價
                         inf29a10_ocost_one: 0, //含稅單價
                         inf29a10_cost_one0: 0, //未稅單價
                         inf29a10_cost_one: 0, //換算後幣值進價
                         inf29a13_sold_qty: 0,//大單位數量
                         inf29a16_gift_qty: 0,//贈品數量
                         inf29a17_runit: "", //單位
+                        inf29a22_tax_flag: "",//稅別
                         inf29a24_retrn_qty: 0,//退貨數
                         inf29a26_box_qty: 0,//箱入量
                         //                    SelectedCurrencyInfo: null, //幣別
@@ -1056,13 +1083,13 @@
                         inf29a40_tax: 0,//營業稅率
                         inf29a41_pcat: null,//商品分類編號
                         inf29a49_tax: 0,//營業稅
-                        inf0164_dividend: null,
+                        inf0164_dividend: 0,
                         adddate: null,
                         adduser: null,
                         moddate: null,
                         moduser: null,
                         Confirmed: "N", //確認
-                        remark: null,
+                        remark: "",
                     };
                     
 //                    if(defaultCurrency){
@@ -1108,6 +1135,11 @@
                             vueObj.Inf29Item.inf2911_sub_amt = poInfo.inf2039_one_amt;
                             vueObj.Inf29Item.inf2913_pay_term = poInfo.inf2053_account_type;
                             vueObj.Inf29Item.inf2921_pmonth = poInfo.inf2034_pay_yymm;
+                            try {
+                                vueObj.$refs.PMonth.setValue(new Date(vueObj.Inf29Item.inf2921_pmonth).dateFormat(this.UiDateFormat));
+                            } catch(e) {
+                                console.error(e);
+                            } 
                             vueObj.Inf29Item.inf2924_apply_date = poInfo.inf2904_pro_date;
                             vueObj.Inf29Item.inf2927_mcode = vueObj.Inf29Item.inf2909_vcode;
                             vueObj.Inf29Item.inf2928_currency = poInfo.inf2024_currency;
@@ -1172,6 +1204,18 @@
                     },
                     unbind:function(el){
                         $(el).off("shown.bs.modal");
+                    }
+                },
+                "float-thead": {
+                    inserted: function (el, binding) {
+                        $(el).floatThead({
+                            scrollContainer: function ($table) {
+                                return $table.closest('.wrapper');
+                            }
+                        });
+                    },
+                    unbind: function (el) {
+                        $(el).floatThead('destroy');
                     }
                 }
             },
