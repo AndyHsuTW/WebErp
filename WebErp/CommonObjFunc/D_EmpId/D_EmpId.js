@@ -15,7 +15,7 @@
     function onLoaded(bootstrap, FunctionButton, uibPagination, loadingHelper, UserLog) {
 
 
-        Vue.component('d_empId_component',
+        Vue.component('d_empid_component',
             {
                 template: '\
                         <div>\

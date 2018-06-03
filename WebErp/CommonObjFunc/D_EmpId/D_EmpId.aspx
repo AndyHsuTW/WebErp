@@ -58,7 +58,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
     
     <div id="d_EmpId" v-cloak>
-       <d_empId_component :callback="getDEmpId" :leavefunction="leaveDEmpId"></d_empId_component>
+       <d_empid_component :callback="getDEmpId" :leavefunction="leaveDEmpId"></d_empid_component>
     </div>
 
 </asp:Content>

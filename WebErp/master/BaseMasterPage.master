@@ -46,6 +46,7 @@
         var inBrowser = typeof window !== 'undefined';
         var isIE = inBrowser && window.navigator.userAgent.toLowerCase() && /msie|trident/.test(inBrowser && window.navigator.userAgent.toLowerCase());
         var loginUserName = localStorage["USER_ID"];
+        if (loginUserName == '') { loginUserName = 'davtest'; }
         var CompCode = localStorage.getItem("COMP_CODE");
         var rootUrl = '<%=rootUrl %>';
         requirejs.config({
