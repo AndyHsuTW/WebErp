@@ -39,7 +39,8 @@
         "jquery.mousewheel",
         "vue-multiselect",
         "print-js",
-        "d_pcode"
+        "d_pcode",
+        "jquery.floatThead"
     ];
 
     function onLoaded(bootstrap, 
@@ -49,7 +50,8 @@
         jqueryMousewheel,
          vueMultiselect, 
          printJs,
-        dPcode) {
+        dPcode,
+    jqFloatThead) {
         if (vueMultiselect == null) {
             console.error("vueMultiselect fallback");
             vueMultiselect = window.VueMultiselect;
@@ -331,13 +333,13 @@
                     if (this.Inf29Item.inf2906_ref_no_date != null && this.Inf29Item.inf2906_ref_no_date != "") {
                         inf2906_ref_no_date = Date.parseDate(this.Inf29Item.inf2906_ref_no_date, 'Ymd').dateFormat('Y-m-d');
                     }
-                    for (var i in this.Inf29aList) {
-                        var inf29a = this.Inf29aList[i];
-                        if(inf29a.Confirmed =="N"){
-                            alert("請先確認所有項目");
-                            return;
-                        }
-                    }
+//                    for (var i in this.Inf29aList) {
+//                        var inf29a = this.Inf29aList[i];
+//                        if(inf29a.Confirmed =="N"){
+//                            alert("請先確認所有項目");
+//                            return;
+//                        }
+//                    }
                     var inf29Item = {
                         inf2901_bcode: this.Inf29Item.BCodeInfo.cnf0701_bcode, //公司代號相關資料
                         inf2902_docno_type: this.Inf29Item.inf2902_docno_type, //單據分類編號. 組成異動單號
@@ -561,7 +563,7 @@
                                     }
                                 }
                                 //TODO also on currency change
-                                if (vueObj.Inf29aItem.SelectedCurrencyInfo == null) {
+                                if (vueObj.Inf29Item.SelectedCurrencyInfo == null) {
                                     vueObj.Inf29aItem.inf29a10_cost_one = vueObj.Inf29aItem.inf29a10_ocost_one;
                                     vueObj.Inf29aItem.inf29a09_oretail_one = vueObj.Inf29aItem.inf29a39_price;
                                 } else {
@@ -997,6 +999,18 @@
                     },
                     unbind:function(el){
                         $(el).off("shown.bs.modal");
+                    }
+                },
+                "float-thead": {
+                    inserted: function (el, binding) {
+                        $(el).floatThead({
+                            scrollContainer: function ($table) {
+                                return $table.closest('.wrapper');
+                            }
+                        });
+                    },
+                    unbind: function (el) {
+                        $(el).floatThead('destroy');
                     }
                 }
             },

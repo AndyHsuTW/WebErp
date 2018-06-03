@@ -31,11 +31,15 @@ namespace Dinp02301
 
         public string inf29a05_shoes_code { get; set; }
 
+        public double inf29a06_qty { get; set; }
+
         public double inf29a09_retail_one { get; set; }
 
         public double inf29a09_oretail_one { get; set; }
 
         public double inf29a10_ocost_one { get; set; }
+
+        public double inf29a10_cost_one0 { get; set; }
 
         public double inf29a10_cost_one { get; set; }
 
@@ -47,8 +51,12 @@ namespace Dinp02301
 
         public string inf29a14_trn_type { get; set; }
 
+        public double inf29a16_gift_qty { get; set; }
+
         public string inf29a17_runit { get; set; }
 
+        public string inf29a22_tax_flag { get; set; }
+        
         public double inf29a24_retrn_qty { get; set; }
 
         public double inf29a26_box_qty { get; set; }
@@ -106,15 +114,20 @@ namespace Dinp02301
                ,[inf29a04_sizeno]
                ,[inf29a05_pcode]
                ,[inf29a05_shoes_code]
+               ,[inf29a06_qty]
                ,[inf29a09_retail_one]
                ,[inf29a09_oretail_one]
                ,[inf29a10_ocost_one]
                ,[inf29a10_cost_one]
+               ,[inf29a10_cost_one0]
                ,[inf29a11_dis_rate]
                ,[inf29a12_sub_amt]
                ,[inf29a13_sold_qty]
                ,[inf29a14_trn_type]
+               ,[inf29a16_gift_qty]
                ,[inf29a17_runit]
+               ,[inf29a22_tax_flag]
+               ,[inf29a24_retrn_qty]
                ,[inf29a26_box_qty]
                ,[inf29a33_product_name]
                ,[inf29a36_odds_amt]
@@ -122,6 +135,8 @@ namespace Dinp02301
                ,[inf29a39_price]
                ,[inf29a40_tax]
                ,[inf29a41_pcat]
+               ,[inf29a49_tax]
+               ,[remark]
                ,[adduser]
                ,[adddate])
     OUTPUT INSERTED.ID
@@ -133,15 +148,20 @@ namespace Dinp02301
                ,@inf29a04_sizeno
                ,@inf29a05_pcode
                ,@inf29a05_shoes_code
+               ,@inf29a06_qty
                ,@inf29a09_oretail_one
                ,@inf29a09_retail_one
                ,@inf29a10_ocost_one
                ,@inf29a10_cost_one
+               ,@inf29a10_cost_one0
                ,@inf29a11_dis_rate
                ,@inf29a12_sub_amt
                ,@inf29a13_sold_qty
                ,@inf29a14_trn_type
+               ,@inf29a16_gift_qty
                ,@inf29a17_runit
+               ,@inf29a22_tax_flag
+               ,@inf29a24_retrn_qty
                ,@inf29a26_box_qty
                ,@inf29a33_product_name
                ,@inf29a36_odds_amt
@@ -149,6 +169,8 @@ namespace Dinp02301
                ,@inf29a39_price
                ,@inf29a40_tax
                ,@inf29a41_pcat
+               ,@inf29a49_tax
+               ,@remark
                ,@adduser
                ,@adddate  ) ";
 
@@ -162,15 +184,20 @@ namespace Dinp02301
                     sqlCmd.Parameters.AddWithValueSafe("@inf29a04_sizeno", inf29a.inf29a04_sizeno);
                     sqlCmd.Parameters.AddWithValueSafe("@inf29a05_pcode", inf29a.inf29a05_pcode);
                     sqlCmd.Parameters.AddWithValueSafe("@inf29a05_shoes_code", inf29a.inf29a05_shoes_code);
+                    sqlCmd.Parameters.AddWithValueSafe("@inf29a06_qty", inf29a.inf29a06_qty);
                     sqlCmd.Parameters.AddWithValueSafe("@inf29a09_retail_one", inf29a.inf29a09_retail_one);
                     sqlCmd.Parameters.AddWithValueSafe("@inf29a09_oretail_one", inf29a.inf29a09_oretail_one);
                     sqlCmd.Parameters.AddWithValueSafe("@inf29a10_ocost_one", inf29a.inf29a10_ocost_one);
                     sqlCmd.Parameters.AddWithValueSafe("@inf29a10_cost_one", inf29a.inf29a10_cost_one);
+                    sqlCmd.Parameters.AddWithValueSafe("@inf29a10_cost_one0", inf29a.inf29a10_cost_one0);
                     sqlCmd.Parameters.AddWithValueSafe("@inf29a11_dis_rate", inf29a.inf29a11_dis_rate);
                     sqlCmd.Parameters.AddWithValueSafe("@inf29a12_sub_amt", inf29a.inf29a12_sub_amt);
                     sqlCmd.Parameters.AddWithValueSafe("@inf29a13_sold_qty", inf29a.inf29a13_sold_qty);
                     sqlCmd.Parameters.AddWithValueSafe("@inf29a14_trn_type", inf29a.inf29a14_trn_type);
+                    sqlCmd.Parameters.AddWithValueSafe("@inf29a16_gift_qty", inf29a.inf29a16_gift_qty);
                     sqlCmd.Parameters.AddWithValueSafe("@inf29a17_runit", inf29a.inf29a17_runit);
+                    sqlCmd.Parameters.AddWithValueSafe("@inf29a22_tax_flag", inf29a.inf29a22_tax_flag??"");
+                    sqlCmd.Parameters.AddWithValueSafe("@inf29a24_retrn_qty", inf29a.inf29a24_retrn_qty);
                     sqlCmd.Parameters.AddWithValueSafe("@inf29a26_box_qty", inf29a.inf29a26_box_qty);
 //                    sqlCmd.Parameters.AddWithValueSafe("@inf29a31_currency", inf29a.inf29a31_currency);
 //                    sqlCmd.Parameters.AddWithValueSafe("@inf29a32_exchange_rate", inf29a.inf29a32_exchange_rate);
@@ -180,6 +207,8 @@ namespace Dinp02301
                     sqlCmd.Parameters.AddWithValueSafe("@inf29a39_price", inf29a.inf29a39_price);
                     sqlCmd.Parameters.AddWithValueSafe("@inf29a40_tax", inf29a.inf29a40_tax);
                     sqlCmd.Parameters.AddWithValueSafe("@inf29a41_pcat", inf29a.inf29a41_pcat);
+                    sqlCmd.Parameters.AddWithValueSafe("@inf29a49_tax", inf29a.inf29a49_tax);
+                    sqlCmd.Parameters.AddWithValue("@remark", inf29a.remark??"");
                     sqlCmd.Parameters.AddWithValue("@adduser", inf29a.adduser);
                     sqlCmd.Parameters.AddWithValue("@adddate", inf29a.adddate);
 
@@ -318,6 +347,7 @@ namespace Dinp02301
                ,inf29a.[remark]
                ,inf29a.[adduser]
                ,inf29a.[adddate]
+               ,inf01.[inf0164_dividend]
         FROM inf29a
         LEFT JOIN [dbo].[inf01]
             ON inf29a.inf29a05_pcode = inf01.inf0102_pcode
@@ -354,11 +384,15 @@ namespace Dinp02301
                             inf29a.inf29a39_price = Convert.ToDouble(sqlReader["inf29a39_price"]);
                             inf29a.inf29a40_tax = Convert.ToDouble(sqlReader["inf29a40_tax"]);
                             inf29a.inf29a41_pcat = Convert.ToString(sqlReader["inf29a41_pcat"]);
-                            inf29a.inf29a49_tax = Convert.ToDouble(sqlReader["inf29a49_tax"]);
+                            inf29a.inf29a49_tax = DBNull.Value == sqlReader["inf29a49_tax"]
+                                                      ? 0
+                                                      : Convert.ToDouble(sqlReader["inf29a49_tax"]);
                             inf29a.remark = Convert.ToString(sqlReader["remark"]);
                             inf29a.adduser = Convert.ToString(sqlReader["adduser"]);
                             inf29a.adddate = Convert.ToDateTime(sqlReader["adddate"]);
-                            inf29a.inf0164_dividend = Convert.ToDouble(sqlReader["inf0164_dividend"]);
+                            inf29a.inf0164_dividend = DBNull.Value == sqlReader["inf0164_dividend"]
+                                                          ? 0
+                                                          : Convert.ToDouble(sqlReader["inf0164_dividend"]);
 
                             inf29aList.Add(inf29a);
                         }

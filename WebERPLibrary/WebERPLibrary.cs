@@ -443,6 +443,7 @@ namespace WebERPLibrary
                 ,inf01125_tax
                 ,ISNULL(inf0123_pdept,'')+'-'+ISNULL(@pdeptcode,'') as  inf0123_pdept
                 ,ISNULL(inf0124_pcat,'')+'-'+ISNULL(@pcatcode,'') as inf0124_pcat
+                ,inf0127_tax_flag
                 ,inf01a03_size
                 ,inf01a07_retail
                 ,inf01a13_cost
@@ -526,6 +527,7 @@ namespace WebERPLibrary
                             retail = rd["inf01a07_retail"].ToString(),
                             size = rd["inf01a03_size"].ToString(),
                             tax = Convert.ToDouble(rd["inf01125_tax"]),
+                            tax_flag = rd["inf0127_tax_flag"].ToString(),
                             inv_qty = rd["inf01b24_inv_qty"].ToString(),
                             bname = rd["bname"].ToString(),
                             graphy = rd["inf0175_graphy"].ToString(),
@@ -557,6 +559,7 @@ namespace WebERPLibrary
         public string retail { get; set; }
         public string size { get; set; }
         public double tax { get; set; }
+        public string tax_flag { get; set; }
         public string inv_qty { get; set; }
         public string bname { get; set; }
         public string graphy { get; set; }

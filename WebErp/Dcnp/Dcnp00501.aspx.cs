@@ -8,10 +8,10 @@ using ErpBaseLibrary.DB;
 
 public partial class Dcnp_Dcnp00501 : System.Web.UI.Page
 {
-    public string AppVersion = "v18.01.18";
+    public string AppVersion = "v18.06.03";
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        Title = "各檔案欄位說明維護 " + this.AppVersion;
+        Title = "Dcnp00501 各檔案欄位說明維護 " + this.AppVersion;
     }
 }

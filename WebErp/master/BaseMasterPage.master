@@ -59,7 +59,8 @@
                 "UserLog": "public/scripts/UserLog/UserLog",
                 "vue-multiselect": "public/scripts/VueComponent/multiselect/vue-multiselect@2.0.3.min",
                 "vue-multiselect-css": "public/scripts/VueComponent/multiselect/vue-multiselect.min",
-                "print-js":"public/scripts/print.min"
+                "print-js": "public/scripts/print.min",
+                "jquery.floatThead":"public/scripts/jquery.floatThead.min",
             },
             shim: {
                 "bootstrap": {
@@ -70,14 +71,14 @@
                 },
                 "vue-multiselect": {
                     "deps": ["css!vue-multiselect-css"]
-                }
+                },
             },
             map: {
                 '*': {
                     css: '<%=rootUrl%>public/scripts/requirejs/css.min.js'
                 }
             },
-            urlArgs: "appVersion=20180422" //reload all dependencies
+            urlArgs: "appVersion=20180603" //reload all dependencies
         });
 
         requirejs.onError = function (err) {

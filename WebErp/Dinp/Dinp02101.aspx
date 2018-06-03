@@ -909,10 +909,9 @@
                                 所屬帳款月份
                             </td>
                             <td>
-                                <span class="key-value-inputs">
-                                    <input type="text" v-model="Inf29Item.inf2903_customer_code" v-on:change="OnCustomCodeChange"/>
-                                    <input type="text" v-model="Inf29Item.Inf2903CustomerCodeName" disabled="disabled"/>
-                                </span>
+                                <vue-datetimepicker placeholder="" ref="PMonth"
+                                    v-model="Inf29Item.inf2921_pmonth">
+                                </vue-datetimepicker>
                             </td>
                         </tr>
                     </tbody>
@@ -975,20 +974,20 @@
                                 進貨數量
                             </td>
                             <td>
-                                <input type="text" class="x-small-field" v-model="Inf29aItem.inf29a26_box_qty" disabled="disabled"/>
+                                <input type="text" class="x-small-field" v-model="Inf29aItem.inf29a13_sold_qty" />
                             </td>
                             <td>
                                 退貨數量
                                 <input type="text" class="x-small-field" v-model="Inf29aItem.inf29a24_retrn_qty" />
                                 贈品數量
-                                <input type="text" class="x-small-field" v-bind:value="Inf29aItem.inf29a16_gift_qty" disabled="disabled"/>
+                                <input type="text" class="x-small-field" v-model="Inf29aItem.inf29a16_gift_qty"/>
                             </td>
                             <td></td>
                             <td>
                                 大單位數量
                             </td>
                             <td>
-                                <input type="text" class="x-small-field" v-bind:value="Inf29aItem.inf29a13_sold_qty" />
+                                <input type="text" class="x-small-field" v-model:value="Inf29aItem.inf29a26_box_qty" />
                             </td>
                             <td>
                                 換算值
@@ -1000,7 +999,7 @@
                                 小單位數量
                             </td>
                             <td>
-                                <input type="text" class="small-field" v-bind:value="Inf29aItem.inf29a06_qty" />
+                                <input type="text" class="small-field" v-model:value="Inf29aItem.inf29a06_qty" />
                             </td>
                             <td>
                                 金額小計
@@ -1030,8 +1029,8 @@
                 </table>
             </div>
             <div class="result-div">
-                <div class="scroll-table">
-                    <table class="table table-bordered sortable">
+                <div class="scroll-table wrapper">
+                    <table class="table table-bordered sortable" v-float-thead="">
                         <thead>
                             <tr class="bg-primary text-light">
                                 <th v-on:click="OnTableSorting('inf29a02_seq')">
@@ -1074,12 +1073,12 @@
                                         'glyphicon-chevron-down': SortColumn=='inf29a17_runit' && SortOrder=='desc'}">
                                     </span>
                                 </th>
-                                <th v-on:click="OnTableSorting('inf29a26_box_qty')">
+                                <th v-on:click="OnTableSorting('inf29a13_sold_qty')">
                                     進貨數量
                                     <span class="sort-item glyphicon" 
-                                        v-bind:class="{'glyphicon-sort':SortColumn!='inf29a26_box_qty', 
-                                        'glyphicon-chevron-up': SortColumn=='inf29a26_box_qty' && SortOrder=='asc',
-                                        'glyphicon-chevron-down': SortColumn=='inf29a26_box_qty' && SortOrder=='desc'}">
+                                        v-bind:class="{'glyphicon-sort':SortColumn!='inf29a13_sold_qty', 
+                                        'glyphicon-chevron-up': SortColumn=='inf29a13_sold_qty' && SortOrder=='asc',
+                                        'glyphicon-chevron-down': SortColumn=='inf29a13_sold_qty' && SortOrder=='desc'}">
                                     </span>
                                 </th>
                                 <th v-on:click="OnTableSorting('inf29a24_retrn_qty')">
@@ -1098,12 +1097,12 @@
                                         'glyphicon-chevron-down': SortColumn=='inf29a16_gift_qty' && SortOrder=='desc'}">
                                     </span>
                                 </th>
-                                <th v-on:click="OnTableSorting('inf29a13_sold_qty')">
+                                <th v-on:click="OnTableSorting('inf29a26_box_qty')">
                                     大單位數量
                                     <span class="sort-item glyphicon" 
-                                        v-bind:class="{'glyphicon-sort':SortColumn!='inf29a13_sold_qty', 
-                                        'glyphicon-chevron-up': SortColumn=='inf29a13_sold_qty' && SortOrder=='asc',
-                                        'glyphicon-chevron-down': SortColumn=='inf29a13_sold_qty' && SortOrder=='desc'}">
+                                        v-bind:class="{'glyphicon-sort':SortColumn!='inf29a26_box_qty', 
+                                        'glyphicon-chevron-up': SortColumn=='inf29a26_box_qty' && SortOrder=='asc',
+                                        'glyphicon-chevron-down': SortColumn=='inf29a26_box_qty' && SortOrder=='desc'}">
                                     </span>
                                 </th>
                                 <th v-on:click="OnTableSorting('inf0164_dividend')">
@@ -1180,13 +1179,13 @@
                                 <!-- 單位 -->
                                 <td>{{inf29aItem.inf29a17_runit }}</td>
                                 <!-- 進貨數量 -->
-                                <td>{{inf29aItem.inf29a26_box_qty }}%</td>
+                                <td>{{inf29aItem.inf29a13_sold_qty }}</td>
                                 <!-- 退貨數量 -->
                                 <td>{{inf29aItem.inf29a24_retrn_qty }}</td>
                                 <!-- 贈品數量 -->
                                 <td>{{inf29aItem.inf29a16_gift_qty }}</td>
                                 <!-- 大單位數量 -->
-                                <td>{{inf29aItem.inf29a13_sold_qty }}</td>
+                                <td>{{inf29aItem.inf29a26_box_qty }}</td>
                                 <!-- 大單位換算值 -->
                                 <td>{{inf29aItem.inf0164_dividend }}</td>
                                  <!-- 小單位數量 -->
