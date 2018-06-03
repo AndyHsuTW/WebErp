@@ -563,7 +563,7 @@
                                     }
                                 }
                                 //TODO also on currency change
-                                if (vueObj.Inf29aItem.SelectedCurrencyInfo == null) {
+                                if (vueObj.Inf29Item.SelectedCurrencyInfo == null) {
                                     vueObj.Inf29aItem.inf29a10_cost_one = vueObj.Inf29aItem.inf29a10_ocost_one;
                                     vueObj.Inf29aItem.inf29a09_oretail_one = vueObj.Inf29aItem.inf29a39_price;
                                 } else {

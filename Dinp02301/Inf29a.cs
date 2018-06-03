@@ -390,7 +390,9 @@ namespace Dinp02301
                             inf29a.remark = Convert.ToString(sqlReader["remark"]);
                             inf29a.adduser = Convert.ToString(sqlReader["adduser"]);
                             inf29a.adddate = Convert.ToDateTime(sqlReader["adddate"]);
-                            inf29a.inf0164_dividend = Convert.ToDouble(sqlReader["inf0164_dividend"]);
+                            inf29a.inf0164_dividend = DBNull.Value == sqlReader["inf0164_dividend"]
+                                                          ? 0
+                                                          : Convert.ToDouble(sqlReader["inf0164_dividend"]);
 
                             inf29aList.Add(inf29a);
                         }
