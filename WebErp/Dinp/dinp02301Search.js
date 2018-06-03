@@ -32,7 +32,8 @@
         "jquery.mousewheel",
         "UserLog",
         "print-js",
-        "vue-multiselect"
+        "vue-multiselect",
+        "jquery.floatThead"
     ];
 
     function onLoaded(bootstrap, 
@@ -42,7 +43,8 @@
         jqMousewheel,
         userLog, 
         printJs, 
-        vueMultiselect) {
+        vueMultiselect,
+        jqFloatThead) {
         if (vueMultiselect == null) {
             console.error("vueMultiselect fallback");
             vueMultiselect = window.VueMultiselect;
@@ -615,7 +617,19 @@
                 },
             },
             directives: {
-
+                "float-thead": {
+                    inserted: function(el, binding) {
+                        $(el).floatThead({
+                            scrollContainer: function($table) {
+                                return $table.closest('.wrapper');
+                            },
+                            zIndex:0
+                        });
+                    },
+                    unbind: function(el) {
+                        $(el).floatThead('destroy');
+                    }
+                }
             },
             mounted: function () {
                 SaveEnterPageLog(rootUrl, loginUserName, "Dinp02301");

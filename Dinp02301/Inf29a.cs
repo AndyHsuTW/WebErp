@@ -347,6 +347,7 @@ namespace Dinp02301
                ,inf29a.[remark]
                ,inf29a.[adduser]
                ,inf29a.[adddate]
+               ,inf01.[inf0164_dividend]
         FROM inf29a
         LEFT JOIN [dbo].[inf01]
             ON inf29a.inf29a05_pcode = inf01.inf0102_pcode
@@ -383,7 +384,9 @@ namespace Dinp02301
                             inf29a.inf29a39_price = Convert.ToDouble(sqlReader["inf29a39_price"]);
                             inf29a.inf29a40_tax = Convert.ToDouble(sqlReader["inf29a40_tax"]);
                             inf29a.inf29a41_pcat = Convert.ToString(sqlReader["inf29a41_pcat"]);
-                            inf29a.inf29a49_tax = Convert.ToDouble(sqlReader["inf29a49_tax"]);
+                            inf29a.inf29a49_tax = DBNull.Value == sqlReader["inf29a49_tax"]
+                                                      ? 0
+                                                      : Convert.ToDouble(sqlReader["inf29a49_tax"]);
                             inf29a.remark = Convert.ToString(sqlReader["remark"]);
                             inf29a.adduser = Convert.ToString(sqlReader["adduser"]);
                             inf29a.adddate = Convert.ToDateTime(sqlReader["adddate"]);

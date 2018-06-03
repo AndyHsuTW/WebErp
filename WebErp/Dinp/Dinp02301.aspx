@@ -394,8 +394,8 @@
                 </table>
             </div>
             <div class="main-result-div">
-                <div class="scroll-table">
-                    <table class="table table-bordered sortable">
+                <div class="scroll-table wrapper">
+                    <table class="table table-bordered sortable" v-float-thead="">
                         <thead>
                             <tr class="bg-primary text-light">
                                 <th v-on:click="OnInf29TableSorting('Inf2902DocNoShort')">
@@ -484,8 +484,8 @@
                 </div>
             </div>
             <div class="sub-result-div">
-                <div class="scroll-table">
-                    <table class="table table-bordered sortable">
+                <div class="scroll-table wrapper">
+                    <table class="table table-bordered sortable" v-float-thead="">
                         <thead>
                             <tr class="bg-primary text-light">
                                 <th v-on:click="OnInf29aTableSorting('inf29a02_seq')">
@@ -1013,8 +1013,8 @@
                 </table>
             </div>
             <div class="result-div">
-                <div class="scroll-table">
-                    <table class="table table-bordered sortable">
+                <div class="scroll-table wrapper">
+                    <table class="table table-bordered sortable" v-float-thead="">
                         <thead>
                             <tr class="bg-primary text-light">
                                 <th v-on:click="OnTableSorting('inf29a02_seq')">
@@ -1097,14 +1097,14 @@
                                         'glyphicon-chevron-down': SortColumn=='inf29a38_one_amt' && SortOrder=='desc'}">
                                     </span>
                                 </th>
-                                <th v-on:click="OnTableSorting('Confirmed')">
-                                    確認
-                                    <span class="sort-item glyphicon" 
-                                        v-bind:class="{'glyphicon-sort':SortColumn!='Confirmed', 
-                                        'glyphicon-chevron-up': SortColumn=='Confirmed' && SortOrder=='asc',
-                                        'glyphicon-chevron-down': SortColumn=='Confirmed' && SortOrder=='desc'}">
-                                    </span>
-                                </th>
+<%--                                <th v-on:click="OnTableSorting('Confirmed')">--%>
+<%--                                    確認--%>
+<%--                                    <span class="sort-item glyphicon" --%>
+<%--                                        v-bind:class="{'glyphicon-sort':SortColumn!='Confirmed', --%>
+<%--                                        'glyphicon-chevron-up': SortColumn=='Confirmed' && SortOrder=='asc',--%>
+<%--                                        'glyphicon-chevron-down': SortColumn=='Confirmed' && SortOrder=='desc'}">--%>
+<%--                                    </span>--%>
+<%--                                </th>--%>
 
                             </tr>
                         </thead>

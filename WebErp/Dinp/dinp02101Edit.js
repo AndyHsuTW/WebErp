@@ -1211,7 +1211,8 @@
                         $(el).floatThead({
                             scrollContainer: function ($table) {
                                 return $table.closest('.wrapper');
-                            }
+                            },
+                            zIndex: 0
                         });
                     },
                     unbind: function (el) {
