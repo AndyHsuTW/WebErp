@@ -54,7 +54,7 @@
                                                 </td>\
                                                 <td>&nbsp;&nbsp;&nbsp;關鍵字&nbsp\
                                                 </td>\
-                                                <td><input type="text" v-model="Filter.Keyword">&nbsp;&nbsp;筆數 : {{D_EmpIdList.length}}\
+                                                <td><input type="text" v-model="Filter.Keyword">&nbsp;&nbsp;<span style="font-weight:bold">筆數 : {{D_EmpIdList.length}}</span>\
                                                 </td>\
                                             </tr>\
                                         </table>\

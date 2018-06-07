@@ -4280,7 +4280,7 @@ end
                 if (j == 0) continue;//跳過標題
 
                 var row = rowList[j];
-                if (string.IsNullOrEmpty(row[2].ToString())) continue;
+                //if (string.IsNullOrEmpty(row[2].ToString())) continue;
 
                 for (var k = 0; k < row.Count; k++)
                 {
