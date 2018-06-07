@@ -352,7 +352,7 @@
                                 <input type="text" class="medium-field" v-model="Filter.Qty">
                             </td>
                             <td>
-                                目前顯示{{ Saf21List.length }} 筆
+                                筆數 : {{ Saf21List.length }}
                             </td>
                         </tr>
 

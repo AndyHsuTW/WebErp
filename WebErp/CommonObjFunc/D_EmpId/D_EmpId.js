@@ -19,7 +19,7 @@
             {
                 template: '\
                         <div>\
-                            <ul class="app-title">\<li>員工基本資料查詢v18.01.12</li></ul>\
+                            <ul class="app-title">\<li>員工基本資料查詢v18.06.06</li></ul>\
                             <div class="app-body">\
                                 <div class="common-button-div">\
                                     <function-button id="SearchBtn" hot-key="f1" v-on:click.native="OnSearch()">查詢</function-button>\
@@ -87,7 +87,7 @@
                                                         </td>\
                                                         <td class="col-xs-1">{{D_EmpIdData.BCode}}</td>\
                                                         <td class="col-xs-1">{{D_EmpIdData.EmpId}}</td>\
-                                                        <td class="col-xs-1">{{D_EmpIdData.EmpName}}</td>\
+                                                        <td class="col-xs-1">{{D_EmpIdData.EmpCnName}}</td>\
                                                         <td class="col-xs-1">{{D_EmpIdData.Mobile}}</td>\
                                                         <td class="col-xs-1">{{D_EmpIdData.Phone}}</td>\
                                                         <td class="col-xs-1">{{D_EmpIdData.ZipCode}}</td>\

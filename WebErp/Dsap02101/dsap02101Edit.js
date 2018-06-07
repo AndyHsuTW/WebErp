@@ -583,11 +583,15 @@
                 OnSave: function () {
 
                     if (this.Saf21Copy == JSON.stringify(this.Saf21Item) + JSON.stringify(this.Saf21aList)) {
-                        alert("您未修改任何欄位，所以不與存檔");
+                        alert("您未修改任何欄位，所以不可存檔");
                         return;
                     }
                     if (this.Saf21Item.BCodeInfo == null) {
                         alert("公司代號不允許空白，請重新輸入");
+                        return;
+                    }
+                    if (this.Saf21Item.saf2114_payment == null) {
+                        alert("付款條件不允許空白，請重新輸入");
                         return;
                     }
                     if (this.Saf21Item.saf2108_customer_code == null ||

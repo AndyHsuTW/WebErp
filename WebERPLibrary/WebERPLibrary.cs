@@ -828,23 +828,25 @@ where a.status <>'D'
                         {
                             BCode = rd["taf1008_bcode"].ToString(),
                             EmpId = rd["taf1001_empid"].ToString(),
-                            EmpCnName = rd["taf1004_cname"].ToString()
-                            //pname = rd["inf0110_pname"].ToString(),
-                            //color = rd["inf0111_color"].ToString(),
-                            //cost = rd["inf01a13_cost"].ToString(),
-                            //cost_notax = rd["inf01a67_cost_notax"].ToString(),
-                            //runit = rd["inf0115_runit"].ToString(),
-                            //pdept = rd["inf0123_pdept"].ToString(),
-                            //pcat = rd["inf0124_pcat"].ToString(),
-                            //pqty_o = Convert.ToDouble(rd["inf0116_pqty_o"]),
-                            //retail = rd["inf01a07_retail"].ToString(),
-                            //size = rd["inf01a03_size"].ToString(),
-                            //tax = Convert.ToDouble(rd["inf01125_tax"]),
-                            //inv_qty = rd["inf01b24_inv_qty"].ToString(),
-                            //bname = rd["bname"].ToString(),
-                            //graphy = rd["inf0175_graphy"].ToString()
-                            //dividend = Convert.ToDouble(rd["inf0164_dividend"]),
-                        });
+                            EmpCnName = rd["taf1004_cname"].ToString(),
+                            BCodeName = rd["cnf0702_bname"].ToString(),
+                            DeptId = rd["taf1009_dcode"].ToString(),
+                            DeptName = rd["DName"].ToString(),
+                            TitleId = rd["taf1010_jcode"].ToString(),
+                            TitleName = rd["TName"].ToString(),
+                            Sex = rd["taf1014_sex"].ToString(),
+                            OnBoardDate = rd["taf1015_bdate"].ToString(),
+                            ResignDate = rd["taf1016_edate"].ToString(),
+                            Phone = rd["taf1019_tel1"].ToString(),
+                            ZipCode = rd["taf1022_zipcode"].ToString(),
+                            CAddress = rd["taf1023_address"].ToString(),
+                            Mobile = rd["taf1031_cellphone"].ToString(),
+                            //Line = rd["taf10110_skype"].ToString(),
+                            Photo = rd["taf1033_picture"].ToString(),
+                            Email = rd["taf10108_email"].ToString(),
+                            Skype = rd["taf10110_skype"].ToString()
+        //pqty_o = Convert.ToDouble(rd["inf0116_pqty_o"])
+    });
 
                     }
                 }
