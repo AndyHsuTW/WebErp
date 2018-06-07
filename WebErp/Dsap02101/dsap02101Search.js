@@ -243,7 +243,7 @@
                                 return;
                             }
                             LoadingHelper.hideLoading();
-                            console.error(errorThrown);
+                            console.error(jqXhr.responseText);
                             alert("刪除失敗");
                         }
                     });
@@ -537,68 +537,9 @@
 
                     this.Saf21List.sort(this.SortSaf21List);
                 },
-                OnDeleteALL: function () {
-                    var isOk = true;
-                    var docnoLsit = [];
-                    this.Saf21List.forEach(element => {
-                        if (element.adduser != loginUserName) {
-                            isOk = false;
-                            return;
-                        } else {
-                            docnoLsit.push(element.saf2101_docno);
-                        }
-                    });
-                    if (isOk) {
-                        LoadingHelper.showLoading();
-                        var vueObj = this;
-                        return $.ajax({
-                            type: 'POST',
-                            url: rootUrl + "Dsap02101/Ajax/Saf21Handler.ashx",
-                            cache: false,
-                            data: {
-                                act: "delALL",
-                                data: JSON.stringify(docnoLsit)
-                            },
-                            dataType: 'text',
-                            success: function (result) {
-                                LoadingHelper.hideLoading();
-                                if (result != "ok") {
-                                    alert("刪除失敗");
-                                } else {
-                                    alert("刪除成功");
-                                    this.OnSearch();
-                                }
-                            },
-                            error: function (jqXhr, textStatus, errorThrown) {
-                                if (jqXhr.status == 0) {
-                                    return;
-                                }
-                                LoadingHelper.hideLoading();
-                                console.error(errorThrown);
-                                alert("刪除失敗");
-                            }
-                        });
-                    } else {
-                        alert('查詢資料有其他人的資料，無法刪除')
-                    }
-                },
-                OnSaf21aTableSorting: function (column) {
-                    if (this.Saf21aSortColumn == column) {
-                        if (this.Saf21aSortOrder == "asc") {
-                            this.Saf21aSortOrder = "desc";
-                        } else {
-                            this.Saf21aSortColumn = "asc";
-                        }
-                    } else {
-                        this.Saf21aSortOrder = "asc";
-                    }
-                    this.Saf21aSortColumn = column;
-
-                    this.Saf21aList.sort(this.SortSaf21aList);
-                },
-                SortSaf21aList: function (a, b) {
-                    var paramA = a[this.Saf21aSortColumn] || "";
-                    var paramB = b[this.Saf21aSortColumn] || "";
+                SortSaf21List: function (a, b) {
+                    var paramA = a[this.Saf21SortColumn] || "";
+                    var paramB = b[this.Saf21SortColumn] || "";
                     if (paramA < paramB) {
                         return this.Saf21SortOrder == 'asc' ? -1 : 1;
                     }
@@ -611,6 +552,87 @@
                     }
                     if (a["id"] > b["id"]) {
                         return this.Saf21SortOrder == 'asc' ? 1 : -1;
+                    }
+                    return 0;
+                },
+                OnDeleteALL: function () {
+                    var isOk = true;
+                    var docnoLsit = [];
+                    if (this.Saf21List.length > 0) {
+                        this.Saf21List.forEach(element => {
+                            if (element.adduser != loginUserName) {
+                                isOk = false;
+                                return;
+                            } else {
+                                docnoLsit.push(element.saf2101_docno);
+                            }
+                        });
+                        if (isOk) {
+                            LoadingHelper.showLoading();
+                            var vueObj = this;
+                            return $.ajax({
+                                type: 'POST',
+                                url: rootUrl + "Dsap02101/Ajax/Saf21Handler.ashx",
+                                cache: false,
+                                data: {
+                                    act: "delALL",
+                                    data: JSON.stringify(docnoLsit)
+                                },
+                                dataType: 'text',
+                                success: function (result) {
+                                    LoadingHelper.hideLoading();
+                                    if (result != "ok") {
+                                        alert("刪除失敗");
+                                    } else {
+                                        alert("刪除成功");
+                                        vueObj.OnSearch();
+                                    }
+                                },
+                                error: function (jqXhr, textStatus, errorThrown) {
+                                    if (jqXhr.status == 0) {
+                                        return;
+                                    }
+                                    LoadingHelper.hideLoading();
+                                    console.error(errorThrown);
+                                    alert("刪除失敗");
+                                }
+                            });
+                        } else {
+                            alert('查詢資料有其他人的資料，無法刪除')
+                        }
+                    } else {
+                        alert('無資料可刪除');
+                    }
+                },
+                OnSaf21aTableSorting: function (column) {
+                    if (this.Saf21aSortColumn == column) {
+                        if (this.Saf21aSortOrder == "asc") {
+                            this.Saf21aSortOrder = "desc";
+                        } else {
+                            this.Saf21aSortOrder = "asc";
+                        }
+                    } else {
+                        this.Saf21aSortOrder = "asc";
+                    }
+                    this.Saf21aSortColumn = column;
+
+                    this.Saf21aList.sort(this.SortSaf21aList);
+                },
+                SortSaf21aList: function (a, b) {
+                    var paramA = a[this.Saf21aSortColumn] || "";
+                    var paramB = b[this.Saf21aSortColumn] || "";
+                    if (paramA < paramB) {
+                        return this.Saf21aSortOrder == 'asc' ? -1 : 1;
+                    }
+                    if (paramA > paramB) {
+                        return this.Saf21aSortOrder == 'asc' ? 1 : -1;
+                    }
+                    if (a["id"] < b["id"]) {
+                        return this.Saf21aSortOrder == 'asc' ? -1 : 1;
+
+                    }
+                    if (a["id"] > b["id"]) {
+                        return this.Saf21aSortOrder == 'asc' ? 1 : -1;
                     }
                     return 0;
                 },

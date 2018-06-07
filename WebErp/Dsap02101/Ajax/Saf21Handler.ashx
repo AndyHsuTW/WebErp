@@ -68,6 +68,7 @@ public class Saf21Handler : IHttpHandler, IRequiresSessionState
                     }catch(Exception ex )
                     {
                         var msg = ex.Message;
+                        throw new HttpException(msg);
                     }
 
                 }
@@ -92,7 +93,10 @@ public class Saf21Handler : IHttpHandler, IRequiresSessionState
             case "del":
                 {
                     bool success = false;
-                    Saf21a.Delete(this.Data, "saf21a01_docno");
+                    if(Saf21a.GetList(this.Data).Count > 0)
+                    {
+                        Saf21a.Delete(this.Data, "saf21a01_docno");
+                    }
                     Saf21.Delete(this.Data);
                     context.Response.ContentType = "text/plain";
                     context.Response.Write("ok");

@@ -32,7 +32,7 @@ namespace Dsap02101
         public int saf21a55_cost;
         public int saf21a61_chng_price;
         public int saf21a62_chg_sub;
-        public int saf21a63_chg_tax;
+        public decimal saf21a63_chg_tax;
         public int saf21a64_chg_sum;
         public decimal saf21a49_odds_amt;
         public DateTime adddate;
@@ -89,32 +89,112 @@ namespace Dsap02101
                     conn.Open();
                     sqlCmd.CommandText = @"
     INSERT INTO [dbo].[saf21a]
-           ([saf21a00_saf21id]           ,[status]           ,[saf21a01_docno]           ,[saf21a02_seq]           ,[saf21a02_pcode]
-           ,[saf21a03_relative_no]           ,[saf21a07_colorno]           ,[saf21a11_unit_price]           ,[saf21a12_tax_type]           ,[saf21a13_tax]
-           ,[saf21a16_total_qty]           ,[saf21a17_add_qty]           ,[saf21a18_adj_qty]           ,[saf21a30_sug_price]           ,[saf21a37_utax_price]
-           ,[saf21a38_discount]           ,[saf21a39_total_price]           ,[saf21a41_product_name]           ,[saf21a43_runit]           ,[saf21a46_nrec_qty]
-           ,[saf21a49_odds_amt]           ,[saf21a50_one_amt]           ,[saf21a51_gift_qty]           ,[saf21a52_byself_qty]           ,[saf21a54_graphy]
-           ,[saf21a55_cost]           ,[saf21a56_box_qty]           ,[saf21a57_qty]           ,[saf21a58_note]           ,[saf21a59_halfway_qty]
-           ,[saf21a60_flag1]           ,[saf21a61_chng_price]           ,[saf21a62_chg_sub]           ,[saf21a63_chg_tax]           ,[saf21a64_chg_sum]
-           ,[remark]           ,[adduser]           ,[adddate]           ,[moduser]           ,[moddate])         
+           ([saf21a00_saf21id]
+           ,[status]
+           ,[saf21a01_docno]
+           ,[saf21a02_seq]
+           ,[saf21a02_pcode]
+           ,[saf21a03_relative_no]
+           ,[saf21a07_colorno]
+           ,[saf21a11_unit_price]
+           ,[saf21a12_tax_type]
+           ,[saf21a13_tax]
+           ,[saf21a16_total_qty]
+           ,[saf21a17_add_qty]
+           ,[saf21a18_adj_qty]
+           ,[saf21a30_sug_price]
+           ,[saf21a37_utax_price]
+           ,[saf21a38_discount]
+           ,[saf21a39_total_price]
+           ,[saf21a41_product_name]
+           ,[saf21a43_runit]
+           ,[saf21a46_nrec_qty]
+           ,[saf21a49_odds_amt]
+           ,[saf21a50_one_amt]
+           ,[saf21a51_gift_qty]
+           ,[saf21a52_byself_qty]
+           ,[saf21a54_graphy]
+           ,[saf21a55_cost]
+           ,[saf21a56_box_qty]
+           ,[saf21a57_qty]
+           ,[saf21a58_note]
+           ,[saf21a59_halfway_qty]
+           ,[saf21a60_flag1]
+           ,[saf21a61_chng_price]
+           ,[saf21a62_chg_sub]
+           ,[saf21a63_chg_tax]
+           ,[saf21a64_chg_sum]
+           ,[remark]
+           ,[adduser]
+           ,[adddate]
+           ,[moduser]
+           ,[moddate]
+           ,[saf21a72_first1]
+           ,[saf21a73_first2]
+           ,[saf21a74_first3]
+           ,[saf21a75_first4]
+           ,[saf21a76_first5]
+           ,[saf21a77_first6]
+           ,[saf21a78_firsta]
+           ,[saf21a78_firstb]
+           ,[saf21a78_firstc]
+           ,[saf21a78_firstd]
+           ,[saf21a78_firste]
+           ,[saf21a78_firstf])
 OUTPUT INSERTED.ID
      VALUES
-           (@saf21a00_saf21id           ,''           ,@saf21a01_docno           ,@saf21a02_seq           ,@saf21a02_pcode
-           ,@saf21a03_relative_no           ,''           ,@saf21a11_unit_price           ,@saf21a12_tax_type           ,@saf21a13_tax
-           ,@saf21a16_total_qty           ,0           ,0           ,0           ,@saf21a37_utax_price
-           ,100           ,@saf21a39_total_price           ,@saf21a41_product_name           ,@saf21a43_runit           ,0
-           ,0           ,@saf21a50_one_amt           ,0           ,0           ,''
-           ,@saf21a55_cost           ,@saf21a56_box_qty           ,@saf21a57_qty           ,''           ,0
-           ,''           ,@saf21a61_chng_price           ,@saf21a62_chg_sub           ,@saf21a63_chg_tax           ,@saf21a64_chg_sum
-           ,@remark           ,@adduser           ,@adddate           ,@moduser           ,@moddate          )";
-                    /*
-                       ,[saf21a72_first1]           ,[saf21a73_first2]           ,[saf21a74_first3]           ,[saf21a75_first4]           ,[saf21a76_first5]
-           ,[saf21a77_first6]           ,[saf21a78_firsta]           ,[saf21a78_firstb]           ,[saf21a78_firstc]           ,[saf21a78_firstd]
-           ,[saf21a78_firste]           ,[saf21a78_firstf]
-            ,null           ,null           ,null           ,null           ,null
-           ,null           ,null           ,null           ,null           ,null
-           ,null           ,null
-                     */
+           (@saf21a00_saf21id
+           ,''
+           ,@saf21a01_docno
+           ,@saf21a02_seq
+           ,@saf21a02_pcode
+           ,@saf21a03_relative_no
+           ,''
+           ,@saf21a11_unit_price
+           ,@saf21a12_tax_type
+           ,@saf21a13_tax
+           ,@saf21a16_total_qty
+           ,0
+           ,0
+           ,0
+           ,@saf21a37_utax_price
+           ,100
+           ,@saf21a39_total_price
+           ,@saf21a41_product_name
+           ,@saf21a43_runit
+           ,0
+           ,0
+           ,@saf21a50_one_amt
+           ,0
+           ,0
+           ,''
+           ,@saf21a55_cost
+           ,@saf21a56_box_qty
+           ,@saf21a57_qty
+           ,''
+           ,0
+           ,''
+           ,@saf21a61_chng_price
+           ,@saf21a62_chg_sub
+           ,@saf21a63_chg_tax
+           ,@saf21a64_chg_sum
+           ,@remark
+           ,@adduser
+           ,@adddate
+           ,''
+           ,null
+           ,null
+           ,null
+           ,null
+           ,null
+           ,null
+           ,null
+           ,null
+           ,null
+           ,null
+           ,null
+           ,null
+           ,null)";
 
                     foreach (var saf21a in saf21aList)
                     {
@@ -143,8 +223,6 @@ OUTPUT INSERTED.ID
                         sqlCmd.Parameters.AddWithValue("@remark", saf21a.remark);
                         sqlCmd.Parameters.AddWithValue("@adduser", saf21a.adduser);
                         sqlCmd.Parameters.AddWithValue("@adddate", saf21a.adddate);
-                        sqlCmd.Parameters.AddWithValue("@moduser", saf21a.adduser);
-                        sqlCmd.Parameters.AddWithValue("@moddate", saf21a.adddate);
 
                         /*sqlCmd.Parameters.AddWithValue("@inf29a00_inf29id", inf29.id);
                         sqlCmd.Parameters.AddWithValue("@inf29a01_docno", inf29.inf2901_docno);
@@ -329,7 +407,7 @@ OUTPUT INSERTED.ID
            ,[saf21ad59_halfway_qty]
            ,[saf21ad60_flag1]
            ,[saf21ad61_chng_price]
-           ,[saf21a62_chg_sub]
+           ,[saf21ad62_chg_sub]
            ,[saf21ad63_chg_tax]
            ,[saf21ad64_chg_sum]
            ,[remark]

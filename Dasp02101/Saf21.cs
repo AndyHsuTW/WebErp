@@ -336,6 +336,7 @@ SELECT saf21.id,
                saf21.[saf2101_docno_orderno]
               ,saf21.[saf2139_total_price]
               ,saf21.[saf2108_customer_code]
+              ,saf21.[saf2128_currency]
               ,saf21.[saf2129_exchange_rate]
               ,cmf01.[cmf0103_bname],
               saf21.[saf2114_payment]
@@ -408,6 +409,7 @@ SELECT saf21.id,
                             saf21.saf2114_payment = Convert.ToString(sqlReader["saf2114_payment"]);
                             saf21.taf1031_cellphone = Convert.IsDBNull(sqlReader["cmf01a23_cellphone"]) ? "" : Convert.ToString(sqlReader["cmf01a23_cellphone"]);
                             saf21.remark = Convert.ToString(sqlReader["remark"]);
+                            saf21.saf2128_currency = Convert.ToString(sqlReader["saf2128_currency"]);
                             saf21.adduser = Convert.ToString(sqlReader["adduser"]);
                             saf21.saf2129_exchange_rate = Convert.ToDouble(sqlReader["saf2129_exchange_rate"]);
                             saf21.adddate = Convert.ToDateTime(sqlReader["adddate"]);
@@ -484,28 +486,110 @@ SELECT saf21.id,
                     conn.Open();
                     sqlCmd.CommandText = @"
     INSERT INTO [dbo].[saf21]
-           ([saf2101_docno]           ,[status]           ,[saf2101_bcode]           ,[saf2101_docno_type]           ,[saf2101_docno_date]
-           ,[saf2101_docno_orderno]           ,[saf2106_order_date]           ,[saf2108_customer_code]           ,[saf2109_salesid]           ,[saf2110_del_date]
-           ,[saf2114_payment]           ,[saf2115_period]           ,[saf2120_ls_po_no]           ,[saf2121_last_del_date]           ,[saf2122_agent]
-           ,[saf2123_delivery_place_no]           ,[saf2124_blandid]           ,[saf2125_po_type]           ,[saf2126_print_times]           ,[saf2127_delivery_type]
-           ,[saf2128_currency]           ,[saf2129_exchange_rate]           ,[saf2131_faxno]           ,[saf2132_yyyymm]           ,[saf2133_seq2]
-           ,[saf2134_p_po_time]           ,[saf2135_rec_customer_code]           ,[saf2136_customer_order_no]           ,[saf2139_total_price]           ,[saf2140_bcode]
-           ,[saf2140_docno_type]           ,[saf2140_docno_date]           ,[saf2140_docno_seq]           ,[saf2142_delivery_place]           ,[saf2144_bcode]
-           ,[saf2145_open_id]           ,[saf2145_docno_type]           ,[saf2145_docno_date]           ,[saf2145_docno_orderno]           ,[saf2147_recid]
-           ,[saf2148_magazine_no]           ,[saf2153_delivery_id]           ,[saf2156_take_no]           ,[saf2159_way]           ,[remark]
-           ,[adduser]           ,[adddate]           ,[moduser]           ,[moddate]           ,[verifyuser]           ,[verifydate])
+           ([saf2101_docno]
+           ,[status]
+           ,[saf2101_bcode]
+           ,[saf2101_docno_type]
+           ,[saf2101_docno_date]
+           ,[saf2101_docno_orderno]
+           ,[saf2106_order_date]
+           ,[saf2108_customer_code]
+           ,[saf2109_salesid]
+           ,[saf2110_del_date]
+           ,[saf2114_payment]
+           ,[saf2115_period]
+           ,[saf2120_ls_po_no]
+           ,[saf2121_last_del_date]
+           ,[saf2122_agent]
+           ,[saf2123_delivery_place_no]
+           ,[saf2124_blandid]
+           ,[saf2125_po_type]
+           ,[saf2126_print_times]
+           ,[saf2127_delivery_type]
+           ,[saf2128_currency]
+           ,[saf2129_exchange_rate]
+           ,[saf2131_faxno]
+           ,[saf2132_yyyymm]
+           ,[saf2133_seq2]
+           ,[saf2134_p_po_time]
+           ,[saf2135_rec_customer_code]
+           ,[saf2136_customer_order_no]
+           ,[saf2139_total_price]
+           ,[saf2140_bcode]
+           ,[saf2140_docno_type]
+           ,[saf2140_docno_date]
+           ,[saf2140_docno_seq]
+           ,[saf2142_delivery_place]
+           ,[saf2144_bcode]
+           ,[saf2145_open_id]
+           ,[saf2145_docno_type]
+           ,[saf2145_docno_date]
+           ,[saf2145_docno_orderno]
+           ,[saf2147_recid]
+           ,[saf2148_magazine_no]
+           ,[saf2153_delivery_id]
+           ,[saf2156_take_no]
+           ,[saf2159_way]
+           ,[remark]
+           ,[adduser]
+           ,[adddate]
+           ,[moduser]
+           ,[moddate]
+           ,[verifyuser]
+           ,[verifydate])
      OUTPUT INSERTED.ID
      VALUES
-           (@saf2101_docno           ,''           ,@saf2101_bcode           ,@saf2101_docno_type           ,@saf2101_docno_date
-           ,@saf2101_docno_orderno           ,@saf2106_order_date           ,@saf2108_customer_code           ,''           ,@saf2110_del_date
-            ,@saf2114_payment           ,''           ,''           ,null           ,''
-            ,''           ,''           ,''           ,''           ,''
-            ,@saf2128_currency           ,@saf2129_exchange_rate           ,''           ,null           ,0
-           ,@saf2134_p_po_time           ,@saf2108_customer_code           ,''           ,@saf2139_total_price           ,''
-           ,''           ,null           ,0           ,''           ,''
-           ,''           ,''           ,null           ,0           ,@saf2147_recid
-           ,''           ,''           ,''           ,''           ,@remark
-           ,@adduser           ,@adddate           ,@moduser           ,@moddate           ,@verifyuser           ,@verifydate);";
+           (@saf2101_docno
+           ,''
+           ,@saf2101_bcode
+           ,@saf2101_docno_type
+           ,@saf2101_docno_date
+           ,@saf2101_docno_orderno
+           ,@saf2106_order_date
+           ,@saf2108_customer_code
+           ,''
+           ,@saf2110_del_date
+           ,@saf2114_payment
+           ,''
+           ,''
+           ,null
+           ,''
+           ,''
+           ,''
+           ,''
+           ,''
+           ,''
+           ,@saf2128_currency
+           ,@saf2129_exchange_rate
+           ,''
+           ,null
+           ,0
+           ,@saf2134_p_po_time
+           ,@saf2108_customer_code
+           ,''
+           ,@saf2139_total_price
+           ,''
+           ,''
+           ,null
+           ,0
+           ,''
+           ,''
+           ,''
+           ,''
+           ,null
+           ,0
+           ,@saf2147_recid
+           ,''
+           ,''
+           ,''
+           ,''
+           ,@remark
+           ,@adduser
+           ,@adddate
+           ,null
+           ,null
+           ,null
+           ,null);";
                     sqlCmd.Parameters.AddWithValue("@saf2101_docno", saf21.saf2101_docno);
                     sqlCmd.Parameters.AddWithValue("@saf2101_bcode", saf21.saf2101_bcode);
                     sqlCmd.Parameters.AddWithValue("@saf2101_docno_type", saf21.saf2101_docno_type);
@@ -523,10 +607,6 @@ SELECT saf21.id,
                     sqlCmd.Parameters.AddWithValueSafe("@saf2110_del_date", saf21.saf2110_del_date);
                     sqlCmd.Parameters.AddWithValueSafe("@adduser", saf21.adduser);
                     sqlCmd.Parameters.AddWithValueSafe("@adddate", saf21.adddate);
-                    sqlCmd.Parameters.AddWithValueSafe("@moduser", "");
-                    sqlCmd.Parameters.AddWithValueSafe("@moddate", saf21.adddate);
-                    sqlCmd.Parameters.AddWithValueSafe("@verifyuser", "");
-                    sqlCmd.Parameters.AddWithValueSafe("@verifydate", saf21.adddate);
 
 
                     /*sqlCmd.Parameters.AddWithValue("@inf2901_docno", inf29.inf2901_docno);
@@ -759,8 +839,8 @@ INSERT INTO [dbo].[saf21d]
       ,[saf2159_way]
       ,[remark]
       ,[adduser]
-  FROM [god_20180506].[dbo].[saf21]
-          WHERE saf21.saf2101_docno = @docno ";
+  FROM [dbo].[saf21]
+          WHERE saf2101_docno = @docno ";
 
                     count = sqlCmd.ExecuteNonQuery();
                     if (count <= 0)

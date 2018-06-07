@@ -581,6 +581,7 @@
 
                 },
                 OnSave: function () {
+
                     if (this.Saf21Copy == JSON.stringify(this.Saf21Item) + JSON.stringify(this.Saf21aList)) {
                         alert("您未修改任何欄位，所以不與存檔");
                         return;
@@ -627,7 +628,7 @@
                         saf2110_del_date: this.Saf21Item.saf2110_del_date.substring(0,10),
                         saf2114_payment : this.Saf21Item.saf2114_payment,
                         saf2123_delivery_place_no: this.Saf21Item.saf2123_delivery_place_no,
-                        saf2128_currency: this.Saf21Item.SelectedCurrencyInfo == null ? "" : this.Saf21Item.SelectedCurrencyInfo.cnf1002_fileorder,
+                        saf2128_currency: this.Saf21Item.SelectedCurrencyInfo == null ? "" : this.Saf21Item.SelectedCurrencyInfo.cnf1003_char01,
                         saf2129_exchange_rate: this.Saf21Item.saf2129_exchange_rate,
                         saf2134_p_po_time: this.Saf21Item.saf2134_p_po_time,
                         saf2139_total_price: parseInt(this.Saf21aTotalPrice),
@@ -660,6 +661,7 @@
                         moduser: this.Inf29Item.moduser*/
                     };
                         saf21Item.Saf21aList = this.Saf21aList;
+
                         var vueObj = this;
                         LoadingHelper.showLoading();
                         return $.ajax({
@@ -673,7 +675,6 @@
                             },
                             dataType: 'text',
                             success: function (saf21Json) {
-                                alert('3333');
                                 var saf21Item = JSON.parse(saf21Json);
                                 if (saf21Item == null) {
                                     alert("存檔失敗");
@@ -689,7 +690,7 @@
                                     return;
                                 }
                                 LoadingHelper.hideLoading();
-                                console.error(errorThrown);
+                                console.error(jqXhr.responseText);
                                 alert("存檔失敗");
                             }
                         });
@@ -925,7 +926,7 @@
                                         vueObj.Saf21Item.cmf0103_bname = customInfo[0].cmf0103_bname;
                                         vueObj.Saf21Item.saf2123_delivery_place_no = customInfo[0].cmf0109_ozipcode;
                                         vueObj.Saf21Item.cmf0110_oaddress = customInfo[0].cmf0110_oaddress;
-                                        vueObj.Saf21Item.saf2147_recid = customInfo[0].cmf01a03_recid;
+                                        //vueObj.Saf21Item.saf2147_recid = customInfo[0].cmf01a03_recid;
                                         vueObj.Saf21Item.cmf01a05_fname = customInfo[0].cmf01a05_fname;
                                         vueObj.Saf21Item.cmf01a17_telo1 = customInfo[0].cmf01a17_telo1;
                                         vueObj.Saf21Item.cmf01a23_cellphone = customInfo[0].cmf01a23_cellphone;
@@ -950,7 +951,7 @@
                                 url: rootUrl + "Dinp/Ajax/GetExchangeInfo.ashx",
                                 cache: true,
                                 data: {
-                                    exchangeCode: currencyInfo.cnf1003_char01
+                                    exchangeCode: currencyInfo.cnf1004_char02
                                 },
                                 dataType: 'text',
                                 success: function (exchangeInfoJson) {
@@ -1103,6 +1104,9 @@
                         BcodeSelectLabel: function (bcode) {
                             return bcode.cnf0701_bcode + "-" + bcode.cnf0703_bfname;
                         },
+                        CurrencySelectLabel: function (currency) {
+                            return currency.cnf1004_char02 + "-" + currency.cnf1003_char01;
+                        },
                         WherehouseSelectLabel: function (wherehouse) {
                             return wherehouse.cnf1002_fileorder + "-" + wherehouse.cnf1003_char01;
                         },
@@ -1144,7 +1148,7 @@
                                 saf21.saf2106_order_date = "";
                             }
                             var currencyInfo = this.CurrencyList.filter(function (item, index, array) {
-                                return item.cnf1002_fileorder == saf21.saf2128_currency;
+                                return item.cnf1003_char01 == saf21.saf2128_currency;
                             }).shift();
                             console.log(saf21.saf2110_del_date);
                             this.Saf21Item = {
@@ -1159,7 +1163,7 @@
                                 saf2106_order_date: saf21.saf2106_order_date.substring(0, 10).replace(/[&\|\\\*^%$#@\-]/g,""),
                                 saf2156_take_no: saf21.saf2156_take_no,
                                 saf2108_customer_code: saf21.saf2108_customer_code,
-                                saf2128_currency: null,
+                                saf2128_currency: saf21.saf2128_currency,
                                 saf2150_one_amt: saf21.saf2150_one_amt,
                                 saf2134_p_po_time: saf21.saf2134_p_po_time,
                                 saf2147_recid: saf21.saf2147_recid,
@@ -1210,7 +1214,7 @@
                                 return item.cnf0701_bcode == saf21.saf2101_bcode;
                             }).shift();
                             this.Saf21Item.SelectedCurrencyInfo = this.CurrencyList.filter(function (item, index, array) {
-                                return item.cnf1002_fileorder == saf21.saf2128_currency;
+                                return item.cnf1003_char01 == saf21.saf2128_currency;
                             }).shift();
 
                             //this.Inf29Item.BCodeInfo = this.BcodeList.filter(function (item, index, array) {

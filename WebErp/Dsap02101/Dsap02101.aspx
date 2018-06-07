@@ -456,7 +456,7 @@
                                 v-bind:class="{'selected-row':saf21Item==SelectedSaf21Item}">
                                 <td>{{index + 1 }}</td>
                                 <td>{{saf21Item.saf2101_docno}}</td>
-                                <td>{{saf21Item.saf2106_order_date}}</td>
+                                <td>{{saf21Item.saf2106_order_date.substring(0,10)}}</td>
                                 <td>{{saf21Item.saf2139_total_price}}</td>
                                 <td>{{saf21Item.saf2108_customer_code}}</td>
                                 <td>{{saf21Item.cmf0103_bname }}</td>
@@ -852,7 +852,8 @@
                                     v-bind:placeholder="''"
                                     v-bind:show-labels="false" 
                                     v-on:select="GetExchangeInfo"
-                                    track-by="cnf1002_fileorder"
+                                    v-bind:custom-label="CurrencySelectLabel"
+                                    track-by="cnf1003_char01"
                                     label="cnf1003_char01">
                                 </multiselect>
                             </td>
