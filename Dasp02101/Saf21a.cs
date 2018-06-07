@@ -128,19 +128,7 @@ namespace Dsap02101
            ,[adduser]
            ,[adddate]
            ,[moduser]
-           ,[moddate]
-           ,[saf21a72_first1]
-           ,[saf21a73_first2]
-           ,[saf21a74_first3]
-           ,[saf21a75_first4]
-           ,[saf21a76_first5]
-           ,[saf21a77_first6]
-           ,[saf21a78_firsta]
-           ,[saf21a78_firstb]
-           ,[saf21a78_firstc]
-           ,[saf21a78_firstd]
-           ,[saf21a78_firste]
-           ,[saf21a78_firstf])
+           ,[moddate])
 OUTPUT INSERTED.ID
      VALUES
            (@saf21a00_saf21id
@@ -182,18 +170,6 @@ OUTPUT INSERTED.ID
            ,@adduser
            ,@adddate
            ,''
-           ,null
-           ,null
-           ,null
-           ,null
-           ,null
-           ,null
-           ,null
-           ,null
-           ,null
-           ,null
-           ,null
-           ,null
            ,null)";
 
                     foreach (var saf21a in saf21aList)
@@ -375,7 +351,7 @@ OUTPUT INSERTED.ID
                     sqlCmd.CommandText = @"
 
      INSERT INTO [dbo].[saf21ad]
-           ([saf21ad00_saf21id]
+           ([id], [saf21ad00_saf21id]
            ,[status]
            ,[saf21ad01_docno]
            ,[saf21ad02_seq]
@@ -414,20 +390,8 @@ OUTPUT INSERTED.ID
            ,[adduser]
            ,[adddate]
            ,[moduser]
-           ,[moddate]
-           ,[saf21ad72_first1]
-           ,[saf21ad73_first2]
-           ,[saf21ad74_first3]
-           ,[saf21ad75_first4]
-           ,[saf21ad76_first5]
-           ,[saf21ad77_first6]
-           ,[saf21ad78_firsta]
-           ,[saf21ad78_firstb]
-           ,[saf21ad78_firstc]
-           ,[saf21ad78_firstd]
-           ,[saf21ad78_firste]
-           ,[saf21ad78_firstf])
-        SELECT [saf21a00_saf21id]
+           ,[moddate])
+        SELECT [id], [saf21a00_saf21id]
       ,[status]
       ,[saf21a01_docno]
       ,[saf21a02_seq]
@@ -467,18 +431,6 @@ OUTPUT INSERTED.ID
       ,[adddate]
       ,[moduser]
       ,[moddate]
-      ,[saf21a72_first1]
-      ,[saf21a73_first2]
-      ,[saf21a74_first3]
-      ,[saf21a75_first4]
-      ,[saf21a76_first5]
-      ,[saf21a77_first6]
-      ,[saf21a78_firsta]
-      ,[saf21a78_firstb]
-      ,[saf21a78_firstc]
-      ,[saf21a78_firstd]
-      ,[saf21a78_firste]
-      ,[saf21a78_firstf]
   FROM [dbo].[saf21a]
         WHERE 1 = 1";
                     if(byCoulmnName == "saf21a01_docno")

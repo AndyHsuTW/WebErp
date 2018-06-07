@@ -628,7 +628,7 @@
                         saf2110_del_date: this.Saf21Item.saf2110_del_date.substring(0,10),
                         saf2114_payment : this.Saf21Item.saf2114_payment,
                         saf2123_delivery_place_no: this.Saf21Item.saf2123_delivery_place_no,
-                        saf2128_currency: this.Saf21Item.SelectedCurrencyInfo == null ? "" : this.Saf21Item.SelectedCurrencyInfo.cnf1003_char01,
+                        saf2128_currency: this.Saf21Item.SelectedCurrencyInfo == null ? "" : this.Saf21Item.SelectedCurrencyInfo.cnf1002_fileorder,
                         saf2129_exchange_rate: this.Saf21Item.saf2129_exchange_rate,
                         saf2134_p_po_time: this.Saf21Item.saf2134_p_po_time,
                         saf2139_total_price: parseInt(this.Saf21aTotalPrice),
@@ -951,7 +951,7 @@
                                 url: rootUrl + "Dinp/Ajax/GetExchangeInfo.ashx",
                                 cache: true,
                                 data: {
-                                    exchangeCode: currencyInfo.cnf1004_char02
+                                    exchangeCode: currencyInfo.cnf1002_fileorder
                                 },
                                 dataType: 'text',
                                 success: function (exchangeInfoJson) {
@@ -1105,7 +1105,7 @@
                             return bcode.cnf0701_bcode + "-" + bcode.cnf0703_bfname;
                         },
                         CurrencySelectLabel: function (currency) {
-                            return currency.cnf1004_char02 + "-" + currency.cnf1003_char01;
+                            return currency.cnf1003_char01;
                         },
                         WherehouseSelectLabel: function (wherehouse) {
                             return wherehouse.cnf1002_fileorder + "-" + wherehouse.cnf1003_char01;
@@ -1148,7 +1148,7 @@
                                 saf21.saf2106_order_date = "";
                             }
                             var currencyInfo = this.CurrencyList.filter(function (item, index, array) {
-                                return item.cnf1003_char01 == saf21.saf2128_currency;
+                                return item.cnf1002_fileorder == saf21.saf2128_currency;
                             }).shift();
                             console.log(saf21.saf2110_del_date);
                             this.Saf21Item = {
@@ -1214,7 +1214,7 @@
                                 return item.cnf0701_bcode == saf21.saf2101_bcode;
                             }).shift();
                             this.Saf21Item.SelectedCurrencyInfo = this.CurrencyList.filter(function (item, index, array) {
-                                return item.cnf1003_char01 == saf21.saf2128_currency;
+                                return item.cnf1002_fileorder == saf21.saf2128_currency;
                             }).shift();
 
                             //this.Inf29Item.BCodeInfo = this.BcodeList.filter(function (item, index, array) {

@@ -449,7 +449,7 @@ SELECT saf21.id,
                           ,[saf2147_recid] = @saf2147_recid
                           ,[remark] = @remark
                           ,[moduser] = @moduser
-                          ,[moddate] = @moddate
+                          ,[moddate] = getdate()
                      WHERE [saf2101_docno] = @saf2101_docno";
                     sqlCmd.Parameters.AddWithValue("@saf2108_customer_code", saf21.saf2108_customer_code);
                     sqlCmd.Parameters.AddWithValue("@saf2110_del_date", saf21.saf2110_del_date);
@@ -461,7 +461,7 @@ SELECT saf21.id,
                     sqlCmd.Parameters.AddWithValue("@saf2147_recid", saf21.saf2147_recid);
                     sqlCmd.Parameters.AddWithValue("@remark", saf21.remark);
                     sqlCmd.Parameters.AddWithValue("@moduser", saf21.moduser);
-                    sqlCmd.Parameters.AddWithValue("@moddate", saf21.moddate);
+                    //sqlCmd.Parameters.AddWithValue("@moddate", saf21.moddate);
                     sqlCmd.Parameters.AddWithValue("@saf2101_docno", saf21.saf2101_docno);
                     sqlCmd.ExecuteNonQuery();
                 }
@@ -585,9 +585,9 @@ SELECT saf21.id,
            ,''
            ,@remark
            ,@adduser
-           ,@adddate
-           ,null
-           ,null
+           ,getdate()
+           ,@adduser
+           ,getdate()
            ,null
            ,null);";
                     sqlCmd.Parameters.AddWithValue("@saf2101_docno", saf21.saf2101_docno);
@@ -606,7 +606,7 @@ SELECT saf21.id,
                     sqlCmd.Parameters.AddWithValueSafe("@saf2134_p_po_time", saf21.saf2134_p_po_time);
                     sqlCmd.Parameters.AddWithValueSafe("@saf2110_del_date", saf21.saf2110_del_date);
                     sqlCmd.Parameters.AddWithValueSafe("@adduser", saf21.adduser);
-                    sqlCmd.Parameters.AddWithValueSafe("@adddate", saf21.adddate);
+                    //sqlCmd.Parameters.AddWithValueSafe("@adddate", saf21.adddate);
 
 
                     /*sqlCmd.Parameters.AddWithValue("@inf2901_docno", inf29.inf2901_docno);
@@ -746,7 +746,7 @@ SELECT saf21.id,
                     //backup to inf29d
                     sqlCmd.CommandText = @"
 INSERT INTO [dbo].[saf21d]
-           ([saf21d01_docno]
+           ([id],[saf21d01_docno]
            ,[status]
            ,[saf21d01_bcode]
            ,[saf21d01_docno_type]
@@ -792,7 +792,7 @@ INSERT INTO [dbo].[saf21d]
            ,[saf21d59_way]
            ,[remark]
            ,[adduser])
-       SELECT TOP 1 
+       SELECT TOP 1 [id],
       [saf2101_docno]
       ,[status]
       ,[saf2101_bcode]
