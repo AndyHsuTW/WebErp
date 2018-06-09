@@ -25,7 +25,7 @@
                                     <function-button id="SearchBtn" hot-key="f1" v-on:click.native="OnSearch()">查詢</function-button>\
                                     <function-button hot-key="f2" v-if="typeof leavefunction == \'function\'" v-on:click.native="leavefunction()">離開</function-button>\
                                 </div>\
-                                    <div class="filter-div">\
+                                    <br><div class="filter-div">\
                                         <table class="">\
                                             <tr>\
                                                 <td>員工代號&nbsp\
