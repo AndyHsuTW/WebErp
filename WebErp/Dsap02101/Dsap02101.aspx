@@ -180,7 +180,7 @@
 
     <div id="Dsap02101Search" v-if="Display" v-cloak>
         <ul class="app-title">
-            <li>{{"Dsap02101 庫存異動資料查詢 <%=this.AppVersion %>"}}
+            <li>{{"Dsap02101 客戶訂單資料查詢 <%=this.AppVersion %>"}}
             </li>
         </ul>
         <div class="app-body">
@@ -351,8 +351,8 @@
                             <td>
                                 <input type="text" class="medium-field" v-model="Filter.Qty">
                             </td>
-                            <td>
-                                筆數 : {{ Saf21List.length }}
+                            <td><span style="font-weight:bold">
+                                筆數 : {{ Saf21List.length }}</span>
                             </td>
                         </tr>
 

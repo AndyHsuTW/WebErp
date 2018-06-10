@@ -9,7 +9,7 @@ using System.Web.UI.WebControls;
 
 public partial class Dsap02101_Dsap02101 : System.Web.UI.Page
 {
-    public string AppVersion = "v18.05.08";
+    public string AppVersion = "v18.06.07";
     /// <summary>
     /// 公司代號下拉選單來源
     /// </summary>
