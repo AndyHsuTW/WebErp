@@ -93,11 +93,13 @@ public class Saf21Handler : IHttpHandler, IRequiresSessionState
             case "del":
                 {
                     bool success = false;
+                    string[] docnoArray = JsonConvert.DeserializeObject<string []>(this.Data);
+
                     if(Saf21a.GetList(this.Data).Count > 0)
-                    {
-                        Saf21a.Delete(this.Data, "saf21a01_docno");
-                    }
-                    Saf21.Delete(this.Data);
+                        //{
+                        //    Saf21a.Delete(this.Data, "saf21a01_docno");
+                        //}
+                    Saf21.Delete(docnoArray);
                     context.Response.ContentType = "text/plain";
                     context.Response.Write("ok");
                     return;
@@ -107,11 +109,7 @@ public class Saf21Handler : IHttpHandler, IRequiresSessionState
                 {
                     bool success = false;
                     string[] docnoArray = JsonConvert.DeserializeObject<string []>(this.Data);
-                    foreach(string docno in docnoArray)
-                    {
-                        Saf21a.Delete(docno, "saf21a01_docno");
-                        Saf21.Delete(docno);
-                    }
+                    Saf21.Delete(docnoArray);
                     context.Response.ContentType = "text/plain";
                     context.Response.Write("ok");
                     return;
