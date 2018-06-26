@@ -79,6 +79,8 @@ namespace Dinp02301
 
         public class FilterOption
         {
+            public string inf2902_docno_type { get; set; }
+
             /// <summary>
             /// 商品編號
             /// </summary>
@@ -156,6 +158,7 @@ namespace Dinp02301
             public List<int> idList { get; set; }
 
             public string keyword { get; set; }
+
         }
 
         public List<Inf29a> Inf29aList { get; set; }
@@ -365,6 +368,7 @@ namespace Dinp02301
                 conn.Open();
                 var idFilter = "";
                 var idListFilter = "";
+                var inf2902DocnoTypeFilter = "";
                 var inf2901BcodeFilter = "";
                 var inf2903CustomerCodeFilter = "";
                 var inf2904ProDateFilter = "";
@@ -399,6 +403,11 @@ namespace Dinp02301
                         filterOption.idList = idList;
                         sqlCmd.CommandType = CommandType.Text;
                         sqlCmd.Parameters.Clear();
+                    }
+                    if (!string.IsNullOrEmpty(filterOption.inf2902_docno_type))
+                    {
+                        inf2902DocnoTypeFilter = " and (inf29.inf2902_docno_type=@inf2902_docno_type) ";
+                        sqlCmd.Parameters.AddWithValue("@inf2902_docno_type", filterOption.inf2902_docno_type);
                     }
                     if (filterOption.idList != null && filterOption.idList.Count > 0)
                     {
@@ -626,7 +635,8 @@ namespace Dinp02301
         {8}
         {9}
         {10}
-        {11}", idFilter,
+        {11}
+        {12}", idFilter,
               inf2901BcodeFilter,
               inf2903CustomerCodeFilter,
               inf2904ProDateFilter,
@@ -637,7 +647,8 @@ namespace Dinp02301
               inf29a05PcodeFilter,
               inf29a05ShoesCodeFilter,
               addDateFilter,
-              idListFilter);
+              idListFilter,
+              inf2902DocnoTypeFilter);
 
                 using (var sqlReader = sqlCmd.ExecuteReader())
                 {

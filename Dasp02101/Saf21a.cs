@@ -196,7 +196,7 @@ OUTPUT INSERTED.ID
                         sqlCmd.Parameters.AddWithValue("@saf21a62_chg_sub", saf21a.saf21a62_chg_sub);
                         sqlCmd.Parameters.AddWithValue("@saf21a63_chg_tax", saf21a.saf21a63_chg_tax);
                         sqlCmd.Parameters.AddWithValue("@saf21a64_chg_sum", saf21a.saf21a64_chg_sum);
-                        sqlCmd.Parameters.AddWithValue("@remark", saf21a.remark);
+                        sqlCmd.Parameters.AddWithValue("@remark", saf21a.remark == null ? "" : saf21a.remark);
                         sqlCmd.Parameters.AddWithValue("@adduser", saf21a.adduser);
                         sqlCmd.Parameters.AddWithValue("@adddate", saf21a.adddate);
 

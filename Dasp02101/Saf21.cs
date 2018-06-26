@@ -130,20 +130,12 @@ namespace Dsap02101
             /// <summary>
             /// 訂單單號
             /// </summary>
-            public string saf2101_docno_type_start { get; set; }
-            public string saf2101_docno_type_end { get; set; }
+            public string saf2101_docno_start { get; set; }
+            public string saf2101_docno_end { get; set; }
 
             /// <summary>
             /// 訂單單號
             /// </summary>
-            public DateTime? saf2101_docno_date_start { get; set; }
-            public DateTime? saf2101_docno_date_end { get; set; }
-
-            /// <summary>
-            /// 訂單單號
-            /// </summary>
-            public int? saf2101_docno_orderno_start { get; set; }
-            public int? saf2101_docno_orderno_end { get; set; }
 
             /// <summary>
             /// 公司代號
@@ -178,7 +170,7 @@ namespace Dsap02101
                 var saf21a03RelativeNoFilter = "";
                 var inf2906RefFilter = "";
                 var saf2108CustomerCodeFilter = "";
-                var saf2101DocnoTypeFilter = "";
+                var saf2101DocnoFilter = "";
                 var saf2101DocnoDateFilter = "";
                 var saf2101DocnoOrdernoFilter = "";
                 var saf2101BcodeFilter = "";
@@ -253,42 +245,19 @@ namespace Dsap02101
                                                            ? filterOption.saf2108_customer_code_start
                                                            : filterOption.saf2108_customer_code_end);
                     }
-                    if (!String.IsNullOrEmpty(filterOption.saf2101_docno_type_start))
+                    if (!String.IsNullOrEmpty(filterOption.saf2101_docno_start))
                     {
-                        saf2101DocnoTypeFilter = String.Format(@" AND (
-                            saf21.[saf2101_docno_type] >= @saf2101DocnoTypeStart 
-                            AND saf21.[saf2101_docno_type] <= @saf2101DocnoTypeEnd
+                        saf2101DocnoFilter = String.Format(@" AND (
+                            saf21.[saf2101_docno] >= @saf2101DocnoTypeStart 
+                            AND saf21.[saf2101_docno] <= @saf2101DocnoTypeEnd
                             )");
-                        sqlCmd.Parameters.AddWithValue("@saf2101DocnoTypeStart", filterOption.saf2101_docno_type_start);
+                        sqlCmd.Parameters.AddWithValue("@saf2101DocnoTypeStart", filterOption.saf2101_docno_start);
                         sqlCmd.Parameters.AddWithValue("@saf2101DocnoTypeEnd",
-                                                        String.IsNullOrEmpty(filterOption.saf2101_docno_type_end)
-                                                           ? filterOption.saf2101_docno_type_start
-                                                           : filterOption.saf2101_docno_type_end);
+                                                        String.IsNullOrEmpty(filterOption.saf2101_docno_end)
+                                                           ? filterOption.saf2101_docno_start
+                                                           : filterOption.saf2101_docno_end);
                     }
-                    if (filterOption.saf2101_docno_date_start != null)
-                    {
-                        saf2101DocnoDateFilter = String.Format(@" AND (
-                            saf21.[saf2101_docno_date] >= @saf2101DocnoDateStart 
-                            AND saf21.[saf2101_docno_date] <= @saf2101DocnoDateEnd 
-                            )");
-                        sqlCmd.Parameters.AddWithValue("@saf2101DocnoDateStart", filterOption.saf2101_docno_date_start);
-                        sqlCmd.Parameters.AddWithValue("@saf2101DocnoDateEnd",
-                                                       filterOption.saf2101_docno_date_end == null
-                                                           ? filterOption.saf2101_docno_date_start
-                                                           : filterOption.saf2101_docno_date_end);
-                    }
-                    if (filterOption.saf2101_docno_orderno_start > 0)
-                    {
-                        saf2101DocnoOrdernoFilter = String.Format(@" AND (
-                            saf21.[saf2101_docno_orderno] >= @saf2101DocnoOrdernoStart 
-                            AND saf21.[saf2101_docno_orderno] <= @saf2101DocnoOrdernoEnd 
-                            )");
-                        sqlCmd.Parameters.AddWithValue("@saf2101DocnoOrdernoStart", filterOption.saf2101_docno_orderno_start);
-                        sqlCmd.Parameters.AddWithValue("@saf2101DocnoOrdernoEnd",
-                                                      filterOption.saf2101_docno_orderno_end < 0 || filterOption.saf2101_docno_orderno_end == null
-                                                           ? filterOption.saf2101_docno_orderno_start
-                                                           : filterOption.saf2101_docno_orderno_end);
-                    }
+                   
                     if (!String.IsNullOrEmpty(filterOption.saf2101_bcode_start))
                     {
                         saf2101BcodeFilter = String.Format(@" AND (
@@ -368,17 +337,13 @@ SELECT saf21.id,
         {7}
         {8}
         {9}
-        {10}
-        {11}
-        {12}", idFilter,
+        ", idFilter,
                 saf2106OrderDateFilter,
                 saf21a02PcodeFilter,
                 saf21a03RelativeNoFilter,
                 inf2906RefFilter,
                 saf2108CustomerCodeFilter,
-                saf2101DocnoTypeFilter,
-                saf2101DocnoDateFilter,
-                saf2101DocnoOrdernoFilter,
+                saf2101DocnoFilter,
                 saf2101BcodeFilter,
                 adddateFilter,
                 QtyFilter,
@@ -602,7 +567,7 @@ SELECT saf21.id,
                     sqlCmd.Parameters.AddWithValue("@saf2129_exchange_rate", saf21.saf2129_exchange_rate);
                     sqlCmd.Parameters.AddWithValue("@saf2139_total_price", saf21.saf2139_total_price);
                     sqlCmd.Parameters.AddWithValue("@saf2147_recid", saf21.saf2147_recid);
-                    sqlCmd.Parameters.AddWithValue("@remark", saf21.remark);
+                    sqlCmd.Parameters.AddWithValue("@remark", saf21.remark == null ? "" : saf21.remark);
                     sqlCmd.Parameters.AddWithValueSafe("@saf2134_p_po_time", saf21.saf2134_p_po_time);
                     sqlCmd.Parameters.AddWithValueSafe("@saf2110_del_date", saf21.saf2110_del_date);
                     sqlCmd.Parameters.AddWithValueSafe("@adduser", saf21.adduser);
@@ -725,9 +690,9 @@ SELECT saf21.id,
             }
             return seq;
         }
-        public static bool Delete(string docno)
+        public static bool Delete(string[] docno)
         {
-            if (String.IsNullOrEmpty(docno))
+            if (docno.Length <1)
             {
                 throw new ArgumentNullException("docno");
             }
@@ -739,121 +704,230 @@ SELECT saf21.id,
                 conn.Open();
                 SqlTransaction transaction = conn.BeginTransaction();
                 sqlCmd.Transaction = transaction;
-                sqlCmd.Parameters.AddWithValue("@docno", docno);
 
                 try
                 {
-                    //backup to inf29d
-                    sqlCmd.CommandText = @"
-INSERT INTO [dbo].[saf21d]
-           ([id],[saf21d01_docno]
-           ,[status]
-           ,[saf21d01_bcode]
-           ,[saf21d01_docno_type]
-           ,[saf21d01_docno_date]
-           ,[saf21d01_docno_orderno]
-           ,[saf21d06_order_date]
-           ,[saf21d08_customer_code]
-           ,[saf21d09_salesid]
-           ,[saf21d10_del_date]
-           ,[saf21d14_payment]
-           ,[saf21d15_period]
-           ,[saf21d20_ls_po_no]
-           ,[saf21d21_last_del_date]
-           ,[saf21d22_agent]
-           ,[saf21d23_delivery_place_no]
-           ,[saf21d24_blandid]
-           ,[saf21d25_po_type]
-           ,[saf21d26_print_times]
-           ,[saf21d27_delivery_type]
-           ,[saf21d28_currency]
-           ,[saf21d29_exchange_rate]
-           ,[saf21d31_faxno]
-           ,[saf21d32_yyyymm]
-           ,[saf21d33_seq2]
-           ,[saf21d34_p_po_time]
-           ,[saf21d35_rec_customer_code]
-           ,[saf21d36_customer_order_no]
-           ,[saf21d39_total_price]
-           ,[saf21d40_bcode]
-           ,[saf21d40_docno_type]
-           ,[saf21d40_docno_date]
-           ,[saf21d40_docno_seq]
-           ,[saf21d42_delivery_place]
-           ,[saf21d44_bcode]
-           ,[saf21d45_open_id]
-           ,[saf21d45_docno_type]
-           ,[saf21d45_docno_date]
-           ,[saf21d45_docno_orderno]
-           ,[saf21d47_recid]
-           ,[saf21d48_magazine_no]
-           ,[saf21d53_delivery_id]
-           ,[saf21d56_take_no]
-           ,[saf21d59_way]
-           ,[remark]
-           ,[adduser])
-       SELECT TOP 1 [id],
-      [saf2101_docno]
-      ,[status]
-      ,[saf2101_bcode]
-      ,[saf2101_docno_type]
-      ,[saf2101_docno_date]
-      ,[saf2101_docno_orderno]
-      ,[saf2106_order_date]
-      ,[saf2108_customer_code]
-      ,[saf2109_salesid]
-      ,[saf2110_del_date]
-      ,[saf2114_payment]
-      ,[saf2115_period]
-      ,[saf2120_ls_po_no]
-      ,[saf2121_last_del_date]
-      ,[saf2122_agent]
-      ,[saf2123_delivery_place_no]
-      ,[saf2124_blandid]
-      ,[saf2125_po_type]
-      ,[saf2126_print_times]
-      ,[saf2127_delivery_type]
-      ,[saf2128_currency]
-      ,[saf2129_exchange_rate]
-      ,[saf2131_faxno]
-      ,[saf2132_yyyymm]
-      ,[saf2133_seq2]
-      ,[saf2134_p_po_time]
-      ,[saf2135_rec_customer_code]
-      ,[saf2136_customer_order_no]
-      ,[saf2139_total_price]
-      ,[saf2140_bcode]
-      ,[saf2140_docno_type]
-      ,[saf2140_docno_date]
-      ,[saf2140_docno_seq]
-      ,[saf2142_delivery_place]
-      ,[saf2144_bcode]
-      ,[saf2145_open_id]
-      ,[saf2145_docno_type]
-      ,[saf2145_docno_date]
-      ,[saf2145_docno_orderno]
-      ,[saf2147_recid]
-      ,[saf2148_magazine_no]
-      ,[saf2153_delivery_id]
-      ,[saf2156_take_no]
-      ,[saf2159_way]
-      ,[remark]
-      ,[adduser]
-  FROM [dbo].[saf21]
-          WHERE saf2101_docno = @docno ";
-
-                    count = sqlCmd.ExecuteNonQuery();
-                    if (count <= 0)
+                    foreach(string no in docno)
                     {
-                        throw new Exception(String.Format("Backup Saf21 fail on '{0}'", docno));
+                        sqlCmd.Parameters.AddWithValue("@docno", no);
+                        //backup to inf29d
+                        sqlCmd.CommandText = @"
+    SET IDENTITY_INSERT  dbo.saf21d ON
+    INSERT INTO [dbo].[saf21d]
+               ([id],[saf21d01_docno]
+               ,[status]
+               ,[saf21d01_bcode]
+               ,[saf21d01_docno_type]
+               ,[saf21d01_docno_date]
+               ,[saf21d01_docno_orderno]
+               ,[saf21d06_order_date]
+               ,[saf21d08_customer_code]
+               ,[saf21d09_salesid]
+               ,[saf21d10_del_date]
+               ,[saf21d14_payment]
+               ,[saf21d15_period]
+               ,[saf21d20_ls_po_no]
+               ,[saf21d21_last_del_date]
+               ,[saf21d22_agent]
+               ,[saf21d23_delivery_place_no]
+               ,[saf21d24_blandid]
+               ,[saf21d25_po_type]
+               ,[saf21d26_print_times]
+               ,[saf21d27_delivery_type]
+               ,[saf21d28_currency]
+               ,[saf21d29_exchange_rate]
+               ,[saf21d31_faxno]
+               ,[saf21d32_yyyymm]
+               ,[saf21d33_seq2]
+               ,[saf21d34_p_po_time]
+               ,[saf21d35_rec_customer_code]
+               ,[saf21d36_customer_order_no]
+               ,[saf21d39_total_price]
+               ,[saf21d40_bcode]
+               ,[saf21d40_docno_type]
+               ,[saf21d40_docno_date]
+               ,[saf21d40_docno_seq]
+               ,[saf21d42_delivery_place]
+               ,[saf21d44_bcode]
+               ,[saf21d45_open_id]
+               ,[saf21d45_docno_type]
+               ,[saf21d45_docno_date]
+               ,[saf21d45_docno_orderno]
+               ,[saf21d47_recid]
+               ,[saf21d48_magazine_no]
+               ,[saf21d53_delivery_id]
+               ,[saf21d56_take_no]
+               ,[saf21d59_way]
+               ,[remark]
+               ,[adduser])
+           SELECT TOP 1 [id],
+          [saf2101_docno]
+          ,[status]
+          ,[saf2101_bcode]
+          ,[saf2101_docno_type]
+          ,[saf2101_docno_date]
+          ,[saf2101_docno_orderno]
+          ,[saf2106_order_date]
+          ,[saf2108_customer_code]
+          ,[saf2109_salesid]
+          ,[saf2110_del_date]
+          ,[saf2114_payment]
+          ,[saf2115_period]
+          ,[saf2120_ls_po_no]
+          ,[saf2121_last_del_date]
+          ,[saf2122_agent]
+          ,[saf2123_delivery_place_no]
+          ,[saf2124_blandid]
+          ,[saf2125_po_type]
+          ,[saf2126_print_times]
+          ,[saf2127_delivery_type]
+          ,[saf2128_currency]
+          ,[saf2129_exchange_rate]
+          ,[saf2131_faxno]
+          ,[saf2132_yyyymm]
+          ,[saf2133_seq2]
+          ,[saf2134_p_po_time]
+          ,[saf2135_rec_customer_code]
+          ,[saf2136_customer_order_no]
+          ,[saf2139_total_price]
+          ,[saf2140_bcode]
+          ,[saf2140_docno_type]
+          ,[saf2140_docno_date]
+          ,[saf2140_docno_seq]
+          ,[saf2142_delivery_place]
+          ,[saf2144_bcode]
+          ,[saf2145_open_id]
+          ,[saf2145_docno_type]
+          ,[saf2145_docno_date]
+          ,[saf2145_docno_orderno]
+          ,[saf2147_recid]
+          ,[saf2148_magazine_no]
+          ,[saf2153_delivery_id]
+          ,[saf2156_take_no]
+          ,[saf2159_way]
+          ,[remark]
+          ,[adduser]
+      FROM [dbo].[saf21]
+              WHERE saf2101_docno = @docno ";
+                        sqlCmd.CommandText += "SET IDENTITY_INSERT  dbo.saf21d OFF";
+                        count = sqlCmd.ExecuteNonQuery();
+                        if (count <= 0)
+                        {
+                            throw new Exception(String.Format("Backup Saf21 fail on '{0}'", no));
+                        }
+
+                        //delete after backup success
+                        sqlCmd.CommandText = @"
+            DELETE FROM saf21
+            WHERE saf2101_docno = @docno ";
+                        count = sqlCmd.ExecuteNonQuery();
+                        //sqlCmd.Parameters.Clear();
+                        if (Saf21a.GetList(no).Count > 0)
+                        {
+                            //sqlCmd.Parameters.AddWithValue("@docno", no);
+                            //backup to inf29d
+                            sqlCmd.CommandText = @"
+         SET IDENTITY_INSERT  dbo.saf21ad ON
+         INSERT INTO [dbo].[saf21ad]
+               ([id], [saf21ad00_saf21id]
+               ,[status]
+               ,[saf21ad01_docno]
+               ,[saf21ad02_seq]
+               ,[saf21ad02_pcode]
+               ,[saf21ad03_relative_no]
+               ,[saf21ad07_colorno]
+               ,[saf21ad11_unit_price]
+               ,[saf21ad12_tax_type]
+               ,[saf21ad13_tax]
+               ,[saf21ad16_total_qty]
+               ,[saf21ad17_add_qty]
+               ,[saf21ad18_adj_qty]
+               ,[saf21ad30_sug_price]
+               ,[saf21ad37_utax_price]
+               ,[saf21ad38_discount]
+               ,[saf21ad39_total_price]
+               ,[saf21ad41_product_name]
+               ,[saf21ad43_runit]
+               ,[saf21ad46_nrec_qty]
+               ,[saf21ad49_odds_amt]
+               ,[saf21ad50_one_amt]
+               ,[saf21ad51_gift_qty]
+               ,[saf21ad52_byself_qty]
+               ,[saf21ad54_graphy]
+               ,[saf21ad55_cost]
+               ,[saf21ad56_box_qty]
+               ,[saf21ad57_qty]
+               ,[saf21ad58_note]
+               ,[saf21ad59_halfway_qty]
+               ,[saf21ad60_flag1]
+               ,[saf21ad61_chng_price]
+               ,[saf21ad62_chg_sub]
+               ,[saf21ad63_chg_tax]
+               ,[saf21ad64_chg_sum]
+               ,[remark]
+               ,[adduser]
+               ,[adddate]
+               ,[moduser]
+               ,[moddate])
+            SELECT [id], [saf21a00_saf21id]
+          ,[status]
+          ,[saf21a01_docno]
+          ,[saf21a02_seq]
+          ,[saf21a02_pcode]
+          ,[saf21a03_relative_no]
+          ,[saf21a07_colorno]
+          ,[saf21a11_unit_price]
+          ,[saf21a12_tax_type]
+          ,[saf21a13_tax]
+          ,[saf21a16_total_qty]
+          ,[saf21a17_add_qty]
+          ,[saf21a18_adj_qty]
+          ,[saf21a30_sug_price]
+          ,[saf21a37_utax_price]
+          ,[saf21a38_discount]
+          ,[saf21a39_total_price]
+          ,[saf21a41_product_name]
+          ,[saf21a43_runit]
+          ,[saf21a46_nrec_qty]
+          ,[saf21a49_odds_amt]
+          ,[saf21a50_one_amt]
+          ,[saf21a51_gift_qty]
+          ,[saf21a52_byself_qty]
+          ,[saf21a54_graphy]
+          ,[saf21a55_cost]
+          ,[saf21a56_box_qty]
+          ,[saf21a57_qty]
+          ,[saf21a58_note]
+          ,[saf21a59_halfway_qty]
+          ,[saf21a60_flag1]
+          ,[saf21a61_chng_price]
+          ,[saf21a62_chg_sub]
+          ,[saf21a63_chg_tax]
+          ,[saf21a64_chg_sum]
+          ,[remark]
+          ,[adduser]
+          ,[adddate]
+          ,[moduser]
+          ,[moddate]
+      FROM [dbo].[saf21a]
+            WHERE 1 = 1";
+                            sqlCmd.CommandText += " and saf21a.saf21a01_docno = '" + no + "'";
+                            sqlCmd.CommandText += "SET IDENTITY_INSERT  dbo.saf21ad OFF";
+
+                            count = sqlCmd.ExecuteNonQuery();
+                            if (count <= 0)
+                            {
+                                throw new Exception(String.Format("Backup Saf21a fail on '{0}'", no));
+                            }
+                            //delete after backup success
+                            sqlCmd.CommandText = @"
+            DELETE FROM saf21a
+            WHERE 1 = 1";
+                            sqlCmd.CommandText += " and saf21a.saf21a01_docno ='" + no + "'";
+                            count = sqlCmd.ExecuteNonQuery();
+                            sqlCmd.Parameters.Clear();
+                        }
                     }
-
-                    //delete after backup success
-                    sqlCmd.CommandText = @"
-        DELETE FROM saf21
-        WHERE saf2101_docno = @docno ";
-
-                    count = sqlCmd.ExecuteNonQuery();
                     transaction.Commit();
                 }
                 catch (Exception)
@@ -862,7 +936,10 @@ INSERT INTO [dbo].[saf21d]
 
                     throw;
                 }
-
+                finally
+                {
+                    conn.Close();
+                }
                 return count > 0;
             }
         }

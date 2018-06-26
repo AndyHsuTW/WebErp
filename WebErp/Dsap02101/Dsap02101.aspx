@@ -291,23 +291,11 @@
                                 <span>起~</span>
                             </td>
                             <td>
-                                <span class="ref-inputs">
-                                    <input type="text" v-model="Filter.DocnoTypeStart"
-                                        v-on:change="AutoFillFilter('DocnoTypeEnd',Filter.DocnoTypeStart)" />
-                                    <vue-datetimepicker class="medium-field" placeholder=""
-                                    v-model="Filter.DocnoDateStart"
-                                    v-on:change="AutoFillFilter('DocnoDateEnd',Filter.DocnoDateStart,'datetime')"></vue-datetimepicker>
-                                    <input type="text" v-model="Filter.DocnoOrderNoStart"
-                                        v-on:change="AutoFillFilter('DocnoOrderNoEnd',Filter.DocnoOrderNoStart)" />
-                                </span>
+                                <input type="text" class="medium-field" v-model="Filter.DocnoStart"
+                                    v-on:change="AutoFillFilter('DocnoEnd',Filter.DocnoStart)" />
 
                                 迄~
-                                <span class="ref-inputs">
-                                    <input type="text" v-model="Filter.DocnoTypeEnd" />
-                                    <vue-datetimepicker id="DocnoDateEnd" class="medium-field" ref="FilterDocnoDateEnd" placeholder=""
-                                    v-model="Filter.DocnoDateEnd"></vue-datetimepicker>
-                                    <input type="text" v-model="Filter.DocnoOrderNoEnd" />
-                                </span>
+                                <input type="text" class="medium-field" v-model="Filter.DocnoEnd" />
                             </td>
                         </tr>
                         <tr>

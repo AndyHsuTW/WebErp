@@ -111,6 +111,7 @@
 
                     var filterOption = {
                         keyword: this.Filter.Keyword,
+                        inf2902_docno_type: 'SI',
                         inf2904_pro_date_start:this.Filter.ProDateStart,
                         inf2904_pro_date_end:this.Filter.ProDateEnd,
                         inf29a05_pcode_start:this.Filter.PcodeStart,

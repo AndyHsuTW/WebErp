@@ -129,12 +129,8 @@
                         saf2108_customer_code_end: this.Filter.CustomerCodeEnd,
                         adddate_start: this.Filter.AddDateStart,
                         adddate_end: this.Filter.AddDateEnd,
-                        saf2101_docno_type_start: this.Filter.DocnoTypeStart,
-                        saf2101_docno_type_end: this.Filter.DocnoTypeEnd,
-                        saf2101_docno_date_start: this.Filter.DocnoDateStart,
-                        saf2101_docno_date_end: this.Filter.DocnoDateEnd,
-                        saf2101_docno_orderno_start: this.Filter.DocnoOrderNoStart,
-                        saf2101_docno_orderno_end: this.Filter.DocnoOrderNoEnd,
+                        saf2101_docno_start: this.Filter.DocnoStart,
+                        saf2101_docno_end: this.Filter.DocnoEnd,
                         saf2101_bcode_start: (this.Filter.BcodeStart || {}).cnf0701_bcode,
                         saf2101_bcode_end: (this.Filter.BcodeEnd || {}).cnf0701_bcode,
                         Qty : this.Filter.Qty
@@ -235,7 +231,12 @@
                             if (result != "ok") {
                                 alert("刪除失敗");
                             } else {
-                                vueObj.OnSearch();
+                                if (!vueObj.Display) {
+                                    window.dsap02101Edit.OnExit();
+                                    vueObj.OnSearch();
+                                } else {
+                                    vueObj.OnSearch();
+                                }
                             }
                         },
                         error: function (jqXhr, textStatus, errorThrown) {

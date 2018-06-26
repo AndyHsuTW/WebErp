@@ -720,7 +720,7 @@ namespace Dinp02401
                 filterList.ForEach(o => { strFilter += o; });
 
                 sqlCmd.CommandText = 
-                    $@"SELECT saf20.*
+                    @"SELECT saf20.*
                             ,saf20a.*
                     From [dbo].[saf20]
                     LEFT JOIN [saf20a]

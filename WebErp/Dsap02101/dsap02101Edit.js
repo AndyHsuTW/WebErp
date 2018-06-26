@@ -224,7 +224,7 @@
                         if (this.Saf21Item.saf2101_docno_orderno == null || this.Saf21Item.saf2101_docno_orderno == "") {
 
                         } else {
-                            seq = (this.Saf21Item.saf2101_docno_orderno + "")
+                            seq = this.Saf21Item.saf2101_docno_orderno.length
                         }
                         return this.Saf21Item.BCodeInfo.cnf0701_bcode + this.Saf21Item.saf2101_docno_type + this.Saf21Item.saf2101_docno_date + seq;
                     }
@@ -410,7 +410,7 @@
                 },
                 OnDelete: function (saf21Item) {
                     window.dsap02101Search.OnDelete(saf21Item);
-                    this.OnExit();
+                    //this.OnExit();
                 },
                 OnAddInf29aItem: function (defaultSeq) {//輸入明細
                     var vueObj = this;
@@ -684,7 +684,8 @@
                                     alert("存檔失敗");
                                 } else {
                                     vueObj.Saf21Item.id = saf21Item.id;
-                                    vueObj.Saf21Item.saf2101_docno_orderno = saf21Item.saf2101_docno_orderno;
+                                    vueObj.Saf21Item.saf2101_docno_orderno = saf21Item.saf2101_docno.substring(16, 19);
+                                    vueObj.Saf21Item.saf2101_docno = vueObj.Saf21Item.BCodeInfo.cnf0701_bcode + vueObj.Saf21Item.saf2101_docno_type + vueObj.Saf21Item.saf2101_docno_date + vueObj.Saf21Item.saf2101_docno_orderno;
                                 }
                                 LoadingHelper.hideLoading();
                                 alert("存檔成功");
