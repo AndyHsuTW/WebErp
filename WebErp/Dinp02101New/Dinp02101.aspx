@@ -179,7 +179,7 @@
 
     <div id="Dinp02101" v-cloak>
         <ul class="app-title">
-            <li>{{"進(退)貨單輸入及列印 <%=this.AppVersion %>"}}
+            <li>{{"Dinp02101 進(退)貨單輸入及列印 <%=this.AppVersion %>"}}
             </li>
         </ul>
         <div class="app-body" v-if="DisplaySearch">

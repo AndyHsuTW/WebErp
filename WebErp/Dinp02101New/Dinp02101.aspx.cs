@@ -4,7 +4,7 @@ using Dinp02301;
 
 public partial class Dinp02101New_Dinp02101 : System.Web.UI.Page
 {
-    public string AppVersion = "v18.04.22";
+    public string AppVersion = "v18.06.12";
 
     /// <summary>
     /// 公司代號下拉選單來源

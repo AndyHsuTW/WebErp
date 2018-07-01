@@ -373,7 +373,7 @@
                     var vueObj = this;
                     return $.ajax({
                         type: 'POST',
-                        url: rootUrl + "Dinp02101/Ajax/Inf29Handler.ashx",
+                        url: rootUrl + "Dinp02101New/Ajax/Inf29Handler.ashx",
                         cache: false,
                         data: {
                             act: "last"
