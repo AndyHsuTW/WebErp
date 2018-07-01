@@ -49,6 +49,7 @@ public class Saf21Handler : IHttpHandler, IRequiresSessionState
         this.Saf21aFields = context.Request.Form["saf21afields"];
         this.PrintBcode = context.Request.Form["printBcode"];
         this.User = context.Request.Form["user"];
+        var a = 1;
 
         if (this.Action == null) return;
         switch (this.Action.ToLower())
@@ -99,7 +100,7 @@ public class Saf21Handler : IHttpHandler, IRequiresSessionState
                         //{
                         //    Saf21a.Delete(this.Data, "saf21a01_docno");
                         //}
-                    Saf21.Delete(docnoArray);
+                        Saf21.Delete(docnoArray);
                     context.Response.ContentType = "text/plain";
                     context.Response.Write("ok");
                     return;
