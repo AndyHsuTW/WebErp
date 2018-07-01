@@ -1307,7 +1307,8 @@
                         return item.cnf0751_tax_headoffice == "0";
                     }).shift();
                     var defaultCurrency = this.CurrencyList.filter(function (item, index, array) {
-                        return item.cnf1003_char01 == "NTD";
+                        //return item.cnf1003_char01 == "NTD";
+                        return item.cnf1003_char01 == "新台幣";
                     }).shift();
 
                     this.Inf29Item = {
