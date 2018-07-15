@@ -48,8 +48,8 @@
                         <span>起~</span>
                     </td>
                     <td>
-                        <input type="text" v-model="Filter.Pcode_Start" /> 迄~
-                        <input type="text" v-model="Filter.Pcode_End" />
+                        <input type="text" v-model="Filter.Pcode_Start" class="medium-field" /> 迄~
+                        <input type="text" v-model="Filter.Pcode_End" class="medium-field" />
                     </td>
                 </tr>
                 <tr>
@@ -57,15 +57,15 @@
                         <span>起~</span>
                     </td>
                     <td>
-                        <input type="text" v-model="Filter.Pclass_Start" /> 迄~
-                        <input type="text" v-model="Filter.Pclass_End" />
+                        <input type="text" v-model="Filter.Pclass_Start" class="medium-field" /> 迄~
+                        <input type="text" v-model="Filter.Pclass_End" class="medium-field" />
                     </td>
                     <td>廠商代號
                         <span>起~</span>
                     </td>
                     <td>
-                        <input type="text" v-model="Filter.Mcode_Start" /> 迄~
-                        <input type="text" v-model="Filter.Mcode_End" />
+                        <input type="text" v-model="Filter.Mcode_Start" class="medium-field" /> 迄~
+                        <input type="text" v-model="Filter.Mcode_End" class="medium-field" />
                     </td>
                 </tr>
                 <tr>
@@ -73,26 +73,28 @@
                         <span>起~</span>
                     </td>
                     <td>
-                        <vue-datetimepicker placeholder="" v-model="Filter.AddDate_Start" v-bind:value="Filter.AddDate_Start"></vue-datetimepicker>
+                        <vue-datetimepicker placeholder="" v-model="Filter.AddDate_Start" v-bind:value="Filter.AddDate_Start" class="medium-field"></vue-datetimepicker>
                         迄~
-                        <vue-datetimepicker placeholder="" v-model="Filter.AddDate_End" v-bind:value="Filter.AddDate_End"></vue-datetimepicker>
+                        <vue-datetimepicker placeholder="" v-model="Filter.AddDate_End" v-bind:value="Filter.AddDate_End" class="medium-field"></vue-datetimepicker>
                     </td>
                     <td>採購單號
                         <span>起~</span>
                     </td>
                     <td>
-                        <span class="ref-inputs">
-                            <input type="text" v-model="Filter.Docno_Type_Start" />
-                            <input type="text" v-model="Filter.Docno_Date_Start" />
-                            <input type="text" v-model="Filter.Docno_seq_Start" />
-                        </span>
+                        <!--<span class="ref-inputs">-->
+                            <input type="text" v-model="Filter.Docno_Start" class="medium-field" />
+                            <!--<input type="text" v-model="Filter.Docno_Type_Start" />
+    <input type="text" v-model="Filter.Docno_Date_Start" />
+    <input type="text" v-model="Filter.Docno_seq_Start" />-->
+                        <!--</span>-->
 
                         迄~
-                        <span class="ref-inputs">
-                            <input type="text" v-model="Filter.Docno_Type_End" />
-                            <input type="text" v-model="Filter.Docno_Date_End" />
-                            <input type="text" v-model="Filter.Docno_seq_End" />
-                        </span>
+                        <!--<span class="ref-inputs">-->
+                            <input type="text" v-model="Filter.Docno_End" class="medium-field" />
+                            <!--<input type="text" v-model="Filter.Docno_Type_End" />
+    <input type="text" v-model="Filter.Docno_Date_End" />
+    <input type="text" v-model="Filter.Docno_seq_End" />-->
+                        <!--</span>-->
                     </td>
                 </tr>
                 <tr>
@@ -100,8 +102,6 @@
                         <span>起~</span>
                     </td>
                     <td>
-
-
                         <multiselect class="medium-field" v-model="Filter.Bcode_Start" v-bind:options="BcodeList" v-bind:close-on-select="true" v-bind:placeholder="''"
                             v-bind:show-labels="false" v-bind:custom-label="BcodeSelectLabel" track-by="cnf0701_bcode" label="cnf0703_bfname">
                         </multiselect>
@@ -109,8 +109,6 @@
                         <multiselect class="medium-field" v-model="Filter.Bcode_End" v-bind:options="BcodeList" v-bind:close-on-select="true" v-bind:placeholder="''"
                             v-bind:show-labels="false" v-bind:custom-label="BcodeSelectLabel" track-by="cnf0701_bcode" label="cnf0703_bfname">
                         </multiselect>
-
-
                         <!--  <input type="text" v-model="Filter.Bcode_Start"/>
                         迄~
                         <input type="text" v-model="Filter.Bcode_End"/>-->
@@ -119,13 +117,13 @@
 
                     </td>
                     <td>
-                        <input type="text" v-model="Filter.KeyWord" />
+                        <input type="text" v-model="Filter.KeyWord" class="medium-field" />
 
                     </td>
                 </tr>
                 <tr>
                     <td colspan="2">數量(等)大於
-                        <input type="text" v-model="Filter.Qty" />才顯示
+                        <input type="text" v-model="Filter.Qty" class="medium-field" />才顯示
                     </td>
 
                     <td></td>
@@ -360,7 +358,7 @@
 
 
 
-<div id="Dinp02001Edit" v-cloak>
+<div id="Dinp02001Edit" v-if="Display"  v-cloak>
     <d_pcode_component id="dpCodeWindow" v-show="IsDpCodeDisplay" v-bind:callback="OnDPCodeResult" v-bind:leavefunction="OnDPCodeResult"></d_pcode_component>
     <div v-if="Display">
 

@@ -96,8 +96,8 @@
             async: false,
             type: "get",
             success: function (html) {
-                var appversion = "V18.04.19";
-                SaveEnterPageLog(rootUrl, loginUserName, "Dinp02301");
+                var appversion = "V18.07.19";
+                SaveEnterPageLog(rootUrl, loginUserName, "Dinp02001");
                 $("#dinp02001").html(html);
                 dinp02001Search(appversion);
                 dinp02001Edit(appversion);
@@ -144,7 +144,7 @@
                         SelectedInf20aList: []
                     },
                     AppVersion: appversion,
-                    Display: false,
+                    Display: true,
                     SelectedInf20Item: null,
                     SelectedInf20aItem: null,
                 }, components: {
@@ -504,7 +504,7 @@
                         moduser: null,
                     },
                     IsDpCodeDisplay: false,
-                    Display: true,
+                    Display: false,
                     Inf29aItem: [],
                     PayList: selectObj.PayList,//付款方式下拉選單資料
                     ManufacturerList: selectObj.ManufacturerList,//廠商下拉選單資料

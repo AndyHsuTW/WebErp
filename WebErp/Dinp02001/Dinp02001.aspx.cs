@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 public partial class Dinp02001_Dinp02001 : System.Web.UI.Page
 {
-    public string AppVersion = "v18.04.15";
+    public string AppVersion = "v18.07.15";
     protected void Page_Load(object sender, EventArgs e)
     {
 

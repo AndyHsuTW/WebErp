@@ -45,7 +45,7 @@
         .filter-div .medium-field,
         .editParam-div .medium-field
         {
-            width: 175px;
+            width: 125px;
         }
         .filter-div .small-field,
         .editParam-div .small-field
