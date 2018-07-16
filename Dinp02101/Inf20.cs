@@ -47,7 +47,7 @@ namespace Dinp02101
 
         #endregion
 
-        public List<Inf20a> Inf20aList { get; set; } 
+        public List<Inf20a> Inf20aList { get; set; }
 
 
         public static Inf20 GetInf20(string docnoType, DateTime docnoDate, int docnoSeq)
